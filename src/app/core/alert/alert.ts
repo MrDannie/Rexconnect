@@ -1,0 +1,12 @@
+export class Alert {
+  id: number;
+  type: AlertType;
+  message: string;
+}
+
+export enum AlertType {
+  Success,
+  Error,
+  Info,
+  Warning,
+}
