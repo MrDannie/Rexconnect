@@ -1,0 +1,53 @@
+# installing dotnet to base docker from amazon
+#https://github.com/aws/aws-codebuild-docker-images/blob/master/ubuntu/dot-net/core-2/Dockerfile
+version: 0.2
+
+env:
+  variables:
+    AWS_ACCOUNT_ID: "068278763965"
+    IMAGE_REPO_NAME: "accelerex-integrator-ui"
+    APP_NAME: "accelerex-integrator-ui"
+    IMAGE_TAG: "dev"
+  #parameter-store:
+  # key: "value"
+  # key: "value"
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+    commands:
+      # - command
+      - aws --version
+      - docker --version
+      - docker-compose --version
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - eval $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      # - command
+      # - command
+  build:
+    commands:
+      - echo Build started on `date`
+      - printenv
+      - docker build -t accelerex-integrator-ui --build-arg IMAGE_TAG=$IMAGE_TAG .
+      - docker images -a
+      - echo Building the Docker image...
+      - docker tag $APP_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.eu-west-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - docker images -a
+      # - command
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.eu-west-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"accelerex-integrator-ui","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
+      # - command
+artifacts:
+  files:
+    - imagedefinitions.json
+  #discard-paths: yes
+  #base-directory: location
