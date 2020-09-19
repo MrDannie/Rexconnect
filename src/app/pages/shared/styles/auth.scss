@@ -1,0 +1,347 @@
+form {
+  min-width: 70%;
+}
+.login__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.login_panel {
+  // border: 1px solid red;
+  min-height: 30%;
+  min-width: 40%;
+  display: flex;
+  margin-bottom: 5%;
+  justify-content: center;
+  align-items: center;
+  transition: 0.9s all ease-in-out;
+
+  flex-direction: column;
+}
+
+.login_panel .logo img {
+  width: 9rem;
+  margin-bottom: 8%;
+  margin-top: 8%;
+}
+
+.form_header {
+  font-family: "Montserrat Bold", serif;
+  font-size: 1.8rem;
+}
+
+.form_sub_header {
+  font-family: "Montserrat Bold", serif;
+  font-size: 1rem;
+  margin: 4rem 0 2rem 0;
+  text-align: center;
+}
+
+/** show and hide danger sign **/
+
+@mixin float-label-container {
+  display: block !important;
+  position: relative !important;
+}
+
+@mixin float-label {
+  // when input is in focus , you can adjust the label with this mixin
+  label,
+  > span {
+    position: absolute !important;
+    left: 14px !important;
+    top: 4px !important;
+    cursor: text !important;
+    font-size: 60% !important;
+    font-family: "Montserrat Bold", serif;
+    opacity: 0.5 !important;
+    transition: all 0.2s !important;
+
+    @content;
+  }
+}
+
+@mixin float-label-input {
+  // this mixin helps with placeholders if any has been set but our design systems doesn't make use of placeholdersZZ
+
+  &::placeholder {
+    opacity: 1 !important;
+    transition: all 0.2s !important;
+  }
+  &:placeholder-shown:not(:focus)::placeholder {
+    opacity: 0 !important;
+  }
+}
+
+@mixin float-label-scaled {
+  // when input field is not in focus , you can adjust the label with this mixin
+  &:placeholder-shown:not(:focus) + * {
+    font-size: 80% !important;
+    color: #0504048a;
+    opacity: 1 !important;
+    font-weight: 600;
+    top: 1.2em !important;
+
+    @content;
+  }
+}
+
+.has-float-label {
+  @include float-label-container;
+
+  @include float-label;
+
+  input,
+  select {
+    //  you can adjust the input fields attributes(Both select dropdown and input field)
+
+    @include float-label-input;
+    font-size: 90% !important;
+    margin-bottom: 5px !important;
+    //border: 0!important;
+    border-radius: 5px !important;
+    width: 100% !important;
+    background-color: #f0f0f0;
+    min-height: 3.1rem;
+    font-family: "Montserrat", serif !important;
+
+    @include float-label-scaled;
+
+    &:focus {
+      outline: none !important;
+      border: 0;
+    }
+  }
+}
+
+input.ng-valid.ng-touched.ng-dirty,
+input.ng-valid:focus,
+select.ng-valid.ng-touched.ng-dirty,
+select.ng-valid:focus {
+  // when the input field is valid and has been modified
+
+  border: 0px solid #3382ff !important;
+}
+input.ng-invalid.ng-touched.ng-dirty,
+input.ng-invalid:focus,
+select.ng-invalid.ng-touched.ng-dirty,
+select.ng-invalid:focus {
+  // when the input field is invalid and has been modified
+
+  border: 1px solid #df5d13 !important;
+}
+select,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"] {
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-clip: padding-box !important;
+  box-shadow: none !important;
+}
+
+span.has-float-label
+  > input.form-control.ng-invalid.ng-touched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan2,
+span.has-float-label
+  > input.form-control.ng-invalid.ng-untouched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan2 {
+  //this is the show and hide password directive to switch between the icons
+  display: none !important;
+}
+
+span.has-float-label
+  > input.form-control.ng-invalid.ng-touched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan1,
+span.has-float-label
+  > input.form-control.ng-invalid.ng-untouched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan1 {
+  //this is the show and hide password directive to switch between the colors of the icons
+
+  display: block !important;
+  background: #c9ae1c;
+  font-size: 0.9rem;
+  color: #c9ae1c;
+  cursor: default;
+}
+
+span.has-float-label
+  > input.form-control.ng-valid.ng-touched.ng-pristine
+  ~ label
+  ~ a#conpasswordSpan1,
+span.has-float-label
+  > input.form-control.ng-valid.ng-untouched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan1,
+span.has-float-label
+  > input.form-control.ng-valid.ng-touched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan1,
+span.has-float-label
+  > input.form-control.ng-invalid.ng-untouched.ng-pristine
+  ~ label
+  ~ a#conpasswordSpan1,
+span.has-float-label
+  > input.form-control.ng-invalid.ng-touched.ng-pristine
+  ~ label
+  ~ a#conpasswordSpan1 {
+  display: none !important;
+}
+
+/** end of show and hide danger sign **/
+
+span.has-float-label > input.form-control.ng-invalid.ng-touched:focus ~ label,
+span.has-float-label
+  > input.form-control.ng-invalid.ng-untouched:focus
+  ~ label {
+  color: #df5d13;
+  opacity: 1 !important;
+}
+span.has-float-label > input.form-control.ng-valid.ng-touched:focus ~ label,
+span.has-float-label > input.form-control.ng-valid.ng-untouched:focus ~ label {
+  color: #0504048a;
+  opacity: 1 !important;
+}
+
+.form_section form input {
+  padding: 15px 15px 0 15px;
+  margin-bottom: 2px;
+  border: 0;
+  //border-bottom: 1px solid #e0e0e0;
+  min-height: 1rem;
+  border-radius: 0px;
+  font-size: 1rem;
+  box-shadow: inset 0px 0px 0px 0px red;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+.form_button {
+  width: 100%;
+  background: #ffd1ce;
+  color: #950007;
+  cursor: pointer;
+  padding: 3%;
+  font-family: "Montserrat Bold", serif;
+  margin-top: 5%;
+  margin-bottom: 4%;
+  border-style: none;
+  border-radius: 12px 12px 12px 0px;
+  font-size: 0.8rem;
+  outline: none;
+  -webkit-transition: opacity 0.3s ease-out;
+  -moz-transition: opacity 0.3s ease-out;
+  -o-transition: opacity 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  position: relative;
+}
+.form_button > span {
+  margin: 0 auto;
+}
+.form_button:hover {
+  opacity: 0.83;
+  background: #c91c24;
+  color: #ffffff;
+}
+.form_button > img {
+  position: absolute;
+  width: 1rem;
+  left: 50px;
+  visibility: hidden;
+  transition: all 0.3s ease-in;
+}
+.form_button:hover > img {
+  visibility: visible;
+  color: #ffffff;
+  left: 60px;
+}
+.form_button[disabled] {
+  cursor: initial;
+}
+.form_button[disabled]:hover {
+  opacity: 1;
+  background: #ffd1ce;
+  color: #950007;
+  cursor: initial;
+}
+.form_button[disabled]:hover > img {
+  visibility: hidden;
+}
+
+.bottom_text {
+  font-family: "Montserrat Bold", serif;
+  font-size: 0.7rem;
+  margin-top: 0%;
+  min-width: 100%;
+  font-weight: bold;
+  text-align: right;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.bottom_text a {
+  text-decoration: underline;
+  color: #c91c24;
+}
+.form-control {
+  border: 1px solid #f9f9f9;
+  padding: 0.375rem 0.75rem 0rem 0.75rem !important;
+  position: relative;
+}
+.in_form_icon {
+  position: absolute !important;
+  right: 1rem;
+  top: 1.1rem;
+  cursor: pointer;
+}
+.lower_text {
+  font-size: 0.9rem;
+  font-family: "Roboto", serif;
+  min-width: 100%;
+  text-align: center;
+  transition: 0.9s all ease-in-out;
+}
+
+.highlight {
+  color: #950007;
+  font-family: "Roboto Bold", serif;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown:before {
+  content: "";
+  position: absolute;
+  right: 5.5px;
+  top: 8px;
+  width: 0;
+  height: 0;
+  border-left: 5.5px solid transparent;
+  border-right: 5.5px solid transparent;
+  border-top: 5.5px solid #f00;
+}
+
+.dropdown:after {
+  content: " ";
+  position: absolute;
+  right: 18.5px;
+  top: 19px;
+  width: 0;
+  height: 0;
+  border-left: 5.5px solid transparent;
+  border-right: 5.5px solid transparent;
+  border-top: 5.5px solid #333;
+}
