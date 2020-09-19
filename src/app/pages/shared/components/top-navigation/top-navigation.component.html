@@ -1,1 +1,28 @@
-<p>top-navigation works!</p>
+<div class="topbar">
+  <a
+    [routerLinkActive]="['active']"
+    routerLink="profile"
+    class="profile"
+    id="profile"
+  >
+    Profile
+  </a>
+  <span class="logout" id="logout" (click)="logOut()"> Logout </span>
+  <span class="user_name">
+    <span class="name">FirstName LastName</span>
+    <span class="role"> User's Role </span>
+  </span>
+  <span class="profile_picture">
+    <img src="../../../../../assets/images/boy.svg" alt="user_profile" />
+    <img
+      http-equiv="Content-Security-Policy"
+      content="
+      worker-src blob:; 
+      child-src blob: gap:;
+      img-src 'self' blob: data:;
+      default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:"
+      [src]="business_logo"
+      alt="logo"
+    />
+  </span>
+</div>
