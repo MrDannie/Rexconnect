@@ -1,1 +1,187 @@
-<p>side-navigation works!</p>
+<div class="nav_container">
+  <div id="mySidebar" class="sidebar nav">
+    <div class="sidebar_logo" id="sidebar_logo">
+      <img
+        src="../../../../../assets/images/Mask Group 1.svg"
+        alt="globalaccelerex_logo"
+      />
+    </div>
+
+    <!-- Client Navlinks -->
+    <div class="menu_list" id="menu_list">
+      <div class="dropdown" id="switcher"></div>
+      <a routerLink="dashboard" id="services" style="margin-top: 0.8rem">
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/services-icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text"> Dashboard </span>
+        </span>
+      </a>
+      <a id="services" style="margin-top: 0.8rem">
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/services-icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text"> Users </span>
+        </span>
+      </a>
+      <a id="services" style="margin-top: 0.8rem">
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/services-icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text"> Terminal </span>
+        </span>
+      </a>
+      <a id="services" style="margin-top: 0.8rem">
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/services-icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text"> Merchants </span>
+        </span>
+      </a>
+      <a id="services" style="margin-top: 0.8rem">
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/services-icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text"> Acquirer </span>
+        </span>
+      </a>
+      <a>
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/Documentation-Icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text"> Stations </span>
+        </span>
+      </a>
+      <a>
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/User-Icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text"> Transactions </span>
+        </span>
+      </a>
+      <a>
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/Settings-Icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text"> Settlements </span>
+        </span>
+      </a>
+
+      <span class="horizontal__rule"> </span>
+
+      <a>
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/Audit-Icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text"> Audit Logs </span>
+        </span>
+      </a>
+    </div>
+
+    <!-- GA Admin Navlinks -->
+    <!-- <div class="menu_list" *ngIf="isGaAdmin" id="menu_list">
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="/admin/all-users"
+        style="margin-top: 0.8rem;"
+      >
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/User-Icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text">
+            User Management
+          </span>
+        </span>
+      </a>
+
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="/admin/business-verification"
+      >
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/Audit-Icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text">
+            Business Verification
+          </span>
+        </span>
+      </a>
+
+      <a [routerLinkActive]="['active']" routerLink="/admin/all-clients">
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/group.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text">
+            Client Management
+          </span>
+        </span>
+      </a>
+
+      <a [routerLinkActive]="['active']" routerLink="/admin/all-disputes">
+        <span class="link">
+          <span class="link_icon"
+            ><img
+              src="../../../../../assets/icons/Receipt-Icon.svg"
+              alt=""
+              class="img-fluid"
+          /></span>
+          <span class="link_text">
+            Dispute Management
+          </span>
+        </span>
+      </a>
+    </div> -->
+  </div>
+  <div id="toggler">
+    <div class="button_trigger" (click)="closeNav()" id="backward"></div>
+    <div class="button_trigger" (click)="openNav()" id="forward"></div>
+  </div>
+</div>
