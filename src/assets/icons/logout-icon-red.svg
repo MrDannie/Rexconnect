@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="logout-icon" transform="translate(-149.634 -71.634)">
+    <rect id="Rectangle_1542" data-name="Rectangle 1542" width="20" height="20" transform="translate(149.634 71.634)" fill="none"/>
+    <path id="Icon_metro-exit" data-name="Icon metro-exit" d="M13.615,11.131V9.291h-4.6V7.45h4.6V5.609L16.376,8.37Zm-.92-.92v3.681h-4.6v2.761L2.571,13.892V1.928H12.694v4.6h-.92V2.848H4.411L8.093,4.689v8.283h3.681V10.211Z" transform="translate(149.883 72.526)" fill="#c91c24"/>
+  </g>
+</svg>

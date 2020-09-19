@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,14 @@ import { SideNavigationComponent } from './pages/shared/components/side-navigati
 import { TopNavigationComponent } from './pages/shared/components/top-navigation/top-navigation.component';
 import { SanitizePermissionsPipe } from './pages/shared/pipes/sanitize-permissions.pipe';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
+import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
+import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
+import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
+import { AcquirerComponent } from './pages/user/user-layout/acquirer/acquirer.component';
+import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
+import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
+import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
+import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-logs.component';
 
 @NgModule({
   declarations: [
@@ -46,8 +55,16 @@ import { UserLayoutComponent } from './pages/user/user-layout/user-layout.compon
     TopNavigationComponent,
     SanitizePermissionsPipe,
     UserLayoutComponent,
+    DashboardComponent,
+    TerminalsComponent,
+    MerchantsComponent,
+    AcquirerComponent,
+    StationsComponent,
+    TransactionsComponent,
+    SettlementsComponent,
+    AuditLogsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
