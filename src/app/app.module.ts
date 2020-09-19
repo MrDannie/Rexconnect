@@ -23,14 +23,15 @@ import { SideNavigationComponent } from './pages/shared/components/side-navigati
 import { TopNavigationComponent } from './pages/shared/components/top-navigation/top-navigation.component';
 import { SanitizePermissionsPipe } from './pages/shared/pipes/sanitize-permissions.pipe';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
-import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
-import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
-import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
+import { TestingComponent } from './pages/user/user-layout/testing/testing.component';
 import { AcquirerComponent } from './pages/user/user-layout/acquirer/acquirer.component';
-import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
-import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
-import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-logs.component';
+import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
+import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
+import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
+import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
+import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
+import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 
 @NgModule({
   declarations: [
@@ -55,14 +56,15 @@ import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-lo
     TopNavigationComponent,
     SanitizePermissionsPipe,
     UserLayoutComponent,
-    DashboardComponent,
-    TerminalsComponent,
-    MerchantsComponent,
+    TestingComponent,
     AcquirerComponent,
-    StationsComponent,
-    TransactionsComponent,
-    SettlementsComponent,
     AuditLogsComponent,
+    DashboardComponent,
+    MerchantsComponent,
+    SettlementsComponent,
+    StationsComponent,
+    TerminalsComponent,
+    TransactionsComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],
