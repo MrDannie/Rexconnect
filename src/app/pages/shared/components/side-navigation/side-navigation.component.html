@@ -10,7 +10,12 @@
     <!-- Client Navlinks -->
     <div class="menu_list" id="menu_list">
       <div class="dropdown" id="switcher"></div>
-      <a routerLink="dashboard" id="services" style="margin-top: 0.8rem">
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="dashboard"
+        id="services"
+        style="margin-top: 0.8rem"
+      >
         <span class="link">
           <span class="link_icon"
             ><img
@@ -21,51 +26,76 @@
           <span class="link_text"> Dashboard </span>
         </span>
       </a>
-      <a id="services" style="margin-top: 0.8rem">
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="users"
+        id="users"
+        style="margin-top: 0.8rem"
+      >
         <span class="link">
           <span class="link_icon"
             ><img
-              src="../../../../../assets/icons/services-icon.svg"
+              src="../../../../../assets/icons/Profile-Icon.svg"
               alt=""
               class="img-fluid"
           /></span>
           <span class="link_text"> Users </span>
         </span>
       </a>
-      <a id="services" style="margin-top: 0.8rem">
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="terminals"
+        id="terminals"
+        style="margin-top: 0.8rem"
+      >
         <span class="link">
           <span class="link_icon"
             ><img
-              src="../../../../../assets/icons/services-icon.svg"
+              src="../../../../../assets/icons/Point-Of-Sales-Icon.svg"
               alt=""
               class="img-fluid"
           /></span>
           <span class="link_text"> Terminal </span>
         </span>
       </a>
-      <a id="services" style="margin-top: 0.8rem">
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="merchants"
+        id="merchants"
+        style="margin-top: 0.8rem"
+      >
         <span class="link">
           <span class="link_icon"
             ><img
-              src="../../../../../assets/icons/services-icon.svg"
+              src="../../../../../assets/icons/User-Icon.svg"
               alt=""
               class="img-fluid"
           /></span>
           <span class="link_text"> Merchants </span>
         </span>
       </a>
-      <a id="services" style="margin-top: 0.8rem">
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="acquirer"
+        id="acquirer"
+        style="margin-top: 0.8rem"
+      >
         <span class="link">
           <span class="link_icon"
             ><img
-              src="../../../../../assets/icons/services-icon.svg"
+              src="../../../../../assets/icons/Money-Icon.svg"
               alt=""
               class="img-fluid"
           /></span>
           <span class="link_text"> Acquirer </span>
         </span>
       </a>
-      <a>
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="stations"
+        id="stations"
+        style="margin-top: 0.8rem"
+      >
         <span class="link">
           <span class="link_icon"
             ><img
@@ -76,18 +106,28 @@
           <span class="link_text"> Stations </span>
         </span>
       </a>
-      <a>
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="transactions"
+        id="transactions"
+        style="margin-top: 0.8rem"
+      >
         <span class="link">
           <span class="link_icon"
             ><img
-              src="../../../../../assets/icons/User-Icon.svg"
+              src="../../../../../assets/icons/Money-Icon.svg"
               alt=""
               class="img-fluid"
           /></span>
           <span class="link_text"> Transactions </span>
         </span>
       </a>
-      <a>
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="settlements"
+        id="settlememts"
+        style="margin-top: 0.8rem"
+      >
         <span class="link">
           <span class="link_icon"
             ><img
@@ -101,7 +141,12 @@
 
       <span class="horizontal__rule"> </span>
 
-      <a>
+      <a
+        [routerLinkActive]="['active']"
+        routerLink="audit-log"
+        id="audit-log"
+        style="margin-top: 0.8rem"
+      >
         <span class="link">
           <span class="link_icon"
             ><img

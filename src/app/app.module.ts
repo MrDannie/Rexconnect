@@ -19,19 +19,21 @@ import { PrivacyPolicyComponent } from './pages/landing-page/privacy-policy/priv
 import { TermsOfUseComponent } from './pages/landing-page/terms-of-use/terms-of-use.component';
 import { AdminSideNavComponent } from './pages/shared/components/admin-side-nav/admin-side-nav.component';
 import { AdminTopNavComponent } from './pages/shared/components/admin-top-nav/admin-top-nav.component';
-import { SideNavigationComponent } from './pages/shared/components/side-navigation/side-navigation.component';
-import { TopNavigationComponent } from './pages/shared/components/top-navigation/top-navigation.component';
 import { SanitizePermissionsPipe } from './pages/shared/pipes/sanitize-permissions.pipe';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
-import { TestingComponent } from './pages/user/user-layout/testing/testing.component';
 import { AcquirerComponent } from './pages/user/user-layout/acquirer/acquirer.component';
 import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-logs.component';
-import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
-import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
-import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
-import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
+// import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
+// import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
+// import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
+// import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
 import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
+import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
+import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
+import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
+import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
+import { SharedModule } from './pages/shared/modules/shared.module';
 
 @NgModule({
   declarations: [
@@ -52,11 +54,8 @@ import { TransactionsComponent } from './pages/user/user-layout/transactions/tra
     TermsOfUseComponent,
     AdminSideNavComponent,
     AdminTopNavComponent,
-    SideNavigationComponent,
-    TopNavigationComponent,
     SanitizePermissionsPipe,
     UserLayoutComponent,
-    TestingComponent,
     AcquirerComponent,
     AuditLogsComponent,
     DashboardComponent,
@@ -66,7 +65,7 @@ import { TransactionsComponent } from './pages/user/user-layout/transactions/tra
     TerminalsComponent,
     TransactionsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, SharedModule],
   providers: [],
   bootstrap: [AppComponent],
 })
