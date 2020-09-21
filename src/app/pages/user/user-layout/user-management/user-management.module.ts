@@ -5,12 +5,14 @@ import { UserManagementRoutingModule } from './user-management-routing.module';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
 import { RoleManagementComponent } from './role-management/role-management.component';
+import { SharedModule } from '../../../shared/modules/shared.module';
 
 @NgModule({
-  declarations: [EditUserComponent, ManageUserComponent, RoleManagementComponent],
-  imports: [
-    CommonModule,
-    UserManagementRoutingModule
-  ]
+  declarations: [
+    EditUserComponent,
+    ManageUserComponent,
+    RoleManagementComponent,
+  ],
+  imports: [CommonModule, SharedModule, UserManagementRoutingModule],
 })
-export class UserManagementModule { }
+export class UserManagementModule {}
