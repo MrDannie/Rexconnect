@@ -23,7 +23,7 @@
         <button
           class="btn action_button"
           data-toggle="modal"
-          data-target="#createUser"
+          data-target="#createMerchant"
         >
           <i class="fa fa-plus animated slideIn"></i>
           Add Merchant
@@ -233,6 +233,236 @@
       *ngIf="isCSVLoading"
     >
       <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE MERCHANT  -->
+<div
+  class="modal animated zoomIn"
+  id="createMerchant"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createUserLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createUserLabel">Add Merchant</h5>
+        <form [formGroup]="createMerchantForm">
+          <!-- RELEVANT CODE HERE  -->
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantName">Merchant Name</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">Merchant ID</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">Dialing Code</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-8">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">Phone Number</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantName">Merchant Address</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <select
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  >
+                    <option value="Select option"></option>
+                  </select>
+                  <label for="merchantId">Merchant Type</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <select
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  >
+                    <option value="select option"></option>
+                  </select>
+                  <label for="merchantId">Merchant Category Code</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <select
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  >
+                    <option value="Select option"></option>
+                  </select>
+                  <label for="merchantName">Acquirer</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- RELEVANT CODE HERE  -->
+
+          <div class="form_actions">
+            <div
+              class="cancel_button"
+              data-dismiss="modal"
+              (click)="createUserForm.reset()"
+            >
+              Cancel
+            </div>
+            <button
+              class="btn action_button"
+              (click)="createUser(createUserForm.value)"
+            >
+              <i class="fa fa-plus animated slideIn"></i>
+              Add Merchant
+            </button>
+
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              *ngIf="expression"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
