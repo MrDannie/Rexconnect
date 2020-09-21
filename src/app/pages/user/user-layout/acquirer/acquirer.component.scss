@@ -1,0 +1,46 @@
+@import "~src/app/pages/shared/styles/custom-table";
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6rem !important;
+}
+
+.active {
+  color: green;
+}
+
+.Inactive {
+  color: #e26111;
+}
+
+.footer * {
+  display: inline-block;
+}
+caption {
+  text-align: right;
+}
+
+.header {
+  margin-top: 4.5rem;
+  padding-bottom: 1.9rem;
+  border-bottom: 2px solid #ecebeb;
+  margin-bottom: 1rem;
+}
+
+.header__text {
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 1.32rem !important;
+  display: flex;
+  font-weight: 600;
+  justify-content: space-between;
+}
+
+.header__search {
+  margin-bottom: 8rem;
+}
+
+.main-header {
+  margin-bottom: 2rem;
+}
