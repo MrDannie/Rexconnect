@@ -219,11 +219,7 @@
   <!-- EXPORT BUTTON  -->
 
   <div class="export-button animated fadeIn">
-    <button
-      type="button"
-      class="btn btn-light button-plain-icon"
-      (click)="generateCSV()"
-    >
+    <button type="button" class="btn btn-light button-plain-icon">
       <i class="fa fa-download"></i>
       Download As CSV
     </button>
@@ -395,13 +391,12 @@
             <div
               class="cancel_button"
               data-dismiss="modal"
-              (click)="createUserForm.reset()"
+              (click)="createAcquirerForm.reset()"
             >
               Cancel
             </div>
             <button
               class="btn action_button"
-              (click)="createUser(createAcquirerForm.value)"
               [disabled]="!createAcquirerForm.valid"
             >
               <i class="fa fa-plus animated slideIn"></i>
