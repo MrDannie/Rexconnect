@@ -335,14 +335,14 @@
             <div
               class="cancel_button"
               data-dismiss="modal"
-              (click)="createUserForm.reset()"
+              (click)="createTerminalForm.reset()"
             >
               Cancel
             </div>
             <button
               class="btn action_button"
               *ngIf="!isUserCreating"
-              (click)="createUser(createUserForm.value)"
+              (click)="createUser(createTerminalForm.value)"
               [disabled]="!createTerminalForm.valid"
             >
               <i class="fa fa-plus animated slideIn"></i>
@@ -422,14 +422,14 @@
             <div
               class="cancel_button"
               data-dismiss="modal"
-              (click)="createUserForm.reset()"
+              (click)="createTerminalForm.reset()"
             >
               Cancel
             </div>
             <button
               class="btn action_button"
               *ngIf="!isUserCreating"
-              (click)="createUser(createUserForm.value)"
+              (click)="createUser(createTerminalForm.value)"
               [disabled]="!createTerminalForm.valid"
             >
               <i class="fa fa-plus animated slideIn"></i>
