@@ -8,24 +8,36 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class MerchantsComponent implements OnInit {
   showFilter: boolean;
+  expression: boolean;
+  isCSVLoading;
+  boolean;
+
+  searchForm: FormGroup;
   createMerchantForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.showFilter = false;
+    this.expression = false;
+    this.isCSVLoading = false;
     this.initializeForm();
   }
 
   ngOnInit() {}
 
   initializeForm() {
-    // this.searchForm = this.formBuilder.group({
-    //   firstname: "",
-    //   lastname: "",
-    //   role: "",
-    // });
+    this.searchForm = this.formBuilder.group({
+      firstname: '',
+      lastname: '',
+      role: '',
+    });
     this.createMerchantForm = this.formBuilder.group({
       merchantId: ['', Validators.compose([Validators.required])],
       terminalId: ['', Validators.compose([Validators.required])],
     });
   }
+
+  reset() {}
+  generateCSV() {}
+
+  createUser(value) {}
 }
