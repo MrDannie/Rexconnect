@@ -27,8 +27,10 @@ const routes: Routes = [
       },
       {
         path: 'users',
-        loadChildren:
-          './pages/user/user-layout/user-management/user-management.module#UserManagementModule',
+        loadChildren: () =>
+          import(
+            './pages/user/user-layout/user-management/user-management.module'
+          ).then((m) => m.UserManagementModule),
       },
       {
         path: 'terminals',
