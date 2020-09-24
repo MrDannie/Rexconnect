@@ -65,7 +65,13 @@ import { SharedModule } from './pages/shared/modules/shared.module';
     TerminalsComponent,
     TransactionsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, SharedModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    SharedModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

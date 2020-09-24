@@ -6,6 +6,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
 import { RoleManagementComponent } from './role-management/role-management.component';
 import { SharedModule } from '../../../shared/modules/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,12 @@ import { SharedModule } from '../../../shared/modules/shared.module';
     ManageUserComponent,
     RoleManagementComponent,
   ],
-  imports: [CommonModule, SharedModule, UserManagementRoutingModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    UserManagementRoutingModule,
+  ],
 })
 export class UserManagementModule {}
