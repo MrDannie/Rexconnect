@@ -34,6 +34,7 @@ import { SettlementsComponent } from './pages/user/user-layout/settlements/settl
 import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
 import { SharedModule } from './pages/shared/modules/shared.module';
+import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { SharedModule } from './pages/shared/modules/shared.module';
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
+    UserManagementModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

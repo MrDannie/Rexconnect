@@ -4,15 +4,24 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
 import { RoleManagementComponent } from './role-management/role-management.component';
 
-const routes: Routes = [
-  { path: '', redirectTo: 'all-users' },
-  { path: 'all-users', component: ManageUserComponent },
-  { path: 'manage-roles', component: RoleManagementComponent },
-  { path: 'edit-user/:id', component: EditUserComponent },
-];
+// const routes: Routes = [
+
+// ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild([
+      {
+        path: 'users',
+        children: [
+          { path: '', pathMatch: 'prefix', redirectTo: 'all-users' },
+          { path: 'all-users', component: ManageUserComponent },
+          { path: 'manage-roles', component: RoleManagementComponent },
+          { path: 'edit-user/:id', component: EditUserComponent },
+        ],
+      },
+    ]),
+  ],
   exports: [RouterModule],
 })
 export class UserManagementRoutingModule {}

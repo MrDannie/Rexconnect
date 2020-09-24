@@ -207,9 +207,26 @@ th {
   margin-top: -5px;
   font-size: 0.7125rem;
   border-radius: 6px;
+  margin-right: 0.7rem;
+}
+
+.table_button.delete {
+  background-color: #afafaf;
+  color: #ffffff;
+  padding: 0.4rem 1.2rem;
+  font-family: "Montserrat Bold", serif;
+  font-weight: bold;
+  margin-top: -5px;
+  font-size: 0.7125rem;
+  border-radius: 6px;
 }
 .table_button:hover {
   background-color: #c91c24;
+  color: #fff;
+}
+
+.table_button.delete:hover {
+  background-color: #585858;
   color: #fff;
 }
 
