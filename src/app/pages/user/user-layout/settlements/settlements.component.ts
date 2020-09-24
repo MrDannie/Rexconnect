@@ -28,9 +28,10 @@ export class SettlementsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
-      role: '',
+      transactionId: '',
+      terminalId: '',
+      settlementStartDate: '',
+      settlementEndDate: '',
     });
   }
 
