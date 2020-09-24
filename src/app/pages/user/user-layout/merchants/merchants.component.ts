@@ -26,9 +26,11 @@ export class MerchantsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
-      role: '',
+      transactionType: '',
+      terminalId: '',
+      rrn: '',
+      approvalDate: '',
+      lastUpdateDate: '',
     });
     this.createMerchantForm = this.formBuilder.group({
       merchantId: ['', Validators.compose([Validators.required])],
