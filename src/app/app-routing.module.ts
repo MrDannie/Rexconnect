@@ -10,7 +10,8 @@ import { StationsComponent } from './pages/user/user-layout/stations/stations.co
 import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
-import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
+import { ManageUserComponent } from './pages/user/user-layout/user-management/manage-user/manage-user.component';
+import { RoleManagementComponent } from './pages/user/user-layout/user-management/role-management/role-management.component';
 
 const routes: Routes = [
   {
@@ -31,8 +32,12 @@ const routes: Routes = [
         component: TerminalsComponent,
       },
       {
-        path: 'users',
-        loadChildren: () => UserManagementModule,
+        path: 'all-users',
+        component: ManageUserComponent,
+      },
+      {
+        path: 'manage-user-roles',
+        component: RoleManagementComponent,
       },
       {
         path: 'merchants',
