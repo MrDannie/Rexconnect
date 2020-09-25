@@ -11,15 +11,10 @@ import { RoleManagementComponent } from './role-management/role-management.compo
 @NgModule({
   imports: [
     RouterModule.forChild([
-      {
-        path: 'users',
-        children: [
-          { path: '', pathMatch: 'prefix', redirectTo: 'all-users' },
-          { path: 'all-users', component: ManageUserComponent },
-          { path: 'manage-roles', component: RoleManagementComponent },
-          { path: 'edit-user/:id', component: EditUserComponent },
-        ],
-      },
+      { path: '', pathMatch: 'prefix', redirectTo: 'all-users' },
+      { path: 'all-users', component: ManageUserComponent },
+      { path: 'manage-roles', component: RoleManagementComponent },
+      { path: 'edit-user/:id', component: EditUserComponent },
     ]),
   ],
   exports: [RouterModule],
