@@ -15,6 +15,15 @@ import { RoleManagementComponent } from './pages/user/user-layout/user-managemen
 
 const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'sign-in',
+  },
+  {
+    path: 'sign-in',
+    component: SignInComponent,
+  },
+  {
     path: 'user',
     component: UserLayoutComponent,
     children: [
@@ -64,10 +73,6 @@ const routes: Routes = [
         component: AuditLogsComponent,
       },
     ],
-  },
-  {
-    path: 'sign-in',
-    component: SignInComponent,
   },
   {
     path: '',

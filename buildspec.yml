@@ -5,8 +5,8 @@ version: 0.2
 env:
   variables:
     AWS_ACCOUNT_ID: "068278763965"
-    IMAGE_REPO_NAME: "accelerex-integrator-ui"
-    APP_NAME: "accelerex-integrator-ui"
+    IMAGE_REPO_NAME: "rexconnect_ui_v2"
+    APP_NAME: "rexconnect_ui_v2"
     IMAGE_TAG: "dev"
   #parameter-store:
   # key: "value"
@@ -31,7 +31,7 @@ phases:
     commands:
       - echo Build started on `date`
       - printenv
-      - docker build -t accelerex-integrator-ui --build-arg IMAGE_TAG=$IMAGE_TAG .
+      - docker build -t rexconnect_ui_v2 --build-arg IMAGE_TAG=$IMAGE_TAG .
       - docker images -a
       - echo Building the Docker image...
       - docker tag $APP_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.eu-west-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
@@ -44,7 +44,7 @@ phases:
       - aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.eu-west-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"accelerex-integrator-ui","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"rexconnect_ui_v2","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
       # - command
 artifacts:
   files:
