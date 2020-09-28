@@ -17,15 +17,18 @@ const routes: Routes = [
     component: UserLayoutComponent,
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard',
+      },
+      {
         path: 'dashboard',
         component: DashboardComponent,
       },
       {
         path: 'users',
-        loadChildren: () =>
-          import(
-            './pages/user/user-layout/user-management/user-management.module'
-          ).then((m) => m.UserManagementModule),
+        loadChildren:
+          './pages/user/user-layout/user-management/user-management.module#UserManagementModule',
       },
       {
         path: 'terminals',
@@ -60,6 +63,11 @@ const routes: Routes = [
   {
     path: 'sign-in',
     component: SignInComponent,
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'user',
   },
 ];
 
