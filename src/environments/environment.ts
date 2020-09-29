@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   //BASE_URL: "https://accesstams.globalaccelerex.com/api/tams",
   BASE_URL: 'https://sandbox.globalaccelerex.com/api/rexconnect',
+  EXTERNAL_BASE_URL: 'https://sandbox.globalaccelerex.com',
 
   GOOGLE_RECAPTCHA: '6LfmiaoUAAAAAClKe9wyvrcVlLryiFhwFEa1vBkd',
   ALLOW_CAPTCHA: true,
