@@ -28,9 +28,12 @@ export class TransactionsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
-      role: '',
+      transactionID: '',
+      terminalId: '',
+      rrn: '',
+      transactionType: '',
+      startDate: '',
+      endDate: '',
     });
   }
 

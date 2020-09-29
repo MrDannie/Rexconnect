@@ -10,8 +10,19 @@ import { StationsComponent } from './pages/user/user-layout/stations/stations.co
 import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
+import { ManageUserComponent } from './pages/user/user-layout/user-management/manage-user/manage-user.component';
+import { RoleManagementComponent } from './pages/user/user-layout/user-management/role-management/role-management.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'sign-in',
+  },
+  {
+    path: 'sign-in',
+    component: SignInComponent,
+  },
   {
     path: 'user',
     component: UserLayoutComponent,
@@ -26,13 +37,16 @@ const routes: Routes = [
         component: DashboardComponent,
       },
       {
-        path: 'users',
-        loadChildren:
-          './pages/user/user-layout/user-management/user-management.module#UserManagementModule',
-      },
-      {
         path: 'terminals',
         component: TerminalsComponent,
+      },
+      {
+        path: 'all-users',
+        component: ManageUserComponent,
+      },
+      {
+        path: 'manage-user-roles',
+        component: RoleManagementComponent,
       },
       {
         path: 'merchants',
@@ -59,10 +73,6 @@ const routes: Routes = [
         component: AuditLogsComponent,
       },
     ],
-  },
-  {
-    path: 'sign-in',
-    component: SignInComponent,
   },
   {
     path: '',

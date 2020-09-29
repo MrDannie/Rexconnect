@@ -26,9 +26,8 @@ export class AcquirerComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
-      role: '',
+      acquirerName: '',
+      cbnCode: '',
     });
     this.createAcquirerForm = this.formBuilder.group({
       merchantId: ['', Validators.compose([Validators.required])],

@@ -25,9 +25,11 @@ export class AuditLogsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
-      role: '',
+      emailAddress: '',
+      ipAddress: '',
+      actionPerformed: '',
+      startDate: '',
+      endDate: '',
     });
   }
 

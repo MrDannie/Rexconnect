@@ -11,5 +11,5 @@ RUN npm run build -- --prod --configuration $IMAGE_TAG
 FROM nginx:1.12.2-alpine
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=node /app/dist/integrator-ui/ /usr/share/nginx/html
+COPY --from=node /app/dist/rexconnect_ui_v2/ /usr/share/nginx/html
 COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf

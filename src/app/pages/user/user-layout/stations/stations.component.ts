@@ -29,9 +29,9 @@ export class StationsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
-      role: '',
+      stationName: '',
+      stationAcquirer: '',
+      stationId: '',
     });
     this.createStationForm = this.formBuilder.group({
       merchantId: ['', Validators.compose([Validators.required])],

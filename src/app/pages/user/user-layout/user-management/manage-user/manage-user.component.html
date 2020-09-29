@@ -1,3 +1,478 @@
-<p>
-  manage-user works!
-</p>
+<div class="header">
+  <!-- <div class="top-header my-5">
+  <div class="header">
+    <h2 class="header__text">Terminals</h2>
+    <span class="sub-head mb-3"
+      >View details of every terminal on the platform</span
+    >
+  </div>
+  <div class="action-btns">
+    <button class="terminal-upload-btn">Bulk Terminal Upload</button>
+    <button class="terminal-add-btn">Add Terminal</button>
+  </div>
+</div> -->
+
+  <!-- Here is the first here  -->
+  <div class="main-header">
+    <div class="header__text animated fadeIn">
+      <div>
+        <span>My Users</span>
+      </div>
+
+      <div class="button_header_section">
+        <button class="btn plain_button" routerLink="../manage-user-roles">
+          Manage User Roles
+        </button>
+        <button
+          class="btn action_button"
+          data-toggle="modal"
+          data-target="#createUser"
+        >
+          <i class="fa fa-plus animated slideIn"></i>
+          Add User
+        </button>
+      </div>
+    </div>
+    <span>View users details profiled on RexConnect</span>
+  </div>
+
+  <!-- FILTER BY CODE  -->
+  <div class="header__search">
+    <span class="filter_click" (click)="showFilter = !showFilter">
+      <img
+        src="../../../../../assets/icons/Filter-Icon.svg"
+        alt="search"
+        class="img-fluid"
+      />
+      <span
+        class="filter_text"
+        id="dropdownMenuButton"
+        onselectstart="return false"
+        unselectable="on"
+      >
+        Filter Table By
+      </span>
+    </span>
+    <div
+      class="card search-dropdown"
+      *ngIf="showFilter"
+      id="filter__dropdown"
+      style="height: 200px"
+    >
+      <form [formGroup]="searchForm">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="firstname" class="search_label">First Name</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="firstname"
+                id="firstname"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="lastname" class="search_label">Last Name</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="lastname"
+                id="lastname"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="role" class="search_label">Role</label>
+              <select
+                type="text"
+                class="form-control search_input"
+                formControlName="role"
+                id="role"
+              >
+                <option value="">Select role</option>
+                <option></option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-section text-right">
+          <button class="btn button-white">Close</button>
+
+          <button class="btn button-pink">
+            Apply Filters
+
+            <div class="spinner-border spinner-border-sm ml-3" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reset button -->
+  <button class="btn btn-secondary reset-filter" (click)="reset()">
+    <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
+    <i class="fa fa-refresh"></i>
+    Refresh
+  </button>
+
+  <!-- FILTER BY CODE ENDS HERE  -->
+
+  <!-- New Header Ends HEre  -->
+</div>
+
+<div class="table-container custom-table animated fadeIn">
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">User Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tomison02</td>
+          <td>Ikenna30@gmail.com</td>
+          <td>08167543567</td>
+
+          <td class="active">Active</td>
+          <td>
+            <button class="btn table_button">Open</button
+            ><button class="btn table_button delete">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Tomison02</td>
+          <td>Ikenna30@gmail.com</td>
+          <td>08167543567</td>
+
+          <td class="Inactive">Inactive</td>
+          <td>
+            <button class="btn table_button">Open</button
+            ><button class="btn table_button delete">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Tomison02</td>
+          <td>Ikenna30@gmail.com</td>
+          <td>08167543567</td>
+
+          <td class="active">Active</td>
+          <td>
+            <button class="btn table_button">Open</button
+            ><button class="btn table_button delete">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Tomison02</td>
+          <td>Ikenna30@gmail.com</td>
+          <td>08167543567</td>
+
+          <td class="Inactive">Inactive</td>
+          <td>
+            <button class="btn table_button">Open</button
+            ><button class="btn table_button delete">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Tomison02</td>
+          <td>Ikenna30@gmail.com</td>
+          <td>08167543567</td>
+
+          <td class="active">Active</td>
+          <td>
+            <button class="btn table_button">Open</button
+            ><button class="btn table_button delete">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Tomison02</td>
+          <td>Ikenna30@gmail.com</td>
+          <td>08167543567</td>
+
+          <td class="Inactive">Inactive</td>
+          <td>
+            <button class="btn table_button">Open</button
+            ><button class="btn table_button delete">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PAGE SIZE  -->
+<div class="text-right mt-4 page_size_section animated fadeIn">
+  <span>Number of Items:&nbsp;&nbsp;</span>
+  <span> Num Here </span>
+
+  <span class="ml-3">Page size:</span>
+  <form class="inline_select">
+    <select class="form-control form-control-sm" #setPageSizeId>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>
+    </select>
+  </form>
+</div>
+
+<!-- PAGINATION  -->
+<div class="paginate mt-2 animated fadeIn">
+  <nav aria-label="...">
+    <ul class="pagination">
+      <li class="page-item disabled">
+        <span class="page-link">Previous</span>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item active" aria-current="page">
+        <span class="page-link">
+          2
+          <span class="sr-only">(current)</span>
+        </span>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- EXPORT BUTTON  -->
+
+  <div class="export-button animated fadeIn">
+    <button
+      type="button"
+      class="btn btn-light button-plain-icon"
+      (click)="generateCSV()"
+    >
+      <i class="fa fa-download"></i>
+      Download As CSV
+    </button>
+    <div
+      class="spinner-border spinner-border-sm ml-3"
+      role="status"
+      *ngIf="isCSVLoading"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<!-- //Add Terminal  -->
+
+<div
+  class="modal animated zoomIn"
+  id="createUser"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createUserLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createUserLabel">Invite New User</h5>
+        <form [formGroup]="createTerminalForm">
+          <!-- RELEVANT CODE HERE  -->
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="merchantId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">Merchant ID</label>
+                </span>
+                <div
+                  *ngIf="
+                    createTerminalForm.get('merchantId').errors &&
+                    (createTerminalForm.get('merchantId').dirty ||
+                      createTerminalForm.get('merchantId').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createTerminalForm.get('merchantId').hasError('invalid')
+                    "
+                  >
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="terminalId"
+                  />
+                  <label for="terminalId">Terminal ID</label>
+                </span>
+                <div
+                  *ngIf="
+                    createTerminalForm.get('terminalId').errors &&
+                    (createTerminalForm.get('terminalId').dirty ||
+                      createTerminalForm.get('terminalId').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createTerminalForm.get('terminalId').hasError('invalid')
+                    "
+                  >
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- RELEVANT CODE HERE  -->
+
+          <div class="form_actions">
+            <div
+              class="cancel_button"
+              data-dismiss="modal"
+              (click)="createTerminalForm.reset()"
+            >
+              Cancel
+            </div>
+            <button
+              class="btn action_button"
+              *ngIf="!isUserCreating"
+              (click)="createUser(createTerminalForm.value)"
+              [disabled]="!createTerminalForm.valid"
+            >
+              <i class="fa fa-plus animated slideIn"></i>
+              Add Terminal
+            </button>
+
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+              *ngIf="isUserCreating"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BULK TERMINAL UPLOAD  -->
+
+<div
+  class="modal animated zoomIn"
+  id="bulkTerminalUpload"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createUserLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createUserLabel">Upload Terminal</h5>
+        <p>Upload the NIBSS Terminal/merchant registeration file</p>
+        <form [formGroup]="createTerminalForm">
+          <!-- RELEVANT CODE HERE  -->
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="terminalId"
+                  />
+                  <label for="terminalId">Terminal ID</label>
+                </span>
+                <div
+                  *ngIf="
+                    createTerminalForm.get('terminalId').errors &&
+                    (createTerminalForm.get('terminalId').dirty ||
+                      createTerminalForm.get('terminalId').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createTerminalForm.get('terminalId').hasError('invalid')
+                    "
+                  >
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+              <span>Download Template</span>
+            </div>
+          </div>
+          <!-- RELEVANT CODE HERE  -->
+
+          <div class="form_actions">
+            <div
+              class="cancel_button"
+              data-dismiss="modal"
+              (click)="createTerminalForm.reset()"
+            >
+              Cancel
+            </div>
+            <button
+              class="btn action_button"
+              *ngIf="!isUserCreating"
+              (click)="createUser(createTerminalForm.value)"
+              [disabled]="!createTerminalForm.valid"
+            >
+              <i class="fa fa-plus animated slideIn"></i>
+              Upload Terminals
+            </button>
+
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+              *ngIf="isUserCreating"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

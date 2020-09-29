@@ -1,3 +1,349 @@
-<p>
-  role-management works!
-</p>
+<!-- Header -->
+<!-- <app-alert></app-alert> -->
+<div class="header animated fadeIn">
+  <div class="top_buttons">
+    <span class="back_button" routerLink="../all-users">
+      <i class="fa fa-long-arrow-left"></i> Return to User List
+    </span>
+  </div>
+  <div class="header__text">
+    <span>User Role Management</span>
+  </div>
+</div>
+
+<div class="role_section">
+  <div class="role_list">
+    <div class="role_list_header">Available Roles</div>
+
+    <div
+      *ngIf="isLoading"
+      class="spinner-border spinner-border-sm"
+      role="status"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+
+    <div class="role_actual_list">
+      <div class="role" id="2">
+        <div class="role_name">Role Name Goes Here</div>
+
+        <div class="role_caret">
+          <i class="fa fa-caret-right"> </i>
+        </div>
+      </div>
+    </div>
+    <div class="role_list_header">Custom Role</div>
+    <div class="role_list_footnote">
+      <div class="footnote_text">
+        Have a unique role? Add your new role and define user access.
+      </div>
+
+      <span
+        class="no_border_button"
+        data-toggle="modal"
+        data-backdrop="static"
+        data-keyboard="false"
+        data-target="#createRole"
+        (click)="clearSelection()"
+      >
+        <i class="fa fa-plus animated slideInLeft"></i>
+        <span class="animated">Create Custom Role</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="role_details">
+    <div class="role_details_header">
+      Selected Role Here
+      <!-- {{ selectedRole.role | uppercase }} -->
+
+      <span
+        class="no_border_button"
+        data-toggle="modal"
+        data-target="#updateRole"
+        data-backdrop="static"
+        data-keyboard="false"
+      >
+        <i class="fa fa-pencil"></i>
+        <span>Edit Role</span>
+      </span>
+    </div>
+
+    <div class="footnote_text">
+      Selected Role Decrp
+      <!-- {{ selectedRole.description }} -->
+    </div>
+
+    <div class="permissions">
+      <div class="permissions_header">This role can only:</div>
+
+      <div class="permissions_list">
+        <span class="permission animated fadeIn">
+          permision list appears here</span
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="createRole"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createRoleLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createRoleLabel">Custom Role</h5>
+        <form [formGroup]="createRoleForm">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="name"
+                    type="text"
+                    placeholder=" "
+                    formControlName="name"
+                  />
+                  <label for="name">Role Name</label>
+                </span>
+                <div
+                  *ngIf="
+                    createRoleForm.get('name').errors &&
+                    (createRoleForm.get('name').dirty ||
+                      createRoleForm.get('name').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="!createRoleForm.get('name').hasError('required')"
+                  >
+                    Validation MEssage for required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="description"
+                    type="text"
+                    placeholder=" "
+                    formControlName="description"
+                  />
+                  <label for="name">Describe your new role</label>
+                </span>
+                <div
+                  *ngIf="
+                    createRoleForm.get('description').errors &&
+                    (createRoleForm.get('description').dirty ||
+                      createRoleForm.get('description').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createRoleForm.get('description').hasError('required')
+                    "
+                  >
+                    {{ validationMessage.description.required }}
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <span class="select_permissions_header">Select User Abilities</span>
+
+          <div
+            *ngIf="isPermissionsLoading"
+            class="spinner-border spinner-border-sm ml-3"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+
+          <div class="roles-body" *ngIf="!isPermissionsLoading">
+            <p class="role-info">
+              <label class="container"
+                ><span>Permision Description Goes Here</span>
+                <input
+                  type="checkbox"
+                  (change)="addPermission(permission.name)"
+                />
+                <span class="checkmark"></span>
+              </label>
+            </p>
+          </div>
+
+          <div class="form_actions">
+            <div class="cancel_button" data-dismiss="modal">Cancel</div>
+            <button
+              class="btn action_button"
+              *ngIf="!isRoleCreating"
+              (click)="createRole(createRoleForm.value)"
+              [disabled]="!createRoleForm.valid"
+            >
+              <i class="fa fa-plus animated slideIn"></i>
+              Add Role
+            </button>
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+              *ngIf="isRoleCreating"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="updateRole"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="updateRoleLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="updateRoleLabel">Edit Role</h5>
+        <form [formGroup]="updateRoleForm">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="name"
+                    type="text"
+                    placeholder=" "
+                    formControlName="name"
+                  />
+                  <label for="name">Role Name</label>
+                </span>
+                <div
+                  *ngIf="
+                    updateRoleForm.get('name').errors &&
+                    (updateRoleForm.get('name').dirty ||
+                      updateRoleForm.get('name').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="!updateRoleForm.get('name').hasError('required')"
+                  >
+                    validationMessage.name.required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="description"
+                    type="text"
+                    placeholder=" "
+                    formControlName="description"
+                  />
+                  <label for="name">Role Description</label>
+                </span>
+                <div
+                  *ngIf="
+                    updateRoleForm.get('description').errors &&
+                    (updateRoleForm.get('description').dirty ||
+                      updateRoleForm.get('description').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !updateRoleForm.get('description').hasError('required')
+                    "
+                  >
+                    {{ validationMessage.description.required }}
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <span class="select_permissions_header">Select User Abilities</span>
+
+          <div
+            *ngIf="isPermissionsLoading"
+            class="spinner-border spinner-border-sm ml-3"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+
+          <div class="roles-body" *ngIf="!isPermissionsLoading">
+            <p class="role-info" *ngFor="let permission of allPermissions">
+              <label class="container"
+                ><span> permission.name </span>
+                <input
+                  type="checkbox"
+                  id="{{ permission.name }}"
+                  (change)="updatePermission(permission.name)"
+                />
+                <span class="checkmark"></span>
+              </label>
+            </p>
+          </div>
+
+          <div class="form_actions">
+            <div
+              class="cancel_button"
+              (click)="makeRoleActive(selectedRole)"
+              data-dismiss="modal"
+            >
+              Cancel
+            </div>
+            <button
+              class="btn action_button"
+              *ngIf="!isRoleCreating"
+              (click)="updateRole(updateRoleForm.getRawValue())"
+            >
+              <i class="fa fa-plus animated slideIn"></i>
+              Update Role
+            </button>
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+              *ngIf="isRoleCreating"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

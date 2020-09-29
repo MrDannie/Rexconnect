@@ -43,46 +43,60 @@
       class="card search-dropdown"
       *ngIf="showFilter"
       id="filter__dropdown"
-      style="height: 200px"
+      style="height: 250px"
     >
       <form [formGroup]="searchForm">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="firstname" class="search_label">First Name</label>
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="firstname"
-                id="firstname"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="lastname" class="search_label">Last Name</label>
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="lastname"
-                id="lastname"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="role" class="search_label">Role</label>
-              <select
-                type="text"
-                class="form-control search_input"
-                formControlName="role"
-                id="role"
+              <label for="transactionId" class="search_label"
+                >Transaction ID</label
               >
-                <option value="">Select role</option>
-                <option></option>
-              </select>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="transactionId"
+                id="transactionId"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="terminalId" class="search_label">Terminal ID</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="terminalId"
+                id="terminalId"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="settlementStartDate" class="search_label"
+                >Settlement Start Date</label
+              >
+              <input
+                type="date"
+                class="form-control search_input"
+                formControlName="settlementStartDate"
+                id="settlementStartDate"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="settlementEndDate" class="search_label"
+                >Settlement End Date</label
+              >
+              <input
+                type="date"
+                class="form-control search_input"
+                formControlName="settlementEndDate"
+                id="settlementEndDate"
+              />
             </div>
           </div>
         </div>

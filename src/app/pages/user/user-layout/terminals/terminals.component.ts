@@ -30,9 +30,8 @@ export class TerminalsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
-      role: '',
+      merchantId: '',
+      terminalId: '',
     });
     this.createTerminalForm = this.formBuilder.group({
       merchantId: ['', Validators.compose([Validators.required])],

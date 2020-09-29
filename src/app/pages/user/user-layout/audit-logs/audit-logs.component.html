@@ -43,46 +43,69 @@
       class="card search-dropdown"
       *ngIf="showFilter"
       id="filter__dropdown"
-      style="height: 200px"
+      style="height: 250px"
     >
       <form [formGroup]="searchForm">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="firstname" class="search_label">First Name</label>
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="firstname"
-                id="firstname"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="lastname" class="search_label">Last Name</label>
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="lastname"
-                id="lastname"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="role" class="search_label">Role</label>
-              <select
-                type="text"
-                class="form-control search_input"
-                formControlName="role"
-                id="role"
+              <label for="emailAddress" class="search_label"
+                >Email Address</label
               >
-                <option value="">Select role</option>
-                <option></option>
-              </select>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="emailAddress"
+                id="emailAddress"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="ipAddress" class="search_label">IP Address</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="ipAddress"
+                id="ipAddress"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="actionPerformed" class="search_label"
+                >Action Performed</label
+              >
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="actionPerformed"
+                id="actionPerformed"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="startDate" class="search_label">Start Date</label>
+              <input
+                type="date"
+                class="form-control search_input"
+                formControlName="startDate"
+                id="startDate"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="endDate" class="search_label">End Date</label>
+              <input
+                type="date"
+                class="form-control search_input"
+                formControlName="endDate"
+                id="endDate"
+              />
             </div>
           </div>
         </div>
