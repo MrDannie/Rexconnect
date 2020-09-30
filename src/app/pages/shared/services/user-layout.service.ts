@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { DashboardCount } from '../../shared/interfaces/dashboard';
 import * as CryptoJS from 'crypto-js';
 import { map, filter, switchMap } from 'rxjs/operators';
-import { DashboardComponent } from '../../user/user-layout/dashboard/dashboard.component';
+import { Config } from 'src/app/core/Config';
 const BASE_URL = environment.BASE_URL;
 
 @Injectable({
@@ -14,7 +14,7 @@ const BASE_URL = environment.BASE_URL;
 })
 export class UserLayoutService {
   bearerToken: string;
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private config: Config) {}
 
   createAuthorizationHeader(): HttpHeaders {
     const bearer_token = localStorage.getItem('Genin');
@@ -31,15 +31,36 @@ export class UserLayoutService {
     }
   }
 
-  getDashboardCount(): Observable<DashboardCount> {
-    const header = this.createAuthorizationHeader();
-    return this.httpClient
-      .get(BASE_URL + '/v1/reports/getStatistics', { headers: header })
-      .pipe(
-        map((data: DashboardCount) => {
-          return data;
-          console.log('data', data);
-        })
-      );
-  }
+  // getDashboardCount(): Observable<DashboardCount> {
+  //   // const header = this.createAuthorizationHeader();
+  //   return this.httpClient
+  //     .get(`${BASE_URL}${this.config.getStatisticsLink}`)
+  //     .pipe(
+  //       map((data: DashboardCount) => {
+  //         return data;
+  //       })
+  //     );
+  // }
+
+  // getTopTerminalStat() {
+  //   return this.httpClient
+  //     .get(`${BASE_URL}/v1/reports/getTopTerminalReport`)
+  //     .pipe(
+  //       map((response: DashboardCount) => {
+  //         // console.log('Top Terminal Stat', response);
+  //         return response;
+  //       })
+  //     );
+  // }
+
+  // getTopMerchantsStat() {
+  //   return this.httpClient
+  //     .get(`${BASE_URL}/v1/reports/getTopMerchantReport`)
+  //     .pipe(
+  //       map((response: DashboardCount) => {
+  //         // console.log('Top Terminal Stat', response);
+  //         return response;
+  //       })
+  //     );
+  // }
 }

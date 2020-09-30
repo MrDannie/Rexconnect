@@ -85,10 +85,13 @@ export class Config {
   public getBillPaymentKeys: string;
   public deleteBillPaymentKeys: string;
   public checkLiveStatus: string;
+  public getStatisticsLink: string;
+  getTerminalStatLink: string;
 
   constructor() {
     this.login = '/v1/auth/login';
-    this.sendResetLink = '/authentication/forgot/password';
+    this.getStatisticsLink = '/v1/reports/getStatistics';
+    this.getTerminalStatLink = '/v1/reports/getTopTerminalReport';
     this.resendResetLink = '/authentication/email/resend-verification';
     this.setPassword = '/authentication/reset/na/password';
     this.addAccount = '/authentication/signup';

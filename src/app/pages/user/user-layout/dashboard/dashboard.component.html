@@ -13,7 +13,9 @@
           <div class="flex">
             <span>Terminals</span><span><img src="" alt="go" /></span>
           </div>
-          <h2 class="header__text">17</h2>
+          <h2 *ngIf="dashboardCount" class="header__text">
+            {{ dashboardCount.terminalCounts }}
+          </h2>
         </div>
       </div>
     </div>
@@ -24,7 +26,9 @@
             <span>merchants</span>
             <span><img src="" alt="go" /></span>
           </div>
-          <h2 class="header__text">10</h2>
+          <h2 *ngIf="dashboardCount" class="header__text">
+            {{ dashboardCount.merchantCounts }}
+          </h2>
         </div>
       </div>
     </div>
@@ -35,7 +39,9 @@
             <span>Total Transactions</span>
             <span><img src="" alt="go" /></span>
           </div>
-          <h2 class="header__text">300</h2>
+          <h2 *ngIf="dashboardCount" class="header__text">
+            {{ dashboardCount.transactionCounts }}
+          </h2>
         </div>
       </div>
     </div>
@@ -46,7 +52,9 @@
             <span>Mobile Transactions</span>
             <span><img src="" alt="go" /></span>
           </div>
-          <h2 class="header__text">254</h2>
+          <h2 *ngIf="dashboardCount" class="header__text">
+            {{ dashboardCount.mobileMoneyCounts }}
+          </h2>
         </div>
       </div>
     </div>

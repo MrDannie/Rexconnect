@@ -35,7 +35,7 @@
                 class="validation-message"
                 [hidden]="!loginForm.get('username').hasError('required')"
               >
-                {{ validationMessages.email.required }}
+                {{ validationMessage.email.required }}
                 <br />
               </span>
             </div>
@@ -74,7 +74,7 @@
                 class="validation-message"
                 [hidden]="!loginForm.get('password').hasError('required')"
               >
-                {{ validationMessages.password.required }}
+                {{ validationMessage.password.required }}
                 <br />
               </span>
             </div>
