@@ -31,36 +31,36 @@ export class UserLayoutService {
     }
   }
 
-  // getDashboardCount(): Observable<DashboardCount> {
-  //   // const header = this.createAuthorizationHeader();
-  //   return this.httpClient
-  //     .get(`${BASE_URL}${this.config.getStatisticsLink}`)
-  //     .pipe(
-  //       map((data: DashboardCount) => {
-  //         return data;
-  //       })
-  //     );
-  // }
+  getDashboardCount(): Observable<DashboardCount> {
+    // const header = this.createAuthorizationHeader();
+    return this.httpClient
+      .get(`${BASE_URL}${this.config.getStatisticsLink}`)
+      .pipe(
+        map((data: DashboardCount) => {
+          return data;
+        })
+      );
+  }
 
-  // getTopTerminalStat() {
-  //   return this.httpClient
-  //     .get(`${BASE_URL}/v1/reports/getTopTerminalReport`)
-  //     .pipe(
-  //       map((response: DashboardCount) => {
-  //         // console.log('Top Terminal Stat', response);
-  //         return response;
-  //       })
-  //     );
-  // }
+  getTopTerminalStat() {
+    return this.httpClient
+      .get(`${BASE_URL}/v1/reports/getTopTerminalReport`)
+      .pipe(
+        map((response: DashboardCount) => {
+          // console.log('Top Terminal Stat', response);
+          return response;
+        })
+      );
+  }
 
-  // getTopMerchantsStat() {
-  //   return this.httpClient
-  //     .get(`${BASE_URL}/v1/reports/getTopMerchantReport`)
-  //     .pipe(
-  //       map((response: DashboardCount) => {
-  //         // console.log('Top Terminal Stat', response);
-  //         return response;
-  //       })
-  //     );
-  // }
+  getTopMerchantsStat() {
+    return this.httpClient
+      .get(`${BASE_URL}/v1/reports/getTopMerchantReport`)
+      .pipe(
+        map((response: DashboardCount) => {
+          // console.log('Top Terminal Stat', response);
+          return response;
+        })
+      );
+  }
 }

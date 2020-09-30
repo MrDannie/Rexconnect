@@ -24,55 +24,55 @@ export class DashboardComponent implements OnInit {
     // this.getTopMerchants();
   }
 
-  // getDashboardCount() {
-  //   this.userLayoutService.getDashboardCount().subscribe(
-  //     (response) => {
-  //       // console.log('Resp ', response);
-  //       this.dashboardCount = response;
-  //       window.scrollTo(0, 0);
-  //     },
-  //     (error) => {
-  //       console.log('Error Encountered ', error);
-  //       this.authService.tokenValidator(error);
-  //       this.errorMessage = 'Error : ' + error.error.message;
-  //       this.errorExists = true;
-  //       window.scrollTo(0, 0);
-  //       // this.removeError();
-  //     }
-  //   );
-  // }
-  // getTopTerminalStat() {
-  //   this.userLayoutService.getTopTerminalStat().subscribe(
-  //     (response) => {
-  //       console.log('TOP TERMINAL STAT', response);
-  //       this.topTerminalStatistics = response;
-  //       window.scrollTo(0, 0);
-  //     },
-  //     (error) => {
-  //       console.log('Error Encountered ', error); //TODO:
-  //       this.authService.tokenValidator(error);
-  //       this.errorMessage = 'Error : ' + error.error.message;
-  //       this.errorExists = true;
-  //       window.scrollTo(0, 0);
-  //       // this.removeError();TODO:
-  //     }
-  //   );
-  // }
-  // getTopMerchants() {
-  //   this.userLayoutService.getTopMerchantsStat().subscribe(
-  //     (response) => {
-  //       console.log('TOP MERCHNATS STAT', response);
-  //       this.topMerchantsStatistics = response;
-  //       window.scrollTo(0, 0);
-  //     },
-  //     (error) => {
-  //       console.log('Error Encountered ', error);
-  //       this.authService.tokenValidator(error);
-  //       this.errorMessage = 'Error : ' + error.error.message;
-  //       this.errorExists = true;
-  //       window.scrollTo(0, 0);
-  //       // this.removeError(); TODO:
-  //     }
-  //   );
-  // }
+  getDashboardCount() {
+    this.userLayoutService.getDashboardCount().subscribe(
+      (response) => {
+        // console.log('Resp ', response);
+        this.dashboardCount = response;
+        window.scrollTo(0, 0);
+      },
+      (error) => {
+        console.log('Error Encountered ', error);
+        this.authService.tokenValidator(error);
+        this.errorMessage = 'Error : ' + error.error.message;
+        this.errorExists = true;
+        window.scrollTo(0, 0);
+        // this.removeError();
+      }
+    );
+  }
+  getTopTerminalStat() {
+    this.userLayoutService.getTopTerminalStat().subscribe(
+      (response) => {
+        console.log('TOP TERMINAL STAT', response);
+        this.topTerminalStatistics = response;
+        window.scrollTo(0, 0);
+      },
+      (error) => {
+        console.log('Error Encountered ', error); //TODO:
+        this.authService.tokenValidator(error);
+        this.errorMessage = 'Error : ' + error.error.message;
+        this.errorExists = true;
+        window.scrollTo(0, 0);
+        // this.removeError();TODO:
+      }
+    );
+  }
+  getTopMerchants() {
+    this.userLayoutService.getTopMerchantsStat().subscribe(
+      (response) => {
+        console.log('TOP MERCHNATS STAT', response);
+        this.topMerchantsStatistics = response;
+        window.scrollTo(0, 0);
+      },
+      (error) => {
+        console.log('Error Encountered ', error);
+        this.authService.tokenValidator(error);
+        this.errorMessage = 'Error : ' + error.error.message;
+        this.errorExists = true;
+        window.scrollTo(0, 0);
+        // this.removeError(); TODO:
+      }
+    );
+  }
 }
