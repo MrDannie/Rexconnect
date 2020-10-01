@@ -19,9 +19,9 @@ export class DashboardComponent implements OnInit {
   constructor(private userLayoutService: UserLayoutService) {}
 
   ngOnInit() {
-    // this.getDashboardCount();
-    // this.getTopTerminalStat();
-    // this.getTopMerchants();
+    this.getDashboardCount();
+    this.getTopTerminalStat();
+    this.getTopMerchants();
   }
 
   getDashboardCount() {
