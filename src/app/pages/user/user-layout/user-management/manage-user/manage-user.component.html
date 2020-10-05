@@ -430,7 +430,6 @@
                   >
                     <!-- <option value=""></option> -->
                     <option
-                      (click)="updateSelectedUserRole($event)"
                       *ngFor="let role of listOfMerchantRoles"
                       value="{{ role.id }}"
                     >
@@ -460,7 +459,6 @@
           </div>
 
           <!-- RELEVANT CODE HERE  -->
-
           <div class="form_actions">
             <div
               class="cancel_button"
@@ -656,7 +654,6 @@
                   >
                     <!-- <option value=""></option> -->
                     <option
-                      (click)="updateSelectedUserRole($event)"
                       *ngFor="let role of listOfMerchantRoles"
                       value="{{ role.id }}"
                     >
