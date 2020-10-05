@@ -123,6 +123,16 @@
     Refresh
   </button>
 
+  <!-- TODO: -->
+  <div
+    class="spinner"
+    *ngIf="isLoading"
+    id="loading-bar-spinner"
+    style="margin-left: 4.5rem"
+  >
+    <div class="spinner-icon"></div>
+  </div>
+  <!-- TODO: -->
   <!-- FILTER BY CODE ENDS HERE  -->
 
   <!-- New Header Ends HEre  -->
@@ -135,75 +145,40 @@
         <tr>
           <th scope="col">User Name</th>
           <th scope="col">Email</th>
-          <th scope="col">Phone Number</th>
+          <!-- <th scope="col">Phone Number</th> -->
           <th scope="col">Status</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Tomison02</td>
-          <td>Ikenna30@gmail.com</td>
-          <td>08167543567</td>
+        <tr *ngFor="let user of allUsers">
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <!-- <td>{{user.phoneNumber}}</td> -->
 
-          <td class="active">Active</td>
-          <td>
-            <button class="btn table_button">Open</button
-            ><button class="btn table_button delete">Delete</button>
+          <td
+            *ngIf="user.enabled === true"
+            style="color: #22b422"
+            class="active"
+          >
+            Active
           </td>
-        </tr>
-        <tr>
-          <td>Tomison02</td>
-          <td>Ikenna30@gmail.com</td>
-          <td>08167543567</td>
-
-          <td class="Inactive">Inactive</td>
-          <td>
-            <button class="btn table_button">Open</button
-            ><button class="btn table_button delete">Delete</button>
+          <td
+            *ngIf="user.enabled === false"
+            style="color: #d80000"
+            class="active"
+          >
+            Inactive
           </td>
-        </tr>
-        <tr>
-          <td>Tomison02</td>
-          <td>Ikenna30@gmail.com</td>
-          <td>08167543567</td>
 
-          <td class="active">Active</td>
           <td>
-            <button class="btn table_button">Open</button
-            ><button class="btn table_button delete">Delete</button>
-          </td>
-        </tr>
-        <tr>
-          <td>Tomison02</td>
-          <td>Ikenna30@gmail.com</td>
-          <td>08167543567</td>
-
-          <td class="Inactive">Inactive</td>
-          <td>
-            <button class="btn table_button">Open</button
-            ><button class="btn table_button delete">Delete</button>
-          </td>
-        </tr>
-        <tr>
-          <td>Tomison02</td>
-          <td>Ikenna30@gmail.com</td>
-          <td>08167543567</td>
-
-          <td class="active">Active</td>
-          <td>
-            <button class="btn table_button">Open</button
-            ><button class="btn table_button delete">Delete</button>
-          </td>
-        </tr>
-        <tr>
-          <td>Tomison02</td>
-          <td>Ikenna30@gmail.com</td>
-          <td>08167543567</td>
-
-          <td class="Inactive">Inactive</td>
-          <td>
-            <button class="btn table_button">Open</button
+            <button
+              class="btn table_button"
+              data-toggle="modal"
+              data-target="#editUser"
+              (click)="initializeEditForm(user.id)"
+            >
+              Edit</button
             ><button class="btn table_button delete">Delete</button>
           </td>
         </tr>
@@ -215,11 +190,16 @@
 <!-- PAGE SIZE  -->
 <div class="text-right mt-4 page_size_section animated fadeIn">
   <span>Number of Items:&nbsp;&nbsp;</span>
-  <span> Num Here </span>
+  <span>{{ dataCount }}</span>
 
   <span class="ml-3">Page size:</span>
-  <form class="inline_select">
-    <select class="form-control form-control-sm" #setPageSizeId>
+  <form [formGroup]="pageSizeForm" class="inline_select">
+    <select
+      class="form-control form-control-sm select-edit"
+      formControlName="pageSize"
+      (change)="setPageSize(pageSizeForm.value.pageSize)"
+      #setPageSizeId
+    >
       <option value="10">10</option>
       <option value="20">20</option>
       <option value="30">30</option>
@@ -232,20 +212,32 @@
 <!-- PAGINATION  -->
 <div class="paginate mt-2 animated fadeIn">
   <nav aria-label="...">
-    <ul class="pagination">
-      <li class="page-item disabled">
+    <ul class="pagination" *ngIf="allUsers?.length > 0">
+      <li
+        class="page-item disabled"
+        (click)="previousPage(pager.currentPage)"
+        *ngIf="pager.startPage !== pager.currentPage"
+      >
         <span class="page-link">Previous</span>
       </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">
-          2
-          <span class="sr-only">(current)</span>
-        </span>
+      <li
+        class="page-item"
+        aria-current="page"
+        *ngFor="let page of pager.pages"
+        [ngClass]="{ active: pager.currentPage === page }"
+        (click)="getPage(page)"
+      >
+        <a class="page-link">
+          {{ page }} <span class="sr-only">(current)</span>
+        </a>
       </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
+
+      <li
+        class="page-item"
+        (click)="nextPage(pager.currentPage)"
+        *ngIf="pager.endPage !== pager.currentPage"
+      >
+        <a class="page-link">Next</a>
       </li>
     </ul>
   </nav>
@@ -271,8 +263,7 @@
   </div>
 </div>
 
-<!-- //Add Terminal  -->
-
+<!-- ADD USER MODAL  -->
 <div
   class="modal animated zoomIn"
   id="createUser"
@@ -284,34 +275,35 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <h5 class="modal-title" id="createUserLabel">Invite New User</h5>
-        <form [formGroup]="createTerminalForm">
+        <h5 class="modal-title" id="createUserLabel">Add User</h5>
+        <form [formGroup]="createUserForm">
           <!-- RELEVANT CODE HERE  -->
+
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="form-group">
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="merchantId"
+                    id="username"
                     type="text"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="username"
                   />
-                  <label for="merchantId">Merchant ID</label>
+                  <label for="terminalId">User's Name</label>
                 </span>
                 <div
                   *ngIf="
-                    createTerminalForm.get('merchantId').errors &&
-                    (createTerminalForm.get('merchantId').dirty ||
-                      createTerminalForm.get('merchantId').touched)
+                    createUserForm.get('username').errors &&
+                    (createUserForm.get('username').dirty ||
+                      createUserForm.get('username').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createTerminalForm.get('merchantId').hasError('invalid')
+                      !createUserForm.get('username').hasError('invalid')
                     "
                   >
                     Here is the validation message
@@ -328,25 +320,25 @@
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="terminalId"
+                    id="firstName"
                     type="text"
                     placeholder=" "
-                    formControlName="terminalId"
+                    formControlName="firstName"
                   />
-                  <label for="terminalId">Terminal ID</label>
+                  <label for="firstName">Firstname</label>
                 </span>
                 <div
                   *ngIf="
-                    createTerminalForm.get('terminalId').errors &&
-                    (createTerminalForm.get('terminalId').dirty ||
-                      createTerminalForm.get('terminalId').touched)
+                    createUserForm.get('firstName').errors &&
+                    (createUserForm.get('firstName').dirty ||
+                      createUserForm.get('firstName').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createTerminalForm.get('terminalId').hasError('invalid')
+                      !createUserForm.get('firstName').hasError('invalid')
                     "
                   >
                     Here is the validation message
@@ -356,24 +348,135 @@
               </div>
             </div>
           </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="surname"
+                    type="text"
+                    placeholder=" "
+                    formControlName="surname"
+                  />
+                  <label for="surname">Surname</label>
+                </span>
+                <div
+                  *ngIf="
+                    createUserForm.get('surname').errors &&
+                    (createUserForm.get('surname').dirty ||
+                      createUserForm.get('surname').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createUserForm.get('surname').hasError('invalid')
+                    "
+                  >
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="email"
+                    type="text"
+                    placeholder=" "
+                    formControlName="email"
+                  />
+                  <label for="email">Email</label>
+                </span>
+                <div
+                  *ngIf="
+                    createUserForm.get('email').errors &&
+                    (createUserForm.get('email').dirty ||
+                      createUserForm.get('email').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="!createUserForm.get('email').hasError('invalid')"
+                  >
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    class="form-control"
+                    id="roleId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="roleId"
+                  >
+                    <!-- <option value=""></option> -->
+                    <option
+                      (click)="updateSelectedUserRole($event)"
+                      *ngFor="let role of listOfMerchantRoles"
+                      value="{{ role.id }}"
+                    >
+                      {{ role.name }}
+                    </option>
+                  </select>
+                  <label for="roleId">User Role</label>
+                </span>
+                <div
+                  *ngIf="
+                    createUserForm.get('roleId').errors &&
+                    (createUserForm.get('roleId').dirty ||
+                      createUserForm.get('roleId').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="!createUserForm.get('roleId').hasError('invalid')"
+                  >
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- RELEVANT CODE HERE  -->
 
           <div class="form_actions">
             <div
               class="cancel_button"
               data-dismiss="modal"
-              (click)="createTerminalForm.reset()"
+              (click)="editUserForm.reset()"
             >
               Cancel
             </div>
             <button
               class="btn action_button"
               *ngIf="!isUserCreating"
-              (click)="createUser(createTerminalForm.value)"
-              [disabled]="!createTerminalForm.valid"
+              (click)="createUser(createUserForm.value)"
+              [disabled]="!createUserForm.valid"
             >
               <i class="fa fa-plus animated slideIn"></i>
-              Add Terminal
+              Add User
             </button>
 
             <div
@@ -390,11 +493,10 @@
   </div>
 </div>
 
-<!-- BULK TERMINAL UPLOAD  -->
-
+<!-- EDIT USER MODAL -->
 <div
   class="modal animated zoomIn"
-  id="bulkTerminalUpload"
+  id="editUser"
   tabindex="-1"
   role="dialog"
   aria-labelledby="createUserLabel"
@@ -403,9 +505,8 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <h5 class="modal-title" id="createUserLabel">Upload Terminal</h5>
-        <p>Upload the NIBSS Terminal/merchant registeration file</p>
-        <form [formGroup]="createTerminalForm">
+        <h5 class="modal-title" id="createUserLabel">Edit User</h5>
+        <form [formGroup]="editUserForm">
           <!-- RELEVANT CODE HERE  -->
 
           <div class="form-row">
@@ -414,25 +515,58 @@
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="terminalId"
+                    id="username"
                     type="text"
                     placeholder=" "
-                    formControlName="terminalId"
+                    formControlName="username"
                   />
-                  <label for="terminalId">Terminal ID</label>
+                  <label for="username">User's Name</label>
                 </span>
                 <div
                   *ngIf="
-                    createTerminalForm.get('terminalId').errors &&
-                    (createTerminalForm.get('terminalId').dirty ||
-                      createTerminalForm.get('terminalId').touched)
+                    editUserForm.get('username').errors &&
+                    (editUserForm.get('username').dirty ||
+                      editUserForm.get('username').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="!editUserForm.get('username').hasError('invalid')"
+                  >
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="firstName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="firstName"
+                  />
+                  <label for="firstName">Firstname</label>
+                </span>
+                <div
+                  *ngIf="
+                    editUserForm.get('firstName').errors &&
+                    (editUserForm.get('firstName').dirty ||
+                      editUserForm.get('firstName').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createTerminalForm.get('terminalId').hasError('invalid')
+                      !editUserForm.get('firstName').hasError('invalid')
                     "
                   >
                     Here is the validation message
@@ -440,7 +574,114 @@
                   </span>
                 </div>
               </div>
-              <span>Download Template</span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="surname"
+                    type="text"
+                    placeholder=" "
+                    formControlName="surname"
+                  />
+                  <label for="surname">Surname</label>
+                </span>
+                <div
+                  *ngIf="
+                    editUserForm.get('surname').errors &&
+                    (editUserForm.get('surname').dirty ||
+                      editUserForm.get('surname').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="!editUserForm.get('surname').hasError('invalid')"
+                  >
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="email"
+                    type="text"
+                    placeholder=" "
+                    formControlName="email"
+                  />
+                  <label for="email">Email</label>
+                </span>
+                <div
+                  *ngIf="
+                    editUserForm.get('email').errors &&
+                    (editUserForm.get('email').dirty ||
+                      editUserForm.get('email').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="!editUserForm.get('email').hasError('invalid')"
+                  >
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    class="form-control"
+                    id="roleId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="roleId"
+                  >
+                    <!-- <option value=""></option> -->
+                    <option
+                      (click)="updateSelectedUserRole($event)"
+                      *ngFor="let role of listOfMerchantRoles"
+                      value="{{ role.id }}"
+                    >
+                      {{ role.name }}
+                    </option>
+                  </select>
+                  <label for="roleId">User Role</label>
+                </span>
+                <div
+                  *ngIf="
+                    editUserForm.get('roleId').errors &&
+                    (editUserForm.get('roleId').dirty ||
+                      editUserForm.get('roleId').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="!editUserForm.get('roleId').hasError('invalid')"
+                  >
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <!-- RELEVANT CODE HERE  -->
@@ -449,18 +690,18 @@
             <div
               class="cancel_button"
               data-dismiss="modal"
-              (click)="createTerminalForm.reset()"
+              (click)="editUserForm.reset()"
             >
               Cancel
             </div>
             <button
               class="btn action_button"
               *ngIf="!isUserCreating"
-              (click)="createUser(createTerminalForm.value)"
-              [disabled]="!createTerminalForm.valid"
+              (click)="editUser(editUserForm.value)"
+              [disabled]="!editUserForm.valid"
             >
               <i class="fa fa-plus animated slideIn"></i>
-              Upload Terminals
+              Update User
             </button>
 
             <div
