@@ -1,9 +1,23 @@
 import { Injectable } from '@angular/core';
+import { isNullOrUndefined } from 'util';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
+  constructor() {}
 
-  constructor() { }
+  storeCurrentUser(userData: any) {
+    localStorage.setItem('UserDait_er', JSON.stringify(userData));
+  }
+
+  storeClientDetails(clientDetails) {
+    localStorage.setItem('Clients_Dtls', JSON.stringify(clientDetails));
+  }
+
+  getCurrentUser() {
+    if (!isNullOrUndefined(localStorage.getItem('UserDait_er'))) {
+      return JSON.parse(localStorage.getItem('UserDait_er'));
+    }
+  }
 }
