@@ -13,18 +13,18 @@
 </div> -->
 
   <!-- Here is the first here  -->
-  <div class="main-header">
+  <!-- <div class="main-header">
     <div class="header__text animated fadeIn">
       <div>
         <span>Transactions</span>
       </div>
     </div>
     <span>View Details of every acquirer on this platform</span>
-  </div>
+  </div> -->
 
   <div class="table-container custom-table animated fadeIn">
     <div class="card-body">
-      <table class="table table-striped table-sm">
+      <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
             <th scope="col">Merchant</th>
@@ -40,7 +40,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngFor="let item of ngForArray">
             <td>3632DYGRF3WBPED</td>
             <td>2033ESGQ</td>
             <td>000220006396</td>
