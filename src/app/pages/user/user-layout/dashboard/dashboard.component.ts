@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { error } from 'protractor';
-import { UserLayoutService } from 'src/app/pages/shared/services/user-layout.service';
+import { DashboardService } from 'src/app/pages/shared/services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,16 +15,16 @@ export class DashboardComponent implements OnInit {
   authService: any;
   topTerminalStatistics: any;
   topMerchantsStatistics: any;
-  constructor(private userLayoutService: UserLayoutService) {}
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit() {
-    // this.getDashboardCount();
-    // this.getTopTerminalStat();
-    // this.getTopMerchants();
+    this.getDashboardCount();
+    this.getTopTerminalStat();
+    this.getTopMerchants();
   }
 
   getDashboardCount() {
-    this.userLayoutService.getDashboardCount().subscribe(
+    this.dashboardService.getDashboardCount().subscribe(
       (response) => {
         // console.log('Resp ', response);
         this.dashboardCount = response;
@@ -42,7 +41,7 @@ export class DashboardComponent implements OnInit {
     );
   }
   getTopTerminalStat() {
-    this.userLayoutService.getTopTerminalStat().subscribe(
+    this.dashboardService.getTopTerminalStat().subscribe(
       (response) => {
         console.log('TOP TERMINAL STAT', response);
         this.topTerminalStatistics = response;
@@ -59,7 +58,7 @@ export class DashboardComponent implements OnInit {
     );
   }
   getTopMerchants() {
-    this.userLayoutService.getTopMerchantsStat().subscribe(
+    this.dashboardService.getTopMerchantsStat().subscribe(
       (response) => {
         console.log('TOP MERCHNATS STAT', response);
         this.topMerchantsStatistics = response;
