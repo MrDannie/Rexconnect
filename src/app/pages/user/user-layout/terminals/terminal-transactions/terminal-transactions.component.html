@@ -1,3 +1,110 @@
-<p>
-  terminal-transactions works!
-</p>
+<div class="header">
+  <!-- <div class="top-header my-5">
+  <div class="header">
+    <h2 class="header__text">Terminals</h2>
+    <span class="sub-head mb-3"
+      >View details of every terminal on the platform</span
+    >
+  </div>
+  <div class="action-btns">
+    <button class="terminal-upload-btn">Bulk Terminal Upload</button>
+    <button class="terminal-add-btn">Add Terminal</button>
+  </div>
+</div> -->
+
+  <!-- Here is the first here  -->
+  <div class="main-header">
+    <div class="header__text animated fadeIn">
+      <div>
+        <span>Transactions</span>
+      </div>
+    </div>
+    <span>View Details of every acquirer on this platform</span>
+  </div>
+
+  <div class="table-container custom-table animated fadeIn">
+    <div class="card-body">
+      <table class="table table-striped table-sm">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Merchant</th>
+            <th scope="col">Terminal ID</th>
+            <th scope="col">RRN</th>
+            <th scope="col">STAN</th>
+            <th scope="col">PAN/Account</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Type</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date/Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>3632DYGRF3WBPED</td>
+            <td>2033ESGQ</td>
+            <td>000220006396</td>
+            <td>007618</td>
+            <td>539983******5896</td>
+            <td>N50.00</td>
+            <td>566 (NGN)</td>
+            <td>Reversal</td>
+            <td>Declined</td>
+            <td>DEC 9, 2019, 12:04:56 AM</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAGE SIZE  -->
+  <div class="text-right mt-4 page_size_section animated fadeIn">
+    <span>Number of Items:&nbsp;&nbsp;</span>
+    <span> Num Here </span>
+
+    <span class="ml-3">Page size:</span>
+    <form class="inline_select">
+      <select class="form-control form-control-sm" #setPageSizeId>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+      </select>
+    </form>
+  </div>
+
+  <!-- PAGINATION  -->
+  <div class="paginate mt-2 animated fadeIn">
+    <nav aria-label="...">
+      <ul class="pagination">
+        <li class="page-item disabled">
+          <span class="page-link">Previous</span>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">
+            2
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- EXPORT BUTTON  -->
+
+    <div class="export-button animated fadeIn">
+      <button type="button" class="btn btn-light button-plain-icon">
+        <i class="fa fa-download"></i>
+        Download As CSV
+      </button>
+      <div class="spinner-border spinner-border-sm ml-3" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+</div>
