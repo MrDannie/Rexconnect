@@ -36,6 +36,10 @@ const routes: Routes = [
         redirectTo: 'dashboard',
       },
       {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
         path: 'terminals',
         component: TerminalsComponent,
       },
