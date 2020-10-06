@@ -13,15 +13,27 @@ import { TerminalTransactionsComponent } from './pages/user/user-layout/terminal
 import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
+import { ManageUserComponent } from './pages/user/user-layout/user-management/manage-user/manage-user.component';
+import { RoleManagementComponent } from './pages/user/user-layout/user-management/role-management/role-management.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'sign-in',
+  },
+  {
+    path: 'sign-in',
+    component: SignInComponent,
+  },
   {
     path: 'user',
     component: UserLayoutComponent,
     children: [
       {
-        path: 'dashboard',
-        component: DashboardComponent,
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard',
       },
       {
         path: 'terminals',
@@ -80,8 +92,9 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'sign-in',
-    component: SignInComponent,
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'user',
   },
 ];
 

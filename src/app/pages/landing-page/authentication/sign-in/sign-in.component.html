@@ -19,12 +19,23 @@
                 type="text"
                 password
                 placeholder=" "
-                formControlName="email"
+                formControlName="username"
               />
-              <label for="username">Email</label>
+              <label for="username">Username</label>
             </span>
-            <div class="validation-message">
-              <span class="validation-message">
+            <div
+              *ngIf="
+                loginForm.get('username').errors &&
+                (loginForm.get('username').dirty ||
+                  loginForm.get('username').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="!loginForm.get('username').hasError('required')"
+              >
+                {{ validationMessage.email.required }}
                 <br />
               </span>
             </div>
@@ -51,8 +62,19 @@
                 ></span
               ></a>
             </span>
-            <div class="validation-message">
-              <span class="validation-message">
+            <div
+              class="validation-message"
+              *ngIf="
+                loginForm.get('password').errors &&
+                (loginForm.get('password').touched ||
+                  loginForm.get('password').dirty)
+              "
+            >
+              <span
+                class="validation-message"
+                [hidden]="!loginForm.get('password').hasError('required')"
+              >
+                {{ validationMessage.password.required }}
                 <br />
               </span>
             </div>
@@ -62,13 +84,18 @@
       <div class="bottom_text">
         <a> Forgot password </a>
       </div>
-      <button class="form_button">
+      <button
+        class="form_button"
+        *ngIf="!isLoading"
+        [disabled]="!loginForm.valid"
+        (click)="login()"
+      >
         <img src="../../../../assets/icons/icon-log-out.svg" alt="" />
 
         <span>Sign In</span>
       </button>
 
-      <div class="sbl-circ-path text-center"></div>
+      <div *ngIf="isLoading" class="sbl-circ-path text-center"></div>
 
       <div class="lower_text">
         Don't have an account?

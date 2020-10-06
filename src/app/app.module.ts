@@ -72,7 +72,6 @@ import { TerminalsModule } from './pages/user/user-layout/terminals/terminals.mo
     SharedModule,
     TerminalsModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
