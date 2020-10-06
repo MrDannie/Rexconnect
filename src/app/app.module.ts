@@ -27,15 +27,13 @@ import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-lo
 // import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 // import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 // import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
-import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
 import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
 import { SharedModule } from './pages/shared/modules/shared.module';
-import { TerminalDetailsComponent } from './pages/user/user-layout/terminals/terminal-details/terminal-details.component';
-import { TerminalTransactionsComponent } from './pages/user/user-layout/terminals/terminal-transactions/terminal-transactions.component';
+import { TerminalsModule } from './pages/user/user-layout/terminals/terminals.module';
 
 @NgModule({
   declarations: [
@@ -64,10 +62,7 @@ import { TerminalTransactionsComponent } from './pages/user/user-layout/terminal
     MerchantsComponent,
     SettlementsComponent,
     StationsComponent,
-    TerminalsComponent,
     TransactionsComponent,
-    TerminalDetailsComponent,
-    TerminalTransactionsComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +70,7 @@ import { TerminalTransactionsComponent } from './pages/user/user-layout/terminal
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
+    TerminalsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
