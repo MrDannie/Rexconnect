@@ -4,6 +4,7 @@ import { SignInComponent } from './pages/landing-page/authentication/sign-in/sig
 import { AcquirerComponent } from './pages/user/user-layout/acquirer/acquirer.component';
 import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-logs.component';
 import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
+import { ManageMerchantModule } from './pages/user/user-layout/manage-merchant/manage-merchant.module';
 import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
@@ -61,6 +62,11 @@ const routes: Routes = [
             component: TerminalTransactionsComponent,
           },
         ],
+      },
+      {
+        path: 'manage-merchant/:id',
+        loadChildren:
+          './pages/user/user-layout/manage-merchant/manage-merchant.module#ManageMerchantModule',
       },
       {
         path: 'all-users',
