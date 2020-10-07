@@ -7,6 +7,9 @@ import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard
 import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
+import { ManageTerminalComponent } from './pages/user/user-layout/terminals/manage-terminal/manage-terminal.component';
+import { TerminalDetailsComponent } from './pages/user/user-layout/terminals/terminal-details/terminal-details.component';
+import { TerminalTransactionsComponent } from './pages/user/user-layout/terminals/terminal-transactions/terminal-transactions.component';
 import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
@@ -33,20 +36,34 @@ const routes: Routes = [
         redirectTo: 'dashboard',
       },
       {
-        path: 'dashboard',
-        component: DashboardComponent,
-      },
-      {
         path: 'terminals',
         component: TerminalsComponent,
       },
       {
-        path: 'all-users',
-        component: ManageUserComponent,
+        path: 'manage-terminal/:id',
+        component: ManageTerminalComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'terminal-details',
+            pathMatch: 'full',
+          },
+          {
+            path: 'terminal-details',
+            component: TerminalDetailsComponent,
+          },
+          {
+            path: 'terminal-transaction',
+            component: TerminalTransactionsComponent,
+          },
+        ],
       },
       {
-        path: 'manage-user-roles',
-        component: RoleManagementComponent,
+        path: 'users',
+        loadChildren: () =>
+          import(
+            './pages/user/user-layout/user-management/user-management.module'
+          ).then((m) => m.UserManagementModule),
       },
       {
         path: 'merchants',

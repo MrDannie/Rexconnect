@@ -132,41 +132,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let item of ngForArray">
           <td>2033ESGQ</td>
           <td>34567hjgtyuyhjj</td>
           <td>60</td>
-          <td><button class="btn table_button">Open</button></td>
-        </tr>
-        <tr>
-          <td>2033ESGQ</td>
-          <td>34567hjgtyuyhjj</td>
-          <td>60</td>
-          <td><button class="btn table_button">Open</button></td>
-        </tr>
-        <tr>
-          <td>2033ESGQ</td>
-          <td>34567hjgtyuyhjj</td>
-          <td>60</td>
-          <td><button class="btn table_button">Open</button></td>
-        </tr>
-        <tr>
-          <td>2033ESGQ</td>
-          <td>34567hjgtyuyhjj</td>
-          <td>60</td>
-          <td><button class="btn table_button">Open</button></td>
-        </tr>
-        <tr>
-          <td>2033ESGQ</td>
-          <td>34567hjgtyuyhjj</td>
-          <td>60</td>
-          <td><button class="btn table_button">Open</button></td>
-        </tr>
-        <tr>
-          <td>2033ESGQ</td>
-          <td>34567hjgtyuyhjj</td>
-          <td>60</td>
-          <td><button class="btn table_button">Open</button></td>
+          <td>
+            <button
+              [routerLink]="['../manage-terminal', 2]"
+              class="btn table_button"
+            >
+              Open
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -437,3 +414,4 @@
     </div>
   </div>
 </div>
+<router-outlet></router-outlet>

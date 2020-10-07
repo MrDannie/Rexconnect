@@ -27,16 +27,13 @@ import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-lo
 // import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 // import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 // import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
-import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
 import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
 import { SharedModule } from './pages/shared/modules/shared.module';
-import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { InterceptorService } from './core/helpers/interceptors/interceptor.service';
+import { TerminalsModule } from './pages/user/user-layout/terminals/terminals.module';
 
 @NgModule({
   declarations: [
@@ -65,7 +62,6 @@ import { InterceptorService } from './core/helpers/interceptors/interceptor.serv
     MerchantsComponent,
     SettlementsComponent,
     StationsComponent,
-    TerminalsComponent,
     TransactionsComponent,
   ],
   imports: [
@@ -74,15 +70,7 @@ import { InterceptorService } from './core/helpers/interceptors/interceptor.serv
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    UserManagementModule,
-    HttpClientModule,
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: InterceptorService,
-      multi: true,
-    },
+    TerminalsModule,
   ],
   bootstrap: [AppComponent],
 })

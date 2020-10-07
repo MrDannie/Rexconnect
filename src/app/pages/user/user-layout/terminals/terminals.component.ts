@@ -12,12 +12,14 @@ export class TerminalsComponent implements OnInit {
   createTerminalForm: FormGroup;
   isCSVLoading: boolean;
   isUserCreating: boolean;
+  ngForArray: Array<number>
 
   constructor(private formBuilder: FormBuilder) {
     this.showFilter = false;
     this.isCSVLoading = false;
     this.isUserCreating = false;
     this.initializeForm();
+    this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   }
 
   ngOnInit() {}

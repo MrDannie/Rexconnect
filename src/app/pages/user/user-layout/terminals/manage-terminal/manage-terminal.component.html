@@ -1,0 +1,31 @@
+<div class="header animated fadeIn">
+  <div class="top_buttons">
+    <span class="back_button" routerLink="../../users">
+      <i class="fa fa-long-arrow-left"></i> Return to User List
+    </span>
+  </div>
+  <div class="header__text">
+    <span>TID: 2033ESGQ</span>
+  </div>
+</div>
+
+<!-------BUTTONS SWITCH -------->
+<div class="top_row">
+  <span class="left_switcher">
+    <span class="menu_section">
+      <span
+        class="menu active animated slideInRight"
+        routerLink="terminal-details"
+        [routerLinkActive]="['active']"
+        >Terminal Details</span
+      >
+      <span
+        class="menu"
+        [routerLinkActive]="['active']"
+        routerLink="terminal-transaction"
+        >Transactions</span
+      >
+    </span>
+  </span>
+</div>
+<router-outlet></router-outlet>
