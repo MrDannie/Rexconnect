@@ -79,7 +79,7 @@ export class ManageUserComponent implements OnInit {
 
   createUser(userDetails) {}
 
-  initializeEditForm(userId) {}
+  initializeEditForm() {}
 
   editUser(updatedUser) {}
 
