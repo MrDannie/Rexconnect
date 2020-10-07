@@ -63,11 +63,12 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'users',
-        loadChildren: () =>
-          import(
-            './pages/user/user-layout/user-management/user-management.module'
-          ).then((m) => m.UserManagementModule),
+        path: 'all-users',
+        component: ManageUserComponent,
+      },
+      {
+        path: 'manage-user-roles',
+        component: RoleManagementComponent,
       },
       {
         path: 'merchants',
