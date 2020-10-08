@@ -14,7 +14,12 @@
       <span class="status">Active</span>
     </div>
     <div>
-      <span class="action_button_disable">Disable Merchant</span>
+      <span
+        class="action_button_disable"
+        data-toggle="modal"
+        data-target="#disableMerchant"
+        >Disable Merchant</span
+      >
     </div>
   </div>
 </div>
@@ -38,5 +43,41 @@
       >
     </span>
   </span>
+</div>
+
+<!-- DISABLE MERCHNAT MODAL -->
+
+<div
+  class="modal animated zoomIn"
+  id="disableMerchant"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createUserLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createUserLabel">Disable Merchant</h5>
+        <br />
+        <p>
+          You are about to disable merchant [Merchant ID]. Please confirm this
+          action to continue.
+        </p>
+        <br />
+        <div class="form_actions">
+          <div class="cancel_button" data-dismiss="modal">Cancel</div>
+          <button class="btn action_button">
+            <i class="fa fa-plus animated slideIn"></i>
+            Disable Merchant
+          </button>
+
+          <div class="spinner-border spinner-border-sm ml-3" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <router-outlet></router-outlet>
