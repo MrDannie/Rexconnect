@@ -124,41 +124,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let item of ngForArray">
           <td>Sample Acquirer</td>
           <td>EBN574000064269</td>
           <td class="active">Active</td>
-          <td><button class="btn table_button">Open</button></td>
-        </tr>
-        <tr>
-          <td>Sample Acquirer</td>
-          <td>EBN574000064269</td>
-          <td class="Inactive">Inactive</td>
-          <td><button class="btn table_button">Open</button></td>
-        </tr>
-        <tr>
-          <td>Sample Acquirer</td>
-          <td>EBN574000064269</td>
-          <td class="active">Active</td>
-          <td><button class="btn table_button">Open</button></td>
-        </tr>
-        <tr>
-          <td>Sample Acquirer</td>
-          <td>EBN574000064269</td>
-          <td class="Inactive">Inactive</td>
-          <td><button class="btn table_button">Open</button></td>
-        </tr>
-        <tr>
-          <td>Sample Acquirer</td>
-          <td>EBN574000064269</td>
-          <td class="active">Active</td>
-          <td><button class="btn table_button">Open</button></td>
-        </tr>
-        <tr>
-          <td>Sample Acquirer</td>
-          <td>EBN574000064269</td>
-          <td class="Inactive">Inactive</td>
-          <td><button class="btn table_button">Open</button></td>
+          <td>
+            <button
+              [routerLink]="['../manage-acquirer', 2]"
+              class="btn table_button"
+            >
+              Open
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
