@@ -11,7 +11,7 @@ import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
 import { Config } from '../Config';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/pages/shared/interfaces/user';
+import { IUser } from 'src/app/pages/shared/interfaces/User';
 
 const BASE_URL = environment.BASE_URL;
 // const EXTERNAL_BASE_URL = environment.EXTERNAL_BASE_URL;
@@ -43,9 +43,9 @@ export class AuthService {
       .pipe(map((user) => user));
   }
 
-  getClientDetails(): Observable<User> {
+  getClientDetails(): Observable<IUser> {
     return this.httpClient.get(`${BASE_URL}/v1/settings`).pipe(
-      map((response: User) => {
+      map((response: IUser) => {
         console.log(response);
         localStorage.setItem('Currency', response['currencyCode']);
         return response;

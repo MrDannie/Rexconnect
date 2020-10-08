@@ -79,40 +79,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>2033ESGQ</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>2033ESGQ</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>2033ESGQ</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>2033ESGQ</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>2033ESGQ</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>2033ESGQ</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>2033ESGQ</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
+              <tr *ngFor="let terminals of topTerminalStatistics">
+                <td>{{ terminals.name }}</td>
+                <td>{{ terminals.count }}</td>
+                <td>{{ terminals.sum }}</td>
               </tr>
             </tbody>
           </table>
@@ -135,41 +105,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Balogun Ayotude</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>Idris Usman</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>Balogun Ayotude</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-
-              <tr>
-                <td>Idris Usman</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>Balogun Ayotude</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>Idris Usman</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
-              </tr>
-              <tr>
-                <td>Balogun Ayotude</td>
-                <td>20</td>
-                <td>NGN 500, 000</td>
+              <tr *ngFor="let merchants of topMerchantsStatistics">
+                <td>{{ merchants.name }}</td>
+                <td>{{ merchants.count }}</td>
+                <td>{{ merchants.sum }}</td>
               </tr>
             </tbody>
           </table>

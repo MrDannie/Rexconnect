@@ -34,6 +34,9 @@ import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants
 import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
 import { SharedModule } from './pages/shared/modules/shared.module';
 import { TerminalsModule } from './pages/user/user-layout/terminals/terminals.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from './core/helpers/interceptors/interceptor.service';
+import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
 
 @NgModule({
   declarations: [
@@ -68,9 +71,18 @@ import { TerminalsModule } from './pages/user/user-layout/terminals/terminals.mo
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    TerminalsModule,
     FormsModule,
     SharedModule,
-    TerminalsModule,
+    UserManagementModule,
+    HttpClientModule,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
