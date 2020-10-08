@@ -54,3 +54,42 @@
   border-radius: 12px;
   padding-top: 2%;
 }
+
+// HEADER BUTTONS
+.header_buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.date,
+.status {
+  border: 1px solid #0000001f;
+  border-radius: 5px;
+  margin-left: 1.5rem;
+  padding: 0.1rem;
+}
+
+.action_button_disable {
+  background-color: #f9f6e3;
+  color: #c9ae1c;
+  padding: 0.6rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  font-weight: bold;
+  border: 0.5px solid #ffd1ce;
+  font-size: 0.8125rem;
+  margin-top: 2rem;
+}
+
+.action_button_disable:hover {
+  background-color: #c9ae1c;
+  border: none;
+  //transition: all 0.3s ease-in-out;
+
+  color: #f0f0f0;
+}
