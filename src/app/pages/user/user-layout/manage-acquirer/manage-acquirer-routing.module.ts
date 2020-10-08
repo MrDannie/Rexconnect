@@ -27,11 +27,11 @@ const routes: Routes = [];
             path: 'acquirer-fee-sharing',
             component: AcquirerFeeSharingComponent,
           },
-          {
-            path: 'acquirer-routes',
-            component: AcquirerRoutesComponent
-          }
         ],
+      },
+      {
+        path: 'acquirer-routes',
+        component: AcquirerRoutesComponent,
       },
     ]),
   ],
