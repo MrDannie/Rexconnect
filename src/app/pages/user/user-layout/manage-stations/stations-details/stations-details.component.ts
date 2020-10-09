@@ -1,41 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-stations',
-  templateUrl: './stations.component.html',
-  styleUrls: ['./stations.component.scss'],
+  selector: 'app-stations-details',
+  templateUrl: './stations-details.component.html',
+  styleUrls: ['./stations-details.component.scss'],
 })
-export class StationsComponent implements OnInit {
-  createStationForm: FormGroup;
-  isUserCreating;
+export class StationsDetailsComponent implements OnInit {
   showFilter: boolean;
   expression: boolean;
   isCSVLoading;
   boolean;
 
-  searchForm: FormGroup;
   ngForArray: number[];
+  editAcquirerForm: any;
 
   constructor(private formBuilder: FormBuilder) {
     this.showFilter = false;
     this.expression = false;
     this.isCSVLoading = false;
-    this.isUserCreating = false;
-    this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
     this.initializeForm();
+    this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   }
 
   ngOnInit() {}
 
   initializeForm() {
-    this.searchForm = this.formBuilder.group({
-      stationName: '',
-      stationAcquirer: '',
-      stationId: '',
-    });
-    this.createStationForm = this.formBuilder.group({
+    this.editAcquirerForm = this.formBuilder.group({
       merchantId: ['', Validators.compose([Validators.required])],
       terminalId: ['', Validators.compose([Validators.required])],
     });
