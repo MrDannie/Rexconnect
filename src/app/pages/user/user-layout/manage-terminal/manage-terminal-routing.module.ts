@@ -15,7 +15,7 @@ const routes: Routes = [];
         component: TerminalsComponent,
       },
       {
-        path: 'manage-terminal/:id',
+        path: ':id',
         component: ManageTerminalComponent,
         children: [
           {
