@@ -6,6 +6,8 @@ import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-lo
 import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
 import { ManageMerchantModule } from './pages/user/user-layout/manage-merchant/manage-merchant.module';
 import { ManageAcquirerModule } from './pages/user/user-layout/manage-acquirer/manage-acquirer.module';
+import { SettlementDetailsModule } from './pages/user/user-layout/settlement-details/settlements-details.module';
+
 
 import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
@@ -76,6 +78,11 @@ const routes: Routes = [
           './pages/user/user-layout/manage-acquirer/manage-acquirer.module#ManageAcquirerModule',
       },
       {
+        path: 'settlement-details/:id',
+        loadChildren:
+          './pages/user/user-layout/settlement-details/settlements-details.module#SettlementDetailsModule',
+      },
+      {
         path: 'all-users',
         component: ManageUserComponent,
       },
@@ -117,7 +124,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
