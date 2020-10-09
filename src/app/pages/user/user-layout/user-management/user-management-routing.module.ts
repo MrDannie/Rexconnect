@@ -14,10 +14,14 @@ import { RoleManagementComponent } from './role-management/role-management.compo
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: '', pathMatch: 'prefix', redirectTo: 'all-users' },
-      { path: 'all-users', component: ManageUserComponent },
-      { path: 'manage-roles', component: RoleManagementComponent },
-      { path: 'edit-user/:id', component: EditUserComponent },
+      {
+        path: '',
+        component: ManageUserComponent,
+      },
+      {
+        path: 'manage-user-roles',
+        component: RoleManagementComponent,
+      },
     ]),
   ],
   exports: [RouterModule],
