@@ -8,7 +8,6 @@ import { ManageMerchantModule } from './pages/user/user-layout/manage-merchant/m
 import { ManageAcquirerModule } from './pages/user/user-layout/manage-acquirer/manage-acquirer.module';
 import { SettlementDetailsModule } from './pages/user/user-layout/settlement-details/settlements-details.module';
 
-
 import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
@@ -20,6 +19,7 @@ import { TransactionsComponent } from './pages/user/user-layout/transactions/tra
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
 import { ManageUserComponent } from './pages/user/user-layout/user-management/manage-user/manage-user.component';
 import { RoleManagementComponent } from './pages/user/user-layout/user-management/role-management/role-management.component';
+import { ManageStationsModule } from './pages/user/user-layout/manage-stations/manage-stations.module';
 
 const routes: Routes = [
   {
@@ -83,6 +83,11 @@ const routes: Routes = [
           './pages/user/user-layout/settlement-details/settlements-details.module#SettlementDetailsModule',
       },
       {
+        path: 'manage-station/:id',
+        loadChildren:
+          './pages/user/user-layout/manage-stations/manage-stations.module#ManageStationsModule',
+      },
+      {
         path: 'all-users',
         component: ManageUserComponent,
       },
@@ -124,7 +129,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
