@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SignInComponent } from './pages/landing-page/authentication/sign-in/sign-in.component';
-import { AcquirerComponent } from './pages/user/user-layout/acquirer/acquirer.component';
 import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-logs.component';
 import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
 import { ManageMerchantModule } from './pages/user/user-layout/manage-merchant/manage-merchant.module';
 import { ManageAcquirerModule } from './pages/user/user-layout/manage-acquirer/manage-acquirer.module';
 import { SettlementDetailsModule } from './pages/user/user-layout/settlement-details/settlements-details.module';
 
-import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
@@ -61,14 +59,6 @@ const routes: Routes = [
           './pages/user/user-layout/user-management/user-management.module#UserManagementModule',
       },
       {
-        path: 'merchants',
-        component: MerchantsComponent,
-      },
-      {
-        path: 'acquirer',
-        component: AcquirerComponent,
-      },
-      {
         path: 'stations',
         component: StationsComponent,
       },
@@ -90,12 +80,12 @@ const routes: Routes = [
           './pages/user/user-layout/manage-terminal/manage-terminal.module#ManageTerminalModule',
       },
       {
-        path: 'manage-merchant/:id',
+        path: 'merchants',
         loadChildren:
           './pages/user/user-layout/manage-merchant/manage-merchant.module#ManageMerchantModule',
       },
       {
-        path: 'manage-acquirer/:id',
+        path: 'acquirers',
         loadChildren:
           './pages/user/user-layout/manage-acquirer/manage-acquirer.module#ManageAcquirerModule',
       },
