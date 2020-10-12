@@ -26,9 +26,10 @@
   border-top-right-radius: 6px;
   transition: all 0.35s ease-in-out;
   font-weight: bold;
-  border: 0.5px solid #ffd1ce;
+  // border: 0.5px solid #c9ae1c;
   font-size: 0.8125rem;
   margin-top: 2rem;
+  color: #c9ae1c;
 }
 
 .action_button_disable:hover {
@@ -73,7 +74,7 @@
 }
 
 div > span {
-  color: #1a1a1a;
+  // color: #1a1a1a;
   font-family: Roboto, Regular;
 }
 
