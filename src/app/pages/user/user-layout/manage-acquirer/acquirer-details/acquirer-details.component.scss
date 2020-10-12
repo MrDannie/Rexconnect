@@ -1,41 +1,34 @@
 // *******  WHITE BACKGROUND SECTION 8888888888
-
 .main_dashboard_flow {
-  margin-right: 5rem;
-  // min-width: 95%;
-  // display: flex;
-  // flex-direction: row;
-  // min-height: 20rem;
-  // //border: 1px solid red;
-  // // margin: 0 2.5rem;
-  // align-items: stretch;
-  // justify-content: flex-start;
-  // flex-wrap: wrap;
-  // padding-bottom: 5rem;
-}
-
-.terminals {
-  height: 20rem;
+  min-width: 95%;
+  display: flex;
+  flex-direction: row;
+  min-height: 20rem;
+  //border: 1px solid red;
+  // margin: 0 2.5rem;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding-bottom: 5rem;
 }
 
 .details_section {
-  //   display: flex;
-  //   flex-direction: row;
-  //   //justify-content: space-between;
-  //   margin-right: 2.5rem;
-  //   //   flex: 1;
-  //   transition: all ease-in-out 2s;
+  display: flex;
+  flex-direction: column;
+  //justify-content: space-between;
+  margin-right: 2.5rem;
+  flex: 1;
+  transition: all ease-in-out 2s;
 }
 
 .form_area {
-  width: 100%;
+  width: 35rem;
   // margin-left: 2rem;
   //margin-top: 2.5rem;
   background: #ffffff;
   border-radius: 10px;
   padding: 1.9rem 1rem;
   margin-top: 1rem;
-  min-width: 25rem;
 }
 
 div > span {
@@ -47,18 +40,6 @@ p > strong {
   font-family: Montserrat, Bold;
   color: #1a1a1a;
   font-weight: bold;
-}
-
-// TABLE STYLE
-h4 strong {
-  font-family: Montserrat, Bold;
-  color: #1a1a1a;
-  font-weight: bold;
-}
-
-td {
-  color: #1a1a1a;
-  font-family: Roboto, Regular;
 }
 
 // UPDATE TERMINAL BUTTON
@@ -87,7 +68,7 @@ td {
   color: #f0f0f0;
 }
 
-// MODAL FORM STYLING
+// EDIT MODAL STYLE
 .form_actions .action_button {
   background-color: #ffd1ce;
   color: #950007;

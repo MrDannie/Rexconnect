@@ -5,6 +5,8 @@ import { AcquirerComponent } from './pages/user/user-layout/acquirer/acquirer.co
 import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-logs.component';
 import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
 import { ManageMerchantModule } from './pages/user/user-layout/manage-merchant/manage-merchant.module';
+import { ManageAcquirerModule } from './pages/user/user-layout/manage-acquirer/manage-acquirer.module';
+
 import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
@@ -67,6 +69,11 @@ const routes: Routes = [
         path: 'manage-merchant/:id',
         loadChildren:
           './pages/user/user-layout/manage-merchant/manage-merchant.module#ManageMerchantModule',
+      },
+      {
+        path: 'manage-acquirer/:id',
+        loadChildren:
+          './pages/user/user-layout/manage-acquirer/manage-acquirer.module#ManageAcquirerModule',
       },
       {
         path: 'all-users',
