@@ -6,8 +6,6 @@ import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard
 import { ManageMerchantModule } from './pages/user/user-layout/manage-merchant/manage-merchant.module';
 import { ManageAcquirerModule } from './pages/user/user-layout/manage-acquirer/manage-acquirer.module';
 import { SettlementDetailsModule } from './pages/user/user-layout/settlement-details/settlements-details.module';
-
-import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
 import { ManageUserComponent } from './pages/user/user-layout/user-management/manage-user/manage-user.component';
@@ -39,36 +37,18 @@ const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
       },
-      // {
-      //   path: 'terminals',
-      //   component: TerminalsComponent,
-      // },
-
-      // {
-      //   path: 'all-users',
-      //   component: ManageUserComponent,
-      // },
-      // {
-      //   path: 'manage-user-roles',
-      //   component: RoleManagementComponent,
-      // },
-      {
-        path: 'all-users',
-        loadChildren:
-          './pages/user/user-layout/user-management/user-management.module#UserManagementModule',
-      },
-      {
-        path: 'stations',
-        component: StationsComponent,
-      },
       {
         path: 'transactions',
         component: TransactionsComponent,
       },
-
       {
         path: 'audit-log',
         component: AuditLogsComponent,
+      },
+      {
+        path: 'all-users',
+        loadChildren:
+          './pages/user/user-layout/user-management/user-management.module#UserManagementModule',
       },
       {
         path: 'terminals',
@@ -91,7 +71,7 @@ const routes: Routes = [
           './pages/user/user-layout/settlement-details/settlements-details.module#SettlementDetailsModule',
       },
       {
-        path: 'manage-station/:id',
+        path: 'stations',
         loadChildren:
           './pages/user/user-layout/manage-stations/manage-stations.module#ManageStationsModule',
       },

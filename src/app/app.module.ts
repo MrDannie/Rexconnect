@@ -27,7 +27,6 @@ import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-lo
 // import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 // import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
-import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
 import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
 import { SharedModule } from './pages/shared/modules/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -58,7 +57,6 @@ import { UserManagementModule } from './pages/user/user-layout/user-management/u
     UserLayoutComponent,
     AuditLogsComponent,
     DashboardComponent,
-    StationsComponent,
     TransactionsComponent,
     // TerminalsComponent,
   ],
