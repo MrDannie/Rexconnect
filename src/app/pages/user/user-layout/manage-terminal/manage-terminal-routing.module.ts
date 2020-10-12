@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ManageTerminalComponent } from './manage-terminal/manage-terminal.component';
 import { TerminalDetailsComponent } from './terminal-details/terminal-details.component';
 import { TerminalTransactionsComponent } from './terminal-transactions/terminal-transactions.component';
+import { TerminalsComponent } from './terminals/terminals.component';
 
 const routes: Routes = [];
 
@@ -11,6 +12,10 @@ const routes: Routes = [];
     RouterModule.forChild([
       {
         path: '',
+        component: TerminalsComponent,
+      },
+      {
+        path: ':id',
         component: ManageTerminalComponent,
         children: [
           {

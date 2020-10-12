@@ -36,7 +36,7 @@ import { SharedModule } from './pages/shared/modules/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './core/helpers/interceptors/interceptor.service';
 import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
-import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
+// import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +66,7 @@ import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals
     SettlementsComponent,
     StationsComponent,
     TransactionsComponent,
-    TerminalsComponent,
+    // TerminalsComponent,
   ],
   imports: [
     BrowserModule,

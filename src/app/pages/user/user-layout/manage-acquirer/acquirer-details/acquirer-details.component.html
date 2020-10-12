@@ -88,73 +88,7 @@
                     placeholder=" "
                     formControlName="merchantId"
                   />
-                  <label for="merchantName">Merchant Name</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="terminalId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantId">Merchant ID</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="terminalId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantId">Dialing Code</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-8">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="terminalId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantId">Phone Number</label>
+                  <label for="merchantName">Acquirer's Name</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
                   <span class="validation-message">
@@ -177,54 +111,7 @@
                     placeholder=" "
                     formControlName="merchantId"
                   />
-                  <label for="merchantName">Merchant Address</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <div class="">
-                <span class="has-float-label">
-                  <select
-                    class="form-control"
-                    id="terminalId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  >
-                    <option value="Select option"></option>
-                  </select>
-                  <label for="merchantId">Merchant Type</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <div class="">
-                <span class="has-float-label">
-                  <select
-                    class="form-control"
-                    id="terminalId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  >
-                    <option value="select option"></option>
-                  </select>
-                  <label for="merchantId">Merchant Category Code</label>
+                  <label for="merchantName">Acquirer's Short Name</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
                   <span class="validation-message">
@@ -240,16 +127,14 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <select
+                  <input
                     class="form-control"
                     id="merchantName"
                     type="text"
                     placeholder=" "
                     formControlName="merchantId"
-                  >
-                    <option value="Select option"></option>
-                  </select>
-                  <label for="merchantName">Acquirer</label>
+                  />
+                  <label for="merchantName">Acquirer's CBN Code</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
                   <span class="validation-message">
@@ -260,6 +145,161 @@
               </div>
             </div>
           </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantName">Acquirer's Terminal Prefix</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId"
+                    >Acquirer's Processor (Mastercard)</label
+                  >
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">Mastercard's Acquiring BIN</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">Acquirer's Processor (VISA)</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">VISA's Acquiring BIN</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">Acquirer's Processor (VERVE)</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">VERVE's Acquiring BIN</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- RELEVANT CODE HERE  -->
 
           <div class="form_actions">

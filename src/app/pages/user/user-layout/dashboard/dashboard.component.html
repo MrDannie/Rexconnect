@@ -11,7 +11,12 @@
       <div class="terminals card">
         <div class="card-body">
           <div class="flex">
-            <span>Terminals</span><span><img src="" alt="go" /></span>
+            <span>Terminals</span
+            ><span class="img-span" style="background-color: #cee1ff"
+              ><img
+                src="../../../../../assets/images/pos-terminal (1).svg"
+                alt=""
+            /></span>
           </div>
           <h2 *ngIf="dashboardCount" class="header__text">
             {{ dashboardCount.terminalCounts }}
@@ -23,8 +28,10 @@
       <div class="merchants card">
         <div class="card-body">
           <div class="flex">
-            <span>merchants</span>
-            <span><img src="" alt="go" /></span>
+            <span>Merchants</span>
+            <span class="img-span" style="background-color: #ffc1c4"
+              ><img src="../../../../../assets/images/users (2).svg" alt="go"
+            /></span>
           </div>
           <h2 *ngIf="dashboardCount" class="header__text">
             {{ dashboardCount.merchantCounts }}
@@ -37,7 +44,11 @@
         <div class="card-body">
           <div class="flex">
             <span>Total Transactions</span>
-            <span><img src="" alt="go" /></span>
+            <span class="img-span" style="background-color: #c2fff3"
+              ><img
+                src="../../../../../assets/images/credit-card (7).svg"
+                alt="go"
+            /></span>
           </div>
           <h2 *ngIf="dashboardCount" class="header__text">
             {{ dashboardCount.transactionCounts }}
@@ -50,7 +61,11 @@
         <div class="card-body">
           <div class="flex">
             <span>Mobile Transactions</span>
-            <span><img src="" alt="go" /></span>
+            <span class="img-span" style="background-color: #ffe6c5"
+              ><img
+                src="../../../../../assets/images/smartphone (3).svg"
+                alt="go"
+            /></span>
           </div>
           <h2 *ngIf="dashboardCount" class="header__text">
             {{ dashboardCount.mobileMoneyCounts }}

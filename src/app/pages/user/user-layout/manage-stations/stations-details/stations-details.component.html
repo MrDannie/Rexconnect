@@ -18,7 +18,7 @@
         class="action_button_disable"
         data-toggle="modal"
         data-target="#disableMerchant"
-        >Disable Aquirer</span
+        >Disable Station</span
       >
     </div>
   </div>
@@ -63,13 +63,13 @@
         data-toggle="modal"
         data-target="#editAcquirer"
       >
-        Edit Acquirer
+        Edit Station
       </button>
     </div>
   </div>
 </div>
 
-<!-- EDIT AQUIRER MODAL  -->
+<!-- EDIT STATIONs MODAL  -->
 <div
   class="modal animated zoomIn"
   id="editAcquirer"
@@ -81,7 +81,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <h5 class="modal-title" id="editAcquirerLabel">Edit Acquirer</h5>
+        <h5 class="modal-title" id="editAcquirerLabel">Edit Station</h5>
         <form [formGroup]="editAcquirerForm">
           <!-- RELEVANT CODE HERE  -->
           <div class="form-row">
@@ -95,7 +95,7 @@
                     placeholder=" "
                     formControlName="merchantId"
                   />
-                  <label for="merchantName">Merchant Name</label>
+                  <label for="merchantName">Station Name</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
                   <span class="validation-message">
@@ -117,7 +117,7 @@
                     placeholder=" "
                     formControlName="merchantId"
                   />
-                  <label for="merchantName">Merchant Name</label>
+                  <label for="merchantName">Station Acquirer</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
                   <span class="validation-message">
@@ -140,7 +140,7 @@
                     placeholder=" "
                     formControlName="merchantId"
                   />
-                  <label for="merchantId">Merchant ID</label>
+                  <label for="merchantId">Station ID</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
                   <span class="validation-message">
@@ -163,7 +163,7 @@
                     placeholder=" "
                     formControlName="merchantId"
                   />
-                  <label for="merchantName">Merchant Address</label>
+                  <label for="merchantName">Station IP Address</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
                   <span class="validation-message">
@@ -188,7 +188,7 @@
                   >
                     <option value="Select option"></option>
                   </select>
-                  <label for="merchantName">Acquirer</label>
+                  <label for="merchantName">Station Port Number</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
                   <span class="validation-message">
