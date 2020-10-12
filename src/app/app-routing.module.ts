@@ -11,15 +11,13 @@ import { SettlementDetailsModule } from './pages/user/user-layout/settlement-det
 import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
-import { ManageTerminalComponent } from './pages/user/user-layout/terminals/manage-terminal/manage-terminal.component';
-import { TerminalDetailsComponent } from './pages/user/user-layout/terminals/terminal-details/terminal-details.component';
-import { TerminalTransactionsComponent } from './pages/user/user-layout/terminals/terminal-transactions/terminal-transactions.component';
 import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
 import { ManageUserComponent } from './pages/user/user-layout/user-management/manage-user/manage-user.component';
 import { RoleManagementComponent } from './pages/user/user-layout/user-management/role-management/role-management.component';
 import { ManageStationsModule } from './pages/user/user-layout/manage-stations/manage-stations.module';
+import { ManageTerminalModule } from './pages/user/user-layout/manage-terminal/manage-terminal.module';
 
 const routes: Routes = [
   {
@@ -48,45 +46,7 @@ const routes: Routes = [
         path: 'terminals',
         component: TerminalsComponent,
       },
-      {
-        path: 'manage-terminal/:id',
-        component: ManageTerminalComponent,
-        children: [
-          {
-            path: '',
-            redirectTo: 'terminal-details',
-            pathMatch: 'full',
-          },
-          {
-            path: 'terminal-details',
-            component: TerminalDetailsComponent,
-          },
-          {
-            path: 'terminal-transaction',
-            component: TerminalTransactionsComponent,
-          },
-        ],
-      },
-      {
-        path: 'manage-merchant/:id',
-        loadChildren:
-          './pages/user/user-layout/manage-merchant/manage-merchant.module#ManageMerchantModule',
-      },
-      {
-        path: 'manage-acquirer/:id',
-        loadChildren:
-          './pages/user/user-layout/manage-acquirer/manage-acquirer.module#ManageAcquirerModule',
-      },
-      {
-        path: 'settlement-details/:id',
-        loadChildren:
-          './pages/user/user-layout/settlement-details/settlements-details.module#SettlementDetailsModule',
-      },
-      {
-        path: 'manage-station/:id',
-        loadChildren:
-          './pages/user/user-layout/manage-stations/manage-stations.module#ManageStationsModule',
-      },
+
       {
         path: 'all-users',
         component: ManageUserComponent,
@@ -118,6 +78,31 @@ const routes: Routes = [
       {
         path: 'audit-log',
         component: AuditLogsComponent,
+      },
+      {
+        path: 'manage-terminal/:id',
+        loadChildren:
+          './pages/user/user-layout/manage-terminal/manage-terminal.module#ManageTerminalModule',
+      },
+      {
+        path: 'manage-merchant/:id',
+        loadChildren:
+          './pages/user/user-layout/manage-merchant/manage-merchant.module#ManageMerchantModule',
+      },
+      {
+        path: 'manage-acquirer/:id',
+        loadChildren:
+          './pages/user/user-layout/manage-acquirer/manage-acquirer.module#ManageAcquirerModule',
+      },
+      {
+        path: 'settlement-details/:id',
+        loadChildren:
+          './pages/user/user-layout/settlement-details/settlements-details.module#SettlementDetailsModule',
+      },
+      {
+        path: 'manage-station/:id',
+        loadChildren:
+          './pages/user/user-layout/manage-stations/manage-stations.module#ManageStationsModule',
       },
     ],
   },

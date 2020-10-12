@@ -33,10 +33,10 @@ import { SettlementsComponent } from './pages/user/user-layout/settlements/settl
 import { MerchantsComponent } from './pages/user/user-layout/merchants/merchants.component';
 import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
 import { SharedModule } from './pages/shared/modules/shared.module';
-import { TerminalsModule } from './pages/user/user-layout/terminals/terminals.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './core/helpers/interceptors/interceptor.service';
 import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
+import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 
 @NgModule({
   declarations: [
@@ -66,12 +66,12 @@ import { UserManagementModule } from './pages/user/user-layout/user-management/u
     SettlementsComponent,
     StationsComponent,
     TransactionsComponent,
+    TerminalsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    TerminalsModule,
     FormsModule,
     SharedModule,
     UserManagementModule,
