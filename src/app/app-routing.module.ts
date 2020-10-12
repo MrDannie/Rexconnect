@@ -7,7 +7,6 @@ import { ManageMerchantModule } from './pages/user/user-layout/manage-merchant/m
 import { ManageAcquirerModule } from './pages/user/user-layout/manage-acquirer/manage-acquirer.module';
 import { SettlementDetailsModule } from './pages/user/user-layout/settlement-details/settlements-details.module';
 
-import { SettlementsComponent } from './pages/user/user-layout/settlements/settlements.component';
 import { StationsComponent } from './pages/user/user-layout/stations/stations.component';
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
@@ -66,10 +65,7 @@ const routes: Routes = [
         path: 'transactions',
         component: TransactionsComponent,
       },
-      {
-        path: 'settlements',
-        component: SettlementsComponent,
-      },
+
       {
         path: 'audit-log',
         component: AuditLogsComponent,
@@ -90,7 +86,7 @@ const routes: Routes = [
           './pages/user/user-layout/manage-acquirer/manage-acquirer.module#ManageAcquirerModule',
       },
       {
-        path: 'settlement-details/:id',
+        path: 'settlements',
         loadChildren:
           './pages/user/user-layout/settlement-details/settlements-details.module#SettlementDetailsModule',
       },

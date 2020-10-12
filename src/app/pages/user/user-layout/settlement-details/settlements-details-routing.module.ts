@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ReportComponent } from './report/report.component';
+import { SettlementsComponent } from './settlements/settlements.component';
 
 const routes: Routes = [];
 
@@ -9,11 +10,11 @@ const routes: Routes = [];
     RouterModule.forChild([
       {
         path: '',
-        redirectTo: 'reports',
-        pathMatch: 'full',
+        component: SettlementsComponent,
       },
+
       {
-        path: 'reports',
+        path: ':id/reports',
         component: ReportComponent,
       },
     ]),
