@@ -1,0 +1,64 @@
+<!-- page size  -->
+<div class="text-right mt-4 page_size_section animated fadeIn">
+  <span>Number of Items: {{ totalElements }}</span>
+
+  <span class="ml-3">Page size:</span>
+  <form class="inline_select" [formGroup]="pageSizeForm" >
+    <select
+      class="form-control form-control-sm select-edit"
+      formControlName="pageSize"
+      (change)="onPageSizeChanged(pageSizeForm.value.pageSize)"
+    >
+      <option value="10">10</option>
+      <option value="20" *ngIf="totalElements > 10"  >20</option>
+      <option value="30" *ngIf="totalElements > 20"  >30</option>
+      <option value="40" *ngIf="totalElements > 30"  >40</option>
+      <option value="50" *ngIf="totalElements > 40"  >50</option>
+    </select>
+  </form>
+</div>
+
+<!-- pagination -->
+<div class="paginate mt-2 animated fadeIn">
+  <nav aria-label="...">
+    <ul class="pagination">
+      <li
+        class="page-item"
+        *ngIf="pager?.startPage !== pager?.currentPage"
+        (click)="previousPageSelected.emit()"
+      >
+        <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      <li
+        class="page-item"
+        aria-current="page"
+        *ngFor="let page of pager?.pages"
+        [ngClass]="{ active: pager?.currentPage === page }"
+        (click)="onPageSelected(page)"
+      >
+        <a class="page-link">
+          {{ page }} <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li
+        class="page-item"
+        (click)="onNextPageSelected()"
+        *ngIf="pager?.endPage !== pager?.currentPage"
+      >
+        <a class="page-link">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- EXPORT BUTTON  -->
+
+  <div class="export-button animated fadeIn">
+    <button type="button" class="btn btn-light button-plain-icon" >
+      <i class="fa fa-download"></i>
+      Download As CSV
+    </button>
+    <div class="spinner-border spinner-border-sm ml-3" role="status" *ngIf="false"  >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>

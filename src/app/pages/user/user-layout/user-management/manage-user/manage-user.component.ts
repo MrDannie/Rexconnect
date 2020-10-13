@@ -1,3 +1,4 @@
+// tslint:disable
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { error } from 'protractor';
@@ -34,7 +35,7 @@ export class ManageUserComponent implements OnInit {
   pager: any;
   pagedItems: IUser[];
   pageSizeForm: FormGroup;
-  dataCount: any;
+  dataCount = 0;
   createUserForm: FormGroup;
   userRoles: AllRoles;
   listOfMerchantRoles: IRole[];
@@ -87,10 +88,12 @@ export class ManageUserComponent implements OnInit {
   }
 
   previousPage(page) {
+    console.log('previous page', page);
     this.pageIndex = page - 2;
     this.getAllUsers();
     this.pageIndex = page - 1;
   }
+
   getPage(page) {
     console.log('page to go', page);
     console.log(this.pager);
@@ -102,6 +105,7 @@ export class ManageUserComponent implements OnInit {
   }
 
   nextPage(page) {
+    console.log('next page', page);
     this.pageIndex = page;
     this.getAllUsers();
     this.pageIndex = page + 1;
@@ -205,6 +209,7 @@ export class ManageUserComponent implements OnInit {
   }
 
   setPageSize(value: number) {
+    console.log('page size: ' + value);
     this.pageSize = value;
     this.pageIndex = 0;
     this.currentPage = 1;

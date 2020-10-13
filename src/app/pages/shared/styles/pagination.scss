@@ -1,0 +1,79 @@
+//  PAGINATION
+.paginate {
+  font-size: 0.8rem;
+  font-family: "Montserrat", serif;
+  cursor: pointer;
+  display: flex;
+}
+.page-link {
+  color: #000000;
+  border: 1px solid #dee2e6;
+}
+.page-item:last-child .page-link {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+.page-item:first-child .page-link {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+.page-link:hover {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  color: #950007;
+}
+
+.page-item.active .page-link {
+  background-color: #950007;
+  border-color: #950007;
+}
+.page-item.active .page-link:hover {
+  color: #fff;
+}
+
+// PAGE SIZE
+.select-edit {
+  width: 55px;
+  font-size: 16px;
+  border-radius: 0px;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  display: inline-block;
+  border-bottom: black;
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+// EXPORT BUTTON SECTION
+.export-button {
+  display: inline-block;
+  margin-left: 1.25rem;
+  font-size: 0.8rem;
+}
+
+.btn:focus,
+.btn-light:focus {
+  box-shadow: none;
+}
+
+.inline_select {
+  display: inline-block;
+  margin-left: 1%;
+}
+.inline_select select {
+  border: 0;
+  border-bottom: 1px solid #000000;
+  border-radius: 0;
+  font-size: 0.8rem;
+  padding: 0;
+  background-color: #f9f9f9;
+  margin-left: 2%;
+}
+.page_size_section {
+  font-size: 0.8rem;
+  font-family: "Montserrat Bold", serif;
+  color: #afafaf;
+}
