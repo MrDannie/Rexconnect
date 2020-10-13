@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-merchant-transaction',
@@ -13,27 +13,36 @@ export class MerchantTransactionComponent implements OnInit {
   boolean;
 
   ngForArray: number[];
-  editAcquirerForm: any;
+  isUserCreating;
+
+  searchForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.showFilter = false;
     this.expression = false;
     this.isCSVLoading = false;
+    this.isUserCreating = false;
+
     this.initializeForm();
-    this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  }
+  ngOnInit() {
+    this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11];
   }
 
-  ngOnInit() {}
+  // PASTED
 
   initializeForm() {
-    this.editAcquirerForm = this.formBuilder.group({
-      merchantId: ['', Validators.compose([Validators.required])],
-      terminalId: ['', Validators.compose([Validators.required])],
+    this.searchForm = this.formBuilder.group({
+      transactionID: '',
+      terminalId: '',
+      rrn: '',
+      transactionType: '',
+      startDate: '',
+      endDate: '',
     });
   }
 
-  reset() {}
   generateCSV() {}
 
-  createUser(value) {}
+  reset() {}
 }

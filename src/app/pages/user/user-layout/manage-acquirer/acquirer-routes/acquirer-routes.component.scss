@@ -1,0 +1,31 @@
+@import "~src/app/pages/shared/styles/custom-table";
+
+.active {
+  color: green;
+}
+
+.Inactive {
+  color: #e26111;
+}
+
+.footer * {
+  display: inline-block;
+}
+caption {
+  text-align: right;
+}
+
+.header__search {
+  margin-bottom: 8rem;
+}
+
+.main-header {
+  margin-bottom: 2rem;
+}
+
+.header {
+  margin-top: 2.5rem;
+  padding-bottom: 1.9rem;
+  border-bottom: 2px solid #ecebeb;
+  margin-bottom: 1rem;
+}

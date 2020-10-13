@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { StationsDetailsComponent } from './stations-details/stations-details.component';
+import { StationsComponent } from './stations/stations.component';
 
 const routes: Routes = [];
 
@@ -9,11 +10,10 @@ const routes: Routes = [];
     RouterModule.forChild([
       {
         path: '',
-        redirectTo: 'station-details',
-        pathMatch: 'full',
+        component: StationsComponent,
       },
       {
-        path: 'station-details',
+        path: ':id/station-details',
         component: StationsDetailsComponent,
       },
     ]),

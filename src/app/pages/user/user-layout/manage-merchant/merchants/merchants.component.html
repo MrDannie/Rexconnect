@@ -1,22 +1,36 @@
 <div class="header">
+  <!-- <div class="top-header my-5">
+  <div class="header">
+    <h2 class="header__text">Terminals</h2>
+    <span class="sub-head mb-3"
+      >View details of every terminal on the platform</span
+    >
+  </div>
+  <div class="action-btns">
+    <button class="terminal-upload-btn">Bulk Terminal Upload</button>
+    <button class="terminal-add-btn">Add Terminal</button>
+  </div>
+</div> -->
+
+  <!-- Here is the first here  -->
   <div class="main-header">
     <div class="header__text animated fadeIn">
       <div>
-        <span>Stations</span>
+        <span>Merchants</span>
       </div>
 
       <div class="button_header_section">
         <button
           class="btn action_button"
           data-toggle="modal"
-          data-target="#createAcquirer"
+          data-target="#createMerchant"
         >
           <i class="fa fa-plus animated slideIn"></i>
-          Add Station
+          Add Merchant
         </button>
       </div>
     </div>
-    <span>View Details of every acquirer on this platform</span>
+    <span>View Details of every merchant on this platform</span>
   </div>
 
   <!-- FILTER BY CODE  -->
@@ -40,48 +54,76 @@
       class="card search-dropdown"
       *ngIf="showFilter"
       id="filter__dropdown"
-      style="height: 200px"
+      style="height: 250px"
     >
       <form [formGroup]="searchForm">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="stationName" class="search_label">Station Name</label>
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="stationName"
-                id="stationName"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="stationAcquirer" class="search_label"
-                >Station Acquirer</label
+              <label for="transactionType" class="search_label"
+                >Transaction Type</label
               >
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="stationAcquirer"
-                id="stationAcquirer"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="stationId" class="search_label">Station ID</label>
               <select
                 type="text"
                 class="form-control search_input"
-                formControlName="stationId"
-                id="stationId"
+                formControlName="transactionType"
+                id="transactionType"
+              >
+                <option value="">select</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="terminalId" class="search_label">Terminal ID</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="terminalId"
+                id="terminalId"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="rrn" class="search_label">RRN</label>
+              <select
+                type="text"
+                class="form-control search_input"
+                formControlName="rrn"
+                id="rrn"
               >
                 <option value="">Select role</option>
                 <option></option>
               </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="approvalDate" class="search_label"
+                >Approval Date</label
+              >
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="approvalDate"
+                id="approvalDate"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="lastUpdateDate" class="search_label"
+                >Last Update Date</label
+              >
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="lastUpdateDate"
+                id="lastUpdateDate"
+              />
             </div>
           </div>
         </div>
@@ -118,29 +160,20 @@
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Station Name</th>
-          <th scope="col">Station Acquirer</th>
-          <th scope="col">Station ID</th>
-          <th scope="col">Status</th>
-          <th scope="col">Actions</th>
+          <th scope="col">Merchant Name</th>
+          <th scope="col">Merchant ID</th>
+          <th scope="col">Merchant Category Code</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of ngForArray">
-          <td>Sample Acquirer</td>
-          <td>EBN574000064269</td>
-          <td>0234</td>
-
-          <td class="active">Active</td>
-          <td>
-            <button
-              [routerLink]="['../manage-station', 2]"
-              class="btn table_button"
-            >
-              Open
-            </button>
-          </td>
+          <td>2033ESGQ</td>
+          <td>34567hjgtyuyhjj</td>
+          <td>60</td>
+          <td><button [routerLink]="2" class="btn table_button">Open</button></td>
         </tr>
+        
       </tbody>
     </table>
   </div>
@@ -205,10 +238,10 @@
   </div>
 </div>
 
-<!-- ADD STATION  -->
+<!-- CREATE MERCHANT  -->
 <div
   class="modal animated zoomIn"
-  id="createAcquirer"
+  id="createMerchant"
   tabindex="-1"
   role="dialog"
   aria-labelledby="createUserLabel"
@@ -217,8 +250,8 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <h5 class="modal-title" id="createUserLabel">Add Station</h5>
-        <form [formGroup]="createStationForm">
+        <h5 class="modal-title" id="createUserLabel">Add Merchant</h5>
+        <form [formGroup]="createMerchantForm">
           <!-- RELEVANT CODE HERE  -->
           <div class="form-row">
             <div class="form-group col-md-12">
@@ -226,27 +259,15 @@
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="merchantId"
+                    id="merchantName"
                     type="text"
                     placeholder=" "
                     formControlName="merchantId"
                   />
-                  <label for="merchantId">Station Name</label>
+                  <label for="merchantName">Merchant Name</label>
                 </span>
-                <div
-                  *ngIf="
-                    createStationForm.get('merchantId').errors &&
-                    (createStationForm.get('merchantId').dirty ||
-                      createStationForm.get('merchantId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createStationForm.get('merchantId').hasError('invalid')
-                    "
-                  >
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
                     Here is the validation message
                     <br />
                   </span>
@@ -264,24 +285,12 @@
                     id="terminalId"
                     type="text"
                     placeholder=" "
-                    formControlName="terminalId"
+                    formControlName="merchantId"
                   />
-                  <label for="terminalId">Station Acquirer</label>
+                  <label for="merchantId">Merchant ID</label>
                 </span>
-                <div
-                  *ngIf="
-                    createStationForm.get('terminalId').errors &&
-                    (createStationForm.get('terminalId').dirty ||
-                      createStationForm.get('terminalId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createStationForm.get('terminalId').hasError('invalid')
-                    "
-                  >
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
                     Here is the validation message
                     <br />
                   </span>
@@ -289,33 +298,42 @@
               </div>
             </div>
           </div>
+
           <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-4">
               <div class="">
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="merchantId"
+                    id="terminalId"
                     type="text"
                     placeholder=" "
                     formControlName="merchantId"
                   />
-                  <label for="merchantId">Station ID</label>
+                  <label for="merchantId">Dialing Code</label>
                 </span>
-                <div
-                  *ngIf="
-                    createStationForm.get('merchantId').errors &&
-                    (createStationForm.get('merchantId').dirty ||
-                      createStationForm.get('merchantId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createStationForm.get('merchantId').hasError('invalid')
-                    "
-                  >
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-8">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">Phone Number</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
                     Here is the validation message
                     <br />
                   </span>
@@ -323,33 +341,22 @@
               </div>
             </div>
           </div>
+
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="merchantId"
+                    id="merchantName"
                     type="text"
                     placeholder=" "
                     formControlName="merchantId"
                   />
-                  <label for="merchantId">Station IP Address</label>
+                  <label for="merchantName">Merchant Address</label>
                 </span>
-                <div
-                  *ngIf="
-                    createStationForm.get('merchantId').errors &&
-                    (createStationForm.get('merchantId').dirty ||
-                      createStationForm.get('merchantId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createStationForm.get('merchantId').hasError('invalid')
-                    "
-                  >
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
                     Here is the validation message
                     <br />
                   </span>
@@ -357,33 +364,71 @@
               </div>
             </div>
           </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <select
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  >
+                    <option value="Select option"></option>
+                  </select>
+                  <label for="merchantId">Merchant Type</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <select
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  >
+                    <option value="select option"></option>
+                  </select>
+                  <label for="merchantId">Merchant Category Code</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
+                    Here is the validation message
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input
+                  <select
                     class="form-control"
-                    id="merchantId"
+                    id="merchantName"
                     type="text"
                     placeholder=" "
                     formControlName="merchantId"
-                  />
-                  <label for="merchantId">Station Port Number</label>
-                </span>
-                <div
-                  *ngIf="
-                    createStationForm.get('merchantId').errors &&
-                    (createStationForm.get('merchantId').dirty ||
-                      createStationForm.get('merchantId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createStationForm.get('merchantId').hasError('invalid')
-                    "
                   >
+                    <option value="Select option"></option>
+                  </select>
+                  <label for="merchantName">Acquirer</label>
+                </span>
+                <div *ngIf="expression" class="validation-message">
+                  <span class="validation-message">
                     Here is the validation message
                     <br />
                   </span>
@@ -397,23 +442,22 @@
             <div
               class="cancel_button"
               data-dismiss="modal"
-              (click)="createStationForm.reset()"
+              (click)="createMerchantForm.reset()"
             >
               Cancel
             </div>
             <button
               class="btn action_button"
-              (click)="createUser(createStationForm.value)"
-              [disabled]="!createStationForm.valid"
+              (click)="createUser(createMerchantForm.value)"
             >
               <i class="fa fa-plus animated slideIn"></i>
-              Add Station
+              Add Merchant
             </button>
 
             <div
               class="spinner-border spinner-border-sm ml-3"
+              *ngIf="expression"
               role="status"
-              *ngIf="isUserCreating"
             >
               <span class="sr-only">Loading...</span>
             </div>

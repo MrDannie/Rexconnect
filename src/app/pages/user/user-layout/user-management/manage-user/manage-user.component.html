@@ -145,18 +145,18 @@
         <tr>
           <th scope="col">User Name</th>
           <th scope="col">Email</th>
-          <th scope="col">Phone Number</th>
+          <!-- <th scope="col">Phone Number</th> -->
           <th scope="col">Status</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of allUsers">
-          <!-- <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td> -->
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
           <!-- <td>{{user.phoneNumber}}</td> -->
 
-          <!-- <td
+          <td
             *ngIf="user.enabled === true"
             style="color: #22b422"
             class="active"
@@ -177,24 +177,6 @@
               data-toggle="modal"
               data-target="#editUser"
               (click)="initializeEditForm(user.id)"
-            >
-              Edit</button
-            ><button class="btn table_button delete">Delete</button>
-          </td>
-        </tr> -->
-        </tr>
-
-        <tr *ngFor="let item of ngForArray">
-          <td>Tomison02</td>
-          <td>Ikenna30@gmail.com</td>
-          <td>08167543567</td>
-          <td style="color: #22b422" class="active">Active</td>
-          <td>
-            <button
-              class="btn table_button"
-              data-toggle="modal"
-              data-target="#editUser"
-              (click)="initializeEditForm()"
             >
               Edit</button
             ><button class="btn table_button delete">Delete</button>

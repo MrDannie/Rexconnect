@@ -6,12 +6,14 @@ import { MerchantDetailsComponent } from './merchant-details/merchant-details.co
 import { MerchantTransactionComponent } from './merchant-transaction/merchant-transaction.component';
 import { ManageMerchantComponent } from './manage-merchant/manage-merchant.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MerchantsComponent } from './merchants/merchants.component';
 
 @NgModule({
   declarations: [
     MerchantDetailsComponent,
     MerchantTransactionComponent,
     ManageMerchantComponent,
+    MerchantsComponent
   ],
   imports: [
     CommonModule,

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ManageMerchantComponent } from './manage-merchant/manage-merchant.component';
 import { MerchantDetailsComponent } from './merchant-details/merchant-details.component';
 import { MerchantTransactionComponent } from './merchant-transaction/merchant-transaction.component';
+import { MerchantsComponent } from './merchants/merchants.component';
 
 const routes: Routes = [];
 
@@ -11,6 +12,10 @@ const routes: Routes = [];
     RouterModule.forChild([
       {
         path: '',
+        component: MerchantsComponent
+      },
+      {
+        path: ':id',
         component: ManageMerchantComponent,
         children: [
           {

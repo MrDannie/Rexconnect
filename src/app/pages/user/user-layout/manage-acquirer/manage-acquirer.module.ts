@@ -7,6 +7,8 @@ import { AcquirerDetailsComponent } from './acquirer-details/acquirer-details.co
 import { AcquirerRoutesComponent } from './acquirer-routes/acquirer-routes.component';
 import { AcquirerFeeSharingComponent } from './acquirer-fee-sharing/acquirer-fee-sharing.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AcquirerComponent } from './acquirer/acquirer.component';
+import { AcquirerRouteDetailsComponent } from './acquirer-route-details/acquirer-route-details.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AcquirerDetailsComponent,
     AcquirerRoutesComponent,
     AcquirerFeeSharingComponent,
+    AcquirerComponent,
+    AcquirerRouteDetailsComponent
   ],
   imports: [
     CommonModule,
