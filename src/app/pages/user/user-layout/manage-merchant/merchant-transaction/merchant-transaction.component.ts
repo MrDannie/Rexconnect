@@ -7,12 +7,13 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./merchant-transaction.component.scss'],
 })
 export class MerchantTransactionComponent implements OnInit {
-  ngForArray: number[];
-  isUserCreating;
   showFilter: boolean;
   expression: boolean;
   isCSVLoading;
   boolean;
+
+  ngForArray: number[];
+  isUserCreating;
 
   searchForm: FormGroup;
 
