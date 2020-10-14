@@ -86,7 +86,8 @@ export class Config {
   public deleteBillPaymentKeys: string;
   public checkLiveStatus: string;
   public getStatisticsLink: string;
-  getTerminalStatLink: string;
+  public getTerminalStatLink: string;
+  public allTerminals: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -175,5 +176,8 @@ export class Config {
     this.bpaPaymentItemAttribute = '/paymentItemAttributes';
     this.checkLiveStatus = '/business/service/toggle';
     this.bpaProviderSettlement = '/billproviders';
+
+    // terminals
+    this.allTerminals = '/v1/terminals';
   }
 }

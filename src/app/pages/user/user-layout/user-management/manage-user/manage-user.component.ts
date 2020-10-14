@@ -49,6 +49,7 @@ export class ManageUserComponent implements OnInit {
   ) {}
   getAllUsers() {
     this.isLoading = true;
+    this.isLoaded = false;
     this.userManagementService
       .getAllUsers(this.pageIndex, this.pageSize)
       .subscribe(

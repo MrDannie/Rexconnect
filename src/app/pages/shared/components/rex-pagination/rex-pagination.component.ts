@@ -79,7 +79,8 @@ export class RexPaginationComponent implements OnInit {
 
   // this method initializes the pager object to display the pages using the passed in  totalElements, the current page and page size.
   initPages() {
-    this.pager = this.paginationService.getPager(this.totalElements, this.currentPage, this.pageSize);
+    this.pager = this.paginationService.getPager(this.totalElements, this.pageIndex + 1, this.pageSize);
+    console.log(this.pager);
     this.pagedItems = this.data;
   }
 
@@ -97,6 +98,7 @@ export class RexPaginationComponent implements OnInit {
     this.initPages();
 
     this.paginationService.changePagerState.subscribe((state: boolean) => {
+      console.log(state + ' landed.')
       if (state) {
         this.initPages();
       } else {

@@ -1,3 +1,5 @@
+import { SharedModule } from './../../../shared/modules/shared.module';
+// tslint:disable
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -20,6 +22,7 @@ import { TerminalsComponent } from './terminals/terminals.component';
     ManageTerminalRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule
   ],
 })
 export class ManageTerminalModule {}
