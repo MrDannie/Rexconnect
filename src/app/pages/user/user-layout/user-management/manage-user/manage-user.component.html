@@ -191,11 +191,11 @@
 <app-rex-pagination
   [data]="allUsers"
   [totalElements]="dataCount"
-  (previousPageSelected)="previousPage($event)"
-  (pageSelected)="getPage($event)"
-  (pageCountSelected)="setPageSize($event)"
-  (nextPageSelected)="nextPage($event)"
+  (refreshData)="onRefreshData($event)"
+  (pageCountSelected)="requestPageSize($event)"
+  *ngIf="isLoaded"
 ></app-rex-pagination>
+
 
 <!-- ADD USER MODAL  -->
 <div

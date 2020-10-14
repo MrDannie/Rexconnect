@@ -25,7 +25,7 @@
       <li
         class="page-item"
         *ngIf="pager?.startPage !== pager?.currentPage"
-        (click)="previousPageSelected.emit()"
+        (click)="previousPage()"
       >
         <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
       </li>
@@ -34,7 +34,7 @@
         aria-current="page"
         *ngFor="let page of pager?.pages"
         [ngClass]="{ active: pager?.currentPage === page }"
-        (click)="onPageSelected(page)"
+        (click)="getPage(page)"
       >
         <a class="page-link">
           {{ page }} <span class="sr-only">(current)</span></a
@@ -42,7 +42,7 @@
       </li>
       <li
         class="page-item"
-        (click)="onNextPageSelected()"
+        (click)="nextPage()"
         *ngIf="pager?.endPage !== pager?.currentPage"
       >
         <a class="page-link">Next</a>

@@ -1,5 +1,5 @@
 // tslint:disable
-import { PaginationService } from 'src/app/core/pagination.service';
+import { PaginationService } from './../../../../core/pagination.service';
 import { FormBuilder } from '@angular/forms';
 
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
@@ -18,6 +18,7 @@ export class RexPaginationComponent implements OnInit {
   @Output() nextPageSelected = new EventEmitter<number>();
   @Output() pageSelected = new EventEmitter<number>();
   @Output() pageCountSelected = new EventEmitter<number>();
+  @Output() refreshData = new EventEmitter<{pageSize: number, pageIndex: number}>();
 
   // download events
   @Output() onDownloadAsCSV = new EventEmitter<any>();
@@ -28,7 +29,7 @@ export class RexPaginationComponent implements OnInit {
   pageIndex: number;
   pageSize: number;
   currentPage: number;
-  pages: any[];
+  pages: any[] = [];
   isLoading: boolean;
   pager: any;
   pagedItems: any[];
@@ -47,25 +48,45 @@ export class RexPaginationComponent implements OnInit {
     })
   }
 
+  // this method gets called when a new page size is selected, it in turn emits a new page size and current page index value to the parent component
   onPageSizeChanged(newSize: number) {
-    this.pageCountSelected.emit(newSize);
+    this.pageSize = newSize;
+    this.refreshData.emit({ pageIndex: this.pageIndex, pageSize: this.pageSize })
   }
 
-  onPageSelected(page: number) {
-    this.pageSelected.emit(page);
+  // this method reduces the current page and pageIndex, and emits new data based on the new values.
+  previousPage() {
+    this.pageIndex--;
+    this.currentPage--;
+    this.refreshData.emit({ pageIndex: this.pageIndex, pageSize: this.pageSize })
   }
 
-  onPreviousPageSelected() {
-    this.previousPageSelected.emit(this.pager.currentPage);
+  // this method calculates the values for the page index and the current page and emits the new values.
+  getPage(page) {
+    this.pageIndex = page - 1;
+    this.currentPage = page;
+
+    this.refreshData.emit({ pageIndex: this.pageIndex, pageSize: this.pageSize })
   }
 
-  onNextPageSelected() {
-    this.nextPageSelected.emit(this.pager.currentPage);
+  // this method increases the current page and pageIndex, and emits new data based on the new values.
+  nextPage() {
+    this.pageIndex++;
+    this.currentPage++;
+
+    this.refreshData.emit({ pageIndex: this.pageIndex, pageSize: this.pageSize })
   }
 
+  // this method initializes the pager object to display the pages using the passed in  totalElements, the current page and page size.
   initPages() {
-    this.pager = this.paginationService.getPager(this.totalElements, this.pageIndex, this.pageSize);
+    this.pager = this.paginationService.getPager(this.totalElements, this.currentPage, this.pageSize);
     this.pagedItems = this.data;
+  }
+
+  // this method gets called whenever an error occurrs, it sets the pager to null, and also sets the total elements to 0
+  errorOccurred() {
+    this.pager = null;
+    this.totalElements = 0;
   }
 
   ngOnInit() {
@@ -74,6 +95,15 @@ export class RexPaginationComponent implements OnInit {
     this.pageIndex = 0;
     this.currentPage = 1;
     this.initPages();
+
+    this.paginationService.changePagerState.subscribe((state: boolean) => {
+      if (state) {
+        this.initPages();
+      } else {
+        this.errorOccurred();
+      }
+    })
+
   }
 
 }

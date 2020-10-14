@@ -1,3 +1,4 @@
+import { PaginationService } from 'src/app/core/pagination.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RexPaginationComponent } from './../components/rex-pagination/rex-pagination.component';
 import { CommonModule } from '@angular/common';
@@ -13,6 +14,6 @@ import { TopNavigationComponent } from '../components/top-navigation/top-navigat
   declarations: [TopNavigationComponent, SideNavigationComponent, RexPaginationComponent],
   exports: [SideNavigationComponent, TopNavigationComponent, RexPaginationComponent],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
-  providers: [Config, AlertService],
+  providers: [Config, AlertService, PaginationService],
 })
 export class SharedModule {}
