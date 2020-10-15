@@ -30,7 +30,7 @@
         <button
           class="btn action_button"
           data-toggle="modal"
-          data-target="#createUser"
+          data-target="#createTerminal"
         >
           <i class="fa fa-plus animated slideIn"></i>
           Add Terminal
@@ -46,16 +46,13 @@
       <img
         src="../../../../../assets/icons/Filter-Icon.svg"
         alt="search"
-        class="img-fluid"
-      />
+        class="img-fluid"/>
       <span
         class="filter_text"
         id="dropdownMenuButton"
         onselectstart="return false"
         unselectable="on"
-      >
-        Filter Table By
-      </span>
+      >Filter Table By</span>
     </span>
     <div
       class="card search-dropdown"
@@ -63,23 +60,8 @@
       id="filter__dropdown"
       style="height: 200px"
     >
-      <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" (ngSubmit)="searchBy()" >
         <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="merchantId" class="search_label">Merchant ID</label>
-
-              <select
-                type="text"
-                class="form-control search_input"
-                formControlName="merchantId"
-                id="merchantId"
-              >
-                <option value="now"></option>
-              </select>
-            </div>
-          </div>
-
           <div class="col-md-4">
             <div class="form-group">
               <label for="terminalId" class="search_label">Terminal ID</label>
@@ -87,37 +69,33 @@
                 type="text"
                 class="form-control search_input"
                 formControlName="terminalId"
-                id="terminalId"
-              />
+                id="terminalId" />
             </div>
           </div>
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white">Close</button>
-
-          <button class="btn button-pink">
-            Apply Filters
-
-            <div class="spinner-border spinner-border-sm ml-3" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
-          </button>
+          <button
+            type="button"
+            class="btn button-white"
+            (click)="showFilter = false"
+          >Close</button>
+          <button
+            type="submit"
+            class="btn button-pink"
+          >Apply Filters</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- Reset button -->
-  <button class="btn btn-secondary reset-filter" (click)="reset()">
-    <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
+  <button class="btn btn-secondary reset-filter" (click)="clearFilters()">
     <i class="fa fa-refresh"></i>
     Refresh
   </button>
 
   <!-- FILTER BY CODE ENDS HERE  -->
-
-  <!-- New Header Ends HEre  -->
 </div>
 
 <div class="table-container custom-table animated fadeIn">
@@ -132,12 +110,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of ngForArray">
-          <td>2033ESGQ</td>
-          <td>34567hjgtyuyhjj</td>
-          <td>60</td>
+        <tr *ngFor="let terminal of allTerminals">
+          <td>{{ terminal.terminalId }}</td>
+          <td>{{ terminal.merchantId }}</td>
+          <td>{{ terminal.transactionTimeout }}</td>
           <td>
-            <button [routerLink]="2" class="btn table_button">Open</button>
+            <button
+              [routerLink]="[terminal.terminalId]"
+              class="btn table_button"
+            >Open</button>
           </td>
         </tr>
       </tbody>
@@ -145,174 +126,134 @@
   </div>
 </div>
 
-<!-- PAGE SIZE  -->
-<div class="text-right mt-4 page_size_section animated fadeIn">
-  <span>Number of Items:&nbsp;&nbsp;</span>
-  <span> Num Here </span>
-
-  <span class="ml-3">Page size:</span>
-  <form class="inline_select">
-    <select class="form-control form-control-sm" #setPageSizeId>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-      <option value="40">40</option>
-      <option value="50">50</option>
-    </select>
-  </form>
-</div>
-
-<!-- PAGINATION  -->
-<div class="paginate mt-2 animated fadeIn">
-  <nav aria-label="...">
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">
-          2
-          <span class="sr-only">(current)</span>
-        </span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
-
-  <!-- EXPORT BUTTON  -->
-
-  <div class="export-button animated fadeIn">
-    <button
-      type="button"
-      class="btn btn-light button-plain-icon"
-      (click)="generateCSV()"
-    >
-      <i class="fa fa-download"></i>
-      Download As CSV
-    </button>
-    <div
-      class="spinner-border spinner-border-sm ml-3"
-      role="status"
-      *ngIf="isCSVLoading"
-    >
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
-</div>
+<app-rex-pagination
+  [data]="allTerminals"
+  [totalElements]="dataCount"
+  (pageCountSelected)="requestPageSize($event)"
+  (refreshData)="onRefreshData($event)"
+  *ngIf="isLoaded"
+></app-rex-pagination>
 
 <!-- //Add Terminal  -->
 
 <div
-  class="modal animated zoomIn"
-  id="createUser"
+  class="modal"
+  id="createTerminal"
   tabindex="-1"
   role="dialog"
-  aria-labelledby="createUserLabel"
+  aria-labelledby="createTerminalLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <h5 class="modal-title" id="createUserLabel">Invite New User</h5>
-        <form [formGroup]="createTerminalForm">
+        <h5 class="modal-title" id="createTerminalLabel">Add Terminal</h5>
+        <form [formGroup]="createTerminalForm" (ngSubmit)="addTerminal()" >
           <!-- RELEVANT CODE HERE  -->
-          <div class="form-row">
-            <div class="form-group col-md-12">
+          <div class="row">
+            <div class="col-md-12 no-padding">
               <div class="form-group">
                 <span class="has-float-label">
-                  <input
+                  <select
+                    id="merchantName"
                     class="form-control"
-                    id="merchantId"
                     type="text"
                     placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantId">Merchant ID</label>
-                </span>
-                <div
-                  *ngIf="
-                    createTerminalForm.get('merchantId').errors &&
-                    (createTerminalForm.get('merchantId').dirty ||
-                      createTerminalForm.get('merchantId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createTerminalForm.get('merchantId').hasError('invalid')
-                    "
+                    formControlName="merchantName"
                   >
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
+                    <option [value]="merchant.merchantId" *ngFor="let merchant of allMerchants"  >{{ merchant.merchantName }}</option>
+                  </select>
+                  <label for="merchantName">Merchant Name</label>
+                </span>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="createTerminalForm.get('merchantName').errors && createTerminalForm.get('merchantName').touched"
+              >Merchant Name is required.</span>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="col-md-12 no-padding">
               <div class="form-group">
                 <span class="has-float-label">
                   <input
-                    class="form-control"
                     id="terminalId"
                     type="text"
+                    maxlength="8"
+                    class="form-control"
                     placeholder=" "
                     formControlName="terminalId"
                   />
                   <label for="terminalId">Terminal ID</label>
                 </span>
-                <div
-                  *ngIf="
-                    createTerminalForm.get('terminalId').errors &&
-                    (createTerminalForm.get('terminalId').dirty ||
-                      createTerminalForm.get('terminalId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createTerminalForm.get('terminalId').hasError('invalid')
-                    "
-                  >
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="createTerminalForm.get('terminalId').errors && createTerminalForm.get('terminalId').touched"
+              >Terminal ID is required.</span>
             </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="transactionTimeOut"
+                    type="number"
+                    class="form-control no-arrows"
+                    placeholder=" "
+                    formControlName="transactionTimeOut"
+                  />
+                  <label for="transactionTimeOut">Transaction Timeout (In Seconds)</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="createTerminalForm.get('transactionTimeOut').errors && createTerminalForm.get('transactionTimeOut').touched"
+              >Transaction Timeout is required.</span>
+            </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="callHomeTime"
+                    type="number"
+                    class="form-control no-arrows"
+                    placeholder=" "
+                    formControlName="callHomeTime"
+                  />
+                  <label for="callHomeTime">Call Home Time (In Seconds)</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="createTerminalForm.get('callHomeTime').errors && createTerminalForm.get('callHomeTime').touched"
+              >Call Home Time is required.</span>
+            </div>
+
           </div>
-          <!-- RELEVANT CODE HERE  -->
 
           <div class="form_actions">
-            <div
+            <button
               class="cancel_button"
+              id="cancel_button_add_terminal"
+              type="button"
               data-dismiss="modal"
               (click)="createTerminalForm.reset()"
             >
-              Cancel
-            </div>
+            Cancel
+            </button>
             <button
-              class="btn action_button"
-              *ngIf="!isUserCreating"
-              (click)="createUser(createTerminalForm.value)"
-              [disabled]="!createTerminalForm.valid"
+              type="submit"
+              [disabled]="createTerminalForm.invalid"
+              class="btn button-primary"
             >
-              <i class="fa fa-plus animated slideIn"></i>
               Add Terminal
             </button>
 
             <div
               class="spinner-border spinner-border-sm ml-3"
               role="status"
-              *ngIf="isUserCreating"
+              *ngIf="isAddingTerminal"
             >
               <span class="sr-only">Loading...</span>
             </div>
@@ -330,81 +271,50 @@
   id="bulkTerminalUpload"
   tabindex="-1"
   role="dialog"
-  aria-labelledby="createUserLabel"
+  aria-labelledby="bulkUploadLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <h5 class="modal-title" id="createUserLabel">Upload Terminal</h5>
+        <h5 class="modal-title" id="bulkUploadLabel">Upload Terminal</h5>
         <p>Upload the NIBSS Terminal/merchant registeration file</p>
-        <form [formGroup]="createTerminalForm">
-          <!-- RELEVANT CODE HERE  -->
+        <section>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="form-group">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="terminalId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="terminalId"
-                  />
-                  <label for="terminalId">Terminal ID</label>
-                </span>
-                <div
-                  *ngIf="
-                    createTerminalForm.get('terminalId').errors &&
-                    (createTerminalForm.get('terminalId').dirty ||
-                      createTerminalForm.get('terminalId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createTerminalForm.get('terminalId').hasError('invalid')
-                    "
-                  >
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-              <span class="download-template">Download Template</span>
-            </div>
+          <div class="file-input">
+            <span>{{ selectedFile ? ('File Selected: ' + selectedFile.name) : 'Browse Excel/CSV file...' }}</span>
+            <button (click)="uploadFile()" >Browse</button>
           </div>
-          <!-- RELEVANT CODE HERE  -->
+
+          <a download href="./../../../../../../assets/files/bulk-terminal-upload-sample.csv" class="download-template">Download Template</a>
 
           <div class="form_actions">
             <div
               class="cancel_button"
+              id="cancel_button_upload_file"
+              (click)="selectedFile = null"
               data-dismiss="modal"
-              (click)="createTerminalForm.reset()"
             >
               Cancel
             </div>
             <button
-              class="btn action_button"
+              class="btn button-primary"
               *ngIf="!isUserCreating"
-              (click)="createUser(createTerminalForm.value)"
-              [disabled]="!createTerminalForm.valid"
+              (click)="uploadTerminals()"
+              [disabled]="!selectedFile"
             >
-              <i class="fa fa-plus animated slideIn"></i>
               Upload Terminals
             </button>
 
             <div
               class="spinner-border spinner-border-sm ml-3"
               role="status"
-              *ngIf="isUserCreating"
+              *ngIf="isUploading"
             >
               <span class="sr-only">Loading...</span>
             </div>
           </div>
-        </form>
+        </section>
       </div>
     </div>
   </div>

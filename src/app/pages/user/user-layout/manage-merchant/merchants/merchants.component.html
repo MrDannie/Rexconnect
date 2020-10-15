@@ -173,70 +173,13 @@
           <td>60</td>
           <td><button [routerLink]="2" class="btn table_button">Open</button></td>
         </tr>
-        
+
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- PAGE SIZE  -->
-<div class="text-right mt-4 page_size_section animated fadeIn">
-  <span>Number of Items:&nbsp;&nbsp;</span>
-  <span> Num Here </span>
-
-  <span class="ml-3">Page size:</span>
-  <form class="inline_select">
-    <select class="form-control form-control-sm" #setPageSizeId>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-      <option value="40">40</option>
-      <option value="50">50</option>
-    </select>
-  </form>
-</div>
-
-<!-- PAGINATION  -->
-<div class="paginate mt-2 animated fadeIn">
-  <nav aria-label="...">
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">
-          2
-          <span class="sr-only">(current)</span>
-        </span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
-
-  <!-- EXPORT BUTTON  -->
-
-  <div class="export-button animated fadeIn">
-    <button
-      type="button"
-      class="btn btn-light button-plain-icon"
-      (click)="generateCSV()"
-    >
-      <i class="fa fa-download"></i>
-      Download As CSV
-    </button>
-    <div
-      class="spinner-border spinner-border-sm ml-3"
-      role="status"
-      *ngIf="isCSVLoading"
-    >
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
-</div>
+<app-rex-pagination></app-rex-pagination>
 
 <!-- CREATE MERCHANT  -->
 <div

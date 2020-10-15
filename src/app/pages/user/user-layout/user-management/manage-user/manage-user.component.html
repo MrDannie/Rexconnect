@@ -187,81 +187,15 @@
   </div>
 </div>
 
-<!-- PAGE SIZE  -->
-<div class="text-right mt-4 page_size_section animated fadeIn">
-  <span>Number of Items:&nbsp;&nbsp;</span>
-  <span>{{ dataCount }}</span>
+<!-- Pagination  -->
+<app-rex-pagination
+  [data]="allUsers"
+  [totalElements]="dataCount"
+  (refreshData)="onRefreshData($event)"
+  (pageCountSelected)="requestPageSize($event)"
+  *ngIf="isLoaded"
+></app-rex-pagination>
 
-  <span class="ml-3">Page size:</span>
-  <form [formGroup]="pageSizeForm" class="inline_select">
-    <select
-      class="form-control form-control-sm select-edit"
-      formControlName="pageSize"
-      (change)="setPageSize(pageSizeForm.value.pageSize)"
-      #setPageSizeId
-    >
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-      <option value="40">40</option>
-      <option value="50">50</option>
-    </select>
-  </form>
-</div>
-
-<!-- PAGINATION  -->
-<div class="paginate mt-2 animated fadeIn">
-  <nav aria-label="...">
-    <ul class="pagination" *ngIf="allUsers?.length > 0">
-      <li
-        class="page-item disabled"
-        (click)="previousPage(pager.currentPage)"
-        *ngIf="pager.startPage !== pager.currentPage"
-      >
-        <span class="page-link">Previous</span>
-      </li>
-      <li
-        class="page-item"
-        aria-current="page"
-        *ngFor="let page of pager.pages"
-        [ngClass]="{ active: pager.currentPage === page }"
-        (click)="getPage(page)"
-      >
-        <a class="page-link">
-          {{ page }} <span class="sr-only">(current)</span>
-        </a>
-      </li>
-
-      <li
-        class="page-item"
-        (click)="nextPage(pager.currentPage)"
-        *ngIf="pager.endPage !== pager.currentPage"
-      >
-        <a class="page-link">Next</a>
-      </li>
-    </ul>
-  </nav>
-
-  <!-- EXPORT BUTTON  -->
-
-  <div class="export-button animated fadeIn">
-    <button
-      type="button"
-      class="btn btn-light button-plain-icon"
-      (click)="generateCSV()"
-    >
-      <i class="fa fa-download"></i>
-      Download As CSV
-    </button>
-    <div
-      class="spinner-border spinner-border-sm ml-3"
-      role="status"
-      *ngIf="isCSVLoading"
-    >
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
-</div>
 
 <!-- ADD USER MODAL  -->
 <div
@@ -431,7 +365,7 @@
                     <!-- <option value=""></option> -->
                     <option
                       *ngFor="let role of listOfMerchantRoles"
-                      value="{{ role.id }}"
+                      value="{{ role?.name }}"
                     >
                       {{ role.name }}
                     </option>
@@ -655,7 +589,7 @@
                     <!-- <option value=""></option> -->
                     <option
                       *ngFor="let role of listOfMerchantRoles"
-                      value="{{ role.id }}"
+                      value="{{ role.name }}"
                     >
                       {{ role.name }}
                     </option>

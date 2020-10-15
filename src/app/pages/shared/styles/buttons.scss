@@ -1,0 +1,42 @@
+
+@import "./mixins";
+
+.button-primary {
+  background-color: #ffd1ce;
+  color: #950007;
+  padding: 0.6rem 1.5rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-weight: bold;
+  transition: all .4s;
+  font-size: 0.8125rem;
+
+  &:hover {
+    background-color: #950007;
+    color: #f0f0f0;
+    cursor: pointer;
+  }
+
+  @include disabled_input();
+
+}
+
+.button-white {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  color: #747474;
+  padding: 0.4rem 1.2rem;
+  font-family: "Montserrat Bold", serif;
+  font-weight: bold;
+  margin-top: -5px;
+  font-size: 0.7125rem;
+  transition: all ease-in-out 0.5s;
+  border-radius: 6px;
+  width: fit-content;
+  margin-top: 1rem;
+  cursor: pointer;
+  margin-left: 1rem;
+  border: 0px solid #cbcbcb;
+}

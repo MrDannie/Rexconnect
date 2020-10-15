@@ -1,10 +1,13 @@
+import { Subject } from 'rxjs';
+// tslint:disable
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class PaginationService {
-  constructor() {}
+
+  public changePagerState = new Subject<boolean>();
+
+  constructor() { }
 
   getPager(totalItems: number, currentPage: number, pageSize: number) {
     const totalPages = Math.ceil(totalItems / pageSize);
@@ -37,19 +40,12 @@ export class PaginationService {
     const endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
 
     const pages = Array.from(Array(endPage + 1 - startPage).keys()).map(
-      (i) => startPage + i
+      i => startPage + i
     );
-    // console.log('current', currentPage, 'start', startPage, 'totalPages', totalPages, 'endPage', endPage, 'pages', pages);
+
     return {
-      totalItems: totalItems,
-      currentPage: currentPage,
-      pageSize: pageSize,
-      totalPages: totalPages,
-      startPage: startPage,
-      endPage: endPage,
-      startIndex: startIndex,
-      endIndex: endIndex,
-      pages: pages,
+      totalItems, currentPage, pageSize, totalPages, startPage, endPage, startIndex, endIndex, pages
     };
   }
+
 }
