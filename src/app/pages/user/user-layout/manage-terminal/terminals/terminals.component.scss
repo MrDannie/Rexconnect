@@ -1,4 +1,7 @@
 @import "~src/app/pages/shared/styles/custom-table";
+@import "./../../../../shared/styles/floating-label";
+@import "./../../../../shared/styles/components";
+@import "./../../../../shared/styles/buttons";
 
 .top-header {
   display: flex;
@@ -109,4 +112,12 @@ caption {
   color: #c91c24;
   font-family: Montserrat, Bold;
   font-weight: bold;
+  display: block;
+  padding: 7.5px 0;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+  }
+
 }

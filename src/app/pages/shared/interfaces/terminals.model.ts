@@ -11,3 +11,10 @@ export interface ITerminal {
   transactionTimeout: string;
   terminalId: string;
 }
+
+export interface IAddTerminal {
+  merchantId: string;
+  terminalId: string;
+  transactionTimeout: number;
+  callHomeTime: number;
+}

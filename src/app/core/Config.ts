@@ -89,6 +89,10 @@ export class Config {
   public getTerminalStatLink: string;
   public allTerminals: string;
 
+  public getMerchantsList: string;
+  public addNewTerminal: string;
+  public uploadTerminals: string;
+
   constructor() {
     this.login = '/v1/auth/login';
     this.getStatisticsLink = '/v1/reports/getStatistics';
@@ -179,5 +183,10 @@ export class Config {
 
     // terminals
     this.allTerminals = '/v1/terminals';
+    this.uploadTerminals = '/v1/uploads/uploadTerminals';
+
+    // merchants
+    this.getMerchantsList = '/v1/merchants/getMerchantList';
+    this.addNewTerminal = '/v1/terminals';
   }
 }

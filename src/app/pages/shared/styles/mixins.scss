@@ -1,0 +1,14 @@
+@mixin disabled_input {
+
+  &[disabled] {
+
+    color: white;
+    background-color: gray;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+
+  }
+
+}

@@ -6,7 +6,7 @@ import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
-import { ITerminal } from '../interfaces/terminals.model';
+import { ITerminal, IAddTerminal } from '../interfaces/terminals.model';
 import { Observable } from 'rxjs';
 import { IWrapper } from '../interfaces/wrapper.model';
 
@@ -37,7 +37,7 @@ export class TerminalsService {
       header = header.append("Authorization", "Bearer " + this.bearerToken);
       return header;
     } else {
-      return;
+      return new HttpHeaders();
     }
   }
 
@@ -56,4 +56,24 @@ export class TerminalsService {
       params: terminalsParams
     });
   }
+
+  addNewTerminal(terminalDetails: IAddTerminal): Observable<any> {
+    const header = this.createAuthorizationHeader();
+    return this.httpClient
+      .post<IAddTerminal>(BASE_URL + this.config.addNewTerminal, terminalDetails, {
+        headers: header
+      });
+  }
+
+  uploadTerminals(formData) {
+    const header = this.createAuthorizationHeader();
+    header.append('Content-Type', 'multipart/form-data');
+    return this.httpClient
+      .post(BASE_URL + this.config.uploadTerminals, formData, {
+        headers: header,
+        reportProgress: true,
+        observe: "events",
+      });
+  }
+
 }
