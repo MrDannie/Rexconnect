@@ -76,4 +76,13 @@ export class TerminalsService {
       });
   }
 
+  getTerminal(id: string): Observable<ITerminal> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<ITerminal>(
+      BASE_URL + this.config.getSingleTerminal.replace('{terminalId}', id), {
+        headers
+      }
+    );
+  }
+
 }
