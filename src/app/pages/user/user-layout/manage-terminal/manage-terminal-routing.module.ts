@@ -1,3 +1,4 @@
+// tslint:disable
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ManageTerminalComponent } from './manage-terminal/manage-terminal.component';

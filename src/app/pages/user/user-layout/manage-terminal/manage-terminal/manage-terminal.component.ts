@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-manage-terminal',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageTerminalComponent implements OnInit {
 
-  constructor() { }
+  terminalId: string;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.route.params.subscribe((params: Params) => {
+      this.terminalId = params.id;
+    })
   }
 
 }
