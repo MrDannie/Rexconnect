@@ -93,6 +93,7 @@ export class Config {
   public addNewTerminal: string;
   public uploadTerminals: string;
   public getSingleTerminal: string;
+  public updateTerminal: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -186,6 +187,7 @@ export class Config {
     this.allTerminals = '/v1/terminals';
     this.uploadTerminals = '/v1/uploads/uploadTerminals';
     this.getSingleTerminal = '/v1/terminals/{terminalId}';
+    this.updateTerminal = '/v1/terminals/{terminalId}';
 
     // merchants
     this.getMerchantsList = '/v1/merchants/getMerchantList';

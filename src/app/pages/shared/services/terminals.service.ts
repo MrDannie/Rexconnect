@@ -76,6 +76,18 @@ export class TerminalsService {
       });
   }
 
+  /**
+   * Api to update Terminal
+   * @returns {Observable<ITerminals>
+   */
+  updateTerminal(terminalDetails: ITerminal, id): Observable<ITerminal> {
+    const header = this.createAuthorizationHeader();
+    return this.httpClient
+      .put<ITerminal>(BASE_URL + this.config.updateTerminal.replace('{terminalId}', id), terminalDetails, {
+        headers: header,
+      });
+  }
+
   getTerminal(id: string): Observable<ITerminal> {
     const headers = this.createAuthorizationHeader();
     return this.httpClient.get<ITerminal>(

@@ -75,125 +75,106 @@
     <div class="modal-content">
       <div class="modal-body">
         <h5 class="modal-title" id="updateTerminalLabel">Update Terminal</h5>
-        <form [formGroup]="createMerchantForm">
-          <!-- RELEVANT CODE HERE  -->
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantName">Merchant Name</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
+        <form [formGroup]="updateTerminalForm" (ngSubmit)="updateTerminalDetails()" >
+
+          <div class="col-md-12 no-padding">
+            <div class="form-group">
+              <span class="has-float-label">
+                <select
+                  id="merchantId"
+                  class="form-control"
+                  type="text"
+                  placeholder=" "
+                  formControlName="merchantId"
+                >
+                  <option [value]="merchant.merchantId" *ngFor="let merchant of allMerchants"  >{{ merchant.merchantName }}</option>
+                </select>
+                <label for="merchantId">Merchant Name</label>
+              </span>
             </div>
+            <span
+              class="validation-message"
+              *ngIf="updateTerminalForm.get('merchantId').errors && updateTerminalForm.get('merchantId').touched"
+            >Merchant Name is required.</span>
           </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
+          <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <input
-                    class="form-control"
                     id="terminalId"
                     type="text"
+                    disabled
+                    class="form-control"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="terminalId"
                   />
-                  <label for="merchantId">Merchant ID</label>
+                  <label for="terminalId">Terminal ID</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
+          <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <input
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
+                    id="transactionTimeout"
+                    type="number"
+                    class="form-control no-arrows"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="transactionTimeout"
                   />
-                  <label for="merchantName">Merchant Address</label>
+                  <label for="transactionTimeout">Transaction Timeout (In Seconds)</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="updateTerminalForm.get('transactionTimeout').errors && updateTerminalForm.get('transactionTimeout').touched"
+              >Transaction Timeout is required.</span>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
+          <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <input
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
+                    id="callHomeTime"
+                    type="number"
+                    class="form-control no-arrows"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="callHomeTime"
                   />
-                  <label for="merchantName">Merchant Name</label>
+                  <label for="callHomeTime">Call Home Time (In Seconds)</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="updateTerminalForm.get('callHomeTime').errors && updateTerminalForm.get('callHomeTime').touched"
+              >Call Home Time is required.</span>
             </div>
-          </div>
 
-          <div class="form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="exampleRadios"
-              id="exampleRadios1"
-              value="option1"
-              checked
-            />
-            <label class="form-check-label" for="exampleRadios1">
-              Activate Terminal
-            </label>
-          </div>
-          <div class="form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="exampleRadios"
-              id="exampleRadios2"
-              value="option2"
-            />
-            <label class="form-check-label" for="exampleRadios2">
-              Deactivate Terminal
-            </label>
-          </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="terminalState"
+                id="activateTerminal"
+                checked
+              />
+              <label class="form-check-label" for="activateTerminal">
+                Activate Terminal
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="terminalState"
+                id="deactivateTerminal"
+              />
+              <label class="form-check-label" for="deactivateTerminal">
+                Deactivate Terminal
+              </label>
+            </div>
 
           <!-- RELEVANT CODE HERE  -->
 
@@ -201,22 +182,22 @@
             <div
               class="cancel_button"
               data-dismiss="modal"
+              id="cancel_button_update_terminal"
               (click)="createMerchantForm.reset()"
             >
               Cancel
             </div>
             <button
-              class="btn action_button"
-              (click)="createUser(createMerchantForm.value)"
+              class="btn button-primary"
+              type="submit"
             >
-              <i class="fa fa-plus animated slideIn"></i>
-              Add Merchant
+              Update Terminal
             </button>
 
             <div
               class="spinner-border spinner-border-sm ml-3"
-              *ngIf="expression"
               role="status"
+              *ngIf="isUpdating"
             >
               <span class="sr-only">Loading...</span>
             </div>
