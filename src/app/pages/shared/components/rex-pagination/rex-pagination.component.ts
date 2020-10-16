@@ -51,11 +51,21 @@ export class RexPaginationComponent implements OnInit {
   // this method gets called when a new page size is selected, it in turn emits a new page size and current page index value to the parent component
   onPageSizeChanged(newSize: number) {
     this.pageSize = newSize;
+
+    if (this.totalElements == 0) {
+      return;
+    }
+
     this.refreshData.emit({ pageIndex: this.pageIndex, pageSize: this.pageSize })
   }
 
   // this method reduces the current page and pageIndex, and emits new data based on the new values.
   previousPage() {
+    console.log(this.totalElements);
+    if (this.totalElements == 0) {
+      return;
+    }
+
     this.pageIndex--;
     this.currentPage--;
     this.refreshData.emit({ pageIndex: this.pageIndex, pageSize: this.pageSize })
@@ -80,7 +90,6 @@ export class RexPaginationComponent implements OnInit {
   // this method initializes the pager object to display the pages using the passed in  totalElements, the current page and page size.
   initPages() {
     this.pager = this.paginationService.getPager(this.totalElements, this.pageIndex + 1, this.pageSize);
-    console.log(this.pager);
     this.pagedItems = this.data;
   }
 

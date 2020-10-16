@@ -244,6 +244,18 @@ th {
   position: relative;
 }
 
+// empty state text
+.empty-state {
+  min-width: 100%;
+  text-align: center;
+  color: #5d5d5d;
+  display: flex;
+  font-size: 0.9rem;
+  justify-content: center;
+  font-weight: 600;
+  font-family: "Roboto", serif;
+}
+
 .button-plain-icon:hover {
   background: #f0f0f0;
   //border: 1px solid #585858;

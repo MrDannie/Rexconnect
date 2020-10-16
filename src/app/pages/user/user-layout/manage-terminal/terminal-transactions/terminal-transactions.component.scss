@@ -112,3 +112,23 @@ caption {
   opacity: 1;
   margin-right: 0.5rem;
 }
+
+.status {
+
+  font-family: "Roboto", serif;
+  font-weight: bold;
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-size: .9rem;
+
+  &.approved {
+    color: #13A500;
+    background-color: #E2F5E0;
+  }
+
+  &.declined {
+    color: #816D00;
+    background-color: #FFF7C7;
+  }
+
+}

@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { ITerminal, IAddTerminal } from '../interfaces/terminals.model';
 import { Observable } from 'rxjs';
 import { IWrapper } from '../interfaces/wrapper.model';
+import { ITransaction } from '../interfaces/transactions.model';
 
 const BASE_URL = environment.BASE_URL;
 
@@ -95,6 +96,20 @@ export class TerminalsService {
         headers
       }
     );
+  }
+
+  getAllTerminalTransactions(terminalId: string, pageSize: number, pageIndex: number): Observable<IWrapper<ITransaction>> {
+    const header = this.createAuthorizationHeader();
+
+    const params = new HttpParams();
+    const terminalTransactionsParams = params.append('terminalId', terminalId)
+      .append('page', pageIndex.toString())
+      .append('size', pageSize.toString());
+
+    return this.httpClient.get<IWrapper<ITransaction>>(BASE_URL + this.config.getTransactions, {
+      headers: header,
+      params: terminalTransactionsParams
+    })
   }
 
 }
