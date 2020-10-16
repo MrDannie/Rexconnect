@@ -43,6 +43,10 @@ export class AuthService {
       .pipe(map((user) => user));
   }
 
+  logout(){
+    
+  }
+
   getClientDetails(): Observable<IUser> {
     return this.httpClient.get(`${BASE_URL}/v1/settings`).pipe(
       map((response: IUser) => {

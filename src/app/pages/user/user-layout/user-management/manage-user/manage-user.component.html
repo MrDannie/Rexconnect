@@ -179,7 +179,14 @@
               (click)="initializeEditForm(user.id)"
             >
               Edit</button
-            ><button class="btn table_button delete">Delete</button>
+            ><button
+              data-toggle="modal"
+              data-target="#deleteUser"
+              class="btn table_button delete"
+              (click)="initializeDeleteModal(user)"
+            >
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
@@ -710,6 +717,44 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE USED MODAL  -->
+<div
+  class="modal animated zoomIn"
+  id="deleteUser"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="deleteUserLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="deleteUserLabel">Delete User</h5>
+        <br />
+        <p>
+          You are about to delete user {{ userToBeDeleted?.username }}. Please
+          confirm this action to continue.
+        </p>
+        <br />
+        <div class="form_actions">
+          <div class="cancel_button" data-dismiss="modal">Cancel</div>
+          <button
+            (click)="deleteUser(userToBeDeleted.id)"
+            class="btn action_button"
+          >
+            <i class="fa fa-plus animated slideIn"></i>
+            Delete User
+          </button>
+
+          <div class="spinner-border spinner-border-sm ml-3" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

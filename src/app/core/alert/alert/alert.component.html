@@ -2,7 +2,6 @@
   <div
     *ngFor="let alert of alerts"
     class="{{ cssClass(alert) }} alert-dismissable animated fadeInRight "
-    id="alert{{ alert.id }}"
   >
     {{ alert.message }}
     <button

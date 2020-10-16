@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { error } from 'protractor';
+import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { AllRoles } from 'src/app/pages/shared/interfaces/AllRoles';
 import { AllUsers } from 'src/app/pages/shared/interfaces/AllUsers';
@@ -8,6 +9,8 @@ import { IRole } from 'src/app/pages/shared/interfaces/Role';
 import { IUser } from 'src/app/pages/shared/interfaces/User';
 // import { AllUsers } from 'src/app/pages/shared/interfaces/AllUsers';
 import { UserManagementService } from 'src/app/pages/shared/services/user-management.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-manage-user',
@@ -38,11 +41,13 @@ export class ManageUserComponent implements OnInit {
   createUserForm: FormGroup;
   userRoles: AllRoles;
   listOfMerchantRoles: IRole[];
+  userToBeDeleted: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private userManagementService: UserManagementService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    private alertService: AlertService
   ) {}
   getAllUsers() {
     this.isLoading = true;
@@ -135,13 +140,29 @@ export class ManageUserComponent implements OnInit {
 
   createUser(userDetails) {
     this.isLoading = true; //TODO:
+
     console.log(userDetails);
     this.userManagementService.createUser(userDetails).subscribe(
       (response: IUser) => {
+        this.alertService.success('Created Successfully', true);
+        $('#createUser').modal('hide');
         console.log('User Gotten IN component', response);
       },
       (error) => {
         console.log('Error Occured in Adding user', error);
+      }
+    );
+  }
+
+  deleteUser(userId) {
+    this.userManagementService.deleteUser(userId).subscribe(
+      (response: boolean) => {
+        this.alertService.success('Deleted Successfully', true);
+        $('#deleteUser').modal('hide');
+        console.log('response after delete', response);
+      },
+      (error) => {
+        console.log('Error Occured in Deleting user', error);
       }
     );
   }
@@ -160,6 +181,10 @@ export class ManageUserComponent implements OnInit {
         roleId,
       });
     });
+  }
+
+  initializeDeleteModal(user) {
+    this.userToBeDeleted = user;
   }
 
   editUser(updatedUser) {
