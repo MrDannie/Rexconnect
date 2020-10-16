@@ -51,8 +51,8 @@ export class MerchantsService {
   getAllMerchants(pageIndex: number, pageSize: number, merchantId?: string): Observable<IWrapper<IMerchant>> {
     const headers = this.createAuthorizationHeader();
     const params = new HttpParams();
-    const getMerchantsParams = params.append('pageIndex', pageIndex.toString())
-      .append('pageSize', pageSize.toString())
+    const getMerchantsParams = params.append('page', pageIndex.toString())
+      .append('size', pageSize.toString())
       .append('merchantId', merchantId || '');
 
     return this.http.get<IWrapper<IMerchant>>(
@@ -61,6 +61,23 @@ export class MerchantsService {
         params: getMerchantsParams
       }
     );
+  }
+
+  getAllCities(countryCode): Observable<any> {
+    const header = this.createAuthorizationHeader();
+    return this.http.get(
+      BASE_URL + this.config.getStates.replace('{countryCode}', countryCode), {
+        headers: header
+      }
+    )
+  }
+
+  addNewMerchant(merchantDetails): Observable<any> {
+    const header = this.createAuthorizationHeader();
+    return this.http.post(
+      BASE_URL + this.config.addNewMerchant, JSON.stringify(merchantDetails), {
+        headers: header
+      });
   }
 
 }

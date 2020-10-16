@@ -89,7 +89,7 @@ export class RexPaginationComponent implements OnInit {
   nextPage() {
     this.pageIndex++;
     this.currentPage++;
-
+    console.log('from pager: ', this.pageIndex, this.pageSize);
     this.refreshData.emit({ pageIndex: this.pageIndex, pageSize: this.pageSize })
   }
 
@@ -98,7 +98,6 @@ export class RexPaginationComponent implements OnInit {
     console.log(this.totalElements, this.pageIndex, this.pageSize);
     this.pager = this.paginationService.getPager(this.totalElements ? this.totalElements : 0, this.pageIndex + 1, this.pageSize);
     this.pagedItems = this.data;
-
   }
 
   // this method gets called whenever an error occurrs, it sets the pager to null, and also sets the total elements to 0
