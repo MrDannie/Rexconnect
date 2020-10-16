@@ -95,6 +95,7 @@ export class Config {
   public getSingleTerminal: string;
   public updateTerminal: string;
   public getTransactions: string;
+  public getAllMerchants: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -196,5 +197,6 @@ export class Config {
     // merchants
     this.getMerchantsList = '/v1/merchants/getMerchantList';
     this.addNewTerminal = '/v1/terminals';
+    this.getAllMerchants = '/v1/merchants';
   }
 }

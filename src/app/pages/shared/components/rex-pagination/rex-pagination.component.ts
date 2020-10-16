@@ -5,6 +5,12 @@ import { FormBuilder } from '@angular/forms';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+export interface PagerContent {
+  pageIndex: number;
+  totalElements: number;
+  pageSize: number;
+}
+
 @Component({
   selector: 'app-rex-pagination',
   templateUrl: './rex-pagination.component.html',
@@ -89,8 +95,10 @@ export class RexPaginationComponent implements OnInit {
 
   // this method initializes the pager object to display the pages using the passed in  totalElements, the current page and page size.
   initPages() {
-    this.pager = this.paginationService.getPager(this.totalElements, this.pageIndex + 1, this.pageSize);
+    console.log(this.totalElements, this.pageIndex, this.pageSize);
+    this.pager = this.paginationService.getPager(this.totalElements ? this.totalElements : 0, this.pageIndex + 1, this.pageSize);
     this.pagedItems = this.data;
+
   }
 
   // this method gets called whenever an error occurrs, it sets the pager to null, and also sets the total elements to 0
@@ -106,9 +114,13 @@ export class RexPaginationComponent implements OnInit {
     this.currentPage = 1;
     this.initPages();
 
-    this.paginationService.changePagerState.subscribe((state: boolean) => {
-      console.log(state + ' landed.')
+    this.paginationService.pagerState.subscribe((state: PagerContent) => {
       if (state) {
+
+        this.totalElements = state.totalElements;
+        this.pageIndex = state.pageIndex;
+        this.pageSize = state.pageSize;
+
         this.initPages();
       } else {
         this.errorOccurred();
