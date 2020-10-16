@@ -4,42 +4,42 @@
       <div class="form_area">
         <div class="row">
           <div class="col-md-6">
-            <span>Terminal ID</span>
-            <p><strong>2033ESGQ</strong></p>
+            <span>Merchant Name</span>
+            <p><strong>{{ merchantDetails?.merchantName }}</strong></p>
           </div>
           <div class="col-md-6">
             <span>Merchant ID</span>
-            <p><strong>2033ESGQ</strong></p>
+            <p><strong>{{ merchantDetails?.merchantId }}</strong></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <span>Merchant Key</span>
+            <p><strong>{{ merchantDetails?.merchantKey }}</strong></p>
+          </div>
+          <div class="col-md-6" *ngIf="merchantDetails?.merchantCategoryCode"  >
+            <span>Merchant Category</span>
+            <p><strong>{{ getMCCodes(merchantDetails?.merchantCategoryCode) }} ({{ merchantDetails?.merchantCategoryCode }})</strong></p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <span>Merchant Token</span>
-            <p><strong>ET</strong></p>
-          </div>
-          <div class="col-md-6">
-            <span>Merchant Key</span>
-            <p><strong>aperiam</strong></p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <span>Merchant Category</span>
-            <p><strong>Agricultural Cooperatives (763)</strong></p>
+            <p><strong>{{ merchantDetails?.merchantToken }}</strong></p>
           </div>
           <div class="col-md-6">
             <span>Merchant Location</span>
-            <p><strong>UPTON, TILLMAN AND FISHER NONG</strong></p>
+            <p><strong>{{ merchantDetails?.merchantLocationNameAddress }}</strong></p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <span>Country Code</span>
-            <p><strong>(566)</strong></p>
+            <p><strong>({{ merchantDetails?.countryCode }})</strong></p>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" *ngIf="merchantDetails?.currencyCode"  >
             <span>Currency</span>
-            <p><strong>Zimbabwe Dollar (932)</strong></p>
+            <p><strong>{{ getCurrencyName(merchantDetails?.currencyCode) }} ({{ merchantDetails?.currencyCode }})</strong></p>
           </div>
         </div>
         <!-- <div class="row">
@@ -78,20 +78,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="text-center">Otto</td>
-            <td class="text-center">@mdo</td>
-          </tr>
-          <tr>
-            <td class="text-center">Thornton</td>
-            <td class="text-center">@fat</td>
-          </tr>
-          <tr>
-            <td class="text-center">the Bird</td>
-            <td class="text-center">@twitter</td>
+          <tr *ngFor="let terminal of merchantTerminals"  >
+            <td class="text-center">{{ terminal.terminalId }}</td>
+            <td class="text-center">{{ terminal.callHomeTime }}</td>
           </tr>
         </tbody>
       </table>
+      <span
+        class="empty-state"
+        *ngIf="merchantTerminals.length == 0 && !isLoadingTerminals"
+      >No Records Found</span>
     </div>
   </div>
 </div>
@@ -124,7 +120,7 @@
                   />
                   <label for="merchantName">Merchant Name</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -147,7 +143,7 @@
                   />
                   <label for="merchantId">Merchant ID</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -170,7 +166,7 @@
                   />
                   <label for="merchantId">Dialing Code</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -190,7 +186,7 @@
                   />
                   <label for="merchantId">Phone Number</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -213,7 +209,7 @@
                   />
                   <label for="merchantName">Merchant Address</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -238,7 +234,7 @@
                   </select>
                   <label for="merchantId">Merchant Type</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -260,7 +256,7 @@
                   </select>
                   <label for="merchantId">Merchant Category Code</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -285,7 +281,7 @@
                   </select>
                   <label for="merchantName">Acquirer</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -306,7 +302,6 @@
             </div>
             <button
               class="btn action_button"
-              (click)="createUser(createMerchantForm.value)"
             >
               <i class="fa fa-plus animated slideIn"></i>
               Save Changes
@@ -314,7 +309,7 @@
 
             <div
               class="spinner-border spinner-border-sm ml-3"
-              *ngIf="expression"
+              *ngIf="false"
               role="status"
             >
               <span class="sr-only">Loading...</span>

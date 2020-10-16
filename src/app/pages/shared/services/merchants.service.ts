@@ -1,3 +1,4 @@
+import { ITerminal } from './../interfaces/terminals.model';
 import { IMerchant } from './../interfaces/merchants.model';
 import { IWrapper } from './../interfaces/wrapper.model';
 // tslint:disable
@@ -61,6 +62,24 @@ export class MerchantsService {
         params: getMerchantsParams
       }
     );
+  }
+
+  getMerchantTerminals(merchantId): Observable<IWrapper<ITerminal>> {
+    const header = this.createAuthorizationHeader();
+    return this.http.get<IWrapper<ITerminal>>(
+      BASE_URL + this.config.getMerchantTerminals.replace('{merchantId}', merchantId), {
+        headers: header,
+      }
+    );
+  }
+
+  getMerchant(merchantId: string): Observable<IMerchant> {
+    const header = this.createAuthorizationHeader();
+    return this.http.get<IMerchant>(
+      BASE_URL + this.config.getSingleMerchant.replace('{merchantId}', merchantId), {
+        headers: header
+      }
+    )
   }
 
   getAllCities(countryCode): Observable<any> {

@@ -98,6 +98,8 @@ export class Config {
   public getAllMerchants: string;
   public getStates: string;
   public addNewMerchant: string;
+  public getSingleMerchant: string;
+  public getMerchantTerminals: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -201,6 +203,8 @@ export class Config {
     this.addNewTerminal = '/v1/terminals';
     this.getAllMerchants = '/v1/merchants';
     this.addNewMerchant = '/v1/merchants';
+    this.getSingleMerchant = '/v1/merchants/{merchantId}';
+    this.getMerchantTerminals = '/v1/merchants/{merchantId}/terminals';
 
     // utils
     this.getStates = '/v1/countries/getStates/{countryCode}';
