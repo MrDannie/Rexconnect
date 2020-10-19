@@ -47,3 +47,15 @@ input.no-arrows {
   }
 
 }
+
+// empty state text
+.empty-state {
+  min-width: 100%;
+  text-align: center;
+  color: #5d5d5d;
+  display: flex;
+  font-size: 0.9rem;
+  justify-content: center;
+  font-weight: 600;
+  font-family: "Roboto", serif;
+}
