@@ -18,6 +18,8 @@ import { SanitizePermissionsPipe } from '../pipes/sanitize-permissions.pipe';
     TopNavigationComponent,
     SideNavigationComponent,
     SanitizePermissionsPipe,
+    RexPaginationComponent,
+    RexLoaderComponent
   ],
 
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
