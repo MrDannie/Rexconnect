@@ -99,4 +99,11 @@ export class MerchantsService {
       });
   }
 
+  updateMerchant(merchantId, merchantDetails): Observable<any> {
+    const header = this.createAuthorizationHeader();
+    return this.http.put(BASE_URL + this.config.getSingleMerchant.replace('{merchantId}', merchantId), merchantDetails, {
+        headers: header,
+      })
+  }
+
 }
