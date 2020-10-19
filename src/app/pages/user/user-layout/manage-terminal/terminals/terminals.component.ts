@@ -1,7 +1,10 @@
 import { IMerchant } from './../../../../shared/interfaces/merchants.model';
 import { AlertService } from './../../../../../core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
-import { ITerminal, IAddTerminal } from './../../../../shared/interfaces/terminals.model';
+import {
+  ITerminal,
+  IAddTerminal,
+} from './../../../../shared/interfaces/terminals.model';
 import { TerminalsService } from './../../../../shared/services/terminals.service';
 // tslint:disable
 import { Component, OnInit } from '@angular/core';
@@ -45,30 +48,32 @@ export class TerminalsComponent implements OnInit {
     private paginationService: PaginationService,
     private merchants: MerchantsService,
     private alerts: AlertService
-  ) { }
+  ) {}
 
   getTerminals() {
     this.isLoading = true;
     this.allTerminals = [];
-    this.terminals.getAllTerminals(this.pageIndex, this.pageSize, this.terminalId).subscribe(
-      data => {
-        this.allTerminals = data.content;
-        this.dataCount = data.totalElements;
-        this.isLoaded = true;
-        this.isLoading = false;
+    this.terminals
+      .getAllTerminals(this.pageIndex, this.pageSize, this.terminalId)
+      .subscribe(
+        (data) => {
+          this.allTerminals = data.content;
+          this.dataCount = data.totalElements;
+          this.isLoaded = true;
+          this.isLoading = false;
 
-        this.paginationService.pagerState.next({
-          totalElements: this.dataCount,
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize
-        });
-      },
-      error => {
-        this.isLoaded = true;
-        this.isLoading = false;
-        this.paginationService.pagerState.next(null);
-      }
-    );
+          this.paginationService.pagerState.next({
+            totalElements: this.dataCount,
+            pageIndex: this.pageIndex,
+            pageSize: this.pageSize,
+          });
+        },
+        (error) => {
+          this.isLoaded = true;
+          this.isLoading = false;
+          this.paginationService.pagerState.next(null);
+        }
+      );
   }
 
   requestPageSize(value: number) {
@@ -76,7 +81,7 @@ export class TerminalsComponent implements OnInit {
     this.getTerminals();
   }
 
-  onRefreshData(payload: { pageIndex: number, pageSize: number }) {
+  onRefreshData(payload: { pageIndex: number; pageSize: number }) {
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 
@@ -91,15 +96,21 @@ export class TerminalsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      terminalId: ['']
+      terminalId: [''],
     });
     this.createTerminalForm = this.formBuilder.group({
       merchantName: ['', Validators.compose([Validators.required])],
-      terminalId: ['', Validators.compose([Validators.required, Validators.maxLength(8), Validators.minLength(8)])],
+      terminalId: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(8),
+          Validators.minLength(8),
+        ]),
+      ],
       transactionTimeOut: ['', Validators.compose([Validators.required])],
-      callHomeTime: ['', Validators.compose([Validators.required])]
+      callHomeTime: ['', Validators.compose([Validators.required])],
     });
-
   }
 
   getMerchantId(name: string) {
@@ -111,23 +122,24 @@ export class TerminalsComponent implements OnInit {
       callHomeTime: this.createTerminalForm.value.callHomeTime,
       transactionTimeout: this.createTerminalForm.value.transactionTimeOut,
       merchantId: this.createTerminalForm.value.merchantName,
-      terminalId: this.createTerminalForm.value.terminalId
-    }
+      terminalId: this.createTerminalForm.value.terminalId,
+    };
 
     this.isAddingTerminal = true;
     this.terminals.addNewTerminal(addTerminal).subscribe(
-      data => {
+      (data) => {
         this.isAddingTerminal = false;
         this.closeModal('cancel_button_add_terminal');
         this.createTerminalForm.reset();
         this.getTerminals();
         this.alerts.success('Terminal Created Successfully');
       },
-      error => {
-        this.alerts.warn(`Error occurred while creating terminal: ${ error.error.message }`);
+      (error) => {
+        this.alerts.warn(
+          `Error occurred while creating terminal: ${error.error.message}`
+        );
       }
-    )
-
+    );
   }
 
   uploadFile() {
@@ -135,7 +147,7 @@ export class TerminalsComponent implements OnInit {
     fileInput.setAttribute('type', 'file');
     fileInput.addEventListener('change', (evt) => {
       this.selectedFile = (evt.target as HTMLInputElement).files[0];
-    })
+    });
 
     fileInput.click();
   }
@@ -149,7 +161,9 @@ export class TerminalsComponent implements OnInit {
         (response) => {
           console.log(response);
           if (response['type'] === HttpEventType.UploadProgress) {
-            this.percentDone = Math.round(100 * response['loaded'] / response['total']);
+            this.percentDone = Math.round(
+              (100 * response['loaded']) / response['total']
+            );
             console.log(`File is ${this.percentDone}% uploaded.`);
           } else if (event instanceof HttpResponse) {
             this.isUploading = false;
@@ -162,7 +176,8 @@ export class TerminalsComponent implements OnInit {
           this.isUploading = false;
           console.error(error);
           this.alerts.warn('Error occurred while uploading file');
-      });
+        }
+      );
     }
   }
 
@@ -172,11 +187,11 @@ export class TerminalsComponent implements OnInit {
 
   getAllMerchants() {
     this.merchants.getMerchantList().subscribe(
-      data => {
+      (data) => {
         this.allMerchants = data;
         this.alerts.success('Merchants don land');
       },
-      error => {
+      (error) => {
         this.alerts.warn('Error occurred while getting merchants data');
       }
     );
@@ -201,7 +216,6 @@ export class TerminalsComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.showFilter = false;
     this.isCSVLoading = false;
     this.isUserCreating = false;
@@ -213,5 +227,4 @@ export class TerminalsComponent implements OnInit {
     this.getTerminals();
     this.getAllMerchants();
   }
-
 }
