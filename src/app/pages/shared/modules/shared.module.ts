@@ -11,21 +11,25 @@ import { Config } from 'src/app/core/Config';
 import { RouterModule } from '@angular/router';
 import { SideNavigationComponent } from '../components/side-navigation/side-navigation.component';
 import { TopNavigationComponent } from '../components/top-navigation/top-navigation.component';
+import { SanitizePermissionsPipe } from '../pipes/sanitize-permissions.pipe';
 
 @NgModule({
   declarations: [
     TopNavigationComponent,
     SideNavigationComponent,
+    SanitizePermissionsPipe,
     RexPaginationComponent,
     RexLoaderComponent
   ],
+
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  providers: [Config, AlertService, PaginationService],
   exports: [
     SideNavigationComponent,
     TopNavigationComponent,
+    SanitizePermissionsPipe,
     RexPaginationComponent,
-    RexLoaderComponent
+    RexLoaderComponent,
   ],
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
-  providers: [Config, AlertService, PaginationService],
 })
 export class SharedModule {}

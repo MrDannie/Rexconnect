@@ -24,8 +24,19 @@
     </div>
 
     <div class="role_actual_list">
-      <div class="role" id="2">
-        <div class="role_name">Role Name Goes Here</div>
+      <div
+        *ngFor="let role of allRoles"
+        (click)="makeRoleActive(role)"
+        id="{{ role.id }}"
+        class="role"
+        [ngClass]="{
+          active: role.id === selectedRole.id,
+          inactive: role.id !== selectedRole.id
+        }"
+      >
+        <div class="role_name">
+          {{ role.name }}
+        </div>
 
         <div class="role_caret">
           <i class="fa fa-caret-right"> </i>
@@ -52,10 +63,10 @@
     </div>
   </div>
 
+  <!-- SELECTED ROLE VIEW  -->
   <div class="role_details">
     <div class="role_details_header">
-      Selected Role Here
-      <!-- {{ selectedRole.role | uppercase }} -->
+      {{ selectedRole.name | uppercase }}
 
       <span
         class="no_border_button"
@@ -70,21 +81,26 @@
     </div>
 
     <div class="footnote_text">
-      Selected Role Decrp
       <!-- {{ selectedRole.description }} -->
+
+      This role provides users with overall access to manage everything within
+      the integrator dashboard
     </div>
 
     <div class="permissions">
       <div class="permissions_header">This role can only:</div>
-
       <div class="permissions_list">
-        <span class="permission animated fadeIn">
-          permision list appears here</span
+        <span
+          class="permission animated fadeIn"
+          *ngFor="let permission of selectedRole.permissions"
+        >
+          {{ permission | sanitize }}</span
         >
       </div>
     </div>
   </div>
 </div>
+<!-- ENDS HERE  -->
 
 <div
   class="modal fade"
@@ -131,40 +147,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="form-group">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="description"
-                    type="text"
-                    placeholder=" "
-                    formControlName="description"
-                  />
-                  <label for="name">Describe your new role</label>
-                </span>
-                <div
-                  *ngIf="
-                    createRoleForm.get('description').errors &&
-                    (createRoleForm.get('description').dirty ||
-                      createRoleForm.get('description').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createRoleForm.get('description').hasError('required')
-                    "
-                  >
-                    {{ validationMessage.description.required }}
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div> -->
 
           <span class="select_permissions_header">Select User Abilities</span>
 
@@ -177,12 +159,16 @@
           </div>
 
           <div class="roles-body" *ngIf="!isPermissionsLoading">
-            <p class="role-info">
+            <p
+              class="role-info"
+              *ngFor="let permission of allPermissions; let i = index"
+            >
               <label class="container"
-                ><span>Permision Description Goes Here</span>
+                ><span>{{ permission }}</span>
                 <input
                   type="checkbox"
-                  (change)="addPermission(permission.name)"
+                  id="{{ permission.name }}aa"
+                  (change)="addPermission(permission)"
                 />
                 <span class="checkmark"></span>
               </label>
@@ -190,7 +176,13 @@
           </div>
 
           <div class="form_actions">
-            <div class="cancel_button" data-dismiss="modal">Cancel</div>
+            <div
+              class="cancel_button"
+              data-dismiss="modal"
+              (click)="selectedPermissions = []"
+            >
+              Cancel
+            </div>
             <button
               class="btn action_button"
               *ngIf="!isRoleCreating"
@@ -307,11 +299,11 @@
           <div class="roles-body" *ngIf="!isPermissionsLoading">
             <p class="role-info" *ngFor="let permission of allPermissions">
               <label class="container"
-                ><span> permission.name </span>
+                ><span> {{ permission }} </span>
                 <input
                   type="checkbox"
-                  id="{{ permission.name }}"
-                  (change)="updatePermission(permission.name)"
+                  id="{{ permission }}"
+                  (change)="updatePermission(permission)"
                 />
                 <span class="checkmark"></span>
               </label>

@@ -39,17 +39,6 @@ export class UserManagementService {
     }
   }
 
-  createUser(userDetails: IUser): Observable<IUser> {
-    return this.httpClient
-      .post<IUser>(BASE_URL + '/v1/users ', userDetails)
-      .pipe(
-        map((response: IUser) => {
-          console.log('User Addedd', response);
-          return response;
-        })
-      );
-  }
-
   getUsersRoles(category): Observable<AllRoles> {
     return this.httpClient
       .get<AllRoles>(BASE_URL + '/v1/roles?type=' + category)
@@ -70,6 +59,17 @@ export class UserManagementService {
     );
   }
 
+  createUser(userDetails: IUser): Observable<IUser> {
+    return this.httpClient
+      .post<IUser>(BASE_URL + '/v1/users ', userDetails)
+      .pipe(
+        map((response: IUser) => {
+          console.log('User Addedd', response);
+          return response;
+        })
+      );
+  }
+
   updateUser(userId, updateUser) {
     return this.httpClient
       .put<IUser>(BASE_URL + '/v1/users/' + userId, updateUser)
@@ -79,5 +79,14 @@ export class UserManagementService {
           return response;
         })
       );
+  }
+
+  deleteUser(userId: number): Observable<boolean> {
+    return this.httpClient.delete(BASE_URL + '/v1/users/' + userId).pipe(
+      map((response) => {
+        console.log('USER DELETED', response);
+        return true;
+      })
+    );
   }
 }

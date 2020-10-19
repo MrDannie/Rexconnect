@@ -11,7 +11,6 @@ import { StorageService } from '../helpers/storage.service';
 export class AlertService {
   private subject = new Subject<Alert>();
   private keepAfterRouteChange = false;
-  alertId: number = 0;
 
   constructor(
     private router: Router,
@@ -38,80 +37,56 @@ export class AlertService {
 
   success(message: string, keepAfterRouteChange = true) {
     window.scrollTo(0, 0);
-    this.alert(AlertType.Success, message, keepAfterRouteChange, this.alertId);
+    this.alert(AlertType.Success, message, keepAfterRouteChange);
   }
 
-  // error(error: any, keepAfterRouteChange = false) {
-  //   console.log(error);
-  //   this.alertId++;
-  //   let message = '';
+  error(error: any, keepAfterRouteChange = false) {
+    let errorMessage = "";
+    console.log("GOT HERE", error)
+    if(typeof error === "string") {
+      errorMessage = error
+    } else {
+      if (error.error.code === 401) {
+        this.authService.logout();
+      }
+      if(error.error instanceof ErrorEvent) {
+        errorMessage = "An Error Occured, Pls Try Again"
+      } else if (error.error instanceof ProgressEvent) {
+        errorMessage = "Unable to connect to the Internet"
+      } else if (error.error instanceof ArrayBuffer) {
+        errorMessage = "An error occured, Unable to generate reciept"
+      } else {
+        errorMessage = error.error.message
+      }
+    }
 
-  //   if (error === undefined) {
-  //     message = 'An error occurred , please try again';
-  //   }
-  //   if (error.error instanceof ErrorEvent) {
-  //     message = 'An error occurred, pls try again';
-  //   } else if (error.error instanceof ProgressEvent) {
-  //     message = 'Unable to connect';
-  //   }
-  //   if (typeof error === 'string') {
-  //     message = error;
-  //     if (message === 'User Unauthorized') {
-  //       this.authService.logout();
-  //     }
-  //   } else {
-  //     if (!isNullOrUndefined(error.error) && error.error.code === 401) {
-  //       if (this.storageService.getAdminDetails()) {
-  //         this.authService.adminLogout();
-  //       } else {
-  //         this.authService.logout();
-  //       }
-  //     }
+     window.scrollTo(0, 0);
+     this.alert(AlertType.Success, errorMessage, keepAfterRouteChange,);
+     }
 
-  //     if (isNullOrUndefined(error.error) && typeof error !== 'string') {
-  //       error = 'An error occured';
-  //     } else if (error === 'User Unauthorized') {
-  //       if (this.storageService.getAdminDetails()) {
-  //         this.authService.adminLogout();
-  //       } else {
-  //         this.authService.logout();
-  //       }
-  //     } else if (typeof error === 'string') {
-  //       console.log('got here', typeof error);
 
-  //       message = error;
-  //     } else {
-  //       message = error.error.message;
-  //     }
-  //   }
-
-  //   window.scrollTo(0, 0);
-  //   this.alert(AlertType.Error, message, keepAfterRouteChange, this.alertId);
-  // }
 
   info(message: string, keepAfterRouteChange = false) {
-    this.alertId++;
+   
     window.scrollTo(0, 0);
-    this.alert(AlertType.Info, message, keepAfterRouteChange, this.alertId);
+    this.alert(AlertType.Info, message, keepAfterRouteChange);
   }
 
   warn(message: string, keepAfterRouteChange = false) {
-    this.alertId++;
     window.scrollTo(0, 0);
-    this.alert(AlertType.Warning, message, keepAfterRouteChange, this.alertId);
+    this.alert(AlertType.Warning, message, keepAfterRouteChange);
   }
 
   alert(
     type: AlertType,
     message: string,
-    keepAfterRouteChange = false,
-    alertId: number
+    keepAfterRouteChange,
   ) {
     this.keepAfterRouteChange = keepAfterRouteChange;
-    this.subject.next(<Alert>{ type: type, message: message, id: alertId });
+    this.subject.next({type, message } as Alert);
     setTimeout(() => {
       this.subject.next();
-    }, 4800);
+    }, 4000);
   }
 
   clear() {
