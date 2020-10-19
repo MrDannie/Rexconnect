@@ -7,7 +7,7 @@ import { PaginationService } from 'src/app/core/pagination.service';
 import { AllRoles } from 'src/app/pages/shared/interfaces/AllRoles';
 import { AllUsers } from 'src/app/pages/shared/interfaces/AllUsers';
 import { IRole } from 'src/app/pages/shared/interfaces/Role';
-import { IUser } from 'src/app/pages/shared/interfaces/User';
+import { IUser } from 'src/app/pages/shared/interfaces/user';
 // import { AllUsers } from 'src/app/pages/shared/interfaces/AllUsers';
 import { UserManagementService } from 'src/app/pages/shared/services/user-management.service';
 

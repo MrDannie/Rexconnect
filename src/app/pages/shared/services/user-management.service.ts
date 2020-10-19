@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 // import * as CryptoJS from 'crypto-js';
 import { map } from 'rxjs/operators';
 import { Config } from 'src/app/core/Config';
-import { IUser } from '../interfaces/User';
+import { IUser } from '../interfaces/user';
 import { AllUsers } from '../interfaces/AllUsers';
 import { AllRoles } from '../interfaces/AllRoles';
 const BASE_URL = environment.BASE_URL;
