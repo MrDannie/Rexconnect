@@ -86,7 +86,20 @@ export class Config {
   public deleteBillPaymentKeys: string;
   public checkLiveStatus: string;
   public getStatisticsLink: string;
-  getTerminalStatLink: string;
+  public getTerminalStatLink: string;
+  public allTerminals: string;
+
+  public getMerchantsList: string;
+  public addNewTerminal: string;
+  public uploadTerminals: string;
+  public getSingleTerminal: string;
+  public updateTerminal: string;
+  public getTransactions: string;
+  public getAllMerchants: string;
+  public getStates: string;
+  public addNewMerchant: string;
+  public getSingleMerchant: string;
+  public getMerchantTerminals: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -175,5 +188,25 @@ export class Config {
     this.bpaPaymentItemAttribute = '/paymentItemAttributes';
     this.checkLiveStatus = '/business/service/toggle';
     this.bpaProviderSettlement = '/billproviders';
+
+    // terminals
+    this.allTerminals = '/v1/terminals';
+    this.uploadTerminals = '/v1/uploads/uploadTerminals';
+    this.getSingleTerminal = '/v1/terminals/{terminalId}';
+    this.updateTerminal = '/v1/terminals/{terminalId}';
+
+    // transactions
+    this.getTransactions = '/v1/transactions';
+
+    // merchants
+    this.getMerchantsList = '/v1/merchants/getMerchantList';
+    this.addNewTerminal = '/v1/terminals';
+    this.getAllMerchants = '/v1/merchants';
+    this.addNewMerchant = '/v1/merchants';
+    this.getSingleMerchant = '/v1/merchants/{merchantId}';
+    this.getMerchantTerminals = '/v1/merchants/{merchantId}/terminals';
+
+    // utils
+    this.getStates = '/v1/countries/getStates/{countryCode}';
   }
 }

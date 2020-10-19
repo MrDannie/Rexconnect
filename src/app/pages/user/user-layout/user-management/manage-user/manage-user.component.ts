@@ -1,3 +1,4 @@
+// tslint:disable
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { error } from 'protractor';
@@ -28,6 +29,7 @@ export class ManageUserComponent implements OnInit {
   originalResponse: AllUsers;
   userToBeUpdated: number;
 
+
   // PAGINATION
   pageIndex: number;
   pageSize: number;
@@ -37,11 +39,12 @@ export class ManageUserComponent implements OnInit {
   pager: any;
   pagedItems: IUser[];
   pageSizeForm: FormGroup;
-  dataCount: any;
+  dataCount = 0;
   createUserForm: FormGroup;
   userRoles: AllRoles;
   listOfMerchantRoles: IRole[];
   userToBeDeleted: any;
+  isLoaded = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,28 +54,25 @@ export class ManageUserComponent implements OnInit {
   ) {}
   getAllUsers() {
     this.isLoading = true;
+    this.isLoaded = false;
     this.userManagementService
       .getAllUsers(this.pageIndex, this.pageSize)
       .subscribe(
         (response: AllUsers) => {
-          console.log('Users GOtten', response);
           this.allUsers = response['content'];
           this.dataCount = response['totalElements'];
           this.originalResponse = response;
 
-          //PAGINATION CONTENT
-          this.pager = this.paginationService.getPager(
-            response['totalElements'], //TODO:
-            this.pageIndex, //TODO:
-            this.pageSize
-          );
-          console.log('this. is pager', this.pager);
+          this.isLoaded = true;
 
           this.pagedItems = this.allUsers;
           this.isLoading = false;
+          this.paginationService.changePagerState.next(true);
         },
         (error) => {
-          console.log('ERROR IN GETTING USERS', error);
+          this.isLoaded = true;
+          this.paginationService.changePagerState.next(false);
+          console.error('error occurred: ', error);
         }
       );
   }
@@ -82,34 +82,17 @@ export class ManageUserComponent implements OnInit {
     this.isCSVLoading = false;
     this.isUserCreating = false;
     this.isLoading = false;
-    this.pageSize = 10;
-    this.pageIndex = 0;
-    this.currentPage = 1;
     this.pages = [];
     this.initializeForm();
     this.getAllUsers();
     this.getUsersRoles('MERCHANT');
   }
 
-  previousPage(page) {
-    this.pageIndex = page - 2;
-    this.getAllUsers();
-    this.pageIndex = page - 1;
-  }
-  getPage(page) {
-    console.log('page to go', page);
-    console.log(this.pager);
+  onRefreshData(pageParams: { pageIndex: number, pageSize: number }) {
+    this.pageIndex = pageParams.pageIndex;
+    this.pageSize = pageParams.pageSize;
 
-    this.pageIndex = page - 1;
-    // this.currentPage = page;
     this.getAllUsers();
-    this.pageIndex = page;
-  }
-
-  nextPage(page) {
-    this.pageIndex = page;
-    this.getAllUsers();
-    this.pageIndex = page + 1;
   }
 
   getUsersRoles(category) {
@@ -229,10 +212,9 @@ export class ManageUserComponent implements OnInit {
     });
   }
 
-  setPageSize(value: number) {
+  // request by page size
+  requestPageSize(value: number) {
     this.pageSize = value;
-    this.pageIndex = 0;
-    this.currentPage = 1;
     this.getAllUsers();
   }
 }

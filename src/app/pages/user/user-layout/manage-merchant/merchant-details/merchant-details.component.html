@@ -4,42 +4,42 @@
       <div class="form_area">
         <div class="row">
           <div class="col-md-6">
-            <span>Terminal ID</span>
-            <p><strong>2033ESGQ</strong></p>
+            <span>Merchant Name</span>
+            <p><strong>{{ merchantDetails?.merchantName }}</strong></p>
           </div>
           <div class="col-md-6">
             <span>Merchant ID</span>
-            <p><strong>2033ESGQ</strong></p>
+            <p><strong>{{ merchantDetails?.merchantId }}</strong></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <span>Merchant Key</span>
+            <p><strong>{{ merchantDetails?.merchantKey }}</strong></p>
+          </div>
+          <div class="col-md-6" *ngIf="merchantDetails?.merchantCategoryCode"  >
+            <span>Merchant Category</span>
+            <p><strong>{{ getMCCodes(merchantDetails?.merchantCategoryCode) }} ({{ merchantDetails?.merchantCategoryCode }})</strong></p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <span>Merchant Token</span>
-            <p><strong>ET</strong></p>
-          </div>
-          <div class="col-md-6">
-            <span>Merchant Key</span>
-            <p><strong>aperiam</strong></p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <span>Merchant Category</span>
-            <p><strong>Agricultural Cooperatives (763)</strong></p>
+            <p><strong>{{ merchantDetails?.merchantToken }}</strong></p>
           </div>
           <div class="col-md-6">
             <span>Merchant Location</span>
-            <p><strong>UPTON, TILLMAN AND FISHER NONG</strong></p>
+            <p><strong>{{ merchantDetails?.merchantLocationNameAddress }}</strong></p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <span>Country Code</span>
-            <p><strong>(566)</strong></p>
+            <p><strong>({{ merchantDetails?.countryCode }})</strong></p>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" *ngIf="merchantDetails?.currencyCode"  >
             <span>Currency</span>
-            <p><strong>Zimbabwe Dollar (932)</strong></p>
+            <p><strong>{{ getCurrencyName(merchantDetails?.currencyCode) }} ({{ merchantDetails?.currencyCode }})</strong></p>
           </div>
         </div>
         <!-- <div class="row">
@@ -78,25 +78,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="text-center">Otto</td>
-            <td class="text-center">@mdo</td>
-          </tr>
-          <tr>
-            <td class="text-center">Thornton</td>
-            <td class="text-center">@fat</td>
-          </tr>
-          <tr>
-            <td class="text-center">the Bird</td>
-            <td class="text-center">@twitter</td>
+          <tr *ngFor="let terminal of merchantTerminals"  >
+            <td class="text-center">{{ terminal.terminalId }}</td>
+            <td class="text-center">{{ terminal.callHomeTime }}</td>
           </tr>
         </tbody>
       </table>
+      <span
+        class="empty-state"
+        *ngIf="merchantTerminals.length == 0 && !isLoadingTerminals"
+      >No Records Found</span>
     </div>
   </div>
 </div>
 
-<!-- EDIT MERCHANT MODAl  -->
+
 <div
   class="modal animated zoomIn"
   id="editMerchant"
@@ -109,212 +105,200 @@
     <div class="modal-content">
       <div class="modal-body">
         <h5 class="modal-title" id="createUserLabel">Edit Merchant</h5>
-        <form [formGroup]="createMerchantForm">
-          <!-- RELEVANT CODE HERE  -->
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
+        <form [formGroup]="updateMerchantForm" (ngSubmit)="updateMerchant()" >
+          <div class="row">
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <input
-                    class="form-control"
                     id="merchantName"
                     type="text"
+                    class="form-control"
+                    readonly
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="merchantName"
                   />
                   <label for="merchantName">Merchant Name</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="updateMerchantForm?.get('merchantName').errors && updateMerchantForm?.get('merchantName').touched"
+              >Merchant Name is required.</span>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <input
-                    class="form-control"
-                    id="terminalId"
+                    id="merchantKey"
                     type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="merchantKey"
+                  />
+                  <label for="merchantKey">Merchant Key</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="updateMerchantForm?.get('merchantKey').errors && updateMerchantForm?.get('merchantKey').touched"
+              >Merchant Key is required.</span>
+            </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="merchantId"
+                    type="text"
+                    class="form-control"
                     placeholder=" "
                     formControlName="merchantId"
                   />
                   <label for="merchantId">Merchant ID</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="updateMerchantForm?.get('merchantId').errors && updateMerchantForm?.get('merchantId').touched"
+              >Merchant ID is required.</span>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <div class="">
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <input
-                    class="form-control"
-                    id="terminalId"
+                    id="merchantToken"
                     type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantId">Dialing Code</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-8">
-              <div class="">
-                <span class="has-float-label">
-                  <input
                     class="form-control"
-                    id="terminalId"
-                    type="text"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="merchantToken"
                   />
-                  <label for="merchantId">Phone Number</label>
+                  <label for="merchantToken">Merchant Token</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="updateMerchantForm?.get('merchantToken').errors && updateMerchantForm?.get('merchantToken').touched"
+              >Merchant Token is required.</span>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantName">Merchant Address</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <div class="">
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <select
-                    class="form-control"
-                    id="terminalId"
+                    id="categoryCode"
                     type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  >
-                    <option value="Select option"></option>
-                  </select>
-                  <label for="merchantId">Merchant Type</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <div class="">
-                <span class="has-float-label">
-                  <select
                     class="form-control"
-                    id="terminalId"
-                    type="text"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="categoryCode"
                   >
-                    <option value="select option"></option>
+                    <option
+                      [value]="categoryCode['MCC CODE']"
+                      *ngFor="let categoryCode of merchantCategoryCodes"
+                    >{{ categoryCode.fullCatLabel }}</option>
                   </select>
-                  <label for="merchantId">Merchant Category Code</label>
+                  <label for="categoryCode">Merchant Category Code</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="updateMerchantForm?.get('categoryCode').errors && updateMerchantForm?.get('categoryCode').touched"
+              >Merchant Category Code is required.</span>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <select
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  >
-                    <option value="Select option"></option>
-                  </select>
-                  <label for="merchantName">Acquirer</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
+              <div class="col-md-4 no-padding">
+                <div class="form-group">
+                  <span class="has-float-label">
+                    <select
+                      id="currency"
+                      type="text"
+                      class="form-control"
+                      placeholder=" "
+                      formControlName="currency"
+                    >
+                      <option
+                        [value]="currency['ISO4217-currency_numeric_code']"
+                        *ngFor="let currency of currencyCodes"
+                      >{{ currency.fullCurrencyLabel }}</option>
+                    </select>
+                    <label for="currency">Currency</label>
                   </span>
                 </div>
+                <span
+                  class="validation-message"
+                  *ngIf="updateMerchantForm?.get('currency').errors && updateMerchantForm?.get('currency').touched"
+                >Currency is required.</span>
               </div>
-            </div>
-          </div>
-          <!-- RELEVANT CODE HERE  -->
 
+              <div class="col-md-4 no-padding">
+                <div class="form-group">
+                  <span class="has-float-label">
+                    <select
+                      id="countryCode"
+                      type="text"
+                      class="form-control"
+                      placeholder=" "
+                      (change)="onSelectCountryCode(updateMerchantForm.value.countryCode)"
+                      formControlName="countryCode"
+                    >
+                      <option
+                        [value]="countryCode['ISO3166-1-numeric']"
+                        *ngFor="let countryCode of countryCodes"
+                      >{{ countryCode.fullCountryLabel }}</option>
+                    </select>
+                    <label for="countryCode">Country Code</label>
+                  </span>
+                </div>
+                <span
+                  class="validation-message"
+                  *ngIf="updateMerchantForm?.get('countryCode').errors && updateMerchantForm?.get('countryCode').touched"
+                >Country Code is required.</span>
+              </div>
+
+              <div class="col-md-4 no-padding">
+                <div class="form-group">
+                  <span class="has-float-label">
+                    <select
+                      id="city"
+                      type="text"
+                      class="form-control"
+                      placeholder=" "
+                      formControlName="city"
+                    >
+                      <option value="stub">stub</option>
+                      <option [value]="city" *ngFor="let city of allCities" >{{ city }}</option>
+                    </select>
+                    <label for="city">City</label>
+                  </span>
+                </div>
+                <span
+                  class="validation-message"
+                  *ngIf="updateMerchantForm?.get('city').errors && updateMerchantForm?.get('city').touched"
+                >City is required.</span>
+              </div>
+          </div>
           <div class="form_actions">
-            <div
+            <button
               class="cancel_button"
+              type="button"
               data-dismiss="modal"
-              (click)="createMerchantForm.reset()"
+              id="cancel_button_edit_merchant"
             >
               Cancel
-            </div>
+            </button>
             <button
-              class="btn action_button"
-              (click)="createUser(createMerchantForm.value)"
+              class="btn button-primary"
+              [disabled]="updateMerchantForm.invalid || isLoadingCities || isUpdatingMerchant"
+              type="submit"
             >
-              <i class="fa fa-plus animated slideIn"></i>
-              Save Changes
+              Update Merchant
             </button>
 
             <div
               class="spinner-border spinner-border-sm ml-3"
-              *ngIf="expression"
+              *ngIf="isUpdatingMerchant || isLoadingCities"
               role="status"
             >
               <span class="sr-only">Loading...</span>

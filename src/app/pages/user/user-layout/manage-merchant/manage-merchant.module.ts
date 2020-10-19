@@ -1,3 +1,4 @@
+import { SharedModule } from './../../../shared/modules/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -13,13 +14,14 @@ import { MerchantsComponent } from './merchants/merchants.component';
     MerchantDetailsComponent,
     MerchantTransactionComponent,
     ManageMerchantComponent,
-    MerchantsComponent
+    MerchantsComponent,
   ],
   imports: [
     CommonModule,
     ManageMerchantRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule,
   ],
 })
 export class ManageMerchantModule {}

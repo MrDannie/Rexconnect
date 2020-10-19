@@ -1,3 +1,4 @@
+import { PaginationService } from 'src/app/core/pagination.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -21,5 +22,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     UserManagementRoutingModule,
   ],
+  providers: [PaginationService]
 })
 export class UserManagementModule {}

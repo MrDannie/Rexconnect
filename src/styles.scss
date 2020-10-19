@@ -202,11 +202,11 @@ span.has-float-label > input.form-control.ng-valid.ng-untouched:focus ~ label {
 }
 
 .validation-message {
-  color: #df5d13;
-  font-family: "Roboto Bold", serif;
-  font-size: 0.7rem;
-  text-align: right;
-  font-family: "Roboto";
+  color: #df5d13 !important;
+  font-family: "Roboto Bold", serif !important;
+  font-size: 0.7rem !important;
+  text-align: right !important;
+  font-family: "Roboto" !important;
 }
 // SPINNER
 /* Spinner */

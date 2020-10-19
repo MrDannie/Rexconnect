@@ -1,127 +1,6 @@
-<div class="header">
-  <div class="header__search">
-    <span class="filter_click" (click)="showFilter = !showFilter">
-      <img
-        src="../../../../../assets/icons/Filter-Icon.svg"
-        alt="search"
-        class="img-fluid"
-      />
-      <span
-        class="filter_text"
-        id="dropdownMenuButton"
-        onselectstart="return false"
-        unselectable="on"
-      >
-        Filter Table By
-      </span>
-    </span>
-    <div
-      class="card search-dropdown"
-      *ngIf="showFilter"
-      id="filter__dropdown"
-      style="height: 250px"
-    >
-      <form [formGroup]="searchForm">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="transactionType" class="search_label"
-                >Transaction Type</label
-              >
-              <select
-                type="text"
-                class="form-control search_input"
-                formControlName="transactionType"
-                id="transactionType"
-              >
-                <option value="">select</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="terminalId" class="search_label">Terminal ID</label>
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="terminalId"
-                id="terminalId"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="rrn" class="search_label">RRN</label>
-              <select
-                type="text"
-                class="form-control search_input"
-                formControlName="rrn"
-                id="rrn"
-              >
-                <option value="">Select role</option>
-                <option></option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="approvalDate" class="search_label"
-                >Approval Date</label
-              >
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="approvalDate"
-                id="approvalDate"
-              />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="lastUpdateDate" class="search_label"
-                >Last Update Date</label
-              >
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="lastUpdateDate"
-                id="lastUpdateDate"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div class="button-section text-right">
-          <button class="btn button-white">Close</button>
-
-          <button class="btn button-pink">
-            Apply Filters
-
-            <div class="spinner-border spinner-border-sm ml-3" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Reset button -->
-  <button class="btn btn-secondary reset-filter" (click)="reset()">
-    <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
-    <i class="fa fa-refresh"></i>
-    Refresh
-  </button>
-
-  <!-- FILTER BY CODE ENDS HERE  -->
-</div>
-
-<!-- FILTER BY FORM  -->
-
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
+    <app-rex-loader [isPushed]="true" *ngIf="isLoading"  ></app-rex-loader>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -138,71 +17,43 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of ngForArray">
-          <td>3632DYGRF3WBPED</td>
-          <td>2033ESGQ</td>
-          <td>000220006396</td>
-          <td>007618</td>
-          <td>539983******5896</td>
-          <td>N50.00</td>
-          <td>566 (NGN)</td>
-          <td>Reversal</td>
-          <td><button>Declined</button></td>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
+        <tr *ngFor="let txn of allTransactions">
+          <td>{{ txn.mid }}</td>
+          <td>{{ txn.tid }}</td>
+          <td>{{ txn.rrn }}</td>
+          <td>{{ txn.stan }}</td>
+          <td>{{ txn.pan }}</td>
+          <td>&#8358;{{ txn.amount }}</td>
+          <td>{{ txn.currencyCode }} ({{ txn.currencyAlpha }})</td>
+          <td>{{ txn.type }}</td>
+          <td
+
+          >
+            <span
+              class="status"
+              [class.approved]="txn.status === 'APPROVED'"
+              [class.declined]="txn.status === 'DECLINED'"
+            >
+              {{ txn.status }}
+            </span>
+          </td>
+          <td>{{ txn.creationDate | date:"medium" }}</td>
         </tr>
       </tbody>
     </table>
+    <span
+      class="empty-state"
+      *ngIf="allTransactions.length === 0 && !this.isLoading"
+    >
+      No Records Found
+    </span>
   </div>
 </div>
--->
 
-<!-- PAGE SIZE  -->
-<div class="text-right mt-4 page_size_section animated fadeIn">
-  <span>Number of Items:&nbsp;&nbsp;</span>
-  <span> 30 </span>
-
-  <span class="ml-3">Page size:</span>
-  <form class="inline_select">
-    <select class="form-control form-control-sm" #setPageSizeId>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-      <option value="40">40</option>
-      <option value="50">50</option>
-    </select>
-  </form>
-</div>
-
-<!-- PAGINATION  -->
-<div class="paginate mt-2 animated fadeIn">
-  <nav aria-label="...">
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">
-          2
-          <span class="sr-only">(current)</span>
-        </span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
-
-  <!-- EXPORT BUTTON  -->
-
-  <div class="export-button animated fadeIn">
-    <button type="button" class="btn btn-light button-plain-icon">
-      <i class="fa fa-download"></i>
-      Download As CSV
-    </button>
-    <div class="spinner-border spinner-border-sm ml-3" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
-</div>
+<app-rex-pagination
+  [data]="allTransactions"
+  [totalElements]="dataCount"
+  (pageCountSelected)="requestPageSize($event)"
+  (refreshData)="onRefreshData($event)"
+  *ngIf="loadPagination"
+></app-rex-pagination>

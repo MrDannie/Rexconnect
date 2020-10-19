@@ -1,3 +1,5 @@
+// tslint:disable
+
 import {
   HttpEvent,
   HttpHandler,
@@ -26,11 +28,27 @@ export class InterceptorService implements HttpInterceptor {
 
     if (true) {
       const storedToken = this.storageService.getCurrentUser();
-      const { accessToken } = storedToken;
-      headers = new HttpHeaders({
-        'Content-type': 'application/json',
-        Authorization: 'Bearer ' + accessToken,
-      });
+      const { accessToken } = storedToken ? storedToken : { accessToken: null };
+
+      if (req.url.includes('uploadTerminals')) {
+        const request = req.clone();
+        return next.handle(request);
+      }
+
+
+      if (req.headers.get('Content-Type') != undefined && req.headers.get('Content-Type') != null) {
+        headers = new HttpHeaders({
+          'Content-type': req.headers.get('Content-Type'),
+          Authorization: 'Bearer ' + accessToken,
+        });
+      } else {
+        headers = new HttpHeaders({
+          'Content-type': 'application/json',
+          Authorization: 'Bearer ' + accessToken,
+        });
+      }
+
+
       let httpRequest: HttpRequest<any> = req.clone({
         headers,
       });

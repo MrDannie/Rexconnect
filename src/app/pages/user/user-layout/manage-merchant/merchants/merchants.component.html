@@ -56,8 +56,22 @@
       id="filter__dropdown"
       style="height: 250px"
     >
-      <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" (ngSubmit)="searchBy()" >
         <div class="row">
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="merchantId" class="search_label"
+                >Merchant ID</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="merchantId"
+                id="merchantId"
+              >
+            </div>
+          </div>
+
           <div class="col-md-4">
             <div class="form-group">
               <label for="transactionType" class="search_label"
@@ -69,7 +83,7 @@
                 formControlName="transactionType"
                 id="transactionType"
               >
-                <option value="">select</option>
+                <option value=""></option>
               </select>
             </div>
           </div>
@@ -129,14 +143,17 @@
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white">Close</button>
+          <button
+            class="btn button-white"
+            type="button"
+            (click)="showFilter = false;"
+          >Close</button>
 
-          <button class="btn button-pink">
+          <button
+            class="btn button-pink"
+            type="submit"
+          >
             Apply Filters
-
-            <div class="spinner-border spinner-border-sm ml-3" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
           </button>
         </div>
       </form>
@@ -144,7 +161,7 @@
   </div>
 
   <!-- Reset button -->
-  <button class="btn btn-secondary reset-filter" (click)="reset()">
+  <button class="btn btn-secondary reset-filter" (click)="clearFilters()">
     <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
     <i class="fa fa-refresh"></i>
     Refresh
@@ -157,6 +174,7 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
+    <app-rex-loader [isPushed]="true" *ngIf="isLoading"  ></app-rex-loader>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -167,76 +185,33 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of ngForArray">
-          <td>2033ESGQ</td>
-          <td>34567hjgtyuyhjj</td>
-          <td>60</td>
-          <td><button [routerLink]="2" class="btn table_button">Open</button></td>
+        <tr *ngFor="let merchant of allMerchants">
+          <td>{{ merchant.merchantName }}</td>
+          <td>{{ merchant.merchantId }}</td>
+          <td>{{ merchant.merchantCategoryCode }}</td>
+          <td>
+            <button
+              [routerLink]="[merchant.id]"
+              class="btn table_button"
+            >Open</button>
+          </td>
         </tr>
-        
+
       </tbody>
     </table>
+    <span class="empty-state" *ngIf="allMerchants.length === 0 && !isLoading"  >
+      No Records Found
+    </span>
   </div>
 </div>
 
-<!-- PAGE SIZE  -->
-<div class="text-right mt-4 page_size_section animated fadeIn">
-  <span>Number of Items:&nbsp;&nbsp;</span>
-  <span> Num Here </span>
-
-  <span class="ml-3">Page size:</span>
-  <form class="inline_select">
-    <select class="form-control form-control-sm" #setPageSizeId>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-      <option value="40">40</option>
-      <option value="50">50</option>
-    </select>
-  </form>
-</div>
-
-<!-- PAGINATION  -->
-<div class="paginate mt-2 animated fadeIn">
-  <nav aria-label="...">
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">
-          2
-          <span class="sr-only">(current)</span>
-        </span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
-
-  <!-- EXPORT BUTTON  -->
-
-  <div class="export-button animated fadeIn">
-    <button
-      type="button"
-      class="btn btn-light button-plain-icon"
-      (click)="generateCSV()"
-    >
-      <i class="fa fa-download"></i>
-      Download As CSV
-    </button>
-    <div
-      class="spinner-border spinner-border-sm ml-3"
-      role="status"
-      *ngIf="isCSVLoading"
-    >
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
-</div>
+<app-rex-pagination
+  [data]="allMerchants"
+  [totalElements]="dataCount"
+  (pageCountSelected)="requestPageSize($event)"
+  (refreshData)="onRefreshData($event)"
+  *ngIf="isLoaded"
+></app-rex-pagination>
 
 <!-- CREATE MERCHANT  -->
 <div
@@ -251,212 +226,200 @@
     <div class="modal-content">
       <div class="modal-body">
         <h5 class="modal-title" id="createUserLabel">Add Merchant</h5>
-        <form [formGroup]="createMerchantForm">
-          <!-- RELEVANT CODE HERE  -->
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
+        <form [formGroup]="createMerchantForm" (ngSubmit)="addNewMerchant()" >
+          <div class="row">
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <input
-                    class="form-control"
                     id="merchantName"
                     type="text"
+                    class="form-control"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="merchantName"
                   />
                   <label for="merchantName">Merchant Name</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="createMerchantForm.get('merchantName').errors && createMerchantForm.get('merchantName').touched"
+              >Merchant Name is required.</span>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <input
-                    class="form-control"
-                    id="terminalId"
+                    id="merchantKey"
                     type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="merchantKey"
+                  />
+                  <label for="merchantKey">Merchant Key</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="createMerchantForm.get('merchantKey').errors && createMerchantForm.get('merchantKey').touched"
+              >Merchant Key is required.</span>
+            </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="merchantId"
+                    type="text"
+                    class="form-control"
                     placeholder=" "
                     formControlName="merchantId"
                   />
                   <label for="merchantId">Merchant ID</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="createMerchantForm.get('merchantId').errors && createMerchantForm.get('merchantId').touched"
+              >Merchant ID is required.</span>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <div class="">
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <input
-                    class="form-control"
-                    id="terminalId"
+                    id="merchantToken"
                     type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantId">Dialing Code</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-8">
-              <div class="">
-                <span class="has-float-label">
-                  <input
                     class="form-control"
-                    id="terminalId"
-                    type="text"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="merchantToken"
                   />
-                  <label for="merchantId">Phone Number</label>
+                  <label for="merchantToken">Merchant Token</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="createMerchantForm.get('merchantToken').errors && createMerchantForm.get('merchantToken').touched"
+              >Merchant Token is required.</span>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantName">Merchant Address</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <div class="">
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
                 <span class="has-float-label">
                   <select
-                    class="form-control"
-                    id="terminalId"
+                    id="categoryCode"
                     type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  >
-                    <option value="Select option"></option>
-                  </select>
-                  <label for="merchantId">Merchant Type</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <div class="">
-                <span class="has-float-label">
-                  <select
                     class="form-control"
-                    id="terminalId"
-                    type="text"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="categoryCode"
                   >
-                    <option value="select option"></option>
+                    <option
+                      [value]="categoryCode['MCC CODE']"
+                      *ngFor="let categoryCode of merchantCategoryCodes"
+                    >{{ categoryCode.fullCatLabel }}</option>
                   </select>
-                  <label for="merchantId">Merchant Category Code</label>
+                  <label for="categoryCode">Merchant Category Code</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="createMerchantForm.get('categoryCode').errors && createMerchantForm.get('categoryCode').touched"
+              >Merchant Category Code is required.</span>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <select
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  >
-                    <option value="Select option"></option>
-                  </select>
-                  <label for="merchantName">Acquirer</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
+              <div class="col-md-4 no-padding">
+                <div class="form-group">
+                  <span class="has-float-label">
+                    <select
+                      id="currency"
+                      type="text"
+                      class="form-control"
+                      placeholder=" "
+                      formControlName="currency"
+                    >
+                      <option
+                        [value]="currency['ISO4217-currency_numeric_code']"
+                        *ngFor="let currency of currencyCodes"
+                      >{{ currency.fullCurrencyLabel }}</option>
+                    </select>
+                    <label for="currency">Currency</label>
                   </span>
                 </div>
+                <span
+                  class="validation-message"
+                  *ngIf="createMerchantForm.get('currency').errors && createMerchantForm.get('currency').touched"
+                >Currency is required.</span>
               </div>
-            </div>
-          </div>
-          <!-- RELEVANT CODE HERE  -->
 
+              <div class="col-md-4 no-padding">
+                <div class="form-group">
+                  <span class="has-float-label">
+                    <select
+                      id="countryCode"
+                      type="text"
+                      class="form-control"
+                      placeholder=" "
+                      (change)="onSelectCountryCode(createMerchantForm.value.countryCode)"
+                      formControlName="countryCode"
+                    >
+                      <option
+                        [value]="countryCode['ISO3166-1-numeric']"
+                        *ngFor="let countryCode of countryCodes"
+                      >{{ countryCode.fullCountryLabel }}</option>
+                    </select>
+                    <label for="countryCode">Country Code</label>
+                  </span>
+                </div>
+                <span
+                  class="validation-message"
+                  *ngIf="createMerchantForm.get('countryCode').errors && createMerchantForm.get('countryCode').touched"
+                >Country Code is required.</span>
+              </div>
+
+              <div class="col-md-4 no-padding">
+                <div class="form-group">
+                  <span class="has-float-label">
+                    <select
+                      id="city"
+                      type="text"
+                      class="form-control"
+                      placeholder=" "
+                      formControlName="city"
+                    >
+                      <option value="stub">stub</option>
+                      <option [value]="city" *ngFor="let city of allCities" >{{ city }}</option>
+                    </select>
+                    <label for="city">City</label>
+                  </span>
+                </div>
+                <span
+                  class="validation-message"
+                  *ngIf="createMerchantForm.get('city').errors && createMerchantForm.get('city').touched"
+                >City is required.</span>
+              </div>
+          </div>
           <div class="form_actions">
-            <div
+            <button
               class="cancel_button"
+              type="button"
               data-dismiss="modal"
+              id="cancel_button_add_merchant"
               (click)="createMerchantForm.reset()"
             >
               Cancel
-            </div>
+            </button>
             <button
-              class="btn action_button"
-              (click)="createUser(createMerchantForm.value)"
+              class="btn button-primary"
+              [disabled]="createMerchantForm.invalid || isLoadingCities || isCreatingMerchant"
+              type="submit"
             >
-              <i class="fa fa-plus animated slideIn"></i>
               Add Merchant
             </button>
 
             <div
               class="spinner-border spinner-border-sm ml-3"
-              *ngIf="expression"
+              *ngIf="isCreatingMerchant || isLoadingCities"
               role="status"
             >
               <span class="sr-only">Loading...</span>
