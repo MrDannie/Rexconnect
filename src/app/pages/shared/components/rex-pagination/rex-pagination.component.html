@@ -9,7 +9,7 @@
       formControlName="pageSize"
       (change)="onPageSizeChanged(pageSizeForm.value.pageSize)"
     >
-      <option value="10">10</option>
+      <option value="10" >10</option>
       <option value="20" *ngIf="totalElements > 10"  >20</option>
       <option value="30" *ngIf="totalElements > 20"  >30</option>
       <option value="40" *ngIf="totalElements > 30"  >40</option>
@@ -19,7 +19,7 @@
 </div>
 
 <!-- pagination -->
-<div class="paginate mt-2 animated fadeIn">
+<div class="paginate mt-2 animated fadeIn" *ngIf="totalElements != 0"  >
   <nav aria-label="...">
     <ul class="pagination">
       <li
@@ -52,7 +52,7 @@
 
   <!-- EXPORT BUTTON  -->
 
-  <div class="export-button animated fadeIn">
+  <div class="export-button animated fadeIn" *ngIf="totalElements != 0"  >
     <button
       type="button"
       class="btn btn-light button-plain-icon"
