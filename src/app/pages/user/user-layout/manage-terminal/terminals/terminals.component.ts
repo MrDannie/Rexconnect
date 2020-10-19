@@ -37,6 +37,7 @@ export class TerminalsComponent implements OnInit {
   selectedFile: File;
   percentDone: number;
   isUploading: boolean;
+  isLoading: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,12 +48,14 @@ export class TerminalsComponent implements OnInit {
   ) { }
 
   getTerminals() {
-    // this.isLoaded = false;
+    this.isLoading = true;
+    this.allTerminals = [];
     this.terminals.getAllTerminals(this.pageIndex, this.pageSize, this.terminalId).subscribe(
       data => {
         this.allTerminals = data.content;
         this.dataCount = data.totalElements;
         this.isLoaded = true;
+        this.isLoading = false;
 
         this.paginationService.pagerState.next({
           totalElements: this.dataCount,
@@ -62,6 +65,7 @@ export class TerminalsComponent implements OnInit {
       },
       error => {
         this.isLoaded = true;
+        this.isLoading = false;
         this.paginationService.pagerState.next(null);
       }
     );

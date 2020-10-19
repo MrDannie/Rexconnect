@@ -1,3 +1,5 @@
+import { RexLoaderComponent } from './../components/rex-loader/rex-loader.component';
+// tslint:disable
 import { PaginationService } from 'src/app/core/pagination.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RexPaginationComponent } from './../components/rex-pagination/rex-pagination.component';
@@ -11,8 +13,18 @@ import { SideNavigationComponent } from '../components/side-navigation/side-navi
 import { TopNavigationComponent } from '../components/top-navigation/top-navigation.component';
 
 @NgModule({
-  declarations: [TopNavigationComponent, SideNavigationComponent, RexPaginationComponent],
-  exports: [SideNavigationComponent, TopNavigationComponent, RexPaginationComponent],
+  declarations: [
+    TopNavigationComponent,
+    SideNavigationComponent,
+    RexPaginationComponent,
+    RexLoaderComponent
+  ],
+  exports: [
+    SideNavigationComponent,
+    TopNavigationComponent,
+    RexPaginationComponent,
+    RexLoaderComponent
+  ],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   providers: [Config, AlertService, PaginationService],
 })
