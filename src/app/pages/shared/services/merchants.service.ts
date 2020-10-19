@@ -1,3 +1,4 @@
+import { ITransaction } from './../interfaces/transactions.model';
 import { ITerminal } from './../interfaces/terminals.model';
 import { IMerchant } from './../interfaces/merchants.model';
 import { IWrapper } from './../interfaces/wrapper.model';
@@ -104,6 +105,22 @@ export class MerchantsService {
     return this.http.put(BASE_URL + this.config.getSingleMerchant.replace('{merchantId}', merchantId), merchantDetails, {
         headers: header,
       })
+  }
+
+  getMerchantTransactions(merchantId: string, pageIndex: number, pageSize: number): Observable<IWrapper<ITransaction>> {
+    const header = this.createAuthorizationHeader();
+
+    const params = new HttpParams();
+    const merchantTransactionsParams = params.append('merchantId', merchantId)
+      .append('page', pageIndex.toString())
+      .append('size', pageSize.toString());
+
+    return this.http.get<IWrapper<ITransaction>>(
+      BASE_URL + this.config.getTransactions, {
+        headers: header,
+        params: merchantTransactionsParams
+      }
+    );
   }
 
 }

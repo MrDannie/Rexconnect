@@ -40,13 +40,17 @@ export class TerminalTransactionsComponent implements OnInit {
         this.isLoading = false;
         this.loadPagination = true;
 
-        this.paginationService.changePagerState.next(true);
+        this.paginationService.pagerState.next({
+          totalElements: this.dataCount,
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize
+        });
       },
       error => {
         console.error(error);
         this.isLoading = false;
         this.loadPagination = true;
-        this.paginationService.changePagerState.next(false);
+        this.paginationService.pagerState.next(null);
         this.alerts.warn('Error occurred while getting this terminal\'s transactions');
       }
     )
