@@ -54,11 +54,15 @@ export class TerminalsComponent implements OnInit {
         this.dataCount = data.totalElements;
         this.isLoaded = true;
 
-        this.paginationService.changePagerState.next(true);
+        this.paginationService.pagerState.next({
+          totalElements: this.dataCount,
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize
+        });
       },
       error => {
         this.isLoaded = true;
-        this.paginationService.changePagerState.next(false);
+        this.paginationService.pagerState.next(null);
       }
     );
   }

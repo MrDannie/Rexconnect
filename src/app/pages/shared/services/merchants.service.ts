@@ -1,8 +1,10 @@
+import { IMerchant } from './../interfaces/merchants.model';
+import { IWrapper } from './../interfaces/wrapper.model';
 // tslint:disable
 import { Config } from './../../../core/Config';
 import { environment } from './../../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { isNullOrUndefined } from 'util';
 import * as CryptoJS from 'crypto-js';
 import { Observable } from 'rxjs';
@@ -41,9 +43,24 @@ export class MerchantsService {
   getMerchantList(): Observable<any> {
     const header = this.createAuthorizationHeader();
     return this.http
-      .get(BASE_URL + "/v1/merchants/getMerchantList", {
+      .get(BASE_URL + this.config.getMerchantsList, {
         headers: header
     });
+  }
+
+  getAllMerchants(pageIndex: number, pageSize: number, merchantId?: string): Observable<IWrapper<IMerchant>> {
+    const headers = this.createAuthorizationHeader();
+    const params = new HttpParams();
+    const getMerchantsParams = params.append('pageIndex', pageIndex.toString())
+      .append('pageSize', pageSize.toString())
+      .append('merchantId', merchantId || '');
+
+    return this.http.get<IWrapper<IMerchant>>(
+      BASE_URL + this.config.getAllMerchants, {
+        headers,
+        params: getMerchantsParams
+      }
+    );
   }
 
 }

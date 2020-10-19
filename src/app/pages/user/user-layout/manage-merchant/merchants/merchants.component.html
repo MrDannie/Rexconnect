@@ -56,8 +56,22 @@
       id="filter__dropdown"
       style="height: 250px"
     >
-      <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" (ngSubmit)="searchBy()" >
         <div class="row">
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="merchantId" class="search_label"
+                >Merchant ID</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="merchantId"
+                id="merchantId"
+              >
+            </div>
+          </div>
+
           <div class="col-md-4">
             <div class="form-group">
               <label for="transactionType" class="search_label"
@@ -69,7 +83,7 @@
                 formControlName="transactionType"
                 id="transactionType"
               >
-                <option value="">select</option>
+                <option value=""></option>
               </select>
             </div>
           </div>
@@ -129,14 +143,17 @@
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white">Close</button>
+          <button
+            class="btn button-white"
+            type="button"
+            (click)="showFilter = false;"
+          >Close</button>
 
-          <button class="btn button-pink">
+          <button
+            class="btn button-pink"
+            type="submit"
+          >
             Apply Filters
-
-            <div class="spinner-border spinner-border-sm ml-3" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
           </button>
         </div>
       </form>
@@ -144,7 +161,7 @@
   </div>
 
   <!-- Reset button -->
-  <button class="btn btn-secondary reset-filter" (click)="reset()">
+  <button class="btn btn-secondary reset-filter" (click)="clearFilters()">
     <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
     <i class="fa fa-refresh"></i>
     Refresh
@@ -167,19 +184,33 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of ngForArray">
-          <td>2033ESGQ</td>
-          <td>34567hjgtyuyhjj</td>
-          <td>60</td>
-          <td><button [routerLink]="2" class="btn table_button">Open</button></td>
+        <tr *ngFor="let merchant of allMerchants">
+          <td>{{ merchant.merchantName }}</td>
+          <td>{{ merchant.merchantId }}</td>
+          <td>{{ merchant.merchantCategoryCode }}</td>
+          <td>
+            <button
+              [routerLink]="[merchant.merchantId]"
+              class="btn table_button"
+            >Open</button>
+          </td>
         </tr>
 
       </tbody>
     </table>
+    <span class="empty-state" *ngIf="allMerchants.length === 0 && !isLoading"  >
+      No Records Found
+    </span>
   </div>
 </div>
 
-<app-rex-pagination></app-rex-pagination>
+<app-rex-pagination
+  [data]="allMerchants"
+  [totalElements]="dataCount"
+  (pageCountSelected)="requestPageSize($event)"
+  (refreshData)="onRefreshData($event)"
+  *ngIf="isLoaded"
+></app-rex-pagination>
 
 <!-- CREATE MERCHANT  -->
 <div
@@ -209,7 +240,7 @@
                   />
                   <label for="merchantName">Merchant Name</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -232,7 +263,7 @@
                   />
                   <label for="merchantId">Merchant ID</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -255,7 +286,7 @@
                   />
                   <label for="merchantId">Dialing Code</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -275,7 +306,7 @@
                   />
                   <label for="merchantId">Phone Number</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -298,7 +329,7 @@
                   />
                   <label for="merchantName">Merchant Address</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -323,7 +354,7 @@
                   </select>
                   <label for="merchantId">Merchant Type</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -345,7 +376,7 @@
                   </select>
                   <label for="merchantId">Merchant Category Code</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -370,7 +401,7 @@
                   </select>
                   <label for="merchantName">Acquirer</label>
                 </span>
-                <div *ngIf="expression" class="validation-message">
+                <div *ngIf="false" class="validation-message">
                   <span class="validation-message">
                     Here is the validation message
                     <br />
@@ -399,7 +430,7 @@
 
             <div
               class="spinner-border spinner-border-sm ml-3"
-              *ngIf="expression"
+              *ngIf="false"
               role="status"
             >
               <span class="sr-only">Loading...</span>

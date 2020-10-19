@@ -1,11 +1,13 @@
 import { Subject } from 'rxjs';
 // tslint:disable
 import { Injectable } from '@angular/core';
+import { PagerContent } from '../pages/shared/components/rex-pagination/rex-pagination.component';
 
 @Injectable()
 export class PaginationService {
 
   public changePagerState = new Subject<boolean>();
+  public pagerState = new Subject<PagerContent>();
 
   constructor() { }
 
