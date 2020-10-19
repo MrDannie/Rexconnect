@@ -6,11 +6,20 @@ import { TopNavigationComponent } from '../components/top-navigation/top-navigat
 import { RouterModule } from '@angular/router';
 import { Config } from 'src/app/core/Config';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { SanitizePermissionsPipe } from '../pipes/sanitize-permissions.pipe';
 
 @NgModule({
-  declarations: [TopNavigationComponent, SideNavigationComponent],
+  declarations: [
+    TopNavigationComponent,
+    SideNavigationComponent,
+    SanitizePermissionsPipe,
+  ],
   imports: [CommonModule, RouterModule],
-  providers: [Config, AlertService],
-  exports: [SideNavigationComponent, TopNavigationComponent],
+  providers: [Config, AlertService, SanitizePermissionsPipe],
+  exports: [
+    SideNavigationComponent,
+    TopNavigationComponent,
+    SanitizePermissionsPipe,
+  ],
 })
 export class SharedModule {}

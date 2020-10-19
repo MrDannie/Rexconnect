@@ -19,7 +19,7 @@ import { PrivacyPolicyComponent } from './pages/landing-page/privacy-policy/priv
 import { TermsOfUseComponent } from './pages/landing-page/terms-of-use/terms-of-use.component';
 import { AdminSideNavComponent } from './pages/shared/components/admin-side-nav/admin-side-nav.component';
 import { AdminTopNavComponent } from './pages/shared/components/admin-top-nav/admin-top-nav.component';
-import { SanitizePermissionsPipe } from './pages/shared/pipes/sanitize-permissions.pipe';
+// import { SanitizePermissionsPipe } from './pages/shared/pipes/sanitize-permissions.pipe';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
 import { AuditLogsComponent } from './pages/user/user-layout/audit-logs/audit-logs.component';
 // import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard.component';
@@ -53,7 +53,7 @@ import { UserManagementModule } from './pages/user/user-layout/user-management/u
     TermsOfUseComponent,
     AdminSideNavComponent,
     AdminTopNavComponent,
-    SanitizePermissionsPipe,
+    // SanitizePermissionsPipe,
     UserLayoutComponent,
     AuditLogsComponent,
     DashboardComponent,
