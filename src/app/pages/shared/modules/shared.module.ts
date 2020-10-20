@@ -21,9 +21,6 @@ import { SanitizePermissionsPipe } from '../pipes/sanitize-permissions.pipe';
     RexPaginationComponent,
     RexLoaderComponent
   ],
-
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
-  providers: [Config, AlertService, PaginationService],
   exports: [
     SideNavigationComponent,
     TopNavigationComponent,
@@ -31,5 +28,7 @@ import { SanitizePermissionsPipe } from '../pipes/sanitize-permissions.pipe';
     RexPaginationComponent,
     RexLoaderComponent,
   ],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  providers: [Config, PaginationService],
 })
 export class SharedModule {}

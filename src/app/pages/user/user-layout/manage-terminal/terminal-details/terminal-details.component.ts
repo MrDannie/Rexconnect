@@ -1,3 +1,4 @@
+import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 import { IMerchant } from './../../../../shared/interfaces/merchants.model';
 import { MerchantsService } from 'src/app/pages/shared/services/merchants.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -35,7 +36,8 @@ export class TerminalDetailsComponent implements OnInit {
     private terminals: TerminalsService,
     private router: Router,
     private route: ActivatedRoute,
-    private merchants: MerchantsService
+    private merchants: MerchantsService,
+    private errorHandler: ErrorHandler
   ) {
     this.showFilter = false;
     this.isCSVLoading = false;
@@ -50,7 +52,7 @@ export class TerminalDetailsComponent implements OnInit {
         this.getAllMerchants();
       },
       error => {
-        this.alerts.warn('Error Occurred while getting terminal details');
+        this.errorHandler.customClientErrors('Failed to get terminal details', error.error.error.code, error.error.error.responseMessage);
       }
     )
   }
@@ -60,10 +62,9 @@ export class TerminalDetailsComponent implements OnInit {
       data => {
         this.allMerchants = data;
         this.updateTerminalDetailsForm();
-        this.alerts.success('Merchants don land');
       },
       error => {
-        this.alerts.warn('Error occurred while getting merchants data');
+        this.errorHandler.customClientErrors('Failed to get merchants details', error.error.error.code, error.error.error.responseMessage);
       }
     );
   }
@@ -120,7 +121,7 @@ export class TerminalDetailsComponent implements OnInit {
         error => {
           this.isUpdating = false;
           console.error(error);
-          this.alerts.warn('Error occurred while updating terminal');
+          this.errorHandler.customClientErrors('Error occurred while updating terminal', error.error.error.code, error.error.error.responseMessage);
         }
       )
   }

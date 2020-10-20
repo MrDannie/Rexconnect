@@ -1,3 +1,4 @@
+// tslint:disable
 import { AuthService } from './../auth/auth.service';
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
@@ -7,10 +8,13 @@ import { Observable, Subject } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { StorageService } from '../helpers/storage.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlertService {
-  private subject = new Subject<Alert>();
+  public subject = new Subject<Alert>();
   private keepAfterRouteChange = false;
+  alertId: number = 0;
 
   constructor(
     private router: Router,
@@ -37,12 +41,12 @@ export class AlertService {
 
   success(message: string, keepAfterRouteChange = true) {
     window.scrollTo(0, 0);
-    this.alert(AlertType.Success, message, keepAfterRouteChange);
+    this.alert(AlertType.Success, message, keepAfterRouteChange, this.alertId);
   }
 
   error(error: any, keepAfterRouteChange = false) {
     let errorMessage = "";
-    console.log("GOT HERE", error)
+    this.alertId++;
     if(typeof error === "string") {
       errorMessage = error
     } else {
@@ -61,29 +65,32 @@ export class AlertService {
     }
 
      window.scrollTo(0, 0);
-     this.alert(AlertType.Success, errorMessage, keepAfterRouteChange,);
+     this.alert(AlertType.Success, errorMessage, keepAfterRouteChange, this.alertId);
      }
 
 
 
   info(message: string, keepAfterRouteChange = false) {
-   
+    this.alertId++;
     window.scrollTo(0, 0);
-    this.alert(AlertType.Info, message, keepAfterRouteChange);
+    this.alert(AlertType.Info, message, keepAfterRouteChange, this.alertId);
   }
 
   warn(message: string, keepAfterRouteChange = false) {
+    this.alertId++;
     window.scrollTo(0, 0);
-    this.alert(AlertType.Warning, message, keepAfterRouteChange);
+    this.alert(AlertType.Warning, message, keepAfterRouteChange, this.alertId);
   }
 
   alert(
     type: AlertType,
     message: string,
     keepAfterRouteChange,
+    alertId: number
   ) {
     this.keepAfterRouteChange = keepAfterRouteChange;
-    this.subject.next({type, message } as Alert);
+    console.log('getting into the alert method too');
+    this.subject.next(<Alert>{ type, message, id: alertId });
     setTimeout(() => {
       this.subject.next();
     }, 4000);

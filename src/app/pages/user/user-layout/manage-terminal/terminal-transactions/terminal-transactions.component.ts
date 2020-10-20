@@ -1,3 +1,4 @@
+import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PaginationService } from 'src/app/core/pagination.service';
@@ -27,7 +28,8 @@ export class TerminalTransactionsComponent implements OnInit {
     private terminals: TerminalsService,
     private paginationService: PaginationService,
     private route: ActivatedRoute,
-    private alerts: AlertService
+    private alerts: AlertService,
+    private errorHandler: ErrorHandler
   ) { }
 
   getTransactions() {
@@ -51,7 +53,10 @@ export class TerminalTransactionsComponent implements OnInit {
         this.isLoading = false;
         this.loadPagination = true;
         this.paginationService.pagerState.next(null);
-        this.alerts.warn('Error occurred while getting this terminal\'s transactions');
+        this.errorHandler.customClientErrors('Error occurred while getting this terminal\'s transactions',
+          error.error.error.code,
+          error.error.error.responseMessage
+        );
       }
     )
   }
