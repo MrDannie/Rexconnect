@@ -191,7 +191,7 @@ export class Config {
 
     // terminals
     this.allTerminals = '/v1/terminals';
-    this.uploadTerminals = '/v1/uploads/uploadTerminals';
+    this.uploadTerminals = '/v1/terminals/upload';
     this.getSingleTerminal = '/v1/terminals/{terminalId}';
     this.updateTerminal = '/v1/terminals/{terminalId}';
 

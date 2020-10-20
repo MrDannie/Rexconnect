@@ -1,3 +1,4 @@
+import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 import { IMerchant } from './../../../../shared/interfaces/merchants.model';
 import { AlertService } from './../../../../../core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
@@ -44,12 +45,12 @@ export class TerminalsComponent implements OnInit {
     private terminals: TerminalsService,
     private paginationService: PaginationService,
     private merchants: MerchantsService,
-    private alerts: AlertService
+    private alerts: AlertService,
+    private errorHandler: ErrorHandler
   ) { }
 
   getTerminals() {
     this.isLoading = true;
-    this.allTerminals = [];
     this.terminals.getAllTerminals(this.pageIndex, this.pageSize, this.terminalId).subscribe(
       data => {
         this.allTerminals = data.content;
@@ -63,9 +64,10 @@ export class TerminalsComponent implements OnInit {
           pageSize: this.pageSize
         });
       },
-      error => {
+      e => {
         this.isLoaded = true;
         this.isLoading = false;
+        this.errorHandler.customClientErrors('Failed to get terminals', e.error.error.code, e.error.error.responseMessage);
         this.paginationService.pagerState.next(null);
       }
     );
@@ -123,8 +125,8 @@ export class TerminalsComponent implements OnInit {
         this.getTerminals();
         this.alerts.success('Terminal Created Successfully');
       },
-      error => {
-        this.alerts.warn(`Error occurred while creating terminal: ${ error.error.message }`);
+      e => {
+        this.errorHandler.customClientErrors('Failed to create terminal', e.error.error.code, e.error.error.responseMessage);
       }
     )
 
@@ -147,21 +149,18 @@ export class TerminalsComponent implements OnInit {
       formData.append('file', this.selectedFile);
       this.terminals.uploadTerminals(formData).subscribe(
         (response) => {
-          console.log(response);
           if (response['type'] === HttpEventType.UploadProgress) {
             this.percentDone = Math.round(100 * response['loaded'] / response['total']);
-            console.log(`File is ${this.percentDone}% uploaded.`);
           } else if (event instanceof HttpResponse) {
             this.isUploading = false;
             this.alerts.success('File uploaded successfully!');
-            console.log('File is completely uploaded!');
           }
           this.closeModal('cancel_button_upload_file');
         },
-        (error) => {
+        (e) => {
           this.isUploading = false;
-          console.error(error);
-          this.alerts.warn('Error occurred while uploading file');
+          this.errorHandler.customClientErrors('Failed to upload file', e.error.error.code, e.error.error.responseMessage);
+
       });
     }
   }
@@ -174,7 +173,6 @@ export class TerminalsComponent implements OnInit {
     this.merchants.getMerchantList().subscribe(
       data => {
         this.allMerchants = data;
-        this.alerts.success('Merchants don land');
       },
       error => {
         this.alerts.warn('Error occurred while getting merchants data');
@@ -186,8 +184,6 @@ export class TerminalsComponent implements OnInit {
     const terminalId = this.searchForm.value.terminalId || '';
     this.terminalId = terminalId;
     this.showFilter = false;
-
-    // this.pageIndex = 0;
 
     this.getTerminals();
   }

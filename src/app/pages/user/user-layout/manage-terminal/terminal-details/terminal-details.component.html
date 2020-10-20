@@ -190,6 +190,7 @@
             <button
               class="btn button-primary"
               type="submit"
+              [disabled]="updateTerminalForm.invalid || isUpdating"
             >
               Update Terminal
             </button>

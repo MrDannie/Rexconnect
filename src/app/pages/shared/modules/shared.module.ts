@@ -26,6 +26,6 @@ import { TopNavigationComponent } from '../components/top-navigation/top-navigat
     RexLoaderComponent
   ],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
-  providers: [Config, AlertService, PaginationService],
+  providers: [Config, PaginationService],
 })
 export class SharedModule {}

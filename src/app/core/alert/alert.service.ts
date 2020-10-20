@@ -1,3 +1,4 @@
+// tslint:disable
 import { AuthService } from './../auth/auth.service';
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
@@ -7,9 +8,11 @@ import { Observable, Subject } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { StorageService } from '../helpers/storage.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlertService {
-  private subject = new Subject<Alert>();
+  public subject = new Subject<Alert>();
   private keepAfterRouteChange = false;
   alertId: number = 0;
 
@@ -38,6 +41,7 @@ export class AlertService {
 
   success(message: string, keepAfterRouteChange = true) {
     window.scrollTo(0, 0);
+    console.log(message);
     this.alert(AlertType.Success, message, keepAfterRouteChange, this.alertId);
   }
 
@@ -108,7 +112,8 @@ export class AlertService {
     alertId: number
   ) {
     this.keepAfterRouteChange = keepAfterRouteChange;
-    this.subject.next(<Alert>{ type: type, message: message, id: alertId });
+    console.log('getting into the alert method too');
+    this.subject.next({ type, message, id: alertId });
     setTimeout(() => {
       this.subject.next();
     }, 4800);

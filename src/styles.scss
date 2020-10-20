@@ -412,3 +412,13 @@ span.has-float-label > input.form-control.ng-valid.ng-untouched:focus ~ label {
     padding-left: 2px;
   }
 }
+
+@keyframes rotateLoader {
+  100% {transform: rotate(360deg);}
+}
+
+.isLoading {
+
+  animation: rotateLoader .5s linear infinite;
+
+}

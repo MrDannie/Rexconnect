@@ -1,3 +1,4 @@
+import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 import { AlertService } from './../../../../../core/alert/alert.service';
 import { PaginationService } from './../../../../../core/pagination.service';
 import { ITransaction } from './../../../../shared/interfaces/transactions.model';
@@ -35,7 +36,8 @@ export class MerchantTransactionComponent implements OnInit {
     private route: ActivatedRoute,
     private merchants: MerchantsService,
     private paginationService: PaginationService,
-    private alerts: AlertService
+    private alerts: AlertService,
+    private errorHandler: ErrorHandler
   ) {
     this.showFilter = false;
     this.initializeForm();
@@ -63,7 +65,10 @@ export class MerchantTransactionComponent implements OnInit {
           this.isLoading = false;
           this.loadPagination = true;
           this.paginationService.pagerState.next(null);
-          this.alerts.warn('Error occurred while getting this terminal\'s transactions');
+          this.errorHandler.customClientErrors('Error occurred while getting this terminal\'s transactions',
+          error.error.error.code,
+          error.error.error.responseMessage
+        );
         }
       );
   }

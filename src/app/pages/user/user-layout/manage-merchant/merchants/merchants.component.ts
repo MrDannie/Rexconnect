@@ -1,3 +1,4 @@
+import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 // tslint:disable
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -5,7 +6,7 @@ import { IMerchant } from 'src/app/pages/shared/interfaces/merchants.model';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { MerchantsService } from 'src/app/pages/shared/services/merchants.service';
 import { AlertService } from 'src/app/core/alert/alert.service';
-import { countries, merchantCodes, currencies } from 'src/app/pages/shared/constants';
+import { countries, merchantCodes, currencies, states } from 'src/app/pages/shared/constants';
 
 @Component({
   selector: 'app-merchants',
@@ -30,20 +31,21 @@ export class MerchantsComponent implements OnInit {
   countryCodes: any;
   currencyCodes: any;
   merchantCategoryCodes: any;
-  allCities: any[];
+  allCities: any[] = [];
+  storedCities: any[];
   isLoadingCities: boolean;
   isCreatingMerchant: boolean;
 
   constructor(
     private paginationService: PaginationService,
     private merchants: MerchantsService,
-    private alerts: AlertService,
-    private fb: FormBuilder
+    private alertService: AlertService,
+    private fb: FormBuilder,
+    private errorHandler: ErrorHandler
   ) { }
 
   getAllMerchants(merchantId: string = '') {
     this.isLoading = true;
-    this.allMerchants = [];
     this.merchants.getAllMerchants(this.pageIndex, this.pageSize, merchantId).subscribe(
       data => {
         this.allMerchants = data.content;
@@ -62,7 +64,10 @@ export class MerchantsComponent implements OnInit {
         this.isLoaded = true;
         this.isLoading = false;
         this.paginationService.pagerState.next(null);
-        this.alerts.warn('Error occurred while getting merchants');
+        this.errorHandler.customClientErrors('Error occurred while getting merchants',
+          error.error.error.code,
+          error.error.error.responseMessage
+        );
       }
     )
   }
@@ -85,10 +90,13 @@ export class MerchantsComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.pageSize = 10;
     this.pageIndex = 0;
     this.getAllMerchants();
     this.initializeForm();
+
+    this.storedCities = states.STATES;
 
     this.getCategoryCodes();
     this.getCountries();
@@ -141,20 +149,14 @@ export class MerchantsComponent implements OnInit {
   getAllCities(code) {
     this.allCities = [];
     this.isLoadingCities = true;
-    this.merchants.getAllCities(code).subscribe(
-      (response) => {
-        this.allCities = response;
-        this.isLoadingCities = false;
-        this.allCities = this.allCities.map(function (city) {
-          city.fullCityLabel = city.name + ' ' + '(' + city.id + ')';
-          return city.fullCityLabel;
-        });
-      },
-      (error) => {
-        this.isLoadingCities = false;
-        this.alerts.warn('Error occurred while getting cities');
-      }
+    console.log(this.storedCities);
+
+    this.allCities = this.storedCities.filter(
+      (e) => e.country_code === String(code)
     );
+    this.isLoadingCities = false;
+    console.log(this.allCities);
+
   }
 
   addNewMerchant() {
@@ -169,17 +171,21 @@ export class MerchantsComponent implements OnInit {
       countryCode: this.createMerchantForm.value.countryCode,
       city: this.createMerchantForm.value.city || 'stub'
     }
+    console.log(newMerchant);
     this.merchants.addNewMerchant(newMerchant)
       .subscribe(
         response => {
           this.isCreatingMerchant = false;
           this.closeModal('cancel_button_add_merchant');
-          this.alerts.success('Merchant created successfully!');
+          this.alertService.success('Merchant created successfully!');
           this.getAllMerchants();
         },
         error => {
           this.isCreatingMerchant = false;
-          this.alerts.warn('Error occurred while creating merchant');
+          this.errorHandler.customClientErrors('Error occurred while creating merchant',
+          error.error.error.code,
+          error.error.error.responseMessage
+        );
         }
       )
 
@@ -209,9 +215,4 @@ export class MerchantsComponent implements OnInit {
       merchantToken: ['', Validators.required]
     });
   }
-
-  reset() {}
-  generateCSV() {}
-
-  createUser(value) {}
 }

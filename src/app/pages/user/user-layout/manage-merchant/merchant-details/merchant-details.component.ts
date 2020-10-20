@@ -1,6 +1,7 @@
+import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 import { ITerminal } from './../../../../shared/interfaces/terminals.model';
 import { merchantCodes } from 'src/app/pages/shared/constants';
-import { currencies, countries } from './../../../../shared/constants';
+import { currencies, countries, states } from './../../../../shared/constants';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { MerchantsService } from 'src/app/pages/shared/services/merchants.service';
 import { IMerchant } from './../../../../shared/interfaces/merchants.model';
@@ -27,13 +28,17 @@ export class MerchantDetailsComponent implements OnInit {
   merchantCategoryCodes: any[];
   currencyCodes: any[];
   countryCodes: any[];
-  allCities: any;
+  allCities: any[] = [];
+  storedCities: { country_code: string; subdivision_name: string; code: string; }[];
+
+  citiesMap = new Map();
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private merchants: MerchantsService,
-    private alerts: AlertService
+    private alerts: AlertService,
+    private errorHandler: ErrorHandler
   ) {
     this.initializeForm();
   }
@@ -49,8 +54,10 @@ export class MerchantDetailsComponent implements OnInit {
       },
       error => {
         this.isLoadingTerminals = false;
-        this.alerts.warn('Error occurred when getting merchant details');
-        console.error(error);
+        this.errorHandler.customClientErrors('Error occurred when getting merchant details',
+          error.error.error.code,
+          error.error.error.responseMessage
+        );
       }
     )
   }
@@ -77,7 +84,10 @@ export class MerchantDetailsComponent implements OnInit {
         },
         error => {
           this.isUpdatingMerchant = false;
-          this.alerts.warn('Error occurred while creating merchant');
+          this.errorHandler.customClientErrors('Error occurred while creating merchant',
+          error.error.error.code,
+          error.error.error.responseMessage
+        );
         }
       )
   }
@@ -95,7 +105,10 @@ export class MerchantDetailsComponent implements OnInit {
       },
       error => {
         this.isLoadingTerminals = false;
-        this.alerts.warn('Error occurred while getting merchant terminals');
+        this.errorHandler.customClientErrors('Error occurred while getting merchant terminals',
+          error.error.error.code,
+          error.error.error.responseMessage
+        );
       }
     )
   }
@@ -147,26 +160,17 @@ export class MerchantDetailsComponent implements OnInit {
   }
 
   onSelectCountryCode(countryCode) {
+    console.log(countryCode);
     this.getAllCities(countryCode);
   }
 
   getAllCities(code) {
     this.allCities = [];
     this.isLoadingCities = true;
-    this.merchants.getAllCities(code).subscribe(
-      (response) => {
-        this.allCities = response;
-        this.isLoadingCities = false;
-        this.allCities = this.allCities.map(function (city) {
-          city.fullCityLabel = city.name + ' ' + '(' + city.id + ')';
-          return city.fullCityLabel;
-        });
-      },
-      (error) => {
-        this.isLoadingCities = false;
-        this.alerts.warn('Error occurred while getting cities');
-      }
+    this.allCities = this.storedCities.filter(
+      (e) => e.country_code === String(code)
     );
+    this.isLoadingCities = false;
   }
 
   ngOnInit() {
@@ -174,19 +178,36 @@ export class MerchantDetailsComponent implements OnInit {
       this.merchantId = params.id;
       this.getMerchantDetails();
     })
+    this.storedCities = states.STATES;
     this.getCategoryCodes();
     this.getCountries();
     this.getCurrencyCodes();
+
+    this.citiesMap.set(566, 'NG');
+    this.citiesMap.set(288, 'GH');
+    this.citiesMap.set(404, 'KE');
+
   }
 
   populateEditForm() {
+    let countryCode = '';
+    let countryNum = 0;
+    this.citiesMap.forEach((value, key, map) => {
+      console.log(value);
+      if (value === this.merchantDetails.countryCode) {
+        countryCode = value;
+        countryNum = key;
+      }
+    })
+
+    this.getAllCities(countryCode);
     this.updateMerchantForm.patchValue({
       merchantName: this.merchantDetails.merchantName,
       merchantKey: this.merchantDetails.merchantKey,
       merchantId: this.merchantDetails.merchantId,
       currency: this.merchantDetails.currencyCode,
       categoryCode: this.merchantDetails.merchantCategoryCode,
-      countryCode: this.merchantDetails.countryCode,
+      countryCode: countryNum,
       city: this.merchantDetails.city,
       merchantToken: this.merchantDetails.merchantToken
     });
