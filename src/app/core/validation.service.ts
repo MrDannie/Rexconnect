@@ -64,6 +64,9 @@ export class ValidationService {
       role: {
         required: 'Role Name is required',
       },
+      userRole: {
+        required: 'User Role is required',
+      },
       customer_name: {
         required: 'Customer Name is required',
       },

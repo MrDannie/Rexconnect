@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { error } from 'protractor';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
+import { ValidationService } from 'src/app/core/validation.service';
 import { AllRoles } from 'src/app/pages/shared/interfaces/AllRoles';
 import { AllUsers } from 'src/app/pages/shared/interfaces/AllUsers';
 import { IRole } from 'src/app/pages/shared/interfaces/Role';
@@ -29,7 +30,6 @@ export class ManageUserComponent implements OnInit {
   originalResponse: AllUsers;
   userToBeUpdated: number;
 
-
   // PAGINATION
   pageIndex: number;
   pageSize: number;
@@ -45,13 +45,18 @@ export class ManageUserComponent implements OnInit {
   listOfMerchantRoles: IRole[];
   userToBeDeleted: any;
   isLoaded = false;
+  isSubmiting: boolean;
+  validationMessage: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private userManagementService: UserManagementService,
     private paginationService: PaginationService,
-    private alertService: AlertService
-  ) {}
+    private alertService: AlertService,
+    private validationMessages: ValidationService
+  ) {
+    this.validationMessage = validationMessages;
+  }
   getAllUsers() {
     this.isLoading = true;
     this.isLoaded = false;
@@ -88,7 +93,7 @@ export class ManageUserComponent implements OnInit {
     this.getUsersRoles('MERCHANT');
   }
 
-  onRefreshData(pageParams: { pageIndex: number, pageSize: number }) {
+  onRefreshData(pageParams: { pageIndex: number; pageSize: number }) {
     this.pageIndex = pageParams.pageIndex;
     this.pageSize = pageParams.pageSize;
 
@@ -123,13 +128,14 @@ export class ManageUserComponent implements OnInit {
 
   createUser(userDetails) {
     this.isLoading = true; //TODO:
-
-    console.log(userDetails);
+    // console.log(userDetails);
     this.userManagementService.createUser(userDetails).subscribe(
       (response: IUser) => {
-        this.alertService.success('Created Successfully', true);
+        this.getAllUsers();
         $('#createUser').modal('hide');
+        this.isLoading = false;
         console.log('User Gotten IN component', response);
+        this.alertService.success('Created Successfully', true);
       },
       (error) => {
         console.log('Error Occured in Adding user', error);
@@ -138,11 +144,14 @@ export class ManageUserComponent implements OnInit {
   }
 
   deleteUser(userId) {
+    this.isSubmiting = true;
     this.userManagementService.deleteUser(userId).subscribe(
       (response: boolean) => {
-        this.alertService.success('Deleted Successfully', true);
         $('#deleteUser').modal('hide');
+        this.getAllUsers();
+        this.isSubmiting = false;
         console.log('response after delete', response);
+        this.alertService.success('Deleted Successfully', true);
       },
       (error) => {
         console.log('Error Occured in Deleting user', error);
@@ -153,17 +162,22 @@ export class ManageUserComponent implements OnInit {
   initializeEditForm(userId) {
     this.userToBeUpdated = userId;
     console.log(userId);
-    this.userManagementService.getSingleUser(userId).subscribe((response) => {
-      console.log('COMP: SINGLE USER', response);
-      const { firstName, surname, username, email, role, roleId } = response;
-      this.editUserForm.patchValue({
-        firstName,
-        surname,
-        username,
-        email,
-        roleId,
-      });
-    });
+    this.userManagementService.getSingleUser(userId).subscribe(
+      (response) => {
+        console.log('COMP: SINGLE USER', response);
+        const { firstName, surname, username, email, roleId } = response;
+        this.editUserForm.patchValue({
+          firstName,
+          surname,
+          username,
+          email,
+          roleId,
+        });
+      },
+      (error) => {
+        console.log('COULD NOT GET SINGLE USER', error);
+      }
+    );
   }
 
   initializeDeleteModal(user) {
@@ -171,12 +185,17 @@ export class ManageUserComponent implements OnInit {
   }
 
   editUser(updatedUser) {
+    this.isSubmiting = true;
     console.log('Edited Values', updatedUser);
 
     this.userManagementService
       .updateUser(this.userToBeUpdated, updatedUser)
       .subscribe(
         (response: IUser) => {
+          this.getAllUsers();
+          $('#editUser').modal('hide');
+          this.isLoading = false;
+          this.isSubmiting = false;
           console.log('UPDATED USER IN COMPONENET', response);
         },
         (error) => {
@@ -192,17 +211,17 @@ export class ManageUserComponent implements OnInit {
       role: '',
     });
     this.createUserForm = this.formBuilder.group({
+      username: ['', Validators.compose([Validators.required])],
       firstName: ['', Validators.compose([Validators.required])],
       surname: ['', Validators.compose([Validators.required])],
-      username: ['', Validators.compose([Validators.required])],
-      email: ['', Validators.compose([Validators.required])],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
       roleId: ['', Validators.compose([Validators.required])],
     });
 
     this.editUserForm = this.formBuilder.group({
       firstName: ['', Validators.compose([Validators.required])],
       surname: ['', Validators.compose([Validators.required])],
-      username: ['', Validators.compose([Validators.required])],
+      username: [Validators.compose([Validators.required])],
       email: ['', Validators.compose([Validators.required])],
       roleId: ['', Validators.compose([Validators.required])],
     });
