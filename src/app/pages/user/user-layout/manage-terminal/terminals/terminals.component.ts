@@ -2,7 +2,10 @@ import { ErrorHandler } from './../../../../shared/services/error-handler.servic
 import { IMerchant } from './../../../../shared/interfaces/merchants.model';
 import { AlertService } from './../../../../../core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
-import { ITerminal, IAddTerminal } from './../../../../shared/interfaces/terminals.model';
+import {
+  ITerminal,
+  IAddTerminal,
+} from './../../../../shared/interfaces/terminals.model';
 import { TerminalsService } from './../../../../shared/services/terminals.service';
 // tslint:disable
 import { Component, OnInit } from '@angular/core';
@@ -78,7 +81,7 @@ export class TerminalsComponent implements OnInit {
     this.getTerminals();
   }
 
-  onRefreshData(payload: { pageIndex: number, pageSize: number }) {
+  onRefreshData(payload: { pageIndex: number; pageSize: number }) {
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 
@@ -93,15 +96,21 @@ export class TerminalsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      terminalId: ['']
+      terminalId: [''],
     });
     this.createTerminalForm = this.formBuilder.group({
       merchantName: ['', Validators.compose([Validators.required])],
-      terminalId: ['', Validators.compose([Validators.required, Validators.maxLength(8), Validators.minLength(8)])],
+      terminalId: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(8),
+          Validators.minLength(8),
+        ]),
+      ],
       transactionTimeOut: ['', Validators.compose([Validators.required])],
-      callHomeTime: ['', Validators.compose([Validators.required])]
+      callHomeTime: ['', Validators.compose([Validators.required])],
     });
-
   }
 
   getMerchantId(name: string) {
@@ -113,12 +122,12 @@ export class TerminalsComponent implements OnInit {
       callHomeTime: this.createTerminalForm.value.callHomeTime,
       transactionTimeout: this.createTerminalForm.value.transactionTimeOut,
       merchantId: this.createTerminalForm.value.merchantName,
-      terminalId: this.createTerminalForm.value.terminalId
-    }
+      terminalId: this.createTerminalForm.value.terminalId,
+    };
 
     this.isAddingTerminal = true;
     this.terminals.addNewTerminal(addTerminal).subscribe(
-      data => {
+      (data) => {
         this.isAddingTerminal = false;
         this.closeModal('cancel_button_add_terminal');
         this.createTerminalForm.reset();
@@ -128,8 +137,7 @@ export class TerminalsComponent implements OnInit {
       e => {
         this.errorHandler.customClientErrors('Failed to create terminal', e.error.error.code, e.error.error.responseMessage);
       }
-    )
-
+    );
   }
 
   uploadFile() {
@@ -137,7 +145,7 @@ export class TerminalsComponent implements OnInit {
     fileInput.setAttribute('type', 'file');
     fileInput.addEventListener('change', (evt) => {
       this.selectedFile = (evt.target as HTMLInputElement).files[0];
-    })
+    });
 
     fileInput.click();
   }
@@ -171,10 +179,10 @@ export class TerminalsComponent implements OnInit {
 
   getAllMerchants() {
     this.merchants.getMerchantList().subscribe(
-      data => {
+      (data) => {
         this.allMerchants = data;
       },
-      error => {
+      (error) => {
         this.alerts.warn('Error occurred while getting merchants data');
       }
     );
@@ -197,7 +205,6 @@ export class TerminalsComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.showFilter = false;
     this.isCSVLoading = false;
     this.isUserCreating = false;
@@ -209,5 +216,4 @@ export class TerminalsComponent implements OnInit {
     this.getTerminals();
     this.getAllMerchants();
   }
-
 }

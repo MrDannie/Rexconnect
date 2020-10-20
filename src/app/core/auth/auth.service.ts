@@ -11,7 +11,7 @@ import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
 import { Config } from '../Config';
 import { Observable } from 'rxjs';
-import { IUser } from 'src/app/pages/shared/interfaces/User';
+import { IUser } from '../../pages/shared/interfaces/user';
 
 const BASE_URL = environment.BASE_URL;
 // const EXTERNAL_BASE_URL = environment.EXTERNAL_BASE_URL;
@@ -41,6 +41,10 @@ export class AuthService {
     return this.httpClient
       .post(`${BASE_URL}/v1/auth/login`, loginDetails)
       .pipe(map((user) => user));
+  }
+
+  logout(){
+    
   }
 
   getClientDetails(): Observable<IUser> {
