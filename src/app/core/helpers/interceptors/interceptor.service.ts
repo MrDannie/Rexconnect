@@ -30,8 +30,11 @@ export class InterceptorService implements HttpInterceptor {
       const storedToken = this.storageService.getCurrentUser();
       const { accessToken } = storedToken ? storedToken : { accessToken: null };
 
-      if (req.url.includes('uploadTerminals')) {
-        const request = req.clone();
+      if (req.url.includes('/v1/terminals/upload')) {
+        headers = new HttpHeaders({
+          'Authorization': 'Bearer ' + accessToken
+        })
+        const request = req.clone({ headers });
         return next.handle(request);
       }
 
@@ -50,7 +53,7 @@ export class InterceptorService implements HttpInterceptor {
 
 
       let httpRequest: HttpRequest<any> = req.clone({
-        headers,
+        headers
       });
       return next.handle(httpRequest);
     }

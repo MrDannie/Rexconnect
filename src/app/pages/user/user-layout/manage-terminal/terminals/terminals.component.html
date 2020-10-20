@@ -90,9 +90,9 @@
   </div>
 
   <!-- Reset button -->
-  <button class="btn btn-secondary reset-filter" (click)="clearFilters()">
-    <i class="fa fa-refresh"></i>
-    Refresh
+  <button class="btn btn-secondary reset-filter" (click)="clearFilters()" [disabled]="isLoading" >
+    <i class="fa fa-refresh" [class.isLoading]="isLoading" ></i>
+    {{ isLoading ? 'Loading' : 'Refresh' }}
   </button>
 
   <!-- FILTER BY CODE ENDS HERE  -->
@@ -100,7 +100,6 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
-    <app-rex-loader [isPushed]="true" *ngIf="isLoading"  ></app-rex-loader>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -245,7 +244,7 @@
             </button>
             <button
               type="submit"
-              [disabled]="createTerminalForm.invalid"
+              [disabled]="createTerminalForm.invalid || isAddingTerminal"
               class="btn button-primary"
             >
               Add Terminal

@@ -47,6 +47,11 @@
   min-width: 7rem;
   float: right;
   position: relative;
+
+  &[disabled]:hover {
+    cursor: pointer;
+  }
+
 }
 .reset-filter i {
   margin-right: 8.1%;

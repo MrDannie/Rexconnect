@@ -3,7 +3,9 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { PagerContent } from '../pages/shared/components/rex-pagination/rex-pagination.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PaginationService {
 
   public changePagerState = new Subject<boolean>();

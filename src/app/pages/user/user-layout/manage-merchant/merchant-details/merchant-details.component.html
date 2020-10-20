@@ -267,8 +267,7 @@
                       placeholder=" "
                       formControlName="city"
                     >
-                      <option value="stub">stub</option>
-                      <option [value]="city" *ngFor="let city of allCities" >{{ city }}</option>
+                      <option [value]="city['subdivision_name']" *ngFor="let city of allCities" >{{ city['subdivision_name'] }}</option>
                     </select>
                     <label for="city">City</label>
                   </span>

@@ -161,10 +161,10 @@
   </div>
 
   <!-- Reset button -->
-  <button class="btn btn-secondary reset-filter" (click)="clearFilters()">
+  <button class="btn btn-secondary reset-filter" (click)="clearFilters()" [disabled]="isLoading" >
     <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
-    <i class="fa fa-refresh"></i>
-    Refresh
+    <i class="fa fa-refresh" [class.isLoading]="isLoading" ></i>
+    {{ isLoading ? 'Loading' : 'Refresh' }}
   </button>
 
   <!-- FILTER BY CODE ENDS HERE  -->
@@ -174,7 +174,6 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
-    <app-rex-loader [isPushed]="true" *ngIf="isLoading"  ></app-rex-loader>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -387,8 +386,7 @@
                       placeholder=" "
                       formControlName="city"
                     >
-                      <option value="stub">stub</option>
-                      <option [value]="city" *ngFor="let city of allCities" >{{ city }}</option>
+                      <option [value]="city['subdivision_name']" *ngFor="let city of allCities" >{{ city['subdivision_name'] }}</option>
                     </select>
                     <label for="city">City</label>
                   </span>

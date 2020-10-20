@@ -68,7 +68,6 @@ export class TerminalsService {
 
   uploadTerminals(formData) {
     const header = this.createAuthorizationHeader();
-    header.append('Content-Type', 'multipart/form-data');
     return this.httpClient
       .post(BASE_URL + this.config.uploadTerminals, formData, {
         headers: header,
