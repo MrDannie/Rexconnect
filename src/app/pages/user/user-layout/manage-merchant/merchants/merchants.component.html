@@ -272,6 +272,7 @@
                     id="merchantId"
                     type="text"
                     class="form-control"
+                    maxlength="15"
                     placeholder=" "
                     formControlName="merchantId"
                   />
@@ -280,8 +281,14 @@
               </div>
               <span
                 class="validation-message"
-                *ngIf="createMerchantForm.get('merchantId').errors && createMerchantForm.get('merchantId').touched"
+                *ngIf="createMerchantForm.get('merchantId').hasError('required') && createMerchantForm.get('merchantId').touched"
               >Merchant ID is required.</span>
+              <span
+                class="validation-message"
+                *ngIf="!createMerchantForm.get('merchantId').hasError('required') && (createMerchantForm.get('merchantId').hasError('minlength'))"
+              >
+                {{ messages.merchantId.length }}
+              </span>
             </div>
 
             <div class="col-md-12 no-padding">

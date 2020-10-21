@@ -188,8 +188,14 @@
               </div>
               <span
                 class="validation-message"
-                *ngIf="createTerminalForm.get('terminalId').errors && createTerminalForm.get('terminalId').touched"
+                *ngIf="createTerminalForm.get('terminalId').hasError('required') && createTerminalForm.get('terminalId').touched"
               >Terminal ID is required.</span>
+              <span
+                class="validation-message"
+                *ngIf="!createTerminalForm.get('terminalId').hasError('required') && (createTerminalForm.get('terminalId').hasError('minlength'))"
+              >
+                {{ messages.terminalId.length }}
+              </span>
             </div>
 
             <div class="col-md-12 no-padding">

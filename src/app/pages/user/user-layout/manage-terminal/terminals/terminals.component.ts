@@ -1,3 +1,4 @@
+import { ValidationService } from 'src/app/core/validation.service';
 import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 import { IMerchant } from './../../../../shared/interfaces/merchants.model';
 import { AlertService } from './../../../../../core/alert/alert.service';
@@ -43,14 +44,19 @@ export class TerminalsComponent implements OnInit {
   isUploading: boolean;
   isLoading: boolean;
 
+  messages: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private terminals: TerminalsService,
     private paginationService: PaginationService,
     private merchants: MerchantsService,
     private alerts: AlertService,
-    private errorHandler: ErrorHandler
-  ) { }
+    private errorHandler: ErrorHandler,
+    public validationMessages: ValidationService
+  ) {
+    this.messages = this.validationMessages;
+  }
 
   getTerminals() {
     this.isLoading = true;
