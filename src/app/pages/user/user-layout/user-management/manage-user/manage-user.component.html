@@ -59,7 +59,7 @@
       id="filter__dropdown"
       style="height: 200px"
     >
-      <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" (ngSubmit)="searchBy(searchForm.value)">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
@@ -67,7 +67,7 @@
               <input
                 type="text"
                 class="form-control search_input"
-                formControlName="firstname"
+                formControlName="firstName"
                 id="firstname"
               />
             </div>
@@ -79,7 +79,7 @@
               <input
                 type="text"
                 class="form-control search_input"
-                formControlName="lastname"
+                formControlName="lastName"
                 id="lastname"
               />
             </div>
@@ -91,20 +91,26 @@
               <select
                 type="text"
                 class="form-control search_input"
-                formControlName="role"
+                formControlName="roleId"
                 id="role"
               >
-                <option value="">Select role</option>
-                <option></option>
+                <option
+                  *ngFor="let role of listOfMerchantRoles"
+                  value="{{ role?.id }}"
+                >
+                  {{ role.name }}
+                </option>
               </select>
             </div>
           </div>
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white">Close</button>
+          <button class="btn button-white" (click)="showFilter = false">
+            Close
+          </button>
 
-          <button class="btn button-pink">
+          <button class="btn button-pink" type="submit">
             Apply Filters
 
             <div class="spinner-border spinner-border-sm ml-3" role="status">
@@ -199,10 +205,12 @@
 <app-rex-pagination
   [data]="allUsers"
   [totalElements]="dataCount"
-  (refreshData)="onRefreshData($event)"
   (pageCountSelected)="requestPageSize($event)"
+  (refreshData)="onRefreshData($event)"
   *ngIf="isLoaded"
 ></app-rex-pagination>
+
+
 
 <!-- ADD USER MODAL  -->
 <div

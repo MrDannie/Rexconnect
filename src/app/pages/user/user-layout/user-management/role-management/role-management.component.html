@@ -140,7 +140,7 @@
                     class="validation-message"
                     [hidden]="!createRoleForm.get('name').hasError('required')"
                   >
-                    Validation MEssage for required
+                    {{ validationMessage.role.required }}
                     <br />
                   </span>
                 </div>

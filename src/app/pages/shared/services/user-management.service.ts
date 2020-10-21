@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 // import * as CryptoJS from 'crypto-js';
 import { map } from 'rxjs/operators';
 import { Config } from 'src/app/core/Config';
@@ -17,7 +17,13 @@ const BASE_URL = environment.BASE_URL;
 export class UserManagementService {
   constructor(private httpClient: HttpClient, private config: Config) {}
 
-  getAllUsers(pageIndex = 0, pageSize = 10): Observable<AllUsers> {
+  getAllUsers(
+    pageIndex = 0,
+    pageSize = 10,
+    firstName,
+    lastName,
+    roleId
+  ): Observable<AllUsers> {
     if (isNullOrUndefined(pageIndex) || isNullOrUndefined(pageSize)) {
       return this.httpClient.get<AllUsers>(BASE_URL + '/v1/users').pipe(
         map((response: AllUsers) => {
@@ -26,6 +32,8 @@ export class UserManagementService {
         })
       );
     } else {
+      const params = new HttpParams();
+      //  const requestParams = params.append('') //TODO:
       return this.httpClient
         .get<AllUsers>(
           BASE_URL + '/v1/users?page=' + pageIndex + '&size=' + pageSize

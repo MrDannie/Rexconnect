@@ -57,26 +57,37 @@ export class ManageUserComponent implements OnInit {
   ) {
     this.validationMessage = validationMessages;
   }
-  getAllUsers() {
+  getAllUsers(
+    firstName: string = '',
+    lastName: string = '',
+    roleId: number = null
+  ) {
     this.isLoading = true;
-    this.isLoaded = false;
     this.userManagementService
-      .getAllUsers(this.pageIndex, this.pageSize)
+      .getAllUsers(this.pageIndex, this.pageSize, firstName, lastName, roleId)
       .subscribe(
         (response: AllUsers) => {
           this.allUsers = response['content'];
           this.dataCount = response['totalElements'];
           this.originalResponse = response;
-
           this.isLoaded = true;
-
-          this.pagedItems = this.allUsers;
           this.isLoading = false;
-          this.paginationService.changePagerState.next(true);
+
+          this.paginationService.pagerState.next({
+            totalElements: this.dataCount,
+            pageIndex: this.pageIndex,
+            pageSize: this.pageSize,
+          });
+
+          // this.pagedItems = this.allUsers;
+
+          // this.paginationService.changePagerState.next(true);
         },
         (error) => {
           this.isLoaded = true;
-          this.paginationService.changePagerState.next(false);
+          this.isLoading = false;
+          this.paginationService.pagerState.next(null);
+          // this.paginationService.changePagerState.next(false);
           console.error('error occurred: ', error);
         }
       );
@@ -206,9 +217,9 @@ export class ManageUserComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
-      role: '',
+      firstName: '',
+      lastName: '',
+      roleId: '',
     });
     this.createUserForm = this.formBuilder.group({
       username: ['', Validators.compose([Validators.required])],
@@ -229,6 +240,18 @@ export class ManageUserComponent implements OnInit {
     this.pageSizeForm = this.formBuilder.group({
       pageSize: ['10'],
     });
+  }
+
+  searchBy(filterByValues) {
+    console.log(filterByValues);
+    this.showFilter = false;
+    const { firstName, lastName, roleId } = filterByValues;
+    this.getAllUsers(firstName, lastName, roleId);
+    console.log(firstName, lastName, roleId);
+
+    // const firstName = this.searchForm.get('firstName').value || '';
+    // if (firstName) {
+    // }
   }
 
   // request by page size

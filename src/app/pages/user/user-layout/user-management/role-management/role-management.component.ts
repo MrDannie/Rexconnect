@@ -2,6 +2,7 @@ import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { error } from 'console';
+import { ValidationService } from 'src/app/core/validation.service';
 import { IRole } from 'src/app/pages/shared/interfaces/Role';
 import { RoleManagementService } from 'src/app/pages/shared/services/role-management.service';
 
@@ -26,13 +27,16 @@ export class RoleManagementComponent implements OnInit {
   selectedPermissions: any[] = [];
   permissionsToAdd: any = [];
   permissionToSend: any = [];
+  validationMessage: ValidationService;
 
   constructor(
     private formBuilder: FormBuilder,
-    private roleMgtService: RoleManagementService
+    private roleMgtService: RoleManagementService,
+    private validationMessages: ValidationService
   ) {}
 
   ngOnInit() {
+    this.validationMessage = this.validationMessages
     this.selectedRole = {};
     this.isLoading = false;
     this.isPermissionsLoading = false;
