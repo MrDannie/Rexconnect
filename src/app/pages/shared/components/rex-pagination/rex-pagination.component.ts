@@ -1,3 +1,4 @@
+import { FileGenerationService } from './../../services/file-generation.service';
 // tslint:disable
 import { PaginationService } from './../../../../core/pagination.service';
 import { FormBuilder } from '@angular/forms';
@@ -43,10 +44,13 @@ export class RexPaginationComponent implements OnInit {
   pageSizeForm: FormGroup;
   dataCount: any;
 
+  isDownloading = false;
+
 
   constructor(
     private fb: FormBuilder,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    private fileGenerationService: FileGenerationService
   ) { }
 
   initForm() {
@@ -98,6 +102,11 @@ export class RexPaginationComponent implements OnInit {
     this.pagedItems = this.data;
   }
 
+  emitDownloadEvent() {
+    this.isDownloading = true;
+    this.onDownloadAsCSV.emit(true);
+  }
+
   ngOnInit() {
     this.initForm();
     this.pageSize = 10;
@@ -115,7 +124,11 @@ export class RexPaginationComponent implements OnInit {
 
         this.initPages();
       }
-    })
+    });
+
+    this.fileGenerationService.onDownloadCompleted.subscribe(_ => {
+      this.isDownloading = false;
+    });
 
   }
 

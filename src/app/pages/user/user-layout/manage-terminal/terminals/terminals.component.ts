@@ -1,3 +1,5 @@
+import { FileGenerationService } from './../../../../shared/services/file-generation.service';
+import { IWrapper } from './../../../../shared/interfaces/wrapper.model';
 import { ValidationService } from 'src/app/core/validation.service';
 import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 import { IMerchant } from './../../../../shared/interfaces/merchants.model';
@@ -26,6 +28,7 @@ export class TerminalsComponent implements OnInit {
   isCSVLoading: boolean;
   isUserCreating: boolean;
 
+  terminalsWrapper: IWrapper<ITerminal>;
   allTerminals: ITerminal[];
   allMerchants: IMerchant[];
 
@@ -45,6 +48,7 @@ export class TerminalsComponent implements OnInit {
   isLoading: boolean;
 
   messages: any;
+  exportTerminalsRecords: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,7 +57,8 @@ export class TerminalsComponent implements OnInit {
     private merchants: MerchantsService,
     private alerts: AlertService,
     private errorHandler: ErrorHandler,
-    public validationMessages: ValidationService
+    public validationMessages: ValidationService,
+    private fileGenerationService: FileGenerationService
   ) {
     this.messages = this.validationMessages;
   }
@@ -62,6 +67,7 @@ export class TerminalsComponent implements OnInit {
     this.isLoading = true;
     this.terminals.getAllTerminals(this.pageIndex, this.pageSize, this.terminalId).subscribe(
       data => {
+        this.terminalsWrapper = data;
         this.allTerminals = data.content;
         this.dataCount = data.totalElements;
         this.isLoaded = true;
@@ -117,6 +123,48 @@ export class TerminalsComponent implements OnInit {
       transactionTimeOut: ['', Validators.compose([Validators.required])],
       callHomeTime: ['', Validators.compose([Validators.required])],
     });
+  }
+
+  beginDownload() {
+    this.exportTerminals();
+  }
+
+  exportTerminals() {
+    const temp: any[] = [];
+    const pageSize = this.pageSize;
+
+    this.pageSize = this.terminalsWrapper.totalElements;
+    this.pageIndex = 0;
+
+    this.terminals.getAllTerminals(this.pageIndex, this.pageSize, this.terminalId).subscribe(
+      (data: any) => {
+        this.exportTerminalsRecords = data.content;
+        this.pageSize = pageSize;
+        for (let idx = 0; idx < this.exportTerminalsRecords.length; idx++) {
+          temp.push([]);
+          temp[idx]['Terminal ID'] = this.clean('terminalId', idx);
+          temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
+          temp[idx]['Transaction Timeout'] = this.clean('transactionTimeout', idx);
+        }
+        this.exportTerminalsRecords = temp;
+        this.exportRecords();
+
+      },
+      error => {
+        this.fileGenerationService.onDownloadCompleted.next(false);
+        this.alerts.error('Terminals download could not be completed');
+      }
+    );
+
+  }
+  exportRecords() {
+    const headers = ['Terminal ID', 'Merchant ID', 'Transaction Timeout'];
+    this.fileGenerationService.generateCSV(this.exportTerminalsRecords, headers, 'Terminals');
+    this.fileGenerationService.onDownloadCompleted.next(true);
+  }
+
+  clean(key: string, index: number) {
+    return this.exportTerminalsRecords[index][key] ? this.exportTerminalsRecords[index][key] : '';
   }
 
   getMerchantId(name: string) {

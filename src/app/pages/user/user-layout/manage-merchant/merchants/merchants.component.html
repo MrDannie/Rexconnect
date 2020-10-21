@@ -208,6 +208,7 @@
   [data]="allMerchants"
   [totalElements]="dataCount"
   (pageCountSelected)="requestPageSize($event)"
+  (onDownloadAsCSV)="beginDownload()"
   (refreshData)="onRefreshData($event)"
   *ngIf="isLoaded"
 ></app-rex-pagination>

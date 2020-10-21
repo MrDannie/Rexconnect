@@ -51,6 +51,7 @@
     [data]="terminalTransactions"
     [totalElements]="dataCount"
     (pageCountSelected)="requestPageSize($event)"
+    (onDownloadAsCSV)="beginDownload()"
     (refreshData)="onRefreshData($event)"
     *ngIf="loadPagination"
   ></app-rex-pagination>
