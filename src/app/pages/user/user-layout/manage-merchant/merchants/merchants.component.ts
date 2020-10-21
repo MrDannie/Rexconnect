@@ -1,3 +1,4 @@
+import { ValidationService } from 'src/app/core/validation.service';
 import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 // tslint:disable
 import { Component, OnInit } from '@angular/core';
@@ -36,13 +37,18 @@ export class MerchantsComponent implements OnInit {
   isLoadingCities: boolean;
   isCreatingMerchant: boolean;
 
+  messages: any;
+
   constructor(
     private paginationService: PaginationService,
     private merchants: MerchantsService,
     private alertService: AlertService,
     private fb: FormBuilder,
-    private errorHandler: ErrorHandler
-  ) { }
+    private errorHandler: ErrorHandler,
+    private validationMessages: ValidationService
+  ) {
+    this.messages = this.validationMessages;
+  }
 
   getAllMerchants(merchantId: string = '') {
     this.isLoading = true;
@@ -143,7 +149,11 @@ export class MerchantsComponent implements OnInit {
   }
 
   onSelectCountryCode(countryCode) {
-    this.getAllCities(countryCode);
+    const countryObj = countries.COUNTRY_CODES.find(country => {
+      return country["ISO3166-1-numeric"] == countryCode;
+    })
+    const countryAlpha2 = countryObj["ISO3166-1-Alpha-2"];
+    this.getAllCities(countryAlpha2);
   }
 
   getAllCities(code) {
@@ -155,7 +165,6 @@ export class MerchantsComponent implements OnInit {
       (e) => e.country_code === String(code)
     );
     this.isLoadingCities = false;
-    console.log(this.allCities);
 
   }
 
@@ -167,11 +176,10 @@ export class MerchantsComponent implements OnInit {
       merchantToken: this.createMerchantForm.value.merchantToken,
       merchantCategoryCode: Number(this.createMerchantForm.value.categoryCode),
       merchantKey: this.createMerchantForm.value.merchantKey,
-      currencyCode: this.createMerchantForm.value.currency,
-      countryCode: this.createMerchantForm.value.countryCode,
-      city: this.createMerchantForm.value.city || 'stub'
+      currencyCode: Number(this.createMerchantForm.value.currency),
+      countryCode: Number(this.createMerchantForm.value.countryCode),
+      city: this.createMerchantForm.value.city
     }
-    console.log(newMerchant);
     this.merchants.addNewMerchant(newMerchant)
       .subscribe(
         response => {

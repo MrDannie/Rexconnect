@@ -71,9 +71,10 @@ export class MerchantDetailsComponent implements OnInit {
       merchantCategoryCode: Number(this.updateMerchantForm.value.categoryCode),
       merchantKey: this.updateMerchantForm.value.merchantKey,
       currencyCode: this.updateMerchantForm.value.currency,
-      countryCode: this.updateMerchantForm.value.countryCode,
-      city: this.updateMerchantForm.value.city || 'stub'
+      countryCode: Number(this.updateMerchantForm.value.countryCode),
+      city: this.updateMerchantForm.value.city
     }
+    console.log(updatedMerchant)
     this.merchants.updateMerchant(this.merchantId, updatedMerchant)
       .subscribe(
         response => {
@@ -160,8 +161,11 @@ export class MerchantDetailsComponent implements OnInit {
   }
 
   onSelectCountryCode(countryCode) {
-    console.log(countryCode);
-    this.getAllCities(countryCode);
+    const countryObj = countries.COUNTRY_CODES.find(country => {
+      return country["ISO3166-1-numeric"] == countryCode;
+    })
+    const countryAlpha2 = countryObj["ISO3166-1-Alpha-2"];
+    this.getAllCities(countryAlpha2);
   }
 
   getAllCities(code) {
@@ -183,31 +187,33 @@ export class MerchantDetailsComponent implements OnInit {
     this.getCountries();
     this.getCurrencyCodes();
 
-    this.citiesMap.set(566, 'NG');
-    this.citiesMap.set(288, 'GH');
-    this.citiesMap.set(404, 'KE');
-
   }
 
   populateEditForm() {
-    let countryCode = '';
-    let countryNum = 0;
-    this.citiesMap.forEach((value, key, map) => {
-      console.log(value);
-      if (value === this.merchantDetails.countryCode) {
-        countryCode = value;
-        countryNum = key;
-      }
-    })
 
-    this.getAllCities(countryCode);
+    let actualCountryCode;
+    const countryCode = this.merchantDetails.countryCode;
+    if (isNaN(Number(countryCode))) {
+      const countryObj = countries.COUNTRY_CODES.find(country => {
+        return country["ISO3166-1-Alpha-2"] == countryCode;
+      })
+      actualCountryCode = countryObj["ISO3166-1-numeric"];
+      this.getAllCities(countryCode);
+    } else {
+      actualCountryCode = countryCode;
+      const countryObj = countries.COUNTRY_CODES.find(country => {
+        return country["ISO3166-1-numeric"] == Number(countryCode);
+      })
+      this.getAllCities(countryObj["ISO3166-1-Alpha-2"]);
+    }
+
     this.updateMerchantForm.patchValue({
       merchantName: this.merchantDetails.merchantName,
       merchantKey: this.merchantDetails.merchantKey,
       merchantId: this.merchantDetails.merchantId,
       currency: this.merchantDetails.currencyCode,
       categoryCode: this.merchantDetails.merchantCategoryCode,
-      countryCode: countryNum,
+      countryCode: actualCountryCode,
       city: this.merchantDetails.city,
       merchantToken: this.merchantDetails.merchantToken
     });

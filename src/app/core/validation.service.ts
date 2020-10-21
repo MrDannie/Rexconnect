@@ -1,3 +1,4 @@
+// tslint:disable
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -17,6 +18,12 @@ export class ValidationService {
       alternate_email: {
         required: 'Alternate Email is required',
         invalid: 'Alternate Email is invalid',
+      },
+      terminalId: {
+        length: 'Terminal ID must be 8 characters long'
+      },
+      merchantId: {
+        length: 'Merchant ID must be 15 characters long'
       },
       type: {
         required: 'Business type is required',
