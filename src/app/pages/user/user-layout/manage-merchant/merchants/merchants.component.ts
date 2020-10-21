@@ -1,3 +1,5 @@
+import { IWrapper } from './../../../../shared/interfaces/wrapper.model';
+import { FileGenerationService } from './../../../../shared/services/file-generation.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 // tslint:disable
@@ -37,7 +39,10 @@ export class MerchantsComponent implements OnInit {
   isLoadingCities: boolean;
   isCreatingMerchant: boolean;
 
+  merchantsWrapper: IWrapper<IMerchant>;
+
   messages: any;
+  exportedMerchantRecords: any;
 
   constructor(
     private paginationService: PaginationService,
@@ -45,7 +50,8 @@ export class MerchantsComponent implements OnInit {
     private alertService: AlertService,
     private fb: FormBuilder,
     private errorHandler: ErrorHandler,
-    private validationMessages: ValidationService
+    private validationMessages: ValidationService,
+    private fileGenerationService: FileGenerationService
   ) {
     this.messages = this.validationMessages;
   }
@@ -54,6 +60,7 @@ export class MerchantsComponent implements OnInit {
     this.isLoading = true;
     this.merchants.getAllMerchants(this.pageIndex, this.pageSize, merchantId).subscribe(
       data => {
+        this.merchantsWrapper = data;
         this.allMerchants = data.content;
         this.dataCount = data.totalElements;
 
@@ -76,6 +83,49 @@ export class MerchantsComponent implements OnInit {
         );
       }
     )
+  }
+
+  beginDownload() {
+    const merchantId = this.searchForm.value.merchantId || '';
+    this.exportMerchants(merchantId);
+  }
+
+  exportMerchants(merchantId: string = '') {
+    const temp: any[] = [];
+    const pageSize = this.pageSize;
+
+    this.pageSize = this.merchantsWrapper.totalElements;
+    this.pageIndex = 0;
+
+    this.merchants.getAllMerchants(this.pageIndex, this.pageSize, merchantId).subscribe(
+      (data: any) => {
+        this.exportedMerchantRecords = data.content;
+        this.pageSize = pageSize;
+        for (let idx = 0; idx < this.exportedMerchantRecords.length; idx++) {
+          temp.push([]);
+          temp[idx]['Merchant Name'] = this.clean('merchantName', idx);
+          temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
+          temp[idx]['Merchant Category Code'] = this.clean('merchantCategoryCode', idx);
+        }
+        this.exportedMerchantRecords = temp;
+        this.exportRecords();
+
+      },
+      error => {
+        this.fileGenerationService.onDownloadCompleted.next(false);
+        this.alertService.error('Merchants download could not be completed');
+      }
+    );
+
+  }
+  exportRecords() {
+    const headers = ['Merchant Name', 'Merchant ID', 'Merchant Category Code'];
+    this.fileGenerationService.generateCSV(this.exportedMerchantRecords, headers, 'Merchants');
+    this.fileGenerationService.onDownloadCompleted.next(true);
+  }
+
+  clean(key: string, index: number) {
+    return this.exportedMerchantRecords[index][key] ? this.exportedMerchantRecords[index][key] : '';
   }
 
   requestPageSize(newSize: number) {

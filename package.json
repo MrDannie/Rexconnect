@@ -25,6 +25,7 @@
     "@syncfusion/ej2-angular-calendars": "^17.2.35",
     "angular-font-awesome": "^3.1.2",
     "angular5-csv": "^0.2.11",
+    "angular7-csv": "^0.2.12",
     "animate.css": "^3.7.2",
     "aos": "^2.3.4",
     "bootstrap": "^4.4.1",
