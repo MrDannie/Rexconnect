@@ -170,86 +170,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-          <td>3632DYGRF</td>
-          <td>3632DYGRF3WBPED</td>
-          <td>2033ESGQ</td>
-          <td>000220006396</td>
-          <td>007618</td>
-          <td>539983******5896</td>
-          <td>N50.00</td>
-          <td>566 (NGN)</td>
-          <td>Reversal</td>
-          <td>Approved</td>
-        </tr>
-        <tr>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-          <td>3632DYGRF</td>
-          <td>3632DYGRF3WBPED</td>
-          <td>2033ESGQ</td>
-          <td>000220006396</td>
-          <td>007618</td>
-          <td>539983******5896</td>
-          <td>N50.00</td>
-          <td>566 (NGN)</td>
-          <td>Reversal</td>
-          <td>Approved</td>
-        </tr>
-        <tr>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-          <td>3632DYGRF</td>
-          <td>3632DYGRF3WBPED</td>
-          <td>2033ESGQ</td>
-          <td>000220006396</td>
-          <td>007618</td>
-          <td>539983******5896</td>
-          <td>N50.00</td>
-          <td>566 (NGN)</td>
-          <td>Reversal</td>
-          <td>Approved</td>
-        </tr>
-        <tr>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-          <td>3632DYGRF</td>
-          <td>3632DYGRF3WBPED</td>
-          <td>2033ESGQ</td>
-          <td>000220006396</td>
-          <td>007618</td>
-          <td>539983******5896</td>
-          <td>N50.00</td>
-          <td>566 (NGN)</td>
-          <td>Reversal</td>
-          <td>Approved</td>
-        </tr>
-        <tr>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-          <td>3632DYGRF</td>
-          <td>3632DYGRF3WBPED</td>
-          <td>2033ESGQ</td>
-          <td>000220006396</td>
-          <td>007618</td>
-          <td>539983******5896</td>
-          <td>N50.00</td>
-          <td>566 (NGN)</td>
-          <td>Reversal</td>
-          <td>Approved</td>
-        </tr>
-        <tr>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-          <td>3632DYGRF</td>
-          <td>3632DYGRF3WBPED</td>
-          <td>2033ESGQ</td>
-          <td>000220006396</td>
-          <td>007618</td>
-          <td>539983******5896</td>
-          <td>N50.00</td>
-          <td>566 (NGN)</td>
-          <td>Reversal</td>
-          <td>Approved</td>
+        <tr *ngFor="let txn of transactions">
+          <td>{{ txn.mid }}</td>
+          <td>{{ txn.tid }}</td>
+          <td>{{ txn.rrn }}</td>
+          <td>{{ txn.stan }}</td>
+          <td>{{ txn.pan }}</td>
+          <td>&#8358;{{ txn.amount }}</td>
+          <td>{{ txn.currencyCode }} ({{ txn.currencyAlpha }})</td>
+          <td>{{ txn.type }}</td>
+          <td>
+            <span
+              class="status"
+              [class.approved]="txn.status === 'APPROVED'"
+              [class.declined]="txn.status === 'DECLINED'"
+            >
+              {{ txn.status }}
+            </span>
+          </td>
         </tr>
       </tbody>
     </table>
+    <span class="empty-state" *ngIf="transactions.length === 0 && !isLoading"
+      >No Records Found</span
+    >
   </div>
 </div>
 

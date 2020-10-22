@@ -33,10 +33,11 @@ export class RoleManagementComponent implements OnInit {
     private formBuilder: FormBuilder,
     private roleMgtService: RoleManagementService,
     private validationMessages: ValidationService
-  ) {}
+  ) {
+    this.validationMessage = this.validationMessages;
+  }
 
   ngOnInit() {
-    this.validationMessage = this.validationMessages
     this.selectedRole = {};
     this.isLoading = false;
     this.isPermissionsLoading = false;
