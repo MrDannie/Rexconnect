@@ -1,3 +1,6 @@
+import { IWrapper } from './../../../../shared/interfaces/wrapper.model';
+import { FileGenerationService } from './../../../../shared/services/file-generation.service';
+import { ValidationService } from 'src/app/core/validation.service';
 import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 // tslint:disable
 import { Component, OnInit } from '@angular/core';
@@ -36,18 +39,28 @@ export class MerchantsComponent implements OnInit {
   isLoadingCities: boolean;
   isCreatingMerchant: boolean;
 
+  merchantsWrapper: IWrapper<IMerchant>;
+
+  messages: any;
+  exportedMerchantRecords: any;
+
   constructor(
     private paginationService: PaginationService,
     private merchants: MerchantsService,
     private alertService: AlertService,
     private fb: FormBuilder,
-    private errorHandler: ErrorHandler
-  ) { }
+    private errorHandler: ErrorHandler,
+    private validationMessages: ValidationService,
+    private fileGenerationService: FileGenerationService
+  ) {
+    this.messages = this.validationMessages;
+  }
 
   getAllMerchants(merchantId: string = '') {
     this.isLoading = true;
     this.merchants.getAllMerchants(this.pageIndex, this.pageSize, merchantId).subscribe(
       data => {
+        this.merchantsWrapper = data;
         this.allMerchants = data.content;
         this.dataCount = data.totalElements;
 
@@ -70,6 +83,49 @@ export class MerchantsComponent implements OnInit {
         );
       }
     )
+  }
+
+  beginDownload() {
+    const merchantId = this.searchForm.value.merchantId || '';
+    this.exportMerchants(merchantId);
+  }
+
+  exportMerchants(merchantId: string = '') {
+    const temp: any[] = [];
+    const pageSize = this.pageSize;
+
+    this.pageSize = this.merchantsWrapper.totalElements;
+    this.pageIndex = 0;
+
+    this.merchants.getAllMerchants(this.pageIndex, this.pageSize, merchantId).subscribe(
+      (data: any) => {
+        this.exportedMerchantRecords = data.content;
+        this.pageSize = pageSize;
+        for (let idx = 0; idx < this.exportedMerchantRecords.length; idx++) {
+          temp.push([]);
+          temp[idx]['Merchant Name'] = this.clean('merchantName', idx);
+          temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
+          temp[idx]['Merchant Category Code'] = this.clean('merchantCategoryCode', idx);
+        }
+        this.exportedMerchantRecords = temp;
+        this.exportRecords();
+
+      },
+      error => {
+        this.fileGenerationService.onDownloadCompleted.next(false);
+        this.alertService.error('Merchants download could not be completed');
+      }
+    );
+
+  }
+  exportRecords() {
+    const headers = ['Merchant Name', 'Merchant ID', 'Merchant Category Code'];
+    this.fileGenerationService.generateCSV(this.exportedMerchantRecords, headers, 'Merchants');
+    this.fileGenerationService.onDownloadCompleted.next(true);
+  }
+
+  clean(key: string, index: number) {
+    return this.exportedMerchantRecords[index][key] ? this.exportedMerchantRecords[index][key] : '';
   }
 
   requestPageSize(newSize: number) {
@@ -143,7 +199,11 @@ export class MerchantsComponent implements OnInit {
   }
 
   onSelectCountryCode(countryCode) {
-    this.getAllCities(countryCode);
+    const countryObj = countries.COUNTRY_CODES.find(country => {
+      return country["ISO3166-1-numeric"] == countryCode;
+    })
+    const countryAlpha2 = countryObj["ISO3166-1-Alpha-2"];
+    this.getAllCities(countryAlpha2);
   }
 
   getAllCities(code) {
@@ -155,7 +215,6 @@ export class MerchantsComponent implements OnInit {
       (e) => e.country_code === String(code)
     );
     this.isLoadingCities = false;
-    console.log(this.allCities);
 
   }
 
@@ -167,11 +226,10 @@ export class MerchantsComponent implements OnInit {
       merchantToken: this.createMerchantForm.value.merchantToken,
       merchantCategoryCode: Number(this.createMerchantForm.value.categoryCode),
       merchantKey: this.createMerchantForm.value.merchantKey,
-      currencyCode: this.createMerchantForm.value.currency,
-      countryCode: this.createMerchantForm.value.countryCode,
-      city: this.createMerchantForm.value.city || 'stub'
+      currencyCode: Number(this.createMerchantForm.value.currency),
+      countryCode: Number(this.createMerchantForm.value.countryCode),
+      city: this.createMerchantForm.value.city
     }
-    console.log(newMerchant);
     this.merchants.addNewMerchant(newMerchant)
       .subscribe(
         response => {

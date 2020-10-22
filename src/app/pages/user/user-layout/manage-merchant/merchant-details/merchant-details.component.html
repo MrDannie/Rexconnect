@@ -4,42 +4,42 @@
       <div class="form_area">
         <div class="row">
           <div class="col-md-6">
-            <span>Merchant Name</span>
-            <p><strong>{{ merchantDetails?.merchantName }}</strong></p>
+            <b>Merchant Name</b>
+            <p>{{ merchantDetails?.merchantName }}</p>
           </div>
           <div class="col-md-6">
-            <span>Merchant ID</span>
-            <p><strong>{{ merchantDetails?.merchantId }}</strong></p>
+            <b>Merchant ID</b>
+            <p>{{ merchantDetails?.merchantId }}</p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <span>Merchant Key</span>
-            <p><strong>{{ merchantDetails?.merchantKey }}</strong></p>
+            <b>Merchant Key</b>
+            <p>{{ merchantDetails?.merchantKey }}</p>
           </div>
           <div class="col-md-6" *ngIf="merchantDetails?.merchantCategoryCode"  >
-            <span>Merchant Category</span>
-            <p><strong>{{ getMCCodes(merchantDetails?.merchantCategoryCode) }} ({{ merchantDetails?.merchantCategoryCode }})</strong></p>
+            <b>Merchant Category</b>
+            <p>{{ getMCCodes(merchantDetails?.merchantCategoryCode) }} ({{ merchantDetails?.merchantCategoryCode }})</p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <span>Merchant Token</span>
-            <p><strong>{{ merchantDetails?.merchantToken }}</strong></p>
+            <b>Merchant Token</b>
+            <p>{{ merchantDetails?.merchantToken }}</p>
           </div>
           <div class="col-md-6">
-            <span>Merchant Location</span>
-            <p><strong>{{ merchantDetails?.merchantLocationNameAddress }}</strong></p>
+            <b>Merchant Location</b>
+            <p>{{ merchantDetails?.merchantLocationNameAddress }}</p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <span>Country Code</span>
-            <p><strong>({{ merchantDetails?.countryCode }})</strong></p>
+            <b>Country Code</b>
+            <p>({{ merchantDetails?.countryCode }})</p>
           </div>
           <div class="col-md-6" *ngIf="merchantDetails?.currencyCode"  >
-            <span>Currency</span>
-            <p><strong>{{ getCurrencyName(merchantDetails?.currencyCode) }} ({{ merchantDetails?.currencyCode }})</strong></p>
+            <b>Currency</b>
+            <p>{{ getCurrencyName(merchantDetails?.currencyCode) }} ({{ merchantDetails?.currencyCode }})</p>
           </div>
         </div>
         <!-- <div class="row">
@@ -153,16 +153,13 @@
                     id="merchantId"
                     type="text"
                     class="form-control"
+                    disabled
                     placeholder=" "
                     formControlName="merchantId"
                   />
                   <label for="merchantId">Merchant ID</label>
                 </span>
               </div>
-              <span
-                class="validation-message"
-                *ngIf="updateMerchantForm?.get('merchantId').errors && updateMerchantForm?.get('merchantId').touched"
-              >Merchant ID is required.</span>
             </div>
 
             <div class="col-md-12 no-padding">

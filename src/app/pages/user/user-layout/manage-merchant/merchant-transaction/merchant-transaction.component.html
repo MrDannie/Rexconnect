@@ -55,5 +55,6 @@
   [totalElements]="dataCount"
   (pageCountSelected)="requestPageSize($event)"
   (refreshData)="onRefreshData($event)"
+  (onDownloadAsCSV)="beginDownload()"
   *ngIf="loadPagination"
 ></app-rex-pagination>
