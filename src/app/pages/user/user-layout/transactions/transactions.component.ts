@@ -4,6 +4,8 @@ import { ErrorHandler } from '../../../shared/services/error-handler.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { ITransactions } from 'src/app/pages/shared/interfaces/Transactions';
 import { TransactionsService } from 'src/app/pages/shared/services/transactions.service';
+import { isNullOrUndefined } from 'util';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-transactions',
@@ -83,4 +85,54 @@ export class TransactionsComponent implements OnInit {
   }
 
   generateCSV() {}
+
+  filterTable(filterValues) {
+    console.log(filterValues);
+
+    //Compare Start Date and End Date
+    const {
+      terminalId,
+      rrn,
+      transactionType,
+      startDate,
+      endDate,
+    } = filterValues;
+    if (
+      !this.compareStartEndDate(filterValues.startDate, filterValues.endDate)
+    ) {
+      console.log('Start Date Is Grater than End Date');
+    } else {
+      this.transactionsService
+        .getFilteredTransactions(
+          this.pageIndex,
+          this.pageSize,
+          terminalId,
+          rrn,
+          transactionType,
+          startDate,
+          endDate
+        )
+        .subscribe(
+        (response) => {
+          
+          console.log('response after the filter tra')
+        }, (error) => {
+          console.log(error)
+        }
+        );
+    }
+  }
+
+  compareStartEndDate(startDate, endDate): boolean {
+    console.log('dates after formatting', startDate, endDate);
+    if (startDate !== null && endDate !== null) {
+      if (new Date(endDate) < new Date(startDate)) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
 }
