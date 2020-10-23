@@ -45,9 +45,9 @@
       id="filter__dropdown"
       style="height: 250px"
     >
-      <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" (ngSubmit)="filterTable(searchForm.value)">
         <div class="row">
-          <div class="col-md-4">
+          <!-- <div class="col-md-4">
             <div class="form-group">
               <label for="transactionID" class="search_label"
                 >Transactions ID</label
@@ -59,7 +59,7 @@
                 id="transactionID"
               />
             </div>
-          </div>
+          </div> -->
 
           <div class="col-md-4">
             <div class="form-group">
@@ -76,15 +76,12 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="rrn" class="search_label">RRN</label>
-              <select
+              <input
                 type="text"
                 class="form-control search_input"
                 formControlName="rrn"
                 id="rrn"
-              >
-                <option value="">Select role</option>
-                <option></option>
-              </select>
+              />
             </div>
           </div>
           <div class="col-md-4">
@@ -125,7 +122,9 @@
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white">Close</button>
+          <button class="btn button-white" (click)="showFilter = false">
+            Close
+          </button>
 
           <button class="btn button-pink">
             Apply Filters

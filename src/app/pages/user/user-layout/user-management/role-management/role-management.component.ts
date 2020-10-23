@@ -27,7 +27,7 @@ export class RoleManagementComponent implements OnInit {
   selectedPermissions: any[] = [];
   permissionsToAdd: any = [];
   permissionToSend: any = [];
-  validationMessage: ValidationService;
+  validationMessage: any;
 
   constructor(
     private formBuilder: FormBuilder,
