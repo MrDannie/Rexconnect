@@ -97,8 +97,10 @@ export class ManageUserComponent implements OnInit {
     this.showFilter = false;
     this.isCSVLoading = false;
     this.isUserCreating = false;
-    this.isLoading = false;
-    this.pages = [];
+    // this.isLoading = false;
+    this.pageSize = 10;
+    this.pageIndex = 0;
+
     this.initializeForm();
     this.getAllUsers();
     this.getUsersRoles('MERCHANT');
