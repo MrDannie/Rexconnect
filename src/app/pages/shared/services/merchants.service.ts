@@ -1,8 +1,8 @@
+// tslint:disable
 import { ITransaction } from './../interfaces/transactions.model';
 import { ITerminal } from './../interfaces/terminals.model';
 import { IMerchant } from './../interfaces/merchants.model';
 import { IWrapper } from './../interfaces/wrapper.model';
-// tslint:disable
 import { Config } from './../../../core/Config';
 import { environment } from './../../../../environments/environment';
 import { Injectable } from '@angular/core';
