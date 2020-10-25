@@ -1,8 +1,8 @@
+// tslint:disable
 import { IWrapper } from './../../../../shared/interfaces/wrapper.model';
 import { FileGenerationService } from './../../../../shared/services/file-generation.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { ErrorHandler } from './../../../../shared/services/error-handler.service';
-// tslint:disable
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IMerchant } from 'src/app/pages/shared/interfaces/merchants.model';
