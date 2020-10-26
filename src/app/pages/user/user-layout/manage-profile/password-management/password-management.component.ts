@@ -11,7 +11,7 @@ import { ProfileManagementService } from 'src/app/pages/shared/services/profile-
 })
 export class PasswordManagementComponent implements OnInit {
   changePasswordForm: FormGroup;
-  validationMessage: ValidationService;
+  validationMessage: any;
   isUserCreating = false;
 
   constructor(
@@ -20,7 +20,7 @@ export class PasswordManagementComponent implements OnInit {
     private profileMgt: ProfileManagementService,
     private alertService: AlertService
   ) {
-    this.validationMessage = validationMessages;
+    this.validationMessage = this.validationMessages;
   }
 
   ngOnInit() {
