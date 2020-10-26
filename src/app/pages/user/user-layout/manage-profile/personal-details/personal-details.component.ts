@@ -10,7 +10,7 @@ import { ValidationService } from 'src/app/core/validation.service';
 })
 export class PersonalDetailsComponent implements OnInit {
   updateUserForm: FormGroup;
-  validationMessage: ValidationService;
+  validationMessage: any;
   isUserCreating: boolean;
 
   constructor(
@@ -18,7 +18,7 @@ export class PersonalDetailsComponent implements OnInit {
     private validationMessages: ValidationService,
     private storageService: StorageService
   ) {
-    this.validationMessage = validationMessages;
+    this.validationMessage = this.validationMessages;
   }
 
   ngOnInit() {
