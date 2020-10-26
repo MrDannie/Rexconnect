@@ -1,3 +1,4 @@
+// tslint:disable
 import { FileGenerationService } from './../../../../shared/services/file-generation.service';
 import { IWrapper } from './../../../../shared/interfaces/wrapper.model';
 import { ValidationService } from 'src/app/core/validation.service';
@@ -10,7 +11,6 @@ import {
   IAddTerminal,
 } from './../../../../shared/interfaces/terminals.model';
 import { TerminalsService } from './../../../../shared/services/terminals.service';
-// tslint:disable
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MerchantsService } from 'src/app/pages/shared/services/merchants.service';
@@ -29,8 +29,8 @@ export class TerminalsComponent implements OnInit {
   isUserCreating: boolean;
 
   terminalsWrapper: IWrapper<ITerminal>;
-  allTerminals: ITerminal[];
-  allMerchants: IMerchant[];
+  allTerminals: ITerminal[] = [];
+  allMerchants: IMerchant[] = [];
 
   pageIndex: number;
   pageSize: number;
