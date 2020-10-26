@@ -100,6 +100,9 @@ export class RexPaginationComponent implements OnInit {
   initPages() {
     this.pager = this.paginationService.getPager(this.totalElements ? this.totalElements : 0, this.pageIndex + 1, this.pageSize);
     this.pagedItems = this.data;
+    this.pageSizeForm.patchValue({
+      pageSize: this.pageSize.toString()
+    })
   }
 
   emitDownloadEvent() {
