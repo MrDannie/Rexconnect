@@ -13,6 +13,7 @@ import { RoleManagementComponent } from './pages/user/user-layout/user-managemen
 import { ManageStationsModule } from './pages/user/user-layout/manage-stations/manage-stations.module';
 import { ManageTerminalModule } from './pages/user/user-layout/manage-terminal/manage-terminal.module';
 import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
+import { ManageProfileModule } from './pages/user/user-layout/manage-profile/manage-profile.module';
 
 const routes: Routes = [
   {
@@ -75,6 +76,11 @@ const routes: Routes = [
         loadChildren:
           './pages/user/user-layout/manage-stations/manage-stations.module#ManageStationsModule',
       },
+      {
+        path: 'profile',
+        loadChildren:
+          './pages/user/user-layout/manage-profile/manage-profile.module#ManageProfileModule',
+      },
     ],
   },
   {
@@ -85,10 +91,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabled',
-    paramsInheritanceStrategy: 'always'
-  })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      initialNavigation: 'enabled',
+      paramsInheritanceStrategy: 'always',
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

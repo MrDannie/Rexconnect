@@ -1,0 +1,174 @@
+<!-- <span class="name_and_role"> Profile </span>
+<span class="menu_section">
+  <span class="menu active animated" routerLink="../personal-details"
+    >Personal Details</span
+  >
+  <span class="menu" routerLink="../manage-password">Change Password</span>
+</span> -->
+
+<div class="form_area">
+  <form [formGroup]="updateUserForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="firstname"
+              type="text"
+              placeholder=" "
+              formControlName="firstName"
+            />
+            <label for="firstname">First Name</label>
+          </span>
+          <div
+            *ngIf="
+              updateUserForm.get('firstName').errors &&
+              (updateUserForm.get('firstName').dirty ||
+                updateUserForm.get('firstName').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateUserForm.get('firstName').hasError('required')"
+            >
+              {{ validationMessage.firstname.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="lastname"
+              type="text"
+              placeholder=" "
+              formControlName="lastname"
+            />
+            <label for="lastname">Last Name</label>
+          </span>
+          <div
+            *ngIf="
+              updateUserForm.get('lastname').errors &&
+              (updateUserForm.get('lastname').dirty ||
+                updateUserForm.get('lastname').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateUserForm.get('lastname').hasError('required')"
+            >
+              {{ validationMessage.lastname.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="firstname"
+              type="text"
+              placeholder=" "
+              disabled="true"
+              value="+234"
+            />
+            <label for="dialing_code">Dialing Code</label>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-md-8">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="phone"
+              type="text"
+              placeholder=" "
+              formControlName="phone"
+              maxlength="10"
+            />
+            <label for="phone">Phone Number</label>
+          </span>
+          <div
+            *ngIf="
+              updateUserForm.get('phone').errors &&
+              (updateUserForm.get('phone').dirty ||
+                updateUserForm.get('phone').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateUserForm.get('phone').hasError('required')"
+            >
+              {{ validationMessage.phone_number.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="form-row">
+      <div class="form-group col-md-12">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="email"
+              type="text"
+              placeholder=" "
+              formControlName="email"
+            />
+            <label for="email">Email Address</label>
+          </span>
+          <div
+            *ngIf="
+              updateUserForm.get('email').errors &&
+              (updateUserForm.get('email').dirty ||
+                updateUserForm.get('email').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateUserForm.get('email').hasError('invalid')"
+            >
+              {{ validationMessage.email.invalid }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="form_actions">
+      <button
+        class="btn action_button"
+        *ngIf="!isUserCreating"
+        (click)="updateUser(updateUserForm.value)"
+        [disabled]="!updateUserForm.valid"
+      >
+        Save Changes
+      </button>
+
+      <div
+        class="spinner-border spinner-border-sm ml-3"
+        role="status"
+        *ngIf="isUserCreating"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </form>
+</div>
