@@ -255,6 +255,9 @@ export class TerminalsComponent implements OnInit {
     this.terminalId = '';
     this.searchForm.reset();
 
+    this.pageIndex = 0;
+    this.pageSize = 10;
+
     this.getTerminals();
   }
 
