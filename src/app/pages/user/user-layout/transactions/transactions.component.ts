@@ -25,6 +25,7 @@ export class TransactionsComponent implements OnInit {
   isLoading: boolean;
   pageSize: number;
   pageIndex: number;
+  isFiltering: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,6 +39,8 @@ export class TransactionsComponent implements OnInit {
     this.pageIndex = 0;
 
     this.showFilter = false;
+    this.isFiltering = false;
+
     this.expression = false;
     this.isCSVLoading = false;
     this.isUserCreating = false;
@@ -46,37 +49,40 @@ export class TransactionsComponent implements OnInit {
     this.getTransactions();
   }
   getTransactions(): void {
-    this.transactionsService.getTransactions(1, 10).subscribe(
-      (response) => {
-        this.transactions = response.content;
-        this.dataCount = response.totalElements;
-        this.isLoaded = true;
-        this.isLoading = false;
+    this.transactionsService
+      .getTransactions(this.pageIndex, this.pageSize)
+      .subscribe(
+        (response) => {
+          console.log('here', response);
+          this.transactions = response.content;
+          this.dataCount = response.totalElements;
+          this.isLoaded = true;
+          this.isLoading = false;
 
-        this.paginationService.pagerState.next({
-          totalElements: this.dataCount,
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize,
-        });
-        console.log('Transaction Gotten Sucessfully', response);
-      },
-      (error) => {
-        this.isLoaded = true;
-        this.isLoading = false;
-        this.errorHandler.customClientErrors(
-          'Failed to get terminals',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
-        this.paginationService.pagerState.next(null);
-      }
-    );
+          this.paginationService.pagerState.next({
+            totalElements: this.dataCount,
+            pageIndex: this.pageIndex,
+            pageSize: this.pageSize,
+          });
+          console.log('Transaction Gotten Sucessfully', response);
+        },
+        (error) => {
+          this.isLoaded = true;
+          this.isLoading = false;
+          this.errorHandler.customClientErrors(
+            'Failed to get terminals',
+            error.error.error.code,
+            error.error.error.responseMessage
+          );
+          this.paginationService.pagerState.next(null);
+        }
+      );
   }
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      transactionID: '',
-      terminalId: '',
+      transactionId: '',
+      // terminalId: '',
       rrn: '',
       transactionType: '',
       startDate: '',
@@ -84,14 +90,20 @@ export class TransactionsComponent implements OnInit {
     });
   }
 
-  generateCSV() {}
+  onRefreshData(pageParams: { pageIndex: number; pageSize: number }) {
+    this.pageIndex = pageParams.pageIndex;
+    this.pageSize = pageParams.pageSize;
+
+    this.getTransactions();
+  }
 
   filterTable(filterValues) {
     console.log(filterValues);
+    this.isFiltering = true;
 
     //Compare Start Date and End Date
     const {
-      terminalId,
+      transactionId,
       rrn,
       transactionType,
       startDate,
@@ -106,19 +118,21 @@ export class TransactionsComponent implements OnInit {
         .getFilteredTransactions(
           this.pageIndex,
           this.pageSize,
-          terminalId,
+          transactionId,
           rrn,
           transactionType,
           startDate,
           endDate
         )
         .subscribe(
-        (response) => {
-          
-          console.log('response after the filter tra')
-        }, (error) => {
-          console.log(error)
-        }
+          (response) => {
+            this.isFiltering = false;
+            console.log('response after the filter tra');
+          },
+          (error) => {
+            console.log(error);
+            this.isFiltering = false;
+          }
         );
     }
   }

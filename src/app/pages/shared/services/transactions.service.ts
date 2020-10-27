@@ -35,13 +35,15 @@ export class TransactionsService {
   getFilteredTransactions(
     pageIndex,
     pageSize,
-    terminalId,
+    transactionId,
     rrn,
     transactionType,
     startDate,
     endDate
   ) {
-    terminalId = terminalId || '';
+    // terminalId = terminalId || '';
+    transactionId = transactionId || '';
+
     rrn = rrn || '';
     transactionType = transactionType || '';
     startDate = startDate || '';
@@ -50,7 +52,8 @@ export class TransactionsService {
     const requestParams = params
       .append('page', pageIndex.toString())
       .append('size', pageSize.toString())
-      .append('terminalId', terminalId.toString())
+      // .append('terminalId', terminalId.toString())
+      .append('transactionId', transactionId.toString())
       .append('rrn', rrn.toString())
       .append('transactionType', transactionType.toString())
       .append('startDate', startDate.toString())

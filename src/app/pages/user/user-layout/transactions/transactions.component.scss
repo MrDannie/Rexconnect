@@ -7,18 +7,25 @@
   margin-top: 6rem !important;
 }
 
-.active {
-  color: green;
+.approved {
+  color: rgb(22, 190, 22);
+  padding: 2px 5px;
+  border-radius: 4px;
+  background-color: rgb(191, 243, 191);
 }
 
-.Inactive {
-  color: #e26111;
+.declined {
+  color: #943e08;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background-color: #f5b892;
 }
 
 .footer * {
   display: inline-block;
 }
-caption {
+
+.status caption {
   text-align: right;
 }
 
