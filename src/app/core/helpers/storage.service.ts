@@ -20,4 +20,13 @@ export class StorageService {
       return JSON.parse(localStorage.getItem('UserDait_er'));
     }
   }
+  getCurrentRole(){
+    
+  }
+
+  removeAll() {
+    localStorage.removeItem('UserDait_er');
+    localStorage.removeItem('Clients_Dtls');
+  
+  }
 }

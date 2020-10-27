@@ -9,12 +9,15 @@
   </a>
   <span class="logout" id="logout" (click)="logOut()"> Logout </span>
   <span class="user_name">
-    <span class="name">FirstName LastName</span>
-    <span class="role"> User's Role </span>
+    <span class="name"
+      >{{ currentUser.firstName | titlecase }}
+      {{ currentUser.surname | titlecase }}</span
+    >
+    <span class="role"> {{ currentUser.role }} </span>
   </span>
   <span class="profile_picture">
     <img src="../../../../../assets/images/boy.svg" alt="user_profile" />
-    <img
+    <!-- <img
       http-equiv="Content-Security-Policy"
       content="
       worker-src blob:; 
@@ -22,6 +25,6 @@
       img-src 'self' blob: data:;
       default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:"
       alt="logo"
-    />
+    /> -->
   </span>
 </div>

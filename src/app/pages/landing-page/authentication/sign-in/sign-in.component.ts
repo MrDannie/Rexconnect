@@ -7,6 +7,7 @@ import * as CryptoJS from 'crypto-js';
 
 import { ValidationService } from 'src/app/core/validation.service';
 import { StorageService } from 'src/app/core/helpers/storage.service';
+import { SharedService } from 'src/app/pages/shared/services/shared.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -21,6 +22,7 @@ export class SignInComponent implements OnInit {
     private formBuilder: FormBuilder,
     private validationMessages: ValidationService,
     private authService: AuthService,
+    private sharedService: SharedService,
     private router: Router,
     public alertService: AlertService,
     private storageService: StorageService
@@ -41,12 +43,15 @@ export class SignInComponent implements OnInit {
 
   login() {
     this.isLoading = true;
-    console.log(this.loginForm.value);
+    console.log('here is the login deatils', this.loginForm.value);
     this.authService.login(this.loginForm.value).subscribe(
       (response) => {
         console.log('Login User Data', response);
         // 1. STORE USER
         this.storageService.storeCurrentUser(response);
+        this.sharedService.updateUserData();
+        // this.sharedService.updateRoleData();
+        // this.alertService.success('Login Successful', true);
         this.authService.getClientDetails().subscribe(
           (response) => {
             console.log('response2', response);
@@ -62,9 +67,8 @@ export class SignInComponent implements OnInit {
       },
       (error) => {
         console.log('Error Encountered Logging in', error);
-        window.scrollTo(0, 0);
         this.isLoading = false;
-        // this.alertService.error(error, false);TODO:
+        this.alertService.error(error.error.error.responseMessage, false);
       }
     );
   }

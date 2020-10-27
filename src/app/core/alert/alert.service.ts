@@ -9,7 +9,7 @@ import { isNullOrUndefined } from 'util';
 import { StorageService } from '../helpers/storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlertService {
   public subject = new Subject<Alert>();
@@ -45,30 +45,40 @@ export class AlertService {
   }
 
   error(error: any, keepAfterRouteChange = false) {
-    let errorMessage = "";
+    let errorMessage = '';
     this.alertId++;
-    if(typeof error === "string") {
-      errorMessage = error
+    if (typeof error === 'string') {
+      errorMessage = error;
     } else {
       if (error.error.code === 401) {
         this.authService.logout();
       }
-      if(error.error instanceof ErrorEvent) {
-        errorMessage = "An Error Occured, Pls Try Again"
+      if (error.error instanceof ErrorEvent) {
+        errorMessage = 'An Error Occured, Pls Try Again';
       } else if (error.error instanceof ProgressEvent) {
-        errorMessage = "Unable to connect to the Internet"
+        errorMessage = 'Unable to connect to the Internet';
       } else if (error.error instanceof ArrayBuffer) {
-        errorMessage = "An error occured, Unable to generate reciept"
+        errorMessage = 'An error occured, Unable to generate reciept';
       } else {
-        errorMessage = error.error.message
+        errorMessage = error.error.message;
+      }
+
+      if (typeof error === 'string') {
+        errorMessage = error;
+        if (errorMessage === 'User Unauthorized') {
+          this.authService.logout();
+        }
       }
     }
 
-     window.scrollTo(0, 0);
-     this.alert(AlertType.Success, errorMessage, keepAfterRouteChange, this.alertId);
-     }
-
-
+    window.scrollTo(0, 0);
+    this.alert(
+      AlertType.Success,
+      errorMessage,
+      keepAfterRouteChange,
+      this.alertId
+    );
+  }
 
   info(message: string, keepAfterRouteChange = false) {
     this.alertId++;
