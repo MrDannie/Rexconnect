@@ -123,10 +123,10 @@
   </div>
 
   <!-- Reset button -->
-  <button class="btn btn-secondary reset-filter" (click)="reset()">
+  <button class="btn btn-secondary reset-filter" (click)="refreshTableData()">
     <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
-    <i class="fa fa-refresh"></i>
-    Refresh
+    <i class="fa fa-refresh" [class.isLoading]="isLoading"></i>
+    {{ isLoading ? "Loading" : "Refresh" }}
   </button>
 
   <!-- TODO: -->
@@ -146,7 +146,7 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
-    <app-rex-loader [isPushed]="true" *ngIf="isLoading"></app-rex-loader>
+    <app-rex-loader [isPushed]="true" *ngIf="!allUsers"></app-rex-loader>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -206,7 +206,7 @@
   [data]="allUsers"
   [totalElements]="dataCount"
   (pageCountSelected)="requestPageSize($event)"
-   (onDownloadAsCSV)="beginDownload()"
+  (onDownloadAsCSV)="beginDownload()"
   (refreshData)="onRefreshData($event)"
   *ngIf="isLoaded"
 ></app-rex-pagination>
