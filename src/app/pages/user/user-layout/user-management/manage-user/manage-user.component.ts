@@ -325,12 +325,18 @@ export class ManageUserComponent implements OnInit {
   }
 
   refreshTableData() {
-     this.showFilter = false;
-     this.searchForm.reset();
-     
+    this.showFilter = false;
+    this.searchForm.reset();
+
     this.pageIndex = 0;
     this.pageSize = 10;
 
     this.getAllUsers();
+  }
+
+  showPopupMessage() {
+    console.log('popup');
+    const popup = document.getElementById('myPopup');
+    popup.classList.toggle('show');
   }
 }
