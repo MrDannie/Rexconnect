@@ -123,10 +123,9 @@
   </div>
 
   <!-- Reset button -->
-  <button class="btn btn-secondary reset-filter" (click)="reset()">
-    <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
-    <i class="fa fa-refresh"></i>
-    Refresh
+  <button class="btn btn-secondary reset-filter" (click)="refreshTableData()">
+    <i class="fa fa-refresh" [class.isLoading]="isLoading"></i>
+    {{ isLoading ? "Loading" : "Refresh" }}
   </button>
 
   <!-- TODO: -->
@@ -146,7 +145,7 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
-    <app-rex-loader [isPushed]="true" *ngIf="isLoading"></app-rex-loader>
+    <app-rex-loader [isPushed]="true" *ngIf="!allUsers"></app-rex-loader>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -206,7 +205,7 @@
   [data]="allUsers"
   [totalElements]="dataCount"
   (pageCountSelected)="requestPageSize($event)"
-   (onDownloadAsCSV)="beginDownload()"
+  (onDownloadAsCSV)="beginDownload()"
   (refreshData)="onRefreshData($event)"
   *ngIf="isLoaded"
 ></app-rex-pagination>
@@ -466,7 +465,7 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="form-group">
-                <span class="has-float-label">
+                <span class="has-float-label popup">
                   <input
                     class="form-control"
                     id="username"
@@ -474,7 +473,12 @@
                     placeholder=" "
                     formControlName="username"
                     readonly
+                    (mouseover)="showPopupMessage()"
+                    (mouseout)="showPopupMessage()"
                   />
+                  <span class="popuptext" id="myPopup"
+                    >Username cannot be Edited</span
+                  >
                   <label for="username">User's Name</label>
                 </span>
                 <div

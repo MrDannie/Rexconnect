@@ -323,4 +323,20 @@ export class ManageUserComponent implements OnInit {
     this.pageSize = value;
     this.getAllUsers();
   }
+
+  refreshTableData() {
+    this.showFilter = false;
+    this.searchForm.reset();
+
+    this.pageIndex = 0;
+    this.pageSize = 10;
+
+    this.getAllUsers();
+  }
+
+  showPopupMessage() {
+    console.log('popup');
+    const popup = document.getElementById('myPopup');
+    popup.classList.toggle('show');
+  }
 }
