@@ -19,7 +19,7 @@ import { SanitizePermissionsPipe } from '../pipes/sanitize-permissions.pipe';
     SideNavigationComponent,
     SanitizePermissionsPipe,
     RexPaginationComponent,
-    RexLoaderComponent
+    RexLoaderComponent,
   ],
   exports: [
     SideNavigationComponent,
