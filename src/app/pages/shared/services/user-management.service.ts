@@ -20,9 +20,9 @@ export class UserManagementService {
   getAllUsers(
     pageIndex = 0,
     pageSize = 10,
-    firstName,
-    lastName,
-    roleId
+    firstName?,
+    lastName?,
+    roleId?
   ): Observable<AllUsers> {
     if (isNullOrUndefined(pageIndex) || isNullOrUndefined(pageSize)) {
       return this.httpClient.get<AllUsers>(BASE_URL + '/v1/users').pipe(

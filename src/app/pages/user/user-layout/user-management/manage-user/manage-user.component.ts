@@ -9,6 +9,7 @@ import { AllRoles } from 'src/app/pages/shared/interfaces/AllRoles';
 import { AllUsers } from 'src/app/pages/shared/interfaces/AllUsers';
 import { IRole } from 'src/app/pages/shared/interfaces/Role';
 import { IUser } from 'src/app/pages/shared/interfaces/user';
+import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 // import { AllUsers } from 'src/app/pages/shared/interfaces/AllUsers';
 import { UserManagementService } from 'src/app/pages/shared/services/user-management.service';
 
@@ -47,13 +48,15 @@ export class ManageUserComponent implements OnInit {
   isLoaded = false;
   isSubmiting: boolean;
   validationMessage: any;
+  userRecordsToDownload: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private userManagementService: UserManagementService,
     private paginationService: PaginationService,
     private alertService: AlertService,
-    private validationMessages: ValidationService
+    private validationMessages: ValidationService,
+    private fileGenerationService: FileGenerationService
   ) {
     this.validationMessage = validationMessages;
   }
@@ -156,6 +159,50 @@ export class ManageUserComponent implements OnInit {
     );
   }
 
+  beginDownload() {
+    this.exportUsers();
+  }
+  exportUsers() {
+    const dataToDownload: any[] = [];
+    // const currentPageSize = this.pageSize;
+
+    const downloadPageSize = this.dataCount;
+    this.pageIndex = 0;
+
+    this.userManagementService
+      .getAllUsers(this.pageIndex, downloadPageSize)
+      .subscribe((data: any) => {
+        this.userRecordsToDownload = data['content'];
+        for (
+          let index = 0;
+          index < this.userRecordsToDownload.length;
+          index++
+        ) {
+          dataToDownload.push([]);
+          dataToDownload[index]['Username'] = this.clean('username', index);
+          dataToDownload[index]['Email'] = this.clean('email', index);
+          dataToDownload[index]['Status'] = this.userRecordsToDownload[index][
+            'enabled'
+          ]
+            ? 'Active'
+            : 'Inactive';
+        }
+        console.log('dataToDownload In Exxport Users', dataToDownload);
+        this.exportRecords(dataToDownload);
+      });
+  }
+  exportRecords(dataToDownload: any[]) {
+    const headers = ['Username', 'Email', 'Status'];
+    this.fileGenerationService.generateCSV(dataToDownload, headers, 'My Users');
+    this.fileGenerationService.onDownloadCompleted.next(true);
+  }
+
+  clean(key: string, index: number) {
+    return this.userRecordsToDownload[index][key]
+      ? this.userRecordsToDownload[index][key]
+      : '';
+  }
+
   deleteUser(userId) {
     this.isSubmiting = true;
     this.userManagementService.deleteUser(userId).subscribe(
@@ -175,22 +222,37 @@ export class ManageUserComponent implements OnInit {
   initializeEditForm(userId) {
     this.userToBeUpdated = userId;
     console.log(userId);
-    this.userManagementService.getSingleUser(userId).subscribe(
-      (response) => {
-        console.log('COMP: SINGLE USER', response);
-        const { firstName, surname, username, email, roleId } = response;
-        this.editUserForm.patchValue({
-          firstName,
-          surname,
-          username,
-          email,
-          roleId,
-        });
-      },
-      (error) => {
-        console.log('COULD NOT GET SINGLE USER', error);
-      }
-    );
+    const {
+      firstName,
+      surname,
+      username,
+      email,
+      roleId,
+    } = this.allUsers.filter((user) => user.id === userId)[0];
+    this.editUserForm.patchValue({
+      firstName,
+      surname,
+      username,
+      email,
+      roleId,
+    });
+
+    // this.userManagementService.getSingleUser(userId).subscribe(
+    //   (response) => {
+    //     console.log('COMP: SINGLE USER', response);
+    //     const { firstName, surname, username, email, roleId } = response;
+    //     this.editUserForm.patchValue({
+    //       firstName,
+    //       surname,
+    //       username,
+    //       email,
+    //       roleId,
+    //     });
+    //   },
+    //   (error) => {
+    //     console.log('COULD NOT GET SINGLE USER', error);
+    //   }
+    // );
   }
 
   initializeDeleteModal(user) {

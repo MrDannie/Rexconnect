@@ -206,11 +206,10 @@
   [data]="allUsers"
   [totalElements]="dataCount"
   (pageCountSelected)="requestPageSize($event)"
+   (onDownloadAsCSV)="beginDownload()"
   (refreshData)="onRefreshData($event)"
   *ngIf="isLoaded"
 ></app-rex-pagination>
-
-
 
 <!-- ADD USER MODAL  -->
 <div
@@ -474,6 +473,7 @@
                     type="text"
                     placeholder=" "
                     formControlName="username"
+                    readonly
                   />
                   <label for="username">User's Name</label>
                 </span>

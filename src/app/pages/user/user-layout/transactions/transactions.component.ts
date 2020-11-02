@@ -149,4 +149,9 @@ export class TransactionsComponent implements OnInit {
       return true;
     }
   }
+
+  requestPageSize(value: number) {
+    this.pageSize = value;
+    this.getTransactions();
+  }
 }
