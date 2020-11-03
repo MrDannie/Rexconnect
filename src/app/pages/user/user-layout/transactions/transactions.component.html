@@ -227,6 +227,7 @@
   (pageCountSelected)="requestPageSize($event)"
   (refreshData)="onRefreshData($event)"
   *ngIf="isLoaded"
+   (onDownloadAsCSV)="onDownloadAsCSV()"
 ></app-rex-pagination>
 
 <!-- <div class="paginate mt-2 animated fadeIn">

@@ -191,6 +191,8 @@ export class ManageUserComponent implements OnInit {
         this.exportRecords(dataToDownload);
       });
   }
+
+  
   exportRecords(dataToDownload: any[]) {
     const headers = ['Username', 'Email', 'Status'];
     this.fileGenerationService.generateCSV(dataToDownload, headers, 'My Users');
