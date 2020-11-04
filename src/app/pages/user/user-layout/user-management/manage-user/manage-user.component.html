@@ -128,16 +128,6 @@
     {{ isLoading ? "Loading" : "Refresh" }}
   </button>
 
-  <!-- TODO: -->
-  <div
-    class="spinner"
-    *ngIf="isLoading"
-    id="loading-bar-spinner"
-    style="margin-left: 4.5rem"
-  >
-    <div class="spinner-icon"></div>
-  </div>
-  <!-- TODO: -->
   <!-- FILTER BY CODE ENDS HERE  -->
 
   <!-- New Header Ends HEre  -->
@@ -427,9 +417,8 @@
             </div>
             <button
               class="btn action_button"
-              *ngIf="!isUserCreating"
               (click)="createUser(createUserForm.value)"
-              [disabled]="!createUserForm.valid"
+              [disabled]="!createUserForm.valid || isLoading"
             >
               <i class="fa fa-plus animated slideIn"></i>
               Add User
@@ -438,7 +427,7 @@
             <div
               class="spinner-border spinner-border-sm ml-3"
               role="status"
-              *ngIf="isUserCreating"
+              *ngIf="isLoading"
             >
               <span class="sr-only">Loading...</span>
             </div>
@@ -476,8 +465,8 @@
                     placeholder=" "
                     formControlName="username"
                     readonly
-                    (mouseover)="showPopupMessage()"
-                    (mouseout)="showPopupMessage()"
+                    (mouseover)="showUsernamePopupMessage()"
+                    (mouseout)="showUsernamePopupMessage()"
                   />
                   <span class="popuptext" id="myPopup"
                     >Username cannot be Edited</span
@@ -577,14 +566,20 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="form-group">
-                <span class="has-float-label">
+                <span class="has-float-label popup">
                   <input
                     class="form-control"
                     id="email"
                     type="text"
                     placeholder=" "
                     formControlName="email"
+                    readonly
+                    (mouseover)="showEmailPopupMessage()"
+                    (mouseout)="showEmailPopupMessage()"
                   />
+                  <span class="popuptext" id="emailPopup"
+                    >Email Cannot be Edited</span
+                  >
                   <label for="email">Email</label>
                 </span>
                 <div
@@ -666,9 +661,8 @@
             </div>
             <button
               class="btn action_button"
-              *ngIf="!isSubmiting"
               (click)="editUser(editUserForm.value)"
-              [disabled]="!editUserForm.valid"
+              [disabled]="!editUserForm.valid || isLoading"
             >
               <i class="fa fa-plus animated slideIn"></i>
               Update User
@@ -677,7 +671,7 @@
             <div
               class="spinner-border spinner-border-sm ml-3"
               role="status"
-              *ngIf="isSubmiting"
+              *ngIf="isLoading"
             >
               <span class="sr-only">Loading...</span>
             </div>
@@ -712,7 +706,7 @@
           <button
             (click)="deleteUser(userToBeDeleted.id)"
             class="btn action_button"
-            *ngIf="!isSubmiting"
+            *ngIf="!isLoading"
           >
             <i class="fa fa-plus animated slideIn"></i>
             Delete User
@@ -720,7 +714,7 @@
 
           <div
             class="spinner-border spinner-border-sm ml-3"
-            *ngIf="isSubmiting"
+            *ngIf="isLoading"
             role="status"
           >
             <span class="sr-only">Loading...</span>
