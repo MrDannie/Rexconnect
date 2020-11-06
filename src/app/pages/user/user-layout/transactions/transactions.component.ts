@@ -19,7 +19,7 @@ export class TransactionsComponent implements OnInit {
   isCSVLoading;
   boolean;
   searchForm: FormGroup;
-  transactions: ITransactions[] = [];
+  transactions: ITransactions[];
   dataCount: number;
   isLoaded: boolean;
   isLoading: boolean;
@@ -49,6 +49,7 @@ export class TransactionsComponent implements OnInit {
     this.getTransactions();
   }
   getTransactions(): void {
+    this.isLoading = true;
     this.transactionsService
       .getTransactions(this.pageIndex, this.pageSize)
       .subscribe(
@@ -152,6 +153,16 @@ export class TransactionsComponent implements OnInit {
 
   requestPageSize(value: number) {
     this.pageSize = value;
+    this.getTransactions();
+  }
+
+  refreshTableData() {
+    this.showFilter = false;
+    this.searchForm.reset();
+
+    this.pageIndex = 0;
+    this.pageSize = 10;
+
     this.getTransactions();
   }
 }
