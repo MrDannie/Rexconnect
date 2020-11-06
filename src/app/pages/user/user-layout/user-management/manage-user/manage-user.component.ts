@@ -12,6 +12,7 @@ import { IUser } from 'src/app/pages/shared/interfaces/user';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 // import { AllUsers } from 'src/app/pages/shared/interfaces/AllUsers';
 import { UserManagementService } from 'src/app/pages/shared/services/user-management.service';
+import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 
 declare var $: any;
 
@@ -25,7 +26,7 @@ export class ManageUserComponent implements OnInit {
   searchForm: FormGroup;
   createTerminalForm: FormGroup;
   isCSVLoading: boolean;
-  isUserCreating: boolean;
+  // isUserCreating: boolean;
   editUserForm: FormGroup;
   allUsers: IUser[];
   originalResponse: AllUsers;
@@ -46,7 +47,6 @@ export class ManageUserComponent implements OnInit {
   listOfMerchantRoles: IRole[];
   userToBeDeleted: any;
   isLoaded = false;
-  isSubmiting: boolean;
   validationMessage: any;
   userRecordsToDownload: any;
 
@@ -56,7 +56,8 @@ export class ManageUserComponent implements OnInit {
     private paginationService: PaginationService,
     private alertService: AlertService,
     private validationMessages: ValidationService,
-    private fileGenerationService: FileGenerationService
+    private fileGenerationService: FileGenerationService,
+    private errorHandler: ErrorHandler
   ) {
     this.validationMessage = validationMessages;
   }
@@ -99,7 +100,7 @@ export class ManageUserComponent implements OnInit {
   ngOnInit() {
     this.showFilter = false;
     this.isCSVLoading = false;
-    this.isUserCreating = false;
+    // this.isUserCreating = false;
     // this.isLoading = false;
     this.pageSize = 10;
     this.pageIndex = 0;
@@ -120,40 +121,38 @@ export class ManageUserComponent implements OnInit {
     this.userManagementService.getUsersRoles(category).subscribe(
       (response: AllRoles) => {
         console.log('ROLES', response);
-
         this.userRoles = response;
         this.listOfMerchantRoles = response['content'];
-        // this.listOfMerchantRoles = this.userRoles.map(function (
-        //   role
-        // ) {
-        //   return role.name;
-        // });
         console.log('list', this.listOfMerchantRoles);
       },
-      (error) => {}
+      (e) => {
+        this.errorHandler.customClientErrors(
+          'Unable to get users',
+          e.error.error.code,
+          e.error.error.responseMessage
+        );
+        this.paginationService.pagerState.next(null);
+      }
     );
   }
 
-  // updateSelectedUserRole(e){
-  //   this.selectedUserRole = e;
-  //   this.
-  // }
-  reset() {}
-
-  generateCSV() {}
-
   createUser(userDetails) {
-    this.isLoading = true; //TODO:
-    // console.log(userDetails);
+    this.isLoading = true;
     this.userManagementService.createUser(userDetails).subscribe(
       (response: IUser) => {
         this.getAllUsers();
         $('#createUser').modal('hide');
         this.isLoading = false;
         console.log('User Gotten IN component', response);
-        this.alertService.success('Created Successfully', true);
+        this.alertService.success('User Created Successfully', true);
       },
       (error) => {
+        this.isLoading = false;
+        this.errorHandler.customClientErrors(
+          'Unable to create user',
+          error.error.error.code,
+          error.error.error.responseMessage
+        );
         console.log('Error Occured in Adding user', error);
       }
     );
@@ -192,7 +191,6 @@ export class ManageUserComponent implements OnInit {
       });
   }
 
-  
   exportRecords(dataToDownload: any[]) {
     const headers = ['Username', 'Email', 'Status'];
     this.fileGenerationService.generateCSV(dataToDownload, headers, 'My Users');
@@ -206,16 +204,22 @@ export class ManageUserComponent implements OnInit {
   }
 
   deleteUser(userId) {
-    this.isSubmiting = true;
+    this.isLoading = true;
     this.userManagementService.deleteUser(userId).subscribe(
       (response: boolean) => {
         $('#deleteUser').modal('hide');
         this.getAllUsers();
-        this.isSubmiting = false;
+        this.isLoading = false;
         console.log('response after delete', response);
         this.alertService.success('Deleted Successfully', true);
       },
       (error) => {
+        this.isLoading = false;
+        this.errorHandler.customClientErrors(
+          'Unable to delete user',
+          error.error.error.code,
+          error.error.error.responseMessage
+        );
         console.log('Error Occured in Deleting user', error);
       }
     );
@@ -262,7 +266,7 @@ export class ManageUserComponent implements OnInit {
   }
 
   editUser(updatedUser) {
-    this.isSubmiting = true;
+    this.isLoading = true;
     console.log('Edited Values', updatedUser);
 
     this.userManagementService
@@ -272,10 +276,16 @@ export class ManageUserComponent implements OnInit {
           this.getAllUsers();
           $('#editUser').modal('hide');
           this.isLoading = false;
-          this.isSubmiting = false;
+          this.alertService.success('User Updated Successfully', true);
           console.log('UPDATED USER IN COMPONENET', response);
         },
         (error) => {
+          this.isLoading = false;
+          this.errorHandler.customClientErrors(
+            'Unable to create user',
+            error.error.error.code,
+            error.error.error.responseMessage
+          );
           console.log('ERROR IN UPDATING USER', error);
         }
       );
@@ -336,9 +346,15 @@ export class ManageUserComponent implements OnInit {
     this.getAllUsers();
   }
 
-  showPopupMessage() {
+  showUsernamePopupMessage() {
     console.log('popup');
     const popup = document.getElementById('myPopup');
+    popup.classList.toggle('show');
+  }
+
+  showEmailPopupMessage() {
+    console.log('popup');
+    const popup = document.getElementById('emailPopup');
     popup.classList.toggle('show');
   }
 }

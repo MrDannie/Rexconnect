@@ -201,11 +201,18 @@ export class RoleManagementComponent implements OnInit {
       // description: ['', Validators.compose([Validators.required])],
     });
     this.updateRoleForm = this.formBuilder.group({
-      name: [
-        { value: '', disabled: true },
-        Validators.compose([Validators.required]),
-      ],
+      name: ['', Validators.compose([Validators.required])],
+      // name: [
+      //   { value: '', disabled: true },
+      //   Validators.compose([Validators.required]),
+      // ],
       // description: ["", Validators.compose([Validators.required])],
     });
+  }
+
+  showRolePopupMessage() {
+    console.log('popup');
+    const popup = document.getElementById('rolePopup');
+    popup.classList.toggle('show');
   }
 }

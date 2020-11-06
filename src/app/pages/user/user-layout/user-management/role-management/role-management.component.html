@@ -222,14 +222,20 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="form-group">
-                <span class="has-float-label">
+                <span class="has-float-label popup">
                   <input
                     class="form-control"
                     id="name"
                     type="text"
                     placeholder=" "
                     formControlName="name"
+                    readonly
+                    (mouseover)="showRolePopupMessage()"
+                    (mouseout)="showRolePopupMessage()"
                   />
+                  <span class="popuptext" id="rolePopup"
+                    >Role Cannot be Edited</span
+                  >
                   <label for="name">Role Name</label>
                 </span>
                 <div
