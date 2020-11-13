@@ -1,11 +1,11 @@
 // tslint:disable
 import { FileGenerationService } from './../../../../shared/services/file-generation.service';
 import { IWrapper } from './../../../../shared/interfaces/wrapper.model';
-import { ValidationService } from 'src/app/core/validation.service';
+import { ValidationService } from './../../../../../core/validation.service';
 import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 import { IMerchant } from './../../../../shared/interfaces/merchants.model';
 import { AlertService } from './../../../../../core/alert/alert.service';
-import { PaginationService } from 'src/app/core/pagination.service';
+import { PaginationService } from './../../../../../core/pagination.service';
 import {
   ITerminal,
   IAddTerminal,
@@ -13,8 +13,10 @@ import {
 import { TerminalsService } from './../../../../shared/services/terminals.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MerchantsService } from 'src/app/pages/shared/services/merchants.service';
+import { MerchantsService } from './../../../../shared/services/merchants.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+
+declare var $: any;
 
 @Component({
   selector: 'app-terminals',
@@ -272,5 +274,11 @@ export class TerminalsComponent implements OnInit {
     this.initializeForm();
     this.getTerminals();
     this.getAllMerchants();
+
+    $('#createTerminal').on('hidden.bs.modal', this.resetForm.bind(this));
+  }
+
+  resetForm() {
+    this.createTerminalForm.reset();
   }
 }

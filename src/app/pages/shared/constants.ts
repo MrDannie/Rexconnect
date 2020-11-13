@@ -1,3 +1,5 @@
+// tslint:disable
+
 export const countries = {
   COUNTRY_CODES: [
     {
