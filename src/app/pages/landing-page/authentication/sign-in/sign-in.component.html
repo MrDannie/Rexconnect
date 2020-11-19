@@ -11,6 +11,7 @@
     <form [formGroup]="loginForm">
       <div class="row">
         <div class="col-md-12 no-padding">
+         <div  class="login100-form-sub-title animated fadeIn" style="text-align: center;" *ngIf="reCaptchaInvalidMsg">{{reCaptchaInvalidMsg}}</div>
           <div class="form-group">
             <span class="has-float-label">
               <input
@@ -42,7 +43,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row password">
         <div class="col-md-12 no-padding">
           <div class="form-group">
             <span class="has-float-label">
@@ -81,13 +82,21 @@
           </div>
         </div>
       </div>
+      <div class="g-recaptcha" *ngIf="allow_captcha">
+          <re-captcha
+           #captchaRef="reCaptcha"
+           (callback)="login()"
+            (resolved)="resolved($event)"
+            siteKey="{{ google_recaptcha }}">
+          </re-captcha>
+      </div>
+      
       <div class="bottom_text">
         <a> Forgot password </a>
       </div>
       <button
         class="form_button"
         *ngIf="!isLoading"
-        [disabled]="!loginForm.valid"
         (click)="login()"
       >
         <img src="../../../../assets/icons/icon-log-out.svg" alt="" />

@@ -33,6 +33,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './core/helpers/interceptors/interceptor.service';
 import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
 // import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
+
 
 @NgModule({
   declarations: [
@@ -68,6 +70,8 @@ import { UserManagementModule } from './pages/user/user-layout/user-management/u
     SharedModule,
     UserManagementModule,
     HttpClientModule,
+    RecaptchaModule,
+    RecaptchaFormsModule
   ],
   providers: [
     {
