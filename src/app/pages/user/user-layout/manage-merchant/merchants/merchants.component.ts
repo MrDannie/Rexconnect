@@ -230,7 +230,7 @@ export class MerchantsComponent implements OnInit {
       merchantToken: this.createMerchantForm.value.merchantToken,
       merchantCategoryCode: Number(this.createMerchantForm.value.categoryCode),
       merchantKey: this.createMerchantForm.value.merchantKey,
-      currencyCode: Number(this.createMerchantForm.value.currency),
+      currencyCode: String(this.createMerchantForm.value.currency),
       countryCode: Number(this.createMerchantForm.value.countryCode),
       city: this.createMerchantForm.value.city
     }

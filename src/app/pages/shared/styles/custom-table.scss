@@ -35,8 +35,16 @@
 }
 .search_input:focus,
 .form-control:focus {
-  border: #9c9c9c 1px solid !important;
+  border: red 1px solid !important;
 }
+
+// .search_input {
+//   border: 0.5px solid #c6c6c6;
+//   border-radius: 3px;
+//   min-width: 100%;
+//   font-size: 0.77rem;
+//   padding: 0.4rem 1rem;
+// }
 
 .reset-filter {
   font-family: "Montserrat", serif;
@@ -51,7 +59,6 @@
   &[disabled]:hover {
     cursor: pointer;
   }
-
 }
 .reset-filter i {
   margin-right: 8.1%;
@@ -516,13 +523,13 @@ th {
 .filter_click {
   cursor: pointer;
 }
-.input.ng-valid.ng-touched.ng-dirty {
-  border: #9c9c9c 1px solid !important;
-}
-.input.ng-valid.ng-touched.ng-dirty,
-input.ng-valid:focus {
-  border: #9c9c9c 1px solid !important;
-}
+// .input.ng-valid.ng-touched.ng-dirty {
+//   border: #9c9c9c 1px solid !important;
+// }
+// .input.ng-valid.ng-touched.ng-dirty,
+// input.ng-valid:focus {
+//   border: #9c9c9c 1px solid !important;
+// }
 .search-dropdown {
   margin-top: 1rem;
   width: 46vw;
