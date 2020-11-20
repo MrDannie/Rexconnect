@@ -2,8 +2,10 @@ import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { error } from 'console';
+import { AlertService } from 'src/app/core/alert/alert.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { IRole } from 'src/app/pages/shared/interfaces/Role';
+import { ErrorHandler } from 'src/app/pages/shared/services/error-handler.service';
 import { RoleManagementService } from 'src/app/pages/shared/services/role-management.service';
 
 declare var $: any;
@@ -32,7 +34,9 @@ export class RoleManagementComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private roleMgtService: RoleManagementService,
-    private validationMessages: ValidationService
+    private validationMessages: ValidationService,
+    private errorHandler: ErrorHandler,
+    private alertService: AlertService
   ) {
     this.validationMessage = this.validationMessages;
   }
@@ -57,7 +61,9 @@ export class RoleManagementComponent implements OnInit {
         this.makeRoleActive(this.allRoles[0]);
         this.isLoading = false;
       },
-      (error) => {
+      (e) => {
+        this.isLoading = false;
+        this.errorHandler.customClientErrors('Failed to retrieve roles', e.error.error.code, e.error.error.responseMessage);
         console.log('cannot retreive error', error);
       }
     );
@@ -72,7 +78,9 @@ export class RoleManagementComponent implements OnInit {
         this.allPermissions = response;
         this.isLoading = false;
       },
-      (error) => {
+      (e) => {
+         this.isLoading = false;
+        this.errorHandler.customClientErrors('Failed to retrieve permissions', e.error.error.code, e.error.error.responseMessage);
         console.log('CANNOT GET PERMISSIONS', error);
       }
     );
@@ -123,24 +131,22 @@ export class RoleManagementComponent implements OnInit {
   }
 
   createRole(formValue) {
-    console.log('herer');
     this.isRoleCreating = true;
     formValue.permissions = this.permissionsToAdd;
-    console.log(formValue);
     this.roleMgtService.createRole(formValue).subscribe(
       (response: IRole) => {
-        console.log('Response After Create Role', response);
         this.isRoleCreating = false;
         this.createRoleForm.reset();
         this.getRoles();
         $('#createRole').modal('hide');
-        // this.alertService.success('Role created successfully', true);
+        this.alertService.success('Role Created Successfully');
       },
-      (error) => {
+      (e) => {
         this.isRoleCreating = false;
-        console.log('Error in Creating Roles', error);
-        //  this.alertService.error(error.error.message, false);
         this.isLoading = false;
+        this.errorHandler.customClientErrors('Error occured in creating role', e.error.error.code, e.error.error.responseMessage);
+        console.log('Error Occured in Creating Role', error);
+
       }
     );
   }
@@ -148,22 +154,22 @@ export class RoleManagementComponent implements OnInit {
   updateRole(formValue) {
     this.isRoleCreating = true;
     formValue.permissions = this.permissionToSend;
-    console.log('Edit Form Vlaues', formValue);
 
     this.roleMgtService.updateRole(formValue, this.selectedRole.id).subscribe(
       (response: IRole) => {
         console.log('Response After Update Role', response);
         this.isRoleCreating = false;
-        this.updateRoleForm.reset();
+         this.updateRoleForm.reset();
         this.getRoles();
         $('#updateRole').modal('hide');
-        // this.alertService.success('Role created successfully', true);
+       this.alertService.success('Role Updated Successfully');
       },
-      (error) => {
+      (e) => {
         this.isRoleCreating = false;
-        console.log('Error in Updating Roles', error);
-        //  this.alertService.error(error.error.message, false);
-        this.isLoading = false;
+         this.isLoading = false;
+        this.errorHandler.customClientErrors('Error occured in updating role', e.error.error.code, e.error.error.responseMessage);
+         console.log('Error in Updating Roles', error);
+
       }
     );
   }
