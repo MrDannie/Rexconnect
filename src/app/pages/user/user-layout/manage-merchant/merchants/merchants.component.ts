@@ -1,15 +1,17 @@
 // tslint:disable
 import { IWrapper } from './../../../../shared/interfaces/wrapper.model';
 import { FileGenerationService } from './../../../../shared/services/file-generation.service';
-import { ValidationService } from 'src/app/core/validation.service';
+import { ValidationService } from '../../../../../core/validation.service';
 import { ErrorHandler } from './../../../../shared/services/error-handler.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IMerchant } from 'src/app/pages/shared/interfaces/merchants.model';
-import { PaginationService } from 'src/app/core/pagination.service';
-import { MerchantsService } from 'src/app/pages/shared/services/merchants.service';
-import { AlertService } from 'src/app/core/alert/alert.service';
-import { countries, merchantCodes, currencies, states } from 'src/app/pages/shared/constants';
+import { IMerchant } from '../../../../../pages/shared/interfaces/merchants.model';
+import { PaginationService } from '../../../../../core/pagination.service';
+import { MerchantsService } from '../../../../../pages/shared/services/merchants.service';
+import { AlertService } from '../../../../../core/alert/alert.service';
+import { countries, merchantCodes, currencies, states } from '../../../../../pages/shared/constants';
+
+declare var $: any;
 
 @Component({
   selector: 'app-merchants',
@@ -161,6 +163,15 @@ export class MerchantsComponent implements OnInit {
     this.getCategoryCodes();
     this.getCountries();
     this.getCurrencyCodes();
+
+    $('#createMerchant').on('hidden.bs.modal', this.resetForm.bind(this));
+  }
+
+  resetForm() {
+    this.createMerchantForm.reset();
+    this.createMerchantForm.patchValue({
+      categoryCode: ''
+    })
   }
 
   searchBy() {
