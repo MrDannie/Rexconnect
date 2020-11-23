@@ -168,3 +168,19 @@ span.has-float-label > input.form-control.ng-valid.ng-untouched:focus ~ label {
   color: #0504048a;
   opacity: 1 !important;
 }
+
+.input.ng-valid.ng-touched.ng-dirty {
+  border: #9c9c9c 1px solid !important;
+}
+.input.ng-valid.ng-touched.ng-dirty,
+input.ng-valid:focus {
+  border: #9c9c9c 1px solid !important;
+}
+
+.select.ng-valid.ng-touched.ng-dirty {
+  border: #9c9c9c 1px solid !important;
+}
+.select.ng-valid.ng-touched.ng-dirty,
+select.ng-valid:focus {
+  border: #9c9c9c 1px solid !important;
+}

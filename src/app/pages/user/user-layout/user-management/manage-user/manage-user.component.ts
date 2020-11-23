@@ -293,7 +293,7 @@ export class ManageUserComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      firstName: '',
+      firstName: [''],
       lastName: '',
       roleId: '',
     });
