@@ -8,6 +8,8 @@ import * as CryptoJS from 'crypto-js';
 import { ValidationService } from 'src/app/core/validation.service';
 import { StorageService } from 'src/app/core/helpers/storage.service';
 import { SharedService } from 'src/app/pages/shared/services/shared.service';
+import { environment } from 'src/environments/environment';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,6 +20,11 @@ export class SignInComponent implements OnInit {
   loginForm: FormGroup;
   validationMessage: any;
   isLoading: boolean;
+  google_recaptcha: string
+  captcha_response: string;
+  allow_captcha: boolean;
+  errorMessage: string;
+  reCaptchaInvalidMsg: string;
   constructor(
     private formBuilder: FormBuilder,
     private validationMessages: ValidationService,
@@ -32,6 +39,8 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+     this.allow_captcha = environment.ALLOW_CAPTCHA;
+     this.google_recaptcha = environment.GOOGLE_RECAPTCHA;
   }
 
   initializeForm() {
@@ -42,8 +51,15 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
-    this.isLoading = true;
+    if (
+      (this.captcha_response === "" ||
+        isNullOrUndefined(this.captcha_response)) &&
+      this.allow_captcha
+    ) {
+      this.reCaptchaInvalidMsg = "Captcha must be solved";
+    } else {
     console.log('here is the login deatils', this.loginForm.value);
+        this.isLoading = true;
     this.authService.login(this.loginForm.value).subscribe(
       (response) => {
         console.log('Login User Data', response);
@@ -69,10 +85,24 @@ export class SignInComponent implements OnInit {
         console.log('Error Encountered Logging in', error);
         this.isLoading = false;
         this.alertService.error(error.error.error.responseMessage, false);
+          if (this.allow_captcha) {
+            grecaptcha.reset();
+          }
       }
     );
+
+    }
   }
 
+  validateLogin(){
+
+  }
+
+ resolved(captchaResponse: string) {
+    this.reCaptchaInvalidMsg = null
+    this.captcha_response = captchaResponse;
+        console.log(`Resolved captcha with response: ${captchaResponse}`);
+    }
   // LOGIN METHOD
   // login() {
   //   this.isLoading = true;
