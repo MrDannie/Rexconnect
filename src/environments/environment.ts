@@ -8,7 +8,6 @@ export const environment = {
   BASE_URL: 'https://sandbox.globalaccelerex.com/api/rexconnect',
   EXTERNAL_BASE_URL: 'https://sandbox.globalaccelerex.com',
 
-  GOOGLE_RECAPTCHA: '6LfmiaoUAAAAAClKe9wyvrcVlLryiFhwFEa1vBkd',
   ALLOW_CAPTCHA: true,
 };
 
