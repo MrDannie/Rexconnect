@@ -33,6 +33,7 @@
 div > span {
   color: #1a1a1a;
   font-family: Roboto, Regular;
+  
 }
 
 p > strong {
@@ -70,4 +71,18 @@ p > strong {
 .form-group .row input {
   background-color: #f0f0f0;
   border: none;
+}
+
+
+h4 {
+  font-weight: bold;
+  font-family: Montserrat Bold;
+}
+
+h4, .h4 {
+    font-size: 1rem !important;
+}
+
+.form-group .row {
+      margin-top: 15px !important;
 }

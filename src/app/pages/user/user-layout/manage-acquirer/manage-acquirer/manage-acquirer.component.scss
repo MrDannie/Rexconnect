@@ -29,8 +29,8 @@
 
 .menu {
   border: 0;
-  padding: 0.5rem 2rem;
-  // background: #ffffff;
+    padding: 0.3rem 2rem;
+      // background: #ffffff;
   color: black;
   text-align: center;
   margin: 0;
@@ -40,15 +40,12 @@
 
 .menu:active,
 .menu.active {
-  border-radius: 0.4rem;
+  border-radius: 0.7rem;
   background: #c91c24;
   color: white;
 }
 
 .animated {
-  //transition: left ease-in 0.3s;
-
-  font-size: 0.94rem;
   font-family: "Montserrat";
   font-weight: 800;
   border-radius: 12px;
@@ -158,6 +155,39 @@
 }
 .form_actions .action_button:hover i {
   // padding-left: 1rem;
+  opacity: 1;
+  margin-right: 0.5rem;
+}
+
+// ADD ROUTE BUTTON 
+
+.action_button_addRoute {
+    background-color: #ffd1ce;
+  color: #950007;
+  padding: 0.6rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  font-weight: bold;
+  border: 0.5px solid #ffd1ce;
+  font-size: 0.8125rem;
+}
+
+.action_button_addRoute:hover {
+    background-color: #950007;
+  border: 0.5px solid #950007;
+  color: #f0f0f0;
+}
+
+.action_button_addRoute i {
+    transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.action_button_addRoute:hover i {
   opacity: 1;
   margin-right: 0.5rem;
 }

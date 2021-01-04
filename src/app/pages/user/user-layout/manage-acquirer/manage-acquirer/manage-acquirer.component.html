@@ -8,18 +8,16 @@
     <div>
       <span class="name">
         <img src="../../../../../../assets/images/girl.svg" alt="avater" />
-        Laolu Lawani</span
-      >
+        Laolu Lawani</span>
       <span class="date">Created: DEC 9, 2019, 12:04:56 AM</span>
       <span class="status">Active</span>
     </div>
     <div>
-      <span
-        class="action_button_disable"
-        data-toggle="modal"
-        data-target="#disableMerchant"
-        >Disable Aquirer</span
-      >
+      <span *ngIf="notRouteComponent != false" class="action_button_disable" data-toggle="modal"
+        data-target="#disableMerchant">Disable Aquirer</span><span *ngIf="notRouteComponent != true"
+        class="action_button_addRoute" [routerLink]="['../add-routes', 5]"><i
+          class="fa fa-plus animated slideIn"></i>Add
+        Route</span>
     </div>
   </div>
 </div>
@@ -28,40 +26,19 @@
 <div class="top_row">
   <span class="left_switcher">
     <span class="menu_section">
-      <span
-        class="menu animated"
-        routerLink="acquirer-details"
-        [routerLinkActive]="['active']"
-      >
-        Details</span
-      >
-      <span
-        class="menu"
-        routerLink="acquirer-fee-sharing"
-        [routerLinkActive]="['active']"
-        >Fee Sharing</span
-      >
-      <span
-        class="menu animated"
-        routerLink="./acquirer-routes"
-        [routerLinkActive]="['active']"
-      >
-        Routes</span
-      >
+      <span class="menu animated" routerLink="acquirer-details" [routerLinkActive]="['active']">
+        Details</span>
+      <span class="menu" routerLink="acquirer-fee-sharing" [routerLinkActive]="['active']">Fee Sharing</span>
+      <span class="menu animated" routerLink="./acquirer-routes" [routerLinkActive]="['active']">
+        Routes</span>
     </span>
   </span>
 </div>
 
 <!-- DISABLE MERCHNAT MODAL -->
 
-<div
-  class="modal animated zoomIn"
-  id="disableMerchant"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="createUserLabel"
-  aria-hidden="true"
->
+<div class="modal animated zoomIn" id="disableMerchant" tabindex="-1" role="dialog" aria-labelledby="createUserLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
