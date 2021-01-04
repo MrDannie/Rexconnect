@@ -5,6 +5,7 @@ import { AcquirerFeeSharingComponent } from './acquirer-fee-sharing/acquirer-fee
 import { AcquirerRouteDetailsComponent } from './acquirer-route-details/acquirer-route-details.component';
 import { AcquirerRoutesComponent } from './acquirer-routes/acquirer-routes.component';
 import { AcquirerComponent } from './acquirer/acquirer.component';
+import { AddRoutesComponent } from './add-routes/add-routes.component';
 import { ManageAcquirerComponent } from './manage-acquirer/manage-acquirer.component';
 
 const routes: Routes = [];
@@ -37,7 +38,12 @@ const routes: Routes = [];
             path: 'acquirer-routes',
             component: AcquirerRoutesComponent,
           },
+
         ],
+      },
+      {
+        path: 'add-routes/:id',
+        component: AddRoutesComponent
       },
       {
         path: 'acquirer-routes/:id',
@@ -47,4 +53,4 @@ const routes: Routes = [];
   ],
   exports: [RouterModule],
 })
-export class ManageAcquirerRoutingModule {}
+export class ManageAcquirerRoutingModule { }
