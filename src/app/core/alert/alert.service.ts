@@ -73,7 +73,7 @@ export class AlertService {
 
     window.scrollTo(0, 0);
     this.alert(
-      AlertType.Success,
+      AlertType.Error,
       errorMessage,
       keepAfterRouteChange,
       this.alertId

@@ -1,7 +1,6 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { error } from 'console';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { IRole } from 'src/app/pages/shared/interfaces/Role';
@@ -64,7 +63,6 @@ export class RoleManagementComponent implements OnInit {
       (e) => {
         this.isLoading = false;
         this.errorHandler.customClientErrors('Failed to retrieve roles', e.error.error.code, e.error.error.responseMessage);
-        console.log('cannot retreive error', error);
       }
     );
   }
@@ -81,7 +79,6 @@ export class RoleManagementComponent implements OnInit {
       (e) => {
          this.isLoading = false;
         this.errorHandler.customClientErrors('Failed to retrieve permissions', e.error.error.code, e.error.error.responseMessage);
-        console.log('CANNOT GET PERMISSIONS', error);
       }
     );
   }
@@ -145,7 +142,6 @@ export class RoleManagementComponent implements OnInit {
         this.isRoleCreating = false;
         this.isLoading = false;
         this.errorHandler.customClientErrors('Error occured in creating role', e.error.error.code, e.error.error.responseMessage);
-        console.log('Error Occured in Creating Role', error);
 
       }
     );
@@ -168,7 +164,6 @@ export class RoleManagementComponent implements OnInit {
         this.isRoleCreating = false;
          this.isLoading = false;
         this.errorHandler.customClientErrors('Error occured in updating role', e.error.error.code, e.error.error.responseMessage);
-         console.log('Error in Updating Roles', error);
 
       }
     );

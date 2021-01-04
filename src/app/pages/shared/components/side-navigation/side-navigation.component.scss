@@ -69,6 +69,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 9%;
+  margin-bottom: 15%;
+
 }
 .sidebar_logo img {
   width: 9rem;
@@ -101,7 +104,7 @@
 .sidebar .menu_list a {
   color: #585858;
   margin: -0.1rem 0rem;
-  width: 231px;
+ // width: 231px;
   font-size: 0.78rem;
   font-weight: 600;
   min-height: 3rem;
@@ -120,11 +123,10 @@
   margin: 0.6rem 0.5rem;
   width: 230px;
 }
-/* .sidebar .menu_list a:hover {
-  border-radius: 0.5rem;
+ .sidebar .menu_list a:hover {
   transition: all ease-in-out 0.3s !important;
   background: #f0f0f0 !important;
-} */
+} 
 .sidebar .menu_list a.active {
   /* color: #950007 !important; */
   transition: all ease-in-out 0.3s !important;
