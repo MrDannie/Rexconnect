@@ -35,12 +35,6 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-<<<<<<< HEAD
-    this.allow_captcha = environment.ALLOW_CAPTCHA;
-    this.google_recaptcha = environment.GOOGLE_RECAPTCHA;
-=======
-
->>>>>>> 3af394f69f2e2485549d9158811ca86b0ac4d074
   }
 
   initializeForm() {
@@ -51,48 +45,9 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
-<<<<<<< HEAD
-    if (
-      (this.captcha_response === "" ||
-        isNullOrUndefined(this.captcha_response)) &&
-      this.allow_captcha
-    ) {
-      this.reCaptchaInvalidMsg = "Captcha must be solved";
-    } else {
-      console.log('here is the login deatils', this.loginForm.value);
-      this.isLoading = true;
-      this.authService.login(this.loginForm.value).subscribe(
-        (response) => {
-          console.log('Login User Data', response);
-          // 1. STORE USER
-          this.storageService.storeCurrentUser(response);
-          this.sharedService.updateUserData();
-          this.authService.getClientDetails().subscribe(
-            (response) => {
-              console.log('response2', response);
-              //1. STORE CLIENT DETAILS
-              this.storageService.storeClientDetails(response);
-            },
-            (error) => {
-              //TODO:
-            }
-          );
-          this.alertService.success('Login Successful', true);
-          this.router.navigate(['/user/dashboard']);
-        },
-        (error) => {
-          console.log('Error Encountered Logging in', error);
-          this.isLoading = false;
-          this.alertService.error(error, false);
-          if (this.allow_captcha) {
-            grecaptcha.reset();
-          }
-        }
-      );
-=======
-   
+
     console.log('here is the login deatils', this.loginForm.value);
-        this.isLoading = true;
+    this.isLoading = true;
     this.authService.login(this.loginForm.value).subscribe(
       (response) => {
         console.log('Login User Data', response);
@@ -114,16 +69,15 @@ export class SignInComponent implements OnInit {
             this.alertService.error(error.error.error.responseMessage, false);
           }
         );
-     
+
       },
       (error) => {
         console.log('login error', error);
         this.isLoading = false;
         this.alertService.error(error.error.error.responseMessage, false);
-  
+
       }
     );
->>>>>>> 3af394f69f2e2485549d9158811ca86b0ac4d074
 
   }
 
@@ -131,32 +85,5 @@ export class SignInComponent implements OnInit {
 
   }
 
-<<<<<<< HEAD
-  resolved(captchaResponse: string) {
-    this.reCaptchaInvalidMsg = null
-    this.captcha_response = captchaResponse;
-    console.log(`Resolved captcha with response: ${captchaResponse}`);
-  }
-  // LOGIN METHOD
-  // login() {
-  //   this.isLoading = true;
-  //   console.log(this.loginForm.value);
-  //   this.authService.login(this.loginForm.value).subscribe(
-  //     (response) => {
-  //       console.log('response', response);
-  //       this.storageService.storeCurrentUser(response['data']);
-  //       this.storageService.storeCurrentBusiness(
-  //         response['data']['user'].businesses[0]
-  //       );
-  //       this.isLoading = false;
-  //       this.sharedService.updateBusinessData();
-  //       this.sharedService.updateUserData();
-  //       this.sharedService.updateRoleData();
-  //       // TODO: this.alertService.success('Login Successful', true); //TODO:
-  //       console.log(response['data'].user.isVerifiedEmail);
-  //       if (response['data'].user.businesses[0].isVerifiedBusiness) {
-  //         console.log(response['data'].user.businesses[0].isVerifiedBusiness);
-=======
->>>>>>> 3af394f69f2e2485549d9158811ca86b0ac4d074
 
 }
