@@ -104,6 +104,13 @@
   left: 6px;
 }
 
+.table-striped tbody tr:nth-of-type(odd) {
+background-color: #ffffff;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+  background-color:   #F0F0F0;
+  }
 // TABLE SECTION
 th {
   position: sticky;
@@ -112,11 +119,22 @@ th {
   background-color: #585858 !important;
   font-family: "Montserrat Bold", serif;
   font-size: 0.8rem;
+  border: 0;
+  padding: 0.7rem 1rem ;
+}
+.table .thead-dark th:first-child {
+  border-top-left-radius: 8px;
+}
+.table .thead-dark th:last-child {
+  border-top-right-radius: 8px;
 }
 
+td {
+  padding: 0.9rem;
+}
 .custom-table {
   overflow-x: auto;
-  height: 320px;
+  height: 520px;
   font-size: 1rem;
   margin-top: 1.25rem;
   font-family: "Roboto", serif;
@@ -155,10 +173,10 @@ th {
   color: #757575;
   padding: 0.6rem 1.6rem;
   font-family: "Montserrat Bold", serif;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 6px;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
   flex: 1;
   transition: all 0.35s ease-in-out;
   font-weight: bold;
@@ -211,7 +229,7 @@ th {
 }
 
 .table_button {
-  background-color: #9500071f;
+  background-color: #FFF1F0;
   color: #950007;
   padding: 0.4rem 1.2rem;
   font-family: "Montserrat Bold", serif;

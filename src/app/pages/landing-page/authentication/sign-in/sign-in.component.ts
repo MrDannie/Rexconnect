@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
-import * as CryptoJS from 'crypto-js';
 
 import { ValidationService } from 'src/app/core/validation.service';
 import { StorageService } from 'src/app/core/helpers/storage.service';
 import { SharedService } from 'src/app/pages/shared/services/shared.service';
 import { environment } from 'src/environments/environment';
-import { isNullOrUndefined } from 'util';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,11 +19,8 @@ export class SignInComponent implements OnInit {
   loginForm: FormGroup;
   validationMessage: any;
   isLoading: boolean;
-  google_recaptcha: string
-  captcha_response: string;
-  allow_captcha: boolean;
+
   errorMessage: string;
-  reCaptchaInvalidMsg: string;
   constructor(
     private formBuilder: FormBuilder,
     private validationMessages: ValidationService,
@@ -39,8 +35,12 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+<<<<<<< HEAD
     this.allow_captcha = environment.ALLOW_CAPTCHA;
     this.google_recaptcha = environment.GOOGLE_RECAPTCHA;
+=======
+
+>>>>>>> 3af394f69f2e2485549d9158811ca86b0ac4d074
   }
 
   initializeForm() {
@@ -51,6 +51,7 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
+<<<<<<< HEAD
     if (
       (this.captcha_response === "" ||
         isNullOrUndefined(this.captcha_response)) &&
@@ -88,14 +89,49 @@ export class SignInComponent implements OnInit {
           }
         }
       );
+=======
+   
+    console.log('here is the login deatils', this.loginForm.value);
+        this.isLoading = true;
+    this.authService.login(this.loginForm.value).subscribe(
+      (response) => {
+        console.log('Login User Data', response);
+        // 1. STORE USER
+        this.storageService.storeCurrentUser(response);
+        this.sharedService.updateUserData();
+        this.authService.getClientDetails().subscribe(
+          (response) => {
+            console.log('response2', response);
+            //1. STORE CLIENT DETIALS
+            this.alertService.success('Login Successful', true);
+            this.router.navigate(['/user/dashboard']);
+            this.storageService.storeClientDetails(response);
+          },
+          (error) => {
+            //TODO:
+            console.log('getClientDetails error', error);
+            this.isLoading = false;
+            this.alertService.error(error.error.error.responseMessage, false);
+          }
+        );
+     
+      },
+      (error) => {
+        console.log('login error', error);
+        this.isLoading = false;
+        this.alertService.error(error.error.error.responseMessage, false);
+  
+      }
+    );
+>>>>>>> 3af394f69f2e2485549d9158811ca86b0ac4d074
 
-    }
   }
 
   validateLogin() {
 
   }
 
+<<<<<<< HEAD
   resolved(captchaResponse: string) {
     this.reCaptchaInvalidMsg = null
     this.captcha_response = captchaResponse;
@@ -120,15 +156,7 @@ export class SignInComponent implements OnInit {
   //       console.log(response['data'].user.isVerifiedEmail);
   //       if (response['data'].user.businesses[0].isVerifiedBusiness) {
   //         console.log(response['data'].user.businesses[0].isVerifiedBusiness);
+=======
+>>>>>>> 3af394f69f2e2485549d9158811ca86b0ac4d074
 
-  //         this.router.navigate(['user/dashboard']);
-  //       } else {
-  //         this.router.navigate(['user/incomplete-profile']);
-  //       }
-  //     },
-  //     (error) => {
-  //       console.log('error with Login', error);
-  //     }
-  //   );
-  // }
 }
