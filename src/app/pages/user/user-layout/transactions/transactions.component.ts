@@ -4,8 +4,6 @@ import { ErrorHandler } from '../../../shared/services/error-handler.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { ITransactions } from 'src/app/pages/shared/interfaces/Transactions';
 import { TransactionsService } from 'src/app/pages/shared/services/transactions.service';
-import { isNullOrUndefined } from 'util';
-import { error } from 'protractor';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 
 @Component({
@@ -35,7 +33,7 @@ export class TransactionsComponent implements OnInit {
     private paginationService: PaginationService,
     private errorHandler: ErrorHandler,
     private fileGenerationService: FileGenerationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.pageSize = 10;

@@ -1,11 +1,9 @@
-// tslint:disable
 import { AuthService } from './../auth/auth.service';
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 
 import { Alert, AlertType } from './alert';
 import { Observable, Subject } from 'rxjs';
-import { isNullOrUndefined } from 'util';
 import { StorageService } from '../helpers/storage.service';
 
 @Injectable({

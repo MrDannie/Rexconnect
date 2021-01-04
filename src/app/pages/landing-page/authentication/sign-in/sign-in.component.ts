@@ -39,8 +39,8 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-     this.allow_captcha = environment.ALLOW_CAPTCHA;
-     this.google_recaptcha = environment.GOOGLE_RECAPTCHA;
+    this.allow_captcha = environment.ALLOW_CAPTCHA;
+    this.google_recaptcha = environment.GOOGLE_RECAPTCHA;
   }
 
   initializeForm() {
@@ -58,51 +58,49 @@ export class SignInComponent implements OnInit {
     ) {
       this.reCaptchaInvalidMsg = "Captcha must be solved";
     } else {
-    console.log('here is the login deatils', this.loginForm.value);
-        this.isLoading = true;
-    this.authService.login(this.loginForm.value).subscribe(
-      (response) => {
-        console.log('Login User Data', response);
-        // 1. STORE USER
-        this.storageService.storeCurrentUser(response);
-        this.sharedService.updateUserData();
-        // this.sharedService.updateRoleData();
-        // this.alertService.success('Login Successful', true);
-        this.authService.getClientDetails().subscribe(
-          (response) => {
-            console.log('response2', response);
-            //1. STORE CLIENT DETIALS
-            this.storageService.storeClientDetails(response);
-          },
-          (error) => {
-            //TODO:
-          }
-        );
-        this.alertService.success('Login Successful', true);
-        this.router.navigate(['/user/dashboard']);
-      },
-      (error) => {
-        console.log('Error Encountered Logging in', error);
-        this.isLoading = false;
-        this.alertService.error(error.error.error.responseMessage, false);
+      console.log('here is the login deatils', this.loginForm.value);
+      this.isLoading = true;
+      this.authService.login(this.loginForm.value).subscribe(
+        (response) => {
+          console.log('Login User Data', response);
+          // 1. STORE USER
+          this.storageService.storeCurrentUser(response);
+          this.sharedService.updateUserData();
+          this.authService.getClientDetails().subscribe(
+            (response) => {
+              console.log('response2', response);
+              //1. STORE CLIENT DETAILS
+              this.storageService.storeClientDetails(response);
+            },
+            (error) => {
+              //TODO:
+            }
+          );
+          this.alertService.success('Login Successful', true);
+          this.router.navigate(['/user/dashboard']);
+        },
+        (error) => {
+          console.log('Error Encountered Logging in', error);
+          this.isLoading = false;
+          this.alertService.error(error, false);
           if (this.allow_captcha) {
             grecaptcha.reset();
           }
-      }
-    );
+        }
+      );
 
     }
   }
 
-  validateLogin(){
+  validateLogin() {
 
   }
 
- resolved(captchaResponse: string) {
+  resolved(captchaResponse: string) {
     this.reCaptchaInvalidMsg = null
     this.captcha_response = captchaResponse;
-        console.log(`Resolved captcha with response: ${captchaResponse}`);
-    }
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
+  }
   // LOGIN METHOD
   // login() {
   //   this.isLoading = true;

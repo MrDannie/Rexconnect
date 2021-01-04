@@ -1,7 +1,6 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { error } from 'console';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { IRole } from 'src/app/pages/shared/interfaces/Role';
@@ -76,7 +75,7 @@ export class RoleManagementComponent implements OnInit {
         this.isLoading = false;
       },
       (e) => {
-         this.isLoading = false;
+        this.isLoading = false;
         this.errorHandler.customClientErrors('Failed to retrieve permissions', e.error.error.code, e.error.error.responseMessage);
       }
     );
@@ -145,20 +144,20 @@ export class RoleManagementComponent implements OnInit {
     this.roleMgtService.updateRole(formValue, this.selectedRole.id).subscribe(
       (response: IRole) => {
         this.isRoleCreating = false;
-         this.updateRoleForm.reset();
+        this.updateRoleForm.reset();
         this.getRoles();
         $('#updateRole').modal('hide');
-       this.alertService.success('Role Updated Successfully');
+        this.alertService.success('Role Updated Successfully');
       },
       (e) => {
         this.isRoleCreating = false;
-         this.isLoading = false;
+        this.isLoading = false;
         this.errorHandler.customClientErrors('Error occured in updating role', e.error.error.code, e.error.error.responseMessage);
 
       }
     );
   }
-  clearSelection() {}
+  clearSelection() { }
 
   updatePermission(permission: any) {
     if (!this.permissionChecked) {

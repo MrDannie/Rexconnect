@@ -5,7 +5,7 @@ import { isNullOrUndefined } from 'util';
   providedIn: 'root',
 })
 export class StorageService {
-  constructor() {}
+  constructor() { }
 
   storeCurrentUser(userData: any) {
     localStorage.setItem('UserDait_er', JSON.stringify(userData));
@@ -20,13 +20,13 @@ export class StorageService {
       return JSON.parse(localStorage.getItem('UserDait_er'));
     }
   }
-  getCurrentRole(){
-    
+  getCurrentRole() {
+
   }
 
   removeAll() {
     localStorage.removeItem('UserDait_er');
     localStorage.removeItem('Clients_Dtls');
-  
+
   }
 }

@@ -1,7 +1,6 @@
 // tslint:disable
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { error } from 'protractor';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { ValidationService } from 'src/app/core/validation.service';
