@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from 'src/app/pages/shared/services/dashboard.service';
+import { SharedService } from 'src/app/pages/shared/services/shared.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,12 +16,22 @@ export class DashboardComponent implements OnInit {
   authService: any;
   topTerminalStatistics: any;
   topMerchantsStatistics: any;
-  constructor(private dashboardService: DashboardService) {}
+  currentUser: any;
+  constructor(private dashboardService: DashboardService, private sharedService: SharedService) {}
 
   ngOnInit() {
     this.getDashboardCount();
     this.getTopTerminalStat();
     this.getTopMerchants();
+    this.getUserData();
+  }
+
+  getUserData() {
+    // throw new Error('Method not implemented.');
+    this.sharedService.userDataObservable$.subscribe((response) => {
+      this.currentUser = response.user;
+      console.log('User', this.currentUser);
+    });
   }
 
   getDashboardCount() {
