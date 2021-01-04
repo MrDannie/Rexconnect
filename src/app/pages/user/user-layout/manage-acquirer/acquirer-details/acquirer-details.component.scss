@@ -34,11 +34,12 @@
 div > span {
   color: #1a1a1a;
   font-family: Roboto, Regular;
+  font-size: 13px;
 }
 
 p > strong {
   font-family: Montserrat, Bold;
-  color: #1a1a1a;
+  color: black;
   font-weight: bold;
 }
 
@@ -134,4 +135,45 @@ p > strong {
   // padding-left: 1rem;
   opacity: 1;
   margin-right: 0.5rem;
+}
+
+
+.form_actions .action_button {
+  background-color: #ffd1ce;
+  color: #950007;
+  padding: 0.6rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  font-weight: bold;
+  border: 0.5px solid #ffd1ce;
+  font-size: 0.8125rem;
+}
+
+.form_actions .cancel_button {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  color: #747474;
+  padding: 0.4rem 1.2rem;
+  font-family: "Montserrat Bold", serif;
+  font-weight: bold;
+  margin-top: -5px;
+  font-size: 0.7125rem;
+  transition: all ease-in-out 0.5s;
+  border-radius: 6px;
+  width: fit-content;
+  margin-top: 1rem;
+  cursor: pointer;
+  margin-left: 1rem;
+  border: 0px solid #cbcbcb;
+}
+
+.form_actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: baseline;
+  min-width: 100%;
 }

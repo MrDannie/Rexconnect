@@ -21,10 +21,9 @@
 }
 
 .form_area {
-  width: 28rem;
+  width: 26rem;
   // margin-left: 2rem;
   //margin-top: 2.5rem;
-  background: #ffffff;
   border-radius: 10px;
   padding: 1.9rem 1rem;
   margin-top: 1rem;
@@ -83,6 +82,25 @@ h4, .h4 {
     font-size: 1rem !important;
 }
 
-.form-group .row {
-      margin-top: 15px !important;
+p.sub_header {
+	margin-bottom: 10px;
+	font-size: 13px;
+}
+
+
+.form_actions .action_button:hover {
+  background-color: #950007;
+  border: 0.5px solid #950007;
+  //transition: all 0.3s ease-in-out;
+
+  color: #f0f0f0;
+}
+.form_actions .action_button i {
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+.form_actions .action_button:hover i {
+  // padding-left: 1rem;
+  opacity: 1;
+  margin-right: 0.5rem;
 }

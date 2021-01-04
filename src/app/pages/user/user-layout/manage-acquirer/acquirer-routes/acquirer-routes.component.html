@@ -2,51 +2,25 @@
   <!-- FILTER BY CODE  -->
   <div class="header__search">
     <span class="filter_click" (click)="showFilter = !showFilter">
-      <img
-        src="../../../../../assets/icons/Filter-Icon.svg"
-        alt="search"
-        class="img-fluid"
-      />
-      <span
-        class="filter_text"
-        id="dropdownMenuButton"
-        onselectstart="return false"
-        unselectable="on"
-      >
+      <img src="../../../../../assets/icons/Filter-Icon.svg" alt="search" class="img-fluid" />
+      <span class="filter_text" id="dropdownMenuButton" onselectstart="return false" unselectable="on">
         Filter Table By
       </span>
     </span>
-    <div
-      class="card search-dropdown"
-      *ngIf="showFilter"
-      id="filter__dropdown"
-      style="height: 200px"
-    >
+    <div class="card search-dropdown" *ngIf="showFilter" id="filter__dropdown" style="height: 200px">
       <form [formGroup]="searchForm">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="acquirerName" class="search_label"
-                >Acquirer Name</label
-              >
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="acquirerName"
-                id="acquirerName"
-              />
+              <label for="acquirerName" class="search_label">Acquirer Name</label>
+              <input type="text" class="form-control search_input" formControlName="acquirerName" id="acquirerName" />
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="form-group">
               <label for="cbnCode" class="search_label">CBN Code</label>
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="cbnCode"
-                id="cbnCode"
-              />
+              <input type="text" class="form-control search_input" formControlName="cbnCode" id="cbnCode" />
             </div>
           </div>
         </div>
@@ -83,26 +57,21 @@
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Routing Name</th>
-          <th scope="col">Source Station</th>
-          <th scope="col">Routing Description</th>
-          <th scope="col">Routing Destination</th>
-          <th scope="col">Status</th>
+          <th scope="col">Default DS</th>
+          <th scope="col">Rule Type</th>
+          <th scope="col">Value</th>
+          <th scope="col">Use Default</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of ngForArray">
-          <td>Tomison02</td>
-          <td>Ikenna</td>
-          <td>0234</td>
-          <td>Sample Destination</td>
-          <td class="active">Active</td>
+          <td>Sample DS</td>
+          <td>Bin Series</td>
+          <td>Keystone Bank</td>
+          <td class="active">True</td>
           <td>
-            <button
-              [routerLink]="['../../acquirer-routes', 2]"
-              class="btn table_button"
-            >
+            <button [routerLink]="['../../acquirer-routes', 2]" class="btn table_button">
               Open
             </button>
           </td>
@@ -157,25 +126,15 @@
       <i class="fa fa-download"></i>
       Download As CSV
     </button>
-    <div
-      class="spinner-border spinner-border-sm ml-3"
-      role="status"
-      *ngIf="isCSVLoading"
-    >
+    <div class="spinner-border spinner-border-sm ml-3" role="status" *ngIf="isCSVLoading">
       <span class="sr-only">Loading...</span>
     </div>
   </div>
 </div>
 
 <!-- ADD AQUIRER  -->
-<div
-  class="modal animated zoomIn"
-  id="createAcquirer"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="createUserLabel"
-  aria-hidden="true"
->
+<div class="modal animated zoomIn" id="createAcquirer" tabindex="-1" role="dialog" aria-labelledby="createUserLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
@@ -186,29 +145,18 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="merchantId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
+                  <input class="form-control" id="merchantId" type="text" placeholder=" "
+                    formControlName="merchantId" />
                   <label for="merchantId">Acquirer's Name</label>
                 </span>
-                <div
-                  *ngIf="
+                <div *ngIf="
                     createAcquirerForm.get('merchantId').errors &&
                     (createAcquirerForm.get('merchantId').dirty ||
                       createAcquirerForm.get('merchantId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
+                  " class="validation-message">
+                  <span class="validation-message" [hidden]="
                       !createAcquirerForm.get('merchantId').hasError('invalid')
-                    "
-                  >
+                    ">
                     Here is the validation message
                     <br />
                   </span>
@@ -221,29 +169,18 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="terminalId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="terminalId"
-                  />
+                  <input class="form-control" id="terminalId" type="text" placeholder=" "
+                    formControlName="terminalId" />
                   <label for="terminalId">Acquirer's Short Name</label>
                 </span>
-                <div
-                  *ngIf="
+                <div *ngIf="
                     createAcquirerForm.get('terminalId').errors &&
                     (createAcquirerForm.get('terminalId').dirty ||
                       createAcquirerForm.get('terminalId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
+                  " class="validation-message">
+                  <span class="validation-message" [hidden]="
                       !createAcquirerForm.get('terminalId').hasError('invalid')
-                    "
-                  >
+                    ">
                     Here is the validation message
                     <br />
                   </span>
@@ -255,29 +192,18 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="merchantId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
+                  <input class="form-control" id="merchantId" type="text" placeholder=" "
+                    formControlName="merchantId" />
                   <label for="merchantId">Acquirer's CBN Code</label>
                 </span>
-                <div
-                  *ngIf="
+                <div *ngIf="
                     createAcquirerForm.get('merchantId').errors &&
                     (createAcquirerForm.get('merchantId').dirty ||
                       createAcquirerForm.get('merchantId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
+                  " class="validation-message">
+                  <span class="validation-message" [hidden]="
                       !createAcquirerForm.get('merchantId').hasError('invalid')
-                    "
-                  >
+                    ">
                     Here is the validation message
                     <br />
                   </span>
@@ -289,29 +215,18 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="merchantId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
+                  <input class="form-control" id="merchantId" type="text" placeholder=" "
+                    formControlName="merchantId" />
                   <label for="merchantId">Aquirer's Terminal Prefix</label>
                 </span>
-                <div
-                  *ngIf="
+                <div *ngIf="
                     createAcquirerForm.get('merchantId').errors &&
                     (createAcquirerForm.get('merchantId').dirty ||
                       createAcquirerForm.get('merchantId').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
+                  " class="validation-message">
+                  <span class="validation-message" [hidden]="
                       !createAcquirerForm.get('merchantId').hasError('invalid')
-                    "
-                  >
+                    ">
                     Here is the validation message
                     <br />
                   </span>
@@ -322,26 +237,15 @@
           <!-- RELEVANT CODE HERE  -->
 
           <div class="form_actions">
-            <div
-              class="cancel_button"
-              data-dismiss="modal"
-              (click)="createAcquirerForm.reset()"
-            >
+            <div class="cancel_button" data-dismiss="modal" (click)="createAcquirerForm.reset()">
               Cancel
             </div>
-            <button
-              class="btn action_button"
-              [disabled]="!createAcquirerForm.valid"
-            >
+            <button class="btn action_button" [disabled]="!createAcquirerForm.valid">
               <i class="fa fa-plus animated slideIn"></i>
               Add Acquirer
             </button>
 
-            <div
-              class="spinner-border spinner-border-sm ml-3"
-              role="status"
-              *ngIf="isUserCreating"
-            >
+            <div class="spinner-border spinner-border-sm ml-3" role="status" *ngIf="isUserCreating">
               <span class="sr-only">Loading...</span>
             </div>
           </div>

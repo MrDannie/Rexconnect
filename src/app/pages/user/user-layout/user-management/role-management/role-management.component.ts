@@ -55,7 +55,6 @@ export class RoleManagementComponent implements OnInit {
 
     this.roleMgtService.getAllRoles().subscribe(
       (response) => {
-        console.log('response from get all roles', response);
         this.allRoles = response['content'];
         this.makeRoleActive(this.allRoles[0]);
         this.isLoading = false;
@@ -72,22 +71,19 @@ export class RoleManagementComponent implements OnInit {
 
     this.roleMgtService.getAllPermissions().subscribe(
       (response) => {
-        console.log('PERMISSIONS GOTTEN', response);
         this.allPermissions = response;
         this.isLoading = false;
       },
       (e) => {
-         this.isLoading = false;
+        this.isLoading = false;
         this.errorHandler.customClientErrors('Failed to retrieve permissions', e.error.error.code, e.error.error.responseMessage);
       }
     );
   }
 
   makeRoleActive(role: any) {
-    console.log('Role', role);
     this.permissionChecked = false;
     this.selectedPermissions = [];
-    console.log('selected is here role');
     this.allPermissions.forEach((genPerm) => {
       document.getElementById(genPerm)['checked'] = false;
     });
@@ -95,7 +91,6 @@ export class RoleManagementComponent implements OnInit {
     this.selectedRole = role;
 
     this.selectedPermissions = this.selectedRole.permissions;
-    console.log(this.selectedRole, 'selected is here role');
 
     this.updateRoleForm.controls['name'].setValue(this.selectedRole.name);
 
@@ -103,7 +98,6 @@ export class RoleManagementComponent implements OnInit {
       this.selectedRole.permissions.forEach((perm) => {
         this.allPermissions.forEach((genPerm) => {
           if (genPerm === perm) {
-            console.log(perm);
             document.getElementById(perm)['checked'] = true;
           }
         });
@@ -112,18 +106,14 @@ export class RoleManagementComponent implements OnInit {
   }
 
   addPermission(permission: any) {
-    console.log('current selected permissions', this.selectedPermissions);
-    console.log('selected Permission', permission);
     if (this.permissionsToAdd.includes(permission)) {
       for (let i = 0; i < this.permissionsToAdd.length; i++) {
         if (this.permissionsToAdd[i] === permission) {
           this.permissionsToAdd.splice(i, 1);
-          console.log(this.permissionsToAdd);
         }
       }
     } else {
       this.permissionsToAdd.push(permission);
-      console.log(this.permissionsToAdd);
     }
   }
 
@@ -153,22 +143,21 @@ export class RoleManagementComponent implements OnInit {
 
     this.roleMgtService.updateRole(formValue, this.selectedRole.id).subscribe(
       (response: IRole) => {
-        console.log('Response After Update Role', response);
         this.isRoleCreating = false;
-         this.updateRoleForm.reset();
+        this.updateRoleForm.reset();
         this.getRoles();
         $('#updateRole').modal('hide');
-       this.alertService.success('Role Updated Successfully');
+        this.alertService.success('Role Updated Successfully');
       },
       (e) => {
         this.isRoleCreating = false;
-         this.isLoading = false;
+        this.isLoading = false;
         this.errorHandler.customClientErrors('Error occured in updating role', e.error.error.code, e.error.error.responseMessage);
 
       }
     );
   }
-  clearSelection() {}
+  clearSelection() { }
 
   updatePermission(permission: any) {
     if (!this.permissionChecked) {
@@ -182,14 +171,12 @@ export class RoleManagementComponent implements OnInit {
       for (let i = 0; i < this.permissionToSend.length; i++) {
         if (this.permissionToSend[i] === permission) {
           this.permissionToSend.splice(i, 1);
-          console.log(this.permissionToSend);
         }
       }
     } else {
       //console.log("not there");
 
       this.permissionToSend.push(permission);
-      console.log(this.permissionToSend);
     }
     this.permissionChecked = true;
     //console.log(this.permissionToSend);

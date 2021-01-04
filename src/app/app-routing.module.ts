@@ -14,6 +14,7 @@ import { ManageStationsModule } from './pages/user/user-layout/manage-stations/m
 import { ManageTerminalModule } from './pages/user/user-layout/manage-terminal/manage-terminal.module';
 import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
 import { ManageProfileModule } from './pages/user/user-layout/manage-profile/manage-profile.module';
+import { LoginGuard } from './core/guards/login.guard';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
   {
     path: 'user',
     component: UserLayoutComponent,
+    canActivate: [LoginGuard],
     children: [
       {
         path: '',
@@ -99,4 +101,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

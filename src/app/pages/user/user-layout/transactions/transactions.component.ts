@@ -33,7 +33,7 @@ export class TransactionsComponent implements OnInit {
     private paginationService: PaginationService,
     private errorHandler: ErrorHandler,
     private fileGenerationService: FileGenerationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.pageSize = 10;

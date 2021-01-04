@@ -35,7 +35,6 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-
   }
 
   initializeForm() {
@@ -46,9 +45,9 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
-   
+
     console.log('here is the login deatils', this.loginForm.value);
-        this.isLoading = true;
+    this.isLoading = true;
     this.authService.login(this.loginForm.value).subscribe(
       (response) => {
         console.log('Login User Data', response);
@@ -70,19 +69,19 @@ export class SignInComponent implements OnInit {
             this.alertService.error(error.error.error.responseMessage, false);
           }
         );
-     
+
       },
       (error) => {
         console.log('login error', error);
         this.isLoading = false;
         this.alertService.error(error.error.error.responseMessage, false);
-  
+
       }
     );
 
   }
 
-  validateLogin(){
+  validateLogin() {
 
   }
 
