@@ -63,7 +63,7 @@ export class ManageUserComponent implements OnInit {
   getAllUsers(
     firstName: string = '',
     lastName: string = '',
-    roleId: number = null
+    roleId: string = ''
   ) {
     this.isLoading = true;
     this.userManagementService
@@ -322,11 +322,8 @@ export class ManageUserComponent implements OnInit {
     this.showFilter = false;
     const { firstName, lastName, roleId } = filterByValues;
     this.getAllUsers(firstName, lastName, roleId);
-    console.log(firstName, lastName, roleId);
 
-    // const firstName = this.searchForm.get('firstName').value || '';
-    // if (firstName) {
-    // }
+
   }
 
   // request by page size

@@ -65,11 +65,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of ngForArray">
-          <td>Sample DS</td>
-          <td>Bin Series</td>
-          <td>Keystone Bank</td>
-          <td class="active">True</td>
+        <tr *ngFor="let route of routingRules">
+          <td>{{route.rule_config.ds}}</td>
+          <td>{{route.rule_config.rule}}</td>
+          <td>{{route.rule_config.value}}</td>
+          <td class="active">{{route.use_default}}</td>
           <td>
             <button [routerLink]="['../../acquirer-routes', 2]" class="btn table_button">
               Open

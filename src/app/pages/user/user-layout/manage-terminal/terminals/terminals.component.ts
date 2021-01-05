@@ -102,11 +102,6 @@ export class TerminalsComponent implements OnInit {
     this.getTerminals();
   }
 
-  reset() {}
-
-  generateCSV() {}
-
-  createUser(value) {}
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
@@ -225,7 +220,7 @@ export class TerminalsComponent implements OnInit {
           this.isUploading = false;
           this.errorHandler.customClientErrors('Failed to upload file', e.error.error.code, e.error.error.responseMessage);
 
-      });
+        });
     }
   }
 
