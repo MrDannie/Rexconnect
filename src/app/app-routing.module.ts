@@ -11,6 +11,8 @@ import { UserLayoutComponent } from './pages/user/user-layout/user-layout.compon
 import { ManageUserComponent } from './pages/user/user-layout/user-management/manage-user/manage-user.component';
 import { RoleManagementComponent } from './pages/user/user-layout/user-management/role-management/role-management.component';
 import { ManageStationsModule } from './pages/user/user-layout/manage-stations/manage-stations.module';
+import { ManageRoutesModule } from './pages/user/user-layout/manage-routes/manage-routes.module';
+
 import { ManageTerminalModule } from './pages/user/user-layout/manage-terminal/manage-terminal.module';
 import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
 import { ManageProfileModule } from './pages/user/user-layout/manage-profile/manage-profile.module';
@@ -77,6 +79,11 @@ const routes: Routes = [
         path: 'stations',
         loadChildren:
           './pages/user/user-layout/manage-stations/manage-stations.module#ManageStationsModule',
+      },
+      {
+        path: 'routes',
+        loadChildren:
+          './pages/user/user-layout/manage-routes/manage-routes.module#ManageRoutesModule',
       },
       {
         path: 'profile',
