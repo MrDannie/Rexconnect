@@ -32,6 +32,7 @@ import { SharedModule } from './pages/shared/modules/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './core/helpers/interceptors/interceptor.service';
 import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
+import { PtspComponent } from './pages/user/user-layout/ptsp/ptsp.component';
 // import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 
 
@@ -59,6 +60,7 @@ import { UserManagementModule } from './pages/user/user-layout/user-management/u
     AuditLogsComponent,
     DashboardComponent,
     TransactionsComponent,
+    PtspComponent,
     // TerminalsComponent,
   ],
   imports: [

@@ -17,6 +17,7 @@ import { ManageTerminalModule } from './pages/user/user-layout/manage-terminal/m
 import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
 import { ManageProfileModule } from './pages/user/user-layout/manage-profile/manage-profile.module';
 import { LoginGuard } from './core/guards/login.guard';
+import { PtspComponent } from './pages/user/user-layout/ptsp/ptsp.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
       {
         path: 'audit-log',
         component: AuditLogsComponent,
+      },
+      {
+        path: 'ptsp',
+        component: PtspComponent
       },
       {
         path: 'all-users',
