@@ -4,12 +4,13 @@ import { RoutingRulesInterface } from 'src/app/pages/shared/interfaces/routing-r
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 
 @Component({
-  selector: 'app-acquirer-routes',
-  templateUrl: './acquirer-routes.component.html',
-  styleUrls: ['./acquirer-routes.component.scss'],
+  selector: 'app-routes',
+  templateUrl: './routes.component.html',
+  styleUrls: ['./routes.component.scss']
 })
-export class AcquirerRoutesComponent implements OnInit {
+export class RoutesComponent implements OnInit {
   routingRules
+  rawResponse
 
 
   // Test
@@ -25,19 +26,22 @@ export class AcquirerRoutesComponent implements OnInit {
     this.showFilter = false;
     this.isCSVLoading = false;
     this.isUserCreating = false;
-
     this.initializeForm();
   }
 
   ngOnInit() {
-    // this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    // this.routingCompService.getAllRoutingRules().subscribe(
-    //   (response: RoutingRulesInterface) => {
-    //     this.routingRules = JSON.parse(response.data.routingRules[0].rule_config)
-    //     console.log(JSON.parse(response.data.routingRules[0].rule_config));
-    //   }
-
-    // )
+    this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    this.routingCompService.getAllRoutingRules().subscribe(
+      (response: RoutingRulesInterface) => {
+        console.log("UNPARSED RESPONSE DATA", response);
+        this.routingRules = response.data.routingRules;
+        let parsedData = response.data.routingRules.map((item) =>
+          JSON.parse(item.rule_config)
+        )
+        this.routingRules.map((item) => item.rule_config = parsedData)
+        console.log("PARSED RESPONSE DATA", this.routingRules);
+      }
+    )
   }
 
 

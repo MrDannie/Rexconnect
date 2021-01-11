@@ -20,6 +20,12 @@ export const countries = {
   ],
 };
 
+export const RULETYPES = [
+  'Bin_series',
+  'Amount',
+  'Scheme'
+]
+
 export const currencies = {
   CURRENCY_CODES: [
     {
