@@ -19,7 +19,6 @@ export class RouteComponentService {
 		return this.http.get<RoutingRulesInterface>(BASE_URL + '/v1/routing-rules')
 			.pipe(
 				map((response: RoutingRulesInterface) => {
-					console.log('routing rules', response);
 					return response
 				})
 			)
@@ -30,6 +29,16 @@ export class RouteComponentService {
 			pipe(
 				map((response) => {
 					console.log("routing rule rtesponse");
+					return response
+				})
+			)
+	}
+
+	getSingleRoute(routeId): Observable<any> {
+		return this.http.get(BASE_URL + "/v1/routing-rules/" + routeId).
+			pipe(
+				map((response) => {
+					console.log("routing rule rtesponse", response);
 					return response
 				})
 			)

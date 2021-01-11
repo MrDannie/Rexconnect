@@ -6,17 +6,11 @@ export interface RoutingRulesInterface {
 
 export interface data {
 	count: number;
-	routingRules: {
+	routingRules: [{
 		id: number;
 		default_ds: string;
 		rule: string;
-		rule_config: [{
-			rule: string;
-			value: string;
-			max: string;
-			min: string;
-			ds: string;
-		}],
+		rule_config: string;
 		use_default: boolean
-	}
+	}]
 }

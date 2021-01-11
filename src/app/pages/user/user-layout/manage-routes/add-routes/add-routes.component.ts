@@ -11,7 +11,7 @@ import { RULETYPES } from 'src/app/pages/shared/constants'
 })
 export class AddRoutesComponent implements OnInit {
   createRouteForm: FormGroup;
-  ruleConfig: FormArray
+  ruleConfig
   ruletypes
 
   constructor(private routingCompService: RouteComponentService, private fb: FormBuilder) { }
@@ -36,7 +36,6 @@ export class AddRoutesComponent implements OnInit {
 
   createRoute(): void {
     console.log(this.createRouteForm.value);
-
     this.routingCompService.createRoutingRule(this.createRouteForm.value).subscribe(
       (response) => {
         console.log("sucessfully addes", response)

@@ -30,14 +30,14 @@ export class AcquirerRoutesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    this.routingCompService.getAllRoutingRules().subscribe(
-      (response: RoutingRulesInterface) => {
-        this.routingRules = JSON.parse(response.data.routingRules[0].rule_config)
-        console.log(JSON.parse(response.data.routingRules[0].rule_config));
-      }
+    // this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    // this.routingCompService.getAllRoutingRules().subscribe(
+    //   (response: RoutingRulesInterface) => {
+    //     this.routingRules = JSON.parse(response.data.routingRules[0].rule_config)
+    //     console.log(JSON.parse(response.data.routingRules[0].rule_config));
+    //   }
 
-    )
+    // )
   }
 
 
