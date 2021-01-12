@@ -1,18 +1,22 @@
 <div class="header animated fadeIn">
   <div class="top_buttons">
-    <span class="back_button" routerLink="../../../">
+    <span class="back_button" routerLink="../../../routes">
       <i class="fa fa-long-arrow-left"></i> Return to User List
     </span>
   </div>
   <div class="header_buttons">
     <div>
-      <span class="name">
-        Default DS</span>
+      <span class="name"> Default DS</span>
       <span class="date">Created: DEC 9, 2019, 12:04:56 AM</span>
       <span class="status">Active</span>
     </div>
     <div>
-      <span class="action_button_disable" data-toggle="modal" data-target="#disableMerchant">Disable Station</span>
+      <span
+        class="action_button_disable"
+        data-toggle="modal"
+        data-target="#disableMerchant"
+        >Disable Station</span
+      >
     </div>
   </div>
 </div>
@@ -24,49 +28,41 @@
         <div class="col-md-6">
           <span>Default Destination Station</span>
           <p><strong>Tremlay & Sons</strong></p>
-
         </div>
         <div class="col-md-6">
           <span>Rule Type</span>
           <p><strong>Bin_Series</strong></p>
-
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <span>Value</span>
           <p><strong>Keystone Bank</strong></p>
-
         </div>
         <div class="col-md-6">
           <span>Destination Station</span>
           <p><strong>CR2</strong></p>
-
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <span>Max</span>
           <p><strong>--</strong></p>
-
         </div>
         <div class="col-md-6">
           <span>Min</span>
           <p><strong>--</strong></p>
-
         </div>
       </div>
       <div class="row">
-
-        <div class="col-md-12">
-          <input type="checkbox"> Use Default
-
-        </div>
+        <div class="col-md-12"><input type="checkbox" /> Use Default</div>
       </div>
 
-
-
-      <button class="btn action_button_update" data-toggle="modal" data-target="#editAcquirer">
+      <button
+        class="btn action_button_update"
+        data-toggle="modal"
+        data-target="#editAcquirer"
+      >
         Edit Station
       </button>
     </div>
@@ -74,8 +70,14 @@
 </div>
 
 <!-- EDIT STATIONs MODAL  -->
-<div class="modal animated zoomIn" id="editAcquirer" tabindex="-1" role="dialog" aria-labelledby="editAcquirerLabel"
-  aria-hidden="true">
+<div
+  class="modal animated zoomIn"
+  id="editAcquirer"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editAcquirerLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
@@ -86,8 +88,13 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="merchantName" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantName">Station Name</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -103,8 +110,13 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="merchantName" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantName">Station Acquirer</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -121,8 +133,13 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="terminalId" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantId">Station ID</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -139,8 +156,13 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="merchantName" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantName">Station IP Address</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -157,8 +179,13 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <select class="form-control" id="merchantName" type="text" placeholder=" "
-                    formControlName="merchantId">
+                  <select
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  >
                     <option value="Select option"></option>
                   </select>
                   <label for="merchantName">Station Port Number</label>
@@ -185,7 +212,11 @@
               Save Changes
             </button>
 
-            <div class="spinner-border spinner-border-sm ml-3" *ngIf="expression" role="status">
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              *ngIf="expression"
+              role="status"
+            >
               <span class="sr-only">Loading...</span>
             </div>
           </div>
