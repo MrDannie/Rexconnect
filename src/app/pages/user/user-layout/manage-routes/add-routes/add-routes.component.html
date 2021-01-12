@@ -2,32 +2,80 @@
   <div class="details_section">
     <div class="form_area">
       <h4>Add Route</h4>
-      <p class="sub_header">Please provide details of the route you wish to add.</p>
+      <p class="sub_header">
+        Please provide details of the route you wish to add.
+      </p>
       <form [formGroup]="createRouteForm" (ngSubmit)="createRoute()">
         <div class="form-group">
           <div class="row">
             <div class="col">
               <span class="has-float-label">
-                <select formControlName="station" type="text" class="form-control" placeholder="">
-                  <option *ngFor="let rule of ruletypes" value="{{rule}}">{{rule}}</option>
+                <select
+                  formControlName="default_ds"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                >
+                  <option
+                    *ngFor="let station of stations"
+                    value="{{ station.name }}"
+                  >
+                    {{ station.name }}
+                  </option>
                 </select>
                 <label for="terminal">Default Destination Station</label>
               </span>
             </div>
           </div>
+          <div class="row">
+            <div class="col">
+              <span class="has-float-label">
+                <select
+                  formControlName="rule"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                >
+                  <option
+                    *ngFor="let rule of ruletypes"
+                    value="{{ rule }}"
+                    value="down"
+                  >
+                    {{ rule }}
+                  </option>
+                </select>
+                <label for="terminal">Rule</label>
+              </span>
+            </div>
+          </div>
         </div>
-        <p style="color: #585858; font-size: 13px; font-weight: bold;" class="form-group">Rule Configuration</p>
-        <div formArrayName="ruleConfig"
-          *ngFor="let ruleConfig of createRouteForm.get('ruleConfig').controls; let i = index;">
-          <div [formGroupName]='i'>
+        <p
+          style="color: #585858; font-size: 13px; font-weight: bold"
+          class="form-group"
+        >
+          Rule Configuration
+        </p>
+        <div
+          class="rule-config"
+          formArrayName="rule_config"
+          *ngFor="
+            let ruleConfig of createRouteForm.get('rule_config').controls;
+            let i = index
+          "
+        >
+          <div [formGroupName]="i">
             <div class="form-group">
               <div class="row">
                 <div class="col">
                   <span class="has-float-label">
-                    <select formControlName="ruleType" type="text" class="form-control" placeholder="">
-                      <option *ngFor="let rule of ruletypes" value="{{rule}}" value="down">{{rule}}</option>
-                    </select>
-                    <label for="terminal">Rule Type</label>
+                    <!-- HIDDEN INPUT FIELD(BUT SENT INFO IS STILL SENT) -->
+                    <input
+                      formControlName="rule"
+                      type="hidden"
+                      class="form-control"
+                      placeholder=""
+                      [value]="createRouteForm.get('rule').value"
+                    />
                   </span>
                 </div>
               </div>
@@ -36,7 +84,12 @@
               <div class="row">
                 <div class="col">
                   <span class="has-float-label">
-                    <input formControlName="value" type="text" class="form-control" placeholder="" />
+                    <input
+                      formControlName="value"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
                     <label for="terminal">Value</label>
                   </span>
                 </div>
@@ -46,13 +99,23 @@
               <div class="row">
                 <div class="col">
                   <span class="has-float-label">
-                    <input formControlName="min" type="text" class="form-control" placeholder="" />
+                    <input
+                      formControlName="min"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
                     <label for="terminal">Min</label>
                   </span>
                 </div>
                 <div class="col">
                   <span class="has-float-label">
-                    <input formControlName="max" type="text" class="form-control" placeholder="" />
+                    <input
+                      formControlName="max"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
                     <label for="terminal">Max</label>
                   </span>
                 </div>
@@ -62,7 +125,12 @@
               <div class="row">
                 <div class="col">
                   <span class="has-float-label">
-                    <input formControlName="destinationStation" type="text" class="form-control" placeholder="" />
+                    <input
+                      formControlName="ds"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
                     <label for="terminal">Destination Station</label>
                   </span>
                 </div>
@@ -70,10 +138,22 @@
             </div>
           </div>
         </div>
-        <p (click)="duplicateForm()" style="color: #C91C24; font-size: 13px;">Add More</p>
-        <hr>
-        <input formControlName="useDefault" style="color: #2C9220;" type="checkbox"> Use Default
-        <button class="btn action_button_update" type="submit" data-toggle="modal" data-target="#editAcquirer">
+        <p (click)="duplicateForm()" style="color: #c91c24; font-size: 13px">
+          Add More
+        </p>
+        <hr />
+        <input
+          formControlName="use_default"
+          style="color: #2c9220"
+          type="checkbox"
+        />
+        Use Default
+        <button
+          class="btn action_button_update"
+          type="submit"
+          data-toggle="modal"
+          data-target="#editAcquirer"
+        >
           Add Route
         </button>
       </form>

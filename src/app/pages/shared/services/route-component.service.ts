@@ -44,5 +44,14 @@ export class RouteComponentService {
 			)
 	}
 
+	getAllStations(): Observable<any> {
+		return this.http.get(BASE_URL + "/v1/stations/").
+			pipe(
+				map((response) => {
+					console.log("All Statioons", response);
+					return response;
+				})
+			)
+	}
 
 }
