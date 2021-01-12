@@ -10,217 +10,62 @@
       <span class="date">Created: DEC 9, 2019, 12:04:56 AM</span>
       <span class="status">Active</span>
     </div>
-    <div>
-      <span
-        class="action_button_disable"
-        data-toggle="modal"
-        data-target="#disableMerchant"
-        >Disable Station</span
-      >
-    </div>
   </div>
 </div>
 
 <div class="main_dashboard_flow">
   <div class="details_section">
-    <div class="form_area">
-      <div class="row">
-        <div class="col-md-6">
-          <span>Default Destination Station</span>
-          <p><strong>Tremlay & Sons</strong></p>
-        </div>
-        <div class="col-md-6">
-          <span>Rule Type</span>
-          <p><strong>Bin_Series</strong></p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <span>Value</span>
-          <p><strong>Keystone Bank</strong></p>
-        </div>
-        <div class="col-md-6">
-          <span>Destination Station</span>
-          <p><strong>CR2</strong></p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <span>Max</span>
-          <p><strong>--</strong></p>
-        </div>
-        <div class="col-md-6">
-          <span>Min</span>
-          <p><strong>--</strong></p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12"><input type="checkbox" /> Use Default</div>
-      </div>
-
-      <button
-        class="btn action_button_update"
-        data-toggle="modal"
-        data-target="#editAcquirer"
-      >
-        Edit Station
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- EDIT STATIONs MODAL  -->
-<div
-  class="modal animated zoomIn"
-  id="editAcquirer"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="editAcquirerLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <h5 class="modal-title" id="editAcquirerLabel">Edit Station</h5>
-        <form [formGroup]="editAcquirerForm">
-          <!-- RELEVANT CODE HERE  -->
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantName">Station Name</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
+    <div class="row">
+      <div *ngFor="let routeConfig of routeConfigs" class="form_area">
+        <div class="row">
+          <div class="col-sm-6">
+            <span>Default Destination Station</span>
+            <p><strong>Here</strong></p>
           </div>
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantName">Station Acquirer</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
+          <div class="col-sm-6">
+            <span>Rule Type</span>
+            <p>
+              <strong>{{ routeConfig.rule }}</strong>
+            </p>
           </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="terminalId"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantId">Station ID</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <span>Value</span>
+            <p>
+              <strong>{{ routeConfig.value }}</strong>
+            </p>
           </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  />
-                  <label for="merchantName">Station IP Address</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
+          <div class="col-sm-6">
+            <span>Destination Station</span>
+            <p>
+              <strong>{{ routeConfig.ds }}</strong>
+            </p>
           </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <select
-                    class="form-control"
-                    id="merchantName"
-                    type="text"
-                    placeholder=" "
-                    formControlName="merchantId"
-                  >
-                    <option value="Select option"></option>
-                  </select>
-                  <label for="merchantName">Station Port Number</label>
-                </span>
-                <div *ngIf="expression" class="validation-message">
-                  <span class="validation-message">
-                    Here is the validation message
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <span>Max</span>
+            <p>
+              <strong>{{ routeConfig.max }}</strong>
+            </p>
           </div>
-          <!-- RELEVANT CODE HERE  -->
-
-          <div class="form_actions">
-            <div class="cancel_button" data-dismiss="modal">
-              <!-- (click)="createMerchantForm.reset()" -->
-              Cancel
-            </div>
-            <button class="btn action_button">
-              <!-- (click)="createUser(createMerchantForm.value)" -->
-              <i class="fa fa-plus animated slideIn"></i>
-              Save Changes
-            </button>
-
-            <div
-              class="spinner-border spinner-border-sm ml-3"
-              *ngIf="expression"
-              role="status"
-            >
-              <span class="sr-only">Loading...</span>
-            </div>
+          <div class="col-sm-6">
+            <span>Min</span>
+            <p>
+              <strong>{{ routeConfig.min }}</strong>
+            </p>
           </div>
-        </form>
+        </div>
+        <div class="row">
+          <div class="col-sm-12"><input type="checkbox" /> Use Default</div>
+        </div>
+        <button
+          [routerLink]="['../../add-routes']"
+          class="btn action_button_update"
+        >
+          Edit Station
+        </button>
       </div>
     </div>
   </div>

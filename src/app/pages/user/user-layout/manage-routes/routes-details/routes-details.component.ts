@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 
 @Component({
   selector: 'app-routes-details',
@@ -7,44 +9,27 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./routes-details.component.scss']
 })
 export class RoutesDetailsComponent implements OnInit {
-  createStationForm: FormGroup;
-  isUserCreating;
-  showFilter: boolean;
-  expression: boolean;
-  isCSVLoading;
-  boolean;
-
-  searchForm: FormGroup;
-  ngForArray: number[];
   editAcquirerForm: FormGroup;
+  routing: any;
+  routeConfigs: any;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.showFilter = false;
-    this.expression = false;
-    this.isCSVLoading = false;
-    this.isUserCreating = false;
-    this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    this.initializeForm();
+  constructor(private routingCompService: RouteComponentService, private route: ActivatedRoute) {
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    const routeId = this.route.snapshot.params.id
+    this.routingCompService.getSingleRoute(routeId).subscribe(
+      (response) => {
+        let parsedData = JSON.parse(response.data.rule_config)
+        response.data.rule_config = parsedData
+        this.routing = parsedData
+        this.routeConfigs = this.routing.ruleconfig
+      }
+    ), (error) => {
+      console.log(error);
 
-  initializeForm() {
-    this.searchForm = this.formBuilder.group({
-      stationName: '',
-      stationAcquirer: '',
-      stationId: '',
-    });
-    this.editAcquirerForm = this.formBuilder.group({
-      merchantId: ['', Validators.compose([Validators.required])],
-      terminalId: ['', Validators.compose([Validators.required])],
-    });
+    }
   }
-
-  reset() { }
-  generateCSV() { }
-
-  createUser(value) { }
 
 }
