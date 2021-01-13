@@ -43,6 +43,8 @@ export class AlertService {
   }
 
   error(error: any, keepAfterRouteChange = false) {
+    console.log(error);
+    
     let errorMessage = '';
     this.alertId++;
     if (typeof error === 'string') {
@@ -51,6 +53,7 @@ export class AlertService {
       if (error.error.code === 401) {
         this.authService.logout();
       }
+      
       if (error.error instanceof ErrorEvent) {
         errorMessage = 'An Error Occured, Pls Try Again';
       } else if (error.error instanceof ProgressEvent) {
@@ -58,7 +61,7 @@ export class AlertService {
       } else if (error.error instanceof ArrayBuffer) {
         errorMessage = 'An error occured, Unable to generate reciept';
       } else {
-        errorMessage = error.error.message;
+        errorMessage = error.error.error.responseMessage;
       }
 
       if (typeof error === 'string') {
@@ -69,6 +72,8 @@ export class AlertService {
       }
     }
 
+    console.log(errorMessage);
+    
     window.scrollTo(0, 0);
     this.alert(
       AlertType.Error,

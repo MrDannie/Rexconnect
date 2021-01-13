@@ -24,6 +24,7 @@ export class StationsComponent implements OnInit {
   showFilter: boolean;
   isRefreshing: boolean;
   isCreating: boolean;
+  isDeleting: boolean;
 
 
 
@@ -40,6 +41,7 @@ export class StationsComponent implements OnInit {
   //component specific data
   allStations: any;
   dataCount: any;
+  selectedValue: any;
 
   constructor(private formBuilder: FormBuilder, private stationsService: StationsService,
      private paginationService: PaginationService, private alertService: AlertService) {
@@ -99,7 +101,31 @@ export class StationsComponent implements OnInit {
       (error) => {
         this.isCreating = false;
         this.alertService.error(error, false);
-        this.isLoading = false;
+      }
+    );
+  }
+
+
+  warnUser(val) {
+    console.log(val);
+    this.selectedValue = val;
+    $("#confirmationModal").modal("show");
+  }
+
+  deleteStation() {
+    this.isDeleting = true;
+    this.stationsService.deleteStation(this.selectedValue.id).subscribe(
+      (response) => {
+        console.log(response);
+        this.isDeleting = false;
+        this.getAllStations();
+        $("#confirmationModal").modal("hide");
+  
+        this.alertService.success("Station deleted successfully", true);
+      },
+      (error) => {
+        this.isDeleting = false;
+        this.alertService.error(error, false);
       }
     );
   }
