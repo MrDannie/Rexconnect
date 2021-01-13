@@ -69,13 +69,12 @@
   padding: 1.9rem 1rem;
   margin-top: 1rem;
   margin-right: 20px;
-    width: 30rem;
+  width: 30rem;
 }
 
 .col-sm-6 {
   background-color: #ffffff;
-  }
-
+}
 
 // div > span {
 //   // color: #1a1a1a;
@@ -83,13 +82,13 @@
 // }
 
 strong {
-	color: black;
-	font-style: Montserrat, Bold;
-	font-size: 14px;
+  color: black;
+  font-style: Montserrat, Bold;
+  font-size: 14px;
 }
 
 div.col-md-6 > span {
-	font-size: 12px;
+  font-size: 12px;
 }
 
 // p > strong {
@@ -193,7 +192,11 @@ div.col-md-6 > span {
 }
 
 .name {
-	font-family: Montserrat, Bold;
-	font-weight: bold;
-	color: black;
+  font-family: Montserrat, Bold;
+  font-weight: bold;
+  color: black;
+}
+
+.title {
+  font-size: 14px;
 }

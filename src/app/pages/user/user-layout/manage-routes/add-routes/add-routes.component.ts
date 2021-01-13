@@ -3,6 +3,7 @@ import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { RoutingRulesInterface } from 'src/app/pages/shared/interfaces/routing-rules.model';
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 import { RULETYPES } from 'src/app/pages/shared/constants';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-routes',
@@ -15,10 +16,13 @@ export class AddRoutesComponent implements OnInit {
   ruletypes;
   stations: [];
   value: string = 'safd';
+  routing: any;
+  routeConfigs: any;
 
   constructor(
     private routingCompService: RouteComponentService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -27,8 +31,43 @@ export class AddRoutesComponent implements OnInit {
     console.log(this.ruletypes);
 
     // Call to get default destination Stations
-    this.getDestinationStations();
+    const idOfRouteToBeFetched = this.route.snapshot.params.id;
+    if (idOfRouteToBeFetched != 0) {
+      this.routingCompService
+        .getSingleRoute(idOfRouteToBeFetched)
+        .subscribe((response) => {
+          console.log('this is route to be edited', response);
+          let parsedData = JSON.parse(response.data.rule_config);
+          response.data.rule_config = parsedData;
+          this.routing = parsedData;
+          this.routeConfigs = this.routing.ruleconfig;
+          this.setFormValue(response);
+        });
+    } else {
+      this.getDestinationStations();
+    }
   }
+  setFormValue(route) {
+    console.log('Router in set form value', route);
+    let ore = 'asfd';
+    this.createRouteForm.patchValue({
+      default_ds: ore,
+      rule: 'adsf',
+      rule_config: [
+        {
+          rule: 'asfd',
+          value: 'adsf',
+          max: 'afds',
+          min: 'asfdads',
+          ds: 'asdfasf',
+        },
+      ],
+      use_default: true,
+    });
+  }
+  // setRuleConfigForm(): any {
+  //   this.createRuleConfigForm.set;
+  // }
   getDestinationStations(): void {
     this.routingCompService.getAllStations().subscribe((response) => {
       this.stations = response.data.stations;

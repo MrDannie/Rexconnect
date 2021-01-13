@@ -108,3 +108,11 @@ p.sub_header {
 .rule-config {
   margin-bottom: 3rem;
 }
+
+.add-more {
+  cursor: pointer;
+}
+
+.add-more:hover {
+  text-decoration: underline;
+}
