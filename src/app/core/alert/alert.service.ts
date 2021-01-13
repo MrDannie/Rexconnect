@@ -60,8 +60,10 @@ export class AlertService {
         errorMessage = 'Unable to connect to the Internet';
       } else if (error.error instanceof ArrayBuffer) {
         errorMessage = 'An error occured, Unable to generate reciept';
-      } else {
+      } else if (error.error.error) {
         errorMessage = error.error.error.responseMessage;
+      } else {
+        errorMessage = 'Error connecting, please try again'
       }
 
       if (typeof error === 'string') {

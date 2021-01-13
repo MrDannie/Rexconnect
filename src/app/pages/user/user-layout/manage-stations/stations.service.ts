@@ -24,10 +24,10 @@ export class StationsService {
     let params = new HttpParams();
 
     if (pageIndex) {
-      params = params.append("pageIndex", pageIndex);
+      params = params.append("offset", pageIndex);
     }
     if (pageSize) {
-      params = params.append("pageSize", pageSize);
+      params = params.append("limit", pageSize);
     }
     if (searchFormValue.stationName) {
       params = params.append("stationName", searchFormValue.stationName);
@@ -40,6 +40,11 @@ export class StationsService {
           return stations;
         })
       );
+  }
+
+  getStation(id) {
+    console.log(id);
+    return this.httpClient.get(BASE_URL + this.config.stations + '/' + id);
   }
 
   createStation(stationDetails) {
