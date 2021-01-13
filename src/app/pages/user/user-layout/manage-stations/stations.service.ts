@@ -20,7 +20,7 @@ export class StationsService {
   ) { }
 
   
-  getAllStations(pageIndex, pageSize) {
+  getAllStations(pageIndex, pageSize, searchFormValue?) {
     let params = new HttpParams();
 
     if (pageIndex) {
@@ -29,9 +29,12 @@ export class StationsService {
     if (pageSize) {
       params = params.append("pageSize", pageSize);
     }
+    if (searchFormValue.stationName) {
+      params = params.append("stationName", searchFormValue.stationName);
+    }
 
     return this.httpClient
-      .get(BASE_URL + this.config.getAllStations, { params })
+      .get(BASE_URL + this.config.stations, { params })
       .pipe(
         map((stations) => {
           return stations;
@@ -39,10 +42,10 @@ export class StationsService {
       );
   }
 
-  // createMerchant(merchantDetails) {
-  //   console.log(merchantDetails);
-  //   return this.httpClient.post(BASE_URL + this.config.createMerchant, merchantDetails);
-  // }
+  createStation(stationDetails) {
+    console.log(stationDetails);
+    return this.httpClient.post(BASE_URL + this.config.stations, stationDetails);
+  }
   // updateMerchant(merchantDetails) {
   //   console.log(merchantDetails);
   //   return this.httpClient.post(BASE_URL + this.config.updateMerchant, merchantDetails);

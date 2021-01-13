@@ -9,7 +9,7 @@
         <button
           class="btn action_button"
           data-toggle="modal"
-          data-target="#createAcquirer"
+          data-target="#createModal"
         >
           <i class="fa fa-plus animated slideIn"></i>
           Add Station
@@ -87,14 +87,10 @@
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white">Close</button>
+          <button class="btn button-white" (click)="showFilter = !showFilter">Close</button>
 
-          <button class="btn button-pink">
+          <button class="btn button-pink" (click)="pageIndex = 0; getAllStations()">
             Apply Filters
-
-            <div class="spinner-border spinner-border-sm ml-3" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
           </button>
         </div>
       </form>
@@ -103,8 +99,8 @@
 
   <!-- Reset button -->
   <button class="btn btn-secondary reset-filter" (click)="reset()">
-    <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
-    <i class="fa fa-refresh"></i>
+    <i class="fa fa-refresh fa-fast-spin" *ngIf="isRefreshing"></i>
+    <i class="fa fa-refresh" *ngIf="!isRefreshing"></i>
     Refresh
   </button>
 
@@ -113,19 +109,33 @@
   <!-- New Header Ends HEre  -->
 </div>
 
+
+<!-- No data -->
+<!-- Spinner -->
+
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
     <table class="table table-striped">
       <thead class="thead-dark">
-        <tr>
           <th scope="col">Station Name</th>
           <th scope="col">Last Echo Date</th>
           <th scope="col">Last Zpk Change</th>
           <th scope="col">Status</th> 
           <th scope="col">Actions</th>
-        </tr>
       </thead>
-      <tbody>
+
+      <div class="center-body" *ngIf="(!allStations || allStations.length === 0) && !isLoading"> 
+        <div class="no-data" >No station has been created</div>
+      </div>
+
+
+        <div class="center-body" *ngIf="isLoading"> 
+          <div class="sbl-circ-path text-center" ></div>
+
+        </div>
+
+      <tbody  *ngIf="!isLoading">
+
         <tr *ngFor="let item of allStations">
           <td>{{item.name | titlecase}}</td>
           <td>{{item.lastEcho | date : 'medium'}} <span class="null-value" *ngIf="item.lastEcho === null">Nil</span></td>
@@ -136,7 +146,7 @@
 
           <td>
             <button
-              [routerLink]="[2, 'station-details']"
+              [routerLink]="[item.id, 'station-details']"
               class="btn table_button"
             >
               Open
@@ -220,16 +230,16 @@
 <!-- ADD STATION  -->
 <div
   class="modal animated zoomIn"
-  id="createAcquirer"
+  id="createModal"
   tabindex="-1"
   role="dialog"
-  aria-labelledby="createUserLabel"
+  aria-labelledby="createModalLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <h5 class="modal-title" id="createUserLabel">Add Station</h5>
+        <h5 class="modal-title" id="createModalLabel">Add Station</h5>
         <form [formGroup]="createStationForm">
           <!-- RELEVANT CODE HERE  -->
           <div class="form-row">
@@ -238,28 +248,28 @@
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="merchantId"
+                    id="name"
                     type="text"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="name"
                   />
-                  <label for="merchantId">Station Name</label>
+                  <label for="name">Name</label>
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('merchantId').errors &&
-                    (createStationForm.get('merchantId').dirty ||
-                      createStationForm.get('merchantId').touched)
+                    createStationForm.get('name').errors &&
+                    (createStationForm.get('name').dirty ||
+                      createStationForm.get('name').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('merchantId').hasError('invalid')
+                      !createStationForm.get('name').hasError('invalid')
                     "
                   >
-                    Here is the validation message
+                    Name is required
                     <br />
                   </span>
                 </div>
@@ -273,28 +283,28 @@
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="terminalId"
+                    id="zmk"
                     type="text"
                     placeholder=" "
-                    formControlName="terminalId"
+                    formControlName="zmk"
                   />
-                  <label for="terminalId">Station Acquirer</label>
+                  <label for="zmk">ZMK (Master Key)</label>
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('terminalId').errors &&
-                    (createStationForm.get('terminalId').dirty ||
-                      createStationForm.get('terminalId').touched)
+                    createStationForm.get('zmk').errors &&
+                    (createStationForm.get('zmk').dirty ||
+                      createStationForm.get('zmk').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('terminalId').hasError('invalid')
+                      !createStationForm.get('zmk').hasError('invalid')
                     "
                   >
-                    Here is the validation message
+                    Master key is required
                     <br />
                   </span>
                 </div>
@@ -307,28 +317,28 @@
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="merchantId"
+                    id="zpk"
                     type="text"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="zpk"
                   />
-                  <label for="merchantId">Station ID</label>
+                  <label for="zpk">ZPK (Primary Key)</label>
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('merchantId').errors &&
-                    (createStationForm.get('merchantId').dirty ||
-                      createStationForm.get('merchantId').touched)
+                    createStationForm.get('zpk').errors &&
+                    (createStationForm.get('zpk').dirty ||
+                      createStationForm.get('zpk').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('merchantId').hasError('invalid')
+                      !createStationForm.get('zpk').hasError('invalid')
                     "
                   >
-                    Here is the validation message
+                    Primary Key is required
                     <br />
                   </span>
                 </div>
@@ -341,28 +351,28 @@
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="merchantId"
+                    id="channelHost"
                     type="text"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="channelHost"
                   />
-                  <label for="merchantId">Station IP Address</label>
+                  <label for="channelHost">Channel Host</label>
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('merchantId').errors &&
-                    (createStationForm.get('merchantId').dirty ||
-                      createStationForm.get('merchantId').touched)
+                    createStationForm.get('channelHost').errors &&
+                    (createStationForm.get('channelHost').dirty ||
+                      createStationForm.get('channelHost').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('merchantId').hasError('invalid')
+                      !createStationForm.get('channelHost').hasError('invalid')
                     "
                   >
-                    Here is the validation message
+                    Channel Host is required
                     <br />
                   </span>
                 </div>
@@ -375,28 +385,96 @@
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="merchantId"
+                    id="channelPort"
                     type="text"
                     placeholder=" "
-                    formControlName="merchantId"
+                    formControlName="channelPort"
                   />
-                  <label for="merchantId">Station Port Number</label>
+                  <label for="channelPort">Channel Port</label>
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('merchantId').errors &&
-                    (createStationForm.get('merchantId').dirty ||
-                      createStationForm.get('merchantId').touched)
+                    createStationForm.get('channelPort').errors &&
+                    (createStationForm.get('channelPort').dirty ||
+                      createStationForm.get('channelPort').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('merchantId').hasError('invalid')
+                      !createStationForm.get('channelPort').hasError('invalid')
                     "
                   >
-                    Here is the validation message
+                    Channel Port is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="status"
+                    type="text"
+                    placeholder=" "
+                    formControlName="status"
+                  />
+                  <label for="status">Status</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('status').errors &&
+                    (createStationForm.get('status').dirty ||
+                      createStationForm.get('status').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm.get('status').hasError('invalid')
+                    "
+                  >
+                    Status is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="lastEcho"
+                    type="text"
+                    placeholder=" "
+                    formControlName="lastEcho"
+                  />
+                  <label for="lastEcho">Last Echo</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('lastEcho').errors &&
+                    (createStationForm.get('lastEcho').dirty ||
+                      createStationForm.get('lastEcho').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm.get('lastEcho').hasError('invalid')
+                    "
+                  >
+                    Last Echo is required
                     <br />
                   </span>
                 </div>
@@ -415,17 +493,18 @@
             </div>
             <button
               class="btn action_button"
-            
+              (click)="createStation()"
+              *ngIf="!isCreating"
               [disabled]="!createStationForm.valid"
             >
               <i class="fa fa-plus animated slideIn"></i>
-              Add Station
+              Add station
             </button>
 
             <div
               class="spinner-border spinner-border-sm ml-3"
               role="status"
-              *ngIf="creatingStation"
+              *ngIf="isCreating"
             >
               <span class="sr-only">Loading...</span>
             </div>
