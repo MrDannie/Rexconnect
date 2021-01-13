@@ -96,6 +96,35 @@
   margin-top: 1rem;
 }
 
+.center-body {
+  position: absolute;
+  left: 50%;  
+  margin-top: 1.3rem;
+}
+
+
+.null-value {
+  text-align: center;
+  color: #e26111;
+  font-weight: 500;
+  font-size: small;
+
+}
+
+.sbl-circ-path {
+  height: 1.3rem;
+  position: relative;
+  top: 50%;
+  left: 48%;
+  width: 1.3rem;
+  color: #950007;
+  display: inline-block;
+  border: 1px solid;
+  border-radius: 50%;
+  border-right-color: #aaa9a9;
+  animation: rotate 1s linear infinite;
+}
+
 // Reset
 .reset-filter::before {
   // content: url("../../../../../assets/icons/clear-filter.svg");

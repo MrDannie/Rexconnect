@@ -15,14 +15,13 @@
   color: #e26111;
 }
 
-.null-value {
-  text-align: center;
-  color: #e26111;
-  font-weight: 500;
-  font-size: small;
 
+.modal-content {
+  min-width: 30rem;
 }
-
+.form-control {
+  height: calc(2em + 0.75rem + 2px);
+}
 .footer * {
   display: inline-block;
 }

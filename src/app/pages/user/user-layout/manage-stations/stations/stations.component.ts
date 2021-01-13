@@ -5,6 +5,7 @@ import { PaginationService } from 'src/app/core/pagination.service';
 import { StationsService } from '../stations.service';
 import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 
+declare var $: any;
 @Component({
   selector: 'app-stations',
   templateUrl: './stations.component.html',
@@ -19,10 +20,10 @@ export class StationsComponent implements OnInit {
 
   //Booleans/Loaders
   isCSVLoading: boolean;
-  creatingStation: boolean;
   isLoading: boolean;
   showFilter: boolean;
   isRefreshing: boolean;
+  isCreating: boolean;
 
 
 
@@ -43,18 +44,18 @@ export class StationsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private stationsService: StationsService,
      private paginationService: PaginationService, private alertService: AlertService) {
     this.isCSVLoading = false;
-    this.creatingStation = false;
     this.showFilter = false;
-    this.isLoading = true;
     this.isRefreshing = false;
     this.pageIndex = 0;
-    this.pageSize = 2;
+    this.pageSize = 20;
     this.pages = [];
     this.currentPage = 1;
     this.initializeForm();
   }
 
   ngOnInit() {
+    this.isLoading = true;
+    this.isCreating = false;
     this.getAllStations();
     this.setPageSizeId.nativeElement.value = this.pageSize;
   }
@@ -66,32 +67,71 @@ export class StationsComponent implements OnInit {
       stationId: '',
     });
     this.createStationForm = this.formBuilder.group({
-      merchantId: ['', Validators.compose([Validators.required])],
-      terminalId: ['', Validators.compose([Validators.required])],
+      name: ['', Validators.compose([Validators.required])],
+      zmk: ['', Validators.compose([Validators.required])],
+      zpk: ['', Validators.compose([Validators.required])],
+      status: ['', Validators.compose([Validators.required])],
+      lastEcho: ['', Validators.compose([Validators.required])],
+      channelHost: ['', Validators.compose([Validators.required])],
+      channelPort: ['', Validators.compose([Validators.required])]
+
+
     });
+  }
+
+
+
+  createStation() {
+    this.isCreating = true;
+
+
+
+    this.stationsService.createStation(this.createStationForm.value).subscribe(
+      (response) => {
+        console.log(response);
+        this.isCreating = false;
+        this.createStationForm.reset();
+        this.getAllStations();
+        $("#createModal").modal("hide");
+  
+        this.alertService.success("Station created successfully", true);
+      },
+      (error) => {
+        this.isCreating = false;
+        this.alertService.error(error, false);
+        this.isLoading = false;
+      }
+    );
   }
 
 
   getAllStations() {
     console.log(this.pageIndex, this.pageSize);
-    this.stationsService.getAllStations(this.pageIndex, this.pageSize).subscribe(
+    this.stationsService.getAllStations(this.pageIndex, this.pageSize, this.searchForm.value).subscribe(
       (res) => {
         console.log(res);
         this.allStations = res["data"]['stations'];
         this.dataCount = this.allStations.length;
+        console.log(this.dataCount, this.currentPage, this.pageSize);
+        
         this.pager = this.paginationService.getPager(
           this.dataCount,
           this.currentPage,
           this.pageSize
         );
+        console.log(this.pager);
+        
         this.pagedItems = this.allStations;
 
         this.isLoading = false;
+        this.isRefreshing = false;
       },
       (error) => {
         console.log(error);
         this.alertService.error(error);
         this.isLoading = false;
+        this.isRefreshing = false;
+
       }
     );
   }
