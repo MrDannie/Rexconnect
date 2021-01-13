@@ -16,7 +16,7 @@
         </button>
       </div>
     </div>
-    <span>View details of every acquirer on this platform</span>
+    <span>View details of every station on this platform</span>
   </div>
 
   <!-- FILTER BY CODE  -->
@@ -119,19 +119,21 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">Station Name</th>
-          <th scope="col">Station Acquirer</th>
-          <th scope="col">Station ID</th>
-          <th scope="col">Status</th>
+          <th scope="col">Last Echo Date</th>
+          <th scope="col">Last Zpk Change</th>
+          <th scope="col">Status</th> 
           <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of ngForArray">
-          <td>Sample Acquirer</td>
-          <td>EBN574000064269</td>
-          <td>0234</td>
+        <tr *ngFor="let item of allStations">
+          <td>{{item.name | titlecase}}</td>
+          <td>{{item.lastEcho | date : 'medium'}} <span class="null-value" *ngIf="item.lastEcho === null">Nil</span></td>
+          <td>{{item.lastZpkChange | date: 'medium'}} <span class="null-value" *ngIf="item.lastZpkChange === null">Nil</span></td>
 
-          <td class="active">Active</td>
+          <td class="active" *ngIf="item.isActive === 1">Active</td>
+          <td class="inactive" *ngIf="item.isActive === 0" >Inactive</td>
+
           <td>
             <button
               [routerLink]="[2, 'station-details']"
@@ -149,11 +151,11 @@
 <!-- PAGE SIZE  -->
 <div class="text-right mt-4 page_size_section animated fadeIn">
   <span>Number of Items:&nbsp;&nbsp;</span>
-  <span> Num Here </span>
+  <span> {{dataCount}}</span>
 
   <span class="ml-3">Page size:</span>
   <form class="inline_select">
-    <select class="form-control form-control-sm" #setPageSizeId>
+    <select class="form-control form-control-sm" (change)="setPageSize($event.target.value)" #setPageSizeId>
       <option value="10">10</option>
       <option value="20">20</option>
       <option value="30">30</option>
@@ -164,29 +166,39 @@
 </div>
 
 <!-- PAGINATION  -->
-<div class="paginate mt-2 animated fadeIn">
+<div class="paginate mt-2 animated fadeIn" *ngIf="!isLoading">
   <nav aria-label="...">
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
+    <ul class="pagination" *ngIf="!isLoading && allStations">
+      <li
+        class="page-item"
+        (click)="previousPage()"
+        *ngIf="pager.startPage !== pager.currentPage"
+      >
+        <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
       </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">
-          2
-          <span class="sr-only">(current)</span>
-        </span>
+      <li
+        class="page-item"
+        aria-current="page"
+        *ngFor="let page of pager.pages"
+        [ngClass]="{ active: pager.currentPage === page }"
+        (click)="getPage(page)"
+      >
+        <a class="page-link">
+          {{ page }} <span class="sr-only">(current)</span></a
+        >
       </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
+      <li
+        class="page-item"
+        (click)="nextPage()"
+        *ngIf="pager.endPage !== pager.currentPage"
+      >
+        <a class="page-link">Next</a>
       </li>
     </ul>
   </nav>
 
-  <!-- EXPORT BUTTON  -->
-
-  <div class="export-button animated fadeIn">
+  <!-- Export button -->
+  <div class="export-button animated fadeIn" *ngIf="!isLoading && allStations">
     <button
       type="button"
       class="btn btn-light button-plain-icon"
@@ -413,7 +425,7 @@
             <div
               class="spinner-border spinner-border-sm ml-3"
               role="status"
-              *ngIf="isUserCreating"
+              *ngIf="creatingStation"
             >
               <span class="sr-only">Loading...</span>
             </div>
