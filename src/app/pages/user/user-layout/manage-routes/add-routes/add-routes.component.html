@@ -12,7 +12,7 @@
       </p>
       <form [formGroup]="createRouteForm" (ngSubmit)="createRoute()">
         <div class="form-group">
-          <div class="row">
+          <div style="margin-bottom: 1rem" class="row">
             <div class="col">
               <span class="has-float-label">
                 <select
@@ -64,7 +64,7 @@
           class="rule-config"
           formArrayName="rule_config"
           *ngFor="
-            let ruleConfig of createRouteForm.get('rule_config').controls;
+            let ruleConfig of createRouteForm.get('rule_config')['controls'];
             let i = index
           "
         >

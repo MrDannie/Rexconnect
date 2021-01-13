@@ -12,6 +12,6 @@ import { RoutesDetailsComponent } from './routes-details/routes-details.componen
     ManageRoutesRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-  ]
+  ],
 })
-export class ManageRoutesModule { }
+export class ManageRoutesModule {}

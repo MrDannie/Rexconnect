@@ -5,28 +5,29 @@ import { RoutesDetailsComponent } from './routes-details/routes-details.componen
 
 import { RoutesComponent } from './routes/routes.component';
 
-const routes: Routes = [
-	{ path: 'routePath', component: RoutesComponent }
-];
+const routes: Routes = [{ path: 'routePath', component: RoutesComponent }];
 
 @NgModule({
-	imports: [
-		RouterModule.forChild([
-			{
-				path: '',
-				component: RoutesComponent,
-			},
-			{
-				path: 'route-details/:id',
-				component: RoutesDetailsComponent,
-			},
-			{
-				path: 'add-routes',
-				component: AddRoutesComponent
-			}
-		]),
-	],
-	exports: [RouterModule]
+  imports: [
+    RouterModule.forChild([
+      {
+        path: '',
+        component: RoutesComponent,
+      },
+      {
+        path: 'route-details/:id',
+        component: RoutesDetailsComponent,
+      },
+      {
+        path: 'add-routes/:id',
+        component: AddRoutesComponent,
+      },
+      // {
+      //   path: 'edit-routes/:id',
+      //   component: EditRoutesComponent,
+      // },
+    ]),
+  ],
+  exports: [RouterModule],
 })
-export class ManageRoutesRoutingModule {
-}
+export class ManageRoutesRoutingModule {}

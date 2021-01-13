@@ -6,30 +6,33 @@ import { RouteComponentService } from 'src/app/pages/shared/services/route-compo
 @Component({
   selector: 'app-routes-details',
   templateUrl: './routes-details.component.html',
-  styleUrls: ['./routes-details.component.scss']
+  styleUrls: ['./routes-details.component.scss'],
 })
 export class RoutesDetailsComponent implements OnInit {
   editAcquirerForm: FormGroup;
   routing: any;
   routeConfigs: any;
+  defaultDestinationStaion: string;
+  routeId: number;
 
-
-  constructor(private routingCompService: RouteComponentService, private route: ActivatedRoute) {
-  }
+  constructor(
+    private routingCompService: RouteComponentService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    const routeId = this.route.snapshot.params.id
-    this.routingCompService.getSingleRoute(routeId).subscribe(
-      (response) => {
-        let parsedData = JSON.parse(response.data.rule_config)
-        response.data.rule_config = parsedData
-        this.routing = parsedData
-        this.routeConfigs = this.routing.ruleconfig
-      }
-    ), (error) => {
-      console.log(error);
-
-    }
+    this.routeId = this.route.snapshot.params.id;
+    this.routingCompService
+      .getSingleRoute(this.routeId)
+      .subscribe((response) => {
+        let parsedData = JSON.parse(response.data.rule_config);
+        response.data.rule_config = parsedData;
+        this.routing = parsedData;
+        this.routeConfigs = this.routing.ruleconfig;
+        this.defaultDestinationStaion = response.data.default_ds;
+      }),
+      (error) => {
+        console.log(error);
+      };
   }
-
 }

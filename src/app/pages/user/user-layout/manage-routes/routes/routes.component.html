@@ -9,7 +9,7 @@
       </div>
 
       <div class="button_header_section">
-        <button routerLink="add-routes" class="btn action_button">
+        <button [routerLink]="['add-routes', 0]" class="btn action_button">
           <i class="fa fa-plus animated slideIn"></i>
           Add Routes
         </button>
@@ -20,25 +20,51 @@
 
   <div class="header__search">
     <span class="filter_click" (click)="showFilter = !showFilter">
-      <img src="../../../../../assets/icons/Filter-Icon.svg" alt="search" class="img-fluid" />
-      <span class="filter_text" id="dropdownMenuButton" onselectstart="return false" unselectable="on">
+      <img
+        src="../../../../../assets/icons/Filter-Icon.svg"
+        alt="search"
+        class="img-fluid"
+      />
+      <span
+        class="filter_text"
+        id="dropdownMenuButton"
+        onselectstart="return false"
+        unselectable="on"
+      >
         Filter Table By
       </span>
     </span>
-    <div class="card search-dropdown" *ngIf="showFilter" id="filter__dropdown" style="height: 200px">
+    <div
+      class="card search-dropdown"
+      *ngIf="showFilter"
+      id="filter__dropdown"
+      style="height: 200px"
+    >
       <form [formGroup]="searchForm">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="acquirerName" class="search_label">Acquirer Name</label>
-              <input type="text" class="form-control search_input" formControlName="acquirerName" id="acquirerName" />
+              <label for="acquirerName" class="search_label"
+                >Acquirer Name</label
+              >
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="acquirerName"
+                id="acquirerName"
+              />
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="form-group">
               <label for="cbnCode" class="search_label">CBN Code</label>
-              <input type="text" class="form-control search_input" formControlName="cbnCode" id="cbnCode" />
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="cbnCode"
+                id="cbnCode"
+              />
             </div>
           </div>
         </div>
@@ -84,12 +110,17 @@
       </thead>
       <tbody>
         <tr *ngFor="let route of routingRules">
-          <td>{{route.default_ds}}</td>
-          <td>{{route.rule}}</td>
+          <td>{{ route.default_ds }}</td>
+          <td>{{ route.rule }}</td>
           <!-- <td>{{route.rule_config.ruleconfig.rule}}</td> -->
-          <td class="active">{{(route.use_default == '1') ? 'True' : 'False'}}</td>
+          <td class="active">
+            {{ route.use_default == "1" ? "True" : "False" }}
+          </td>
           <td>
-            <button [routerLink]="['route-details', route.id]" class="btn table_button">
+            <button
+              [routerLink]="['route-details', route.id]"
+              class="btn table_button"
+            >
               Open
             </button>
           </td>
@@ -155,7 +186,11 @@
       <i class="fa fa-download"></i>
       Download As CSV
     </button>
-    <div class="spinner-border spinner-border-sm ml-3" role="status" *ngIf="isCSVLoading">
+    <div
+      class="spinner-border spinner-border-sm ml-3"
+      role="status"
+      *ngIf="isCSVLoading"
+    >
       <span class="sr-only">Loading...</span>
     </div>
   </div>
