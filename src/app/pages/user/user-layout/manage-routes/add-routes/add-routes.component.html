@@ -17,7 +17,7 @@
           </div>
         </div>
         <p style="color: #585858; font-size: 13px; font-weight: bold;" class="form-group">Rule Configuration</p>
-        <!-- <div formArrayName="ruleConfig"
+        <div formArrayName="ruleConfig"
           *ngFor="let ruleConfig of createRouteForm.get('ruleConfig').controls; let i = index;">
           <div [formGroupName]='i'>
             <div class="form-group">
@@ -69,7 +69,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
         <p (click)="duplicateForm()" style="color: #C91C24; font-size: 13px;">Add More</p>
         <hr>
         <input formControlName="useDefault" style="color: #2C9220;" type="checkbox"> Use Default
