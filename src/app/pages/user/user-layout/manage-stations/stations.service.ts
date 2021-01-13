@@ -24,10 +24,10 @@ export class StationsService {
     let params = new HttpParams();
 
     if (pageIndex) {
-      params = params.append("pageIndex", pageIndex);
+      params = params.append("offset", pageIndex);
     }
     if (pageSize) {
-      params = params.append("pageSize", pageSize);
+      params = params.append("limit", pageSize);
     }
     if (searchFormValue.stationName) {
       params = params.append("stationName", searchFormValue.stationName);
@@ -42,6 +42,11 @@ export class StationsService {
       );
   }
 
+  getStation(id) {
+    console.log(id);
+    return this.httpClient.get(BASE_URL + this.config.stations + '/' + id);
+  }
+
   createStation(stationDetails) {
     console.log(stationDetails);
     return this.httpClient.post(BASE_URL + this.config.stations, stationDetails);
@@ -49,6 +54,14 @@ export class StationsService {
   deleteStation(id) {
     console.log(id);
     return this.httpClient.delete(BASE_URL + this.config.stations + '/' + id);
+  }
+  disableStation(id) {
+    console.log(id);
+    return this.httpClient.post(BASE_URL + this.config.stations + '/' + id + '/disable', '');
+  }
+  enableStation(id) {
+    console.log(id);
+    return this.httpClient.post(BASE_URL + this.config.stations + '/' + id + '/enable', '');
   }
   // updateMerchant(merchantDetails) {
   //   console.log(merchantDetails);

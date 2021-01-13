@@ -1,35 +1,60 @@
 @import "~src/app/pages/shared/styles/header"; //Importation for page header
+//@import "~src/app/pages/shared/styles/custom-table";
 
 // HEADER BUTTONS
 .header_buttons {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  margin-left: 2.2rem;
+}
+
+.null-value {
+  color: #e26111;
+  font-weight: 500;
+  font-size: small;
 }
 
 .date,
 .status {
   border: 1px solid #0000001f;
-  border-radius: 5px;
-  margin-left: 1.5rem;
-  padding: 0.1rem;
+    border-radius: 5px;
+    margin-left: 1.5rem;
+    padding: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 600;
 }
+.name {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.top-info {
+  display: flex;
+  align-items: center;
+}
+.card_header {
+  font-size: 0.8rem;
+  font-family: 'Roboto';
+}
+.card_value {
+  font-size: 1rem;
+  font-family: 'Montserrat Bold';
 
+}
 .action_button_disable {
   background-color: #f9f6e3;
   color: #c9ae1c;
-  padding: 0.6rem 1rem;
+  padding: 0.8rem 1rem;
   font-family: "Montserrat Bold", serif;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 6px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   transition: all 0.35s ease-in-out;
-  font-weight: bold;
   // border: 0.5px solid #c9ae1c;
-  font-size: 0.8125rem;
+  font-size: 0.79rem;
   margin-top: 2rem;
-  color: #c9ae1c;
+  cursor: pointer
 }
 
 .action_button_disable:hover {
@@ -37,7 +62,32 @@
   border: none;
   //transition: all 0.3s ease-in-out;
 
-  color: #f0f0f0;
+  color: #ffffff;
+}
+
+
+.action_button_enable {
+  background-color: #e0f1d6;
+  color: #4dc91c;
+  padding: 0.8rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  // border: 0.5px solid #c9ae1c;
+  font-size: 0.79rem;
+  margin-top: 2rem;
+  cursor: pointer
+}
+
+.action_button_enable:hover {
+  background-color: #4dc91c;
+  border: none;
+  //transition: all 0.3s ease-in-out;
+
+  color: #ffffff;
 }
 
 // *******  WHITE BACKGROUND SECTION 8888888888
@@ -64,18 +114,18 @@
 }
 
 .form_area {
-  width: 28rem;
-  // margin-left: 2rem;
-  //margin-top: 2.5rem;
+  width: 38rem;
+  margin-left: 2.2rem;
   background: #ffffff;
-  border-radius: 10px;
-  padding: 1.9rem 1rem;
+  border-radius: 15px;
+  padding: 1.9rem 2.3rem;
   margin-top: 1rem;
+
 }
 
 div > span {
   // color: #1a1a1a;
-  font-family: Roboto, Regular;
+ // font-family: Roboto, Regular;
 }
 
 p > strong {
