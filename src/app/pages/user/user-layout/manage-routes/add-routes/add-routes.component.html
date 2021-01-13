@@ -60,11 +60,11 @@
         >
           Rule Configuration
         </p>
-        <!-- <div
+        <div
           class="rule-config"
           formArrayName="rule_config"
           *ngFor="
-            let ruleConfig of createRouteForm.get('rule_config').controls;
+            let ruleConfig of createRouteForm.get('rule_config')['controls'];
             let i = index
           "
         >
@@ -141,7 +141,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
         <p (click)="duplicateForm()" style="color: #c91c24; font-size: 13px">
           Add More
         </p>
