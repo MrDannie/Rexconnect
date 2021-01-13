@@ -101,6 +101,10 @@ export class Config {
   public getSingleMerchant: string;
   public getMerchantTerminals: string;
 
+
+  //stations
+  public getAllStations: string;
+
   constructor() {
     this.login = '/v1/auth/login';
     this.getStatisticsLink = '/v1/reports/getStatistics';
@@ -208,5 +212,8 @@ export class Config {
 
     // utils
     this.getStates = '/v1/countries/getStates/{countryCode}';
+
+    //stations
+    this.getAllStations = '/v1/stations';
   }
 }
