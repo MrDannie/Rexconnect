@@ -46,6 +46,10 @@ export class StationsService {
     console.log(stationDetails);
     return this.httpClient.post(BASE_URL + this.config.stations, stationDetails);
   }
+  deleteStation(id) {
+    console.log(id);
+    return this.httpClient.delete(BASE_URL + this.config.stations + '/' + id);
+  }
   // updateMerchant(merchantDetails) {
   //   console.log(merchantDetails);
   //   return this.httpClient.post(BASE_URL + this.config.updateMerchant, merchantDetails);

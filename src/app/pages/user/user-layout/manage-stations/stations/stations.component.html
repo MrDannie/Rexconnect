@@ -120,6 +120,7 @@
           <th scope="col">Station Name</th>
           <th scope="col">Last Echo Date</th>
           <th scope="col">Last Zpk Change</th>
+          <th scope="col">Auth Username</th>
           <th scope="col">Status</th> 
           <th scope="col">Actions</th>
       </thead>
@@ -140,7 +141,7 @@
           <td>{{item.name | titlecase}}</td>
           <td>{{item.lastEcho | date : 'medium'}} <span class="null-value" *ngIf="item.lastEcho === null">Nil</span></td>
           <td>{{item.lastZpkChange | date: 'medium'}} <span class="null-value" *ngIf="item.lastZpkChange === null">Nil</span></td>
-
+          <td>{{item.authUsername}} <span class="null-value" *ngIf="item.authUsername === null">Nil</span></td>
           <td class="active" *ngIf="item.isActive === 1">Active</td>
           <td class="inactive" *ngIf="item.isActive === 0" >Inactive</td>
 
@@ -151,6 +152,14 @@
             >
               Open
             </button>
+
+
+            <button
+            (click)= "warnUser(item)"
+            class="btn table_button"
+          >
+            Delete
+          </button>
           </td>
         </tr>
       </tbody>
@@ -510,6 +519,54 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Warn User -->
+
+<div
+  class="modal animated zoomIn"
+  id="confirmationModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmationModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 13rem !important;">
+      <div class="modal-body">
+        <h5 class="modal-title" id="confirmationModal">
+          <span>Delete Station</span>
+        </h5>
+        <span class="modal_subtitle">
+          You are about to delete
+          <b *ngIf="selectedValue"> {{ selectedValue.name }} </b>
+        </span>
+
+        <div class="form_actions">
+          <div class="cancel_button" data-dismiss="modal">
+            Cancel
+          </div>
+
+          <div
+            class="spinner-border spinner-border-sm ml-3"
+            role="status"
+            *ngIf="isDeleting"
+          ></div>
+
+          <button
+            class="btn action_button"
+            (click)="deleteStation()"
+            *ngIf="!isDeleting"
+          >
+            Yes
+          </button>
+        </div>
       </div>
     </div>
   </div>
