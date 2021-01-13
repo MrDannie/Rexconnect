@@ -43,7 +43,6 @@ export class DashboardComponent implements OnInit {
       },
       (error) => {
         console.log('Error Encountered ', error);
-        this.authService.tokenValidator(error);
         this.errorMessage = 'Error : ' + error.error.message;
         this.errorExists = true;
         window.scrollTo(0, 0);
@@ -60,7 +59,6 @@ export class DashboardComponent implements OnInit {
       },
       (error) => {
         console.log('Error Encountered ', error); //TODO:
-        this.authService.tokenValidator(error);
         this.errorMessage = 'Error : ' + error.error.message;
         this.errorExists = true;
         window.scrollTo(0, 0);
@@ -77,7 +75,6 @@ export class DashboardComponent implements OnInit {
       },
       (error) => {
         console.log('Error Encountered ', error);
-        this.authService.tokenValidator(error);
         this.errorMessage = 'Error : ' + error.error.message;
         this.errorExists = true;
         window.scrollTo(0, 0);

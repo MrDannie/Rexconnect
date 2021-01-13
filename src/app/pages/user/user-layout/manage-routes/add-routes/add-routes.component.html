@@ -60,7 +60,7 @@
         >
           Rule Configuration
         </p>
-        <div
+        <!-- <div
           class="rule-config"
           formArrayName="rule_config"
           *ngFor="
@@ -73,7 +73,6 @@
               <div class="row">
                 <div class="col">
                   <span class="has-float-label">
-                    <!-- HIDDEN INPUT FIELD(BUT SENT INFO IS STILL SENT) -->
                     <input
                       formControlName="rule"
                       type="hidden"
@@ -142,12 +141,8 @@
               </div>
             </div>
           </div>
-        </div>
-        <p
-          class="add-more"
-          (click)="duplicateForm()"
-          style="color: #c91c24; font-size: 13px"
-        >
+        </div> -->
+        <p (click)="duplicateForm()" style="color: #c91c24; font-size: 13px">
           Add More
         </p>
         <hr />
