@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { StationsService } from '../stations.service';
 
+declare var $:any;
+
 @Component({
   selector: 'app-stations-details',
   templateUrl: './stations-details.component.html',
@@ -20,6 +22,8 @@ export class StationsDetailsComponent implements OnInit {
   stationId: any;
   stationDetails: any;
   isLoading = true;
+  isDisabling = false;
+  isEnabling = false;
 
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,
      private router: Router, private stationsService: StationsService, private alertService: AlertService) {
@@ -59,6 +63,41 @@ export class StationsDetailsComponent implements OnInit {
         console.log(error);
         this.alertService.error(error);
         this.isLoading = false;
+      }
+    );
+  }
+
+  disableStation() {
+    this.isDisabling = true;
+    this.stationsService.disableStation(this.stationId).subscribe(
+      (res) => {
+        console.log(res);
+        this.alertService.success('Station disabled successfully');
+        this.getStationDetails();
+        $('#confirmationModal').modal('hide');
+        this.isDisabling = false;
+      },
+      (error) => {
+        console.log(error);
+        this.alertService.error(error);
+        this.isDisabling = false;
+      }
+    );
+  }
+
+  enableStation() {
+    this.isEnabling = true;
+    this.stationsService.enableStation(this.stationId).subscribe(
+      (res) => {
+        console.log(res);
+        this.alertService.success('Station enabled successfully');
+        this.getStationDetails();
+        this.isEnabling = false;
+      },
+      (error) => {
+        console.log(error);
+        this.alertService.error(error);
+        this.isEnabling = false;
       }
     );
   }
