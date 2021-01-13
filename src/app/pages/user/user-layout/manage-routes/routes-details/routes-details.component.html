@@ -6,8 +6,7 @@
   </div>
   <div class="header_buttons">
     <div>
-      <span class="name">
-        Default DS</span>
+      <span class="name"> Default DS</span>
       <span class="date">Created: DEC 9, 2019, 12:04:56 AM</span>
       <span class="status">Active</span>
     </div>
@@ -22,46 +21,49 @@
           <div class="col-sm-6">
             <span>Default Destination Station</span>
             <p><strong>Here</strong></p>
-
           </div>
           <div class="col-sm-6">
             <span>Rule Type</span>
-            <p><strong>{{routeConfig.rule}}</strong></p>
-
+            <p>
+              <strong>{{ routeConfig.rule }}</strong>
+            </p>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-6">
             <span>Value</span>
-            <p><strong>{{routeConfig.value}}</strong></p>
-
+            <p>
+              <strong>{{ routeConfig.value }}</strong>
+            </p>
           </div>
           <div class="col-sm-6">
             <span>Destination Station</span>
-            <p><strong>{{routeConfig.ds}}</strong></p>
-
+            <p>
+              <strong>{{ routeConfig.ds }}</strong>
+            </p>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-6">
             <span>Max</span>
-            <p><strong>{{routeConfig.max}}</strong></p>
-
+            <p>
+              <strong>{{ routeConfig.max }}</strong>
+            </p>
           </div>
           <div class="col-sm-6">
             <span>Min</span>
-            <p><strong>{{routeConfig.min}}</strong></p>
-
+            <p>
+              <strong>{{ routeConfig.min }}</strong>
+            </p>
           </div>
         </div>
         <div class="row">
-
-          <div class="col-sm-12">
-            <input type="checkbox"> Use Default
-
-          </div>
+          <div class="col-sm-12"><input type="checkbox" /> Use Default</div>
         </div>
-        <button [routerLink]="['../../add-routes']" class="btn action_button_update">
+        <button
+          [routerLink]="['../../add-routes']"
+          class="btn action_button_update"
+        >
           Edit Station
         </button>
       </div>
