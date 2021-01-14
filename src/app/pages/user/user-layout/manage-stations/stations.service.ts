@@ -55,6 +55,14 @@ export class StationsService {
     console.log(id);
     return this.httpClient.delete(BASE_URL + this.config.stations + '/' + id);
   }
+  disableStation(id) {
+    console.log(id);
+    return this.httpClient.post(BASE_URL + this.config.stations + '/' + id + '/disable', '');
+  }
+  enableStation(id) {
+    console.log(id);
+    return this.httpClient.post(BASE_URL + this.config.stations + '/' + id + '/enable', '');
+  }
   // updateMerchant(merchantDetails) {
   //   console.log(merchantDetails);
   //   return this.httpClient.post(BASE_URL + this.config.updateMerchant, merchantDetails);
