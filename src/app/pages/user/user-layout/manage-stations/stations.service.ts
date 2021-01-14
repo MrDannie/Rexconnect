@@ -47,6 +47,11 @@ export class StationsService {
     return this.httpClient.get(BASE_URL + this.config.stations + '/' + id);
   }
 
+  updateStation(id, details) {
+    console.log(id);
+    return this.httpClient.put(BASE_URL + this.config.stations + '/' + id, details);
+  }
+
   createStation(stationDetails) {
     console.log(stationDetails);
     return this.httpClient.post(BASE_URL + this.config.stations, stationDetails);
