@@ -10,6 +10,7 @@
         {{stationDetails.name | titlecase}}</span
       >
       <span class="date">Created: {{stationDetails.createdAt | date :'medium'}}</span>
+      <span class="date">Last Echo Date: {{stationDetails.lastEcho | date :'medium'}}</span>
       <span class="status animated fadeIn" *ngIf="stationDetails.isActive === 1"> Status: Active</span>
       <span class="status animated fadeIn" *ngIf="stationDetails.isActive === 0"> Status: Inactive</span>
 
@@ -67,7 +68,7 @@
         </div>
         <div class="col-md-6">
           <span class="card_header">Last Echo</span>
-          <p class="card_value" *ngIf="stationDetails.lastEcho !== null">{{stationDetails.lastEcho}}</p>
+          <p class="card_value" *ngIf="stationDetails.lastEcho !== null">{{stationDetails.lastEcho | date :'medium'}}</p>
           <p class="null-value" *ngIf="stationDetails.lastEcho === null">Nil</p>
         </div>
       </div>
@@ -97,9 +98,8 @@
 
       <button
         class="btn action_button_update"
-        data-toggle="modal"
-        data-target="#editAcquirer"
-      >
+        [routerLink]="['../../update-station', stationDetails.id]"
+      > 
         Edit Station
       </button>
     </div>
