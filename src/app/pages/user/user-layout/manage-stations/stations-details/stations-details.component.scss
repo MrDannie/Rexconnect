@@ -1,20 +1,46 @@
 @import "~src/app/pages/shared/styles/header"; //Importation for page header
+//@import "~src/app/pages/shared/styles/custom-table";
 
 // HEADER BUTTONS
 .header_buttons {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  margin-left: 2.2rem;
+}
+
+.null-value {
+  color: #e26111;
+  font-weight: 500;
+  font-size: small;
 }
 
 .date,
 .status {
   border: 1px solid #0000001f;
-  border-radius: 5px;
-  margin-left: 1.5rem;
-  padding: 0.1rem;
+    border-radius: 5px;
+    margin-left: 1.5rem;
+    padding: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 600;
 }
+.name {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.top-info {
+  display: flex;
+  align-items: center;
+}
+.card_header {
+  font-size: 0.8rem;
+  font-family: 'Roboto';
+}
+.card_value {
+  font-size: 1rem;
+  font-family: 'Montserrat Bold';
 
+}
 .action_button_disable {
   background-color: #f9f6e3;
   color: #c9ae1c;
@@ -64,18 +90,18 @@
 }
 
 .form_area {
-  width: 28rem;
-  // margin-left: 2rem;
-  //margin-top: 2.5rem;
+  width: 38rem;
+  margin-left: 2.2rem;
   background: #ffffff;
-  border-radius: 10px;
-  padding: 1.9rem 1rem;
+  border-radius: 15px;
+  padding: 1.9rem 2.3rem;
   margin-top: 1rem;
+
 }
 
 div > span {
   // color: #1a1a1a;
-  font-family: Roboto, Regular;
+ // font-family: Roboto, Regular;
 }
 
 p > strong {
