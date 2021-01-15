@@ -15,22 +15,23 @@
   font-size: small;
 }
 
-.date,
-.status {
-  border: 1px solid #0000001f;
-    border-radius: 5px;
-    margin-left: 1.5rem;
-    padding: 0.3rem;
-    font-size: 0.7rem;
-    font-weight: 600;
-}
+
 .name {
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 500;
+  font-family: 'Montserrat Bold', serif;
+  margin-bottom: 0.5rem;
 }
+.sub_name {
+    font-size: 0.9rem;
+    font-family: 'Roboto', serif;
+    margin-bottom: 0.5rem;
+
+  }
 .top-info {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
 }
 .card_header {
   font-size: 0.8rem;
@@ -92,18 +93,21 @@
 
 // *******  WHITE BACKGROUND SECTION 8888888888
 .main_dashboard_flow {
-  min-width: 95%;
-  display: flex;
-  flex-direction: row;
-  min-height: 20rem;
-  //border: 1px solid red;
-  // margin: 0 2.5rem;
-  align-items: stretch;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  padding-bottom: 5rem;
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    min-height: 20rem;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-bottom: 5rem;
+    margin-top: 2rem;
+    margin-left: 2.2rem;
 }
 
+.form-control {
+    height: calc(2em + 0.75rem + 2px);
+}
 .details_section {
   display: flex;
   flex-direction: column;
@@ -196,7 +200,7 @@ p > strong {
 .form_actions {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: baseline;
   min-width: 100%;
 }

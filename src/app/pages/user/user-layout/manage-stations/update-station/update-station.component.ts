@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { StationsService } from '../stations.service';
 
-declare var $:any;
-
 @Component({
-  selector: 'app-stations-details',
-  templateUrl: './stations-details.component.html',
-  styleUrls: ['./stations-details.component.scss'],
+  selector: 'app-update-station',
+  templateUrl: './update-station.component.html',
+  styleUrls: ['./update-station.component.scss']
 })
-export class StationsDetailsComponent implements OnInit {
+export class UpdateStationComponent implements OnInit {
   showFilter: boolean;
   private route$: Subscription;
 
@@ -22,7 +20,7 @@ export class StationsDetailsComponent implements OnInit {
   stationId: any;
   stationDetails: any;
   isLoading = true;
-  isDisabling = false;
+  isUpdating = false;
   isEnabling = false;
 
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,
@@ -45,7 +43,7 @@ export class StationsDetailsComponent implements OnInit {
       name: ['', Validators.compose([Validators.required])],
       zmk: ['', Validators.compose([Validators.required])],
       zpk: ['', Validators.compose([Validators.required])],
-      status: ['', Validators.compose([Validators.required])],
+      //status: ['', Validators.compose([Validators.required])],
       lastEcho: ['', Validators.compose([Validators.required])],
       channelHost: ['', Validators.compose([Validators.required])],
       channelPort: ['', Validators.compose([Validators.required])]
@@ -57,6 +55,8 @@ export class StationsDetailsComponent implements OnInit {
       (res) => {
         console.log(res);
         this.stationDetails = res['data'];
+        this.editStationForm.patchValue(this.stationDetails);
+       
         this.isLoading = false;
       },
       (error) => {
@@ -67,38 +67,24 @@ export class StationsDetailsComponent implements OnInit {
     );
   }
 
-  disableStation() {
-    this.isDisabling = true;
-    this.stationsService.disableStation(this.stationId).subscribe(
+
+  updateStation() {
+    this.isUpdating = true;
+    this.stationsService.updateStation(this.stationId, this.editStationForm.value).subscribe(
       (res) => {
         console.log(res);
-        this.alertService.success('Station disabled successfully');
-        this.getStationDetails();
-        $('#confirmationModal').modal('hide');
-        this.isDisabling = false;
+        this.stationDetails = res['data'];
+        this.alertService.success("Station successfully updated", true);
+        this.router.navigate(['../user/stations/' + this.stationId + '/station-details'])
+        this.isUpdating = false;
       },
       (error) => {
         console.log(error);
         this.alertService.error(error);
-        this.isDisabling = false;
+        this.isUpdating = false;
       }
     );
   }
 
-  enableStation() {
-    this.isEnabling = true;
-    this.stationsService.enableStation(this.stationId).subscribe(
-      (res) => {
-        console.log(res);
-        this.alertService.success('Station enabled successfully');
-        this.getStationDetails();
-        this.isEnabling = false;
-      },
-      (error) => {
-        console.log(error);
-        this.alertService.error(error);
-        this.isEnabling = false;
-      }
-    );
-  }
+
 }

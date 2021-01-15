@@ -72,8 +72,8 @@ export class StationsComponent implements OnInit {
       name: ['', Validators.compose([Validators.required])],
       zmk: ['', Validators.compose([Validators.required])],
       zpk: ['', Validators.compose([Validators.required])],
-      status: ['', Validators.compose([Validators.required])],
-      lastEcho: ['', Validators.compose([Validators.required])],
+     // status: ['', Validators.compose([Validators.required])],
+      // lastEcho: ['', Validators.compose([Validators.required])],
       channelHost: ['', Validators.compose([Validators.required])],
       channelPort: ['', Validators.compose([Validators.required])]
 

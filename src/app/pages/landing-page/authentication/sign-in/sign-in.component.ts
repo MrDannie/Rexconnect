@@ -66,7 +66,7 @@ export class SignInComponent implements OnInit {
             //TODO:
             console.log('getClientDetails error', error);
             this.isLoading = false;
-            this.alertService.error(error.error.error.responseMessage, false);
+            this.alertService.error(error, false);
           }
         );
 
@@ -74,7 +74,7 @@ export class SignInComponent implements OnInit {
       (error) => {
         console.log('login error', error);
         this.isLoading = false;
-        this.alertService.error(error.error.error.responseMessage, false);
+        this.alertService.error(error, false);
 
       }
     );
