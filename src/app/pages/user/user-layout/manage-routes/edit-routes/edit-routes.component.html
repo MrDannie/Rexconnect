@@ -1,3 +1,239 @@
-<p>
-  edit-routes works!
-</p>
+<div class="top_buttons">
+  <span class="back_button" routerLink="../../routes">
+    <i class="fa fa-long-arrow-left"></i> Return to User List
+  </span>
+</div>
+<div class="main_dashboard_flow">
+  <div class="details_section">
+    <div class="form_area">
+      <h4>Add Route</h4>
+      <p class="sub_header">
+        Please provide details of the route you wish to add.
+      </p>
+      <form [formGroup]="editRouteForm" (ngSubmit)="createRoute()">
+        <div class="form-group">
+          <div style="margin-bottom: 1rem" class="row">
+            <div class="col">
+              <span class="has-float-label">
+                <select
+                  formControlName="default_ds"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  id="default_ds"
+                >
+                  <option value=""></option>
+                  <option
+                    *ngFor="let station of destinationStations"
+                    value="{{ station.name }}"
+                  >
+                    {{ station.name }}
+                  </option>
+                </select>
+                <label for="default_ds">Default Destination Station</label>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <span class="has-float-label">
+                <select
+                  formControlName="rule"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                >
+                  <option *ngFor="let rule of ruletypes" value="{{ rule }}">
+                    {{ rule }}
+                  </option>
+                </select>
+                <label for="terminal">Rule</label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <p
+          style="color: #585858; font-size: 13px; font-weight: bold"
+          class="form-group"
+        >
+          Rule Configuration
+        </p>
+        <div
+          class="rule-config"
+          formArrayName="rule_config"
+          *ngFor="
+            let ruleConfig of editRouteForm.get('rule_config')['controls'];
+            let i = index
+          "
+        >
+          <div [formGroupName]="i">
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="rule"
+                      type="hidden"
+                      class="form-control"
+                      placeholder=""
+                      [value]="editRouteForm.get('rule').value"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="value"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Value</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="min"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Min</label>
+                  </span>
+                </div>
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="max"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Max</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="ds"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Destination Station</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="rule"
+                      type="hidden"
+                      class="form-control"
+                      placeholder=""
+                      [value]="editRouteForm.get('rule').value"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="value"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Value</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="min"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Min</label>
+                  </span>
+                </div>
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="max"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Max</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="ds"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Destination Station</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p
+          class="add-more"
+          (click)="duplicateForm()"
+          style="color: #c91c24; font-size: 13px"
+        >
+          Add More
+        </p>
+        <hr />
+        <input
+          formControlName="use_default"
+          style="color: #2c9220"
+          type="checkbox"
+        />
+        Use Default
+        <button
+          class="btn action_button_update"
+          type="submit"
+          data-toggle="modal"
+          data-target="#editAcquirer"
+        >
+          Add Route
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
