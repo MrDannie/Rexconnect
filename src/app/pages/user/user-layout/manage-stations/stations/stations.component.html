@@ -46,51 +46,43 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="stationName" class="search_label">Station Name</label>
+              <label for="name" class="search_label">Station Name</label>
               <input
                 type="text"
                 class="form-control search_input"
-                formControlName="stationName"
-                id="stationName"
+                formControlName="name"
+                id="name"
               />
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="form-group">
-              <label for="stationAcquirer" class="search_label"
-                >Station Acquirer</label
+              <label for="status" class="search_label"
+                >Status</label
               >
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="stationAcquirer"
-                id="stationAcquirer"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="stationId" class="search_label">Station ID</label>
               <select
-                type="text"
                 class="form-control search_input"
-                formControlName="stationId"
-                id="stationId"
+                formControlName="status"
+                id="status"
               >
-                <option value="">Select role</option>
-                <option></option>
+
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
               </select>
             </div>
           </div>
+
+        
         </div>
 
         <div class="button-section text-right">
           <button class="btn button-white" (click)="showFilter = !showFilter">Close</button>
 
-          <button class="btn button-pink" (click)="pageIndex = 0; getAllStations()">
+          <button class="btn button-pink" (click)="pageIndex = 0; getAllStations();isSearching = true">
             Apply Filters
+
+            <span class="fa fa-spinner fa-spin" *ngIf="isSearching === true"> </span>
           </button>
         </div>
       </form>
@@ -105,13 +97,8 @@
   </button>
 
   <!-- FILTER BY CODE ENDS HERE  -->
-
-  <!-- New Header Ends HEre  -->
 </div>
 
-
-<!-- No data -->
-<!-- Spinner -->
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
@@ -126,7 +113,7 @@
       </thead>
 
       <div class="center-body" *ngIf="(!allStations || allStations.length === 0) && !isLoading"> 
-        <div class="no-data" >No station has been created</div>
+        <div class="no-data" >No station found</div>
       </div>
 
 

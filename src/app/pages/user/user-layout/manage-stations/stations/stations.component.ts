@@ -25,7 +25,7 @@ export class StationsComponent implements OnInit {
   isRefreshing: boolean;
   isCreating: boolean;
   isDeleting: boolean;
-
+  isSearching: boolean;
 
 
   //pagination
@@ -64,10 +64,9 @@ export class StationsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      stationName: '',
-      stationAcquirer: '',
-      stationId: '',
-    });
+      name: '',
+      status: ''
+        });
     this.createStationForm = this.formBuilder.group({
       name: ['', Validators.compose([Validators.required])],
       zmk: ['', Validators.compose([Validators.required])],
@@ -150,12 +149,14 @@ export class StationsComponent implements OnInit {
         this.pagedItems = this.allStations;
 
         this.isLoading = false;
+        this.isSearching = false;
         this.isRefreshing = false;
       },
       (error) => {
         console.log(error);
         this.alertService.error(error);
         this.isLoading = false;
+        this.isSearching = false;
         this.isRefreshing = false;
 
       }
