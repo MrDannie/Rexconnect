@@ -10,7 +10,7 @@
         {{stationDetails.name | titlecase}}</span
       >
       <span class="date">Created: {{stationDetails.createdAt | date :'medium'}}</span>
-      <span class="date">Last Echo Date: {{stationDetails.lastEcho | date :'medium'}}</span>
+      <span class="date">Last Echo Date: {{stationDetails.lastEcho | date :'medium'}}  <span class="null-value" *ngIf="stationDetails.lastEcho === null">Nil</span></span>
       <span class="status animated fadeIn" *ngIf="stationDetails.isActive === 1"> Status: Active</span>
       <span class="status animated fadeIn" *ngIf="stationDetails.isActive === 0"> Status: Inactive</span>
 
@@ -66,10 +66,16 @@
           <span class="card_header">ZPK (PIN Key)</span>
           <p class="card_value">{{stationDetails.zpk}}</p>
         </div>
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <span class="card_header">Last Echo</span>
           <p class="card_value" *ngIf="stationDetails.lastEcho !== null">{{stationDetails.lastEcho | date :'medium'}}</p>
           <p class="null-value" *ngIf="stationDetails.lastEcho === null">Nil</p>
+        </div> -->
+        <div class="col-md-6">
+          <span class="card_header">Base URL</span>
+          <p class="card_value"  *ngIf="stationDetails.baseUrl !== null">{{stationDetails.baseUrl}}</p>
+          <p class="null-value" *ngIf="stationDetails.baseUrl=== null">Nil</p>
+
         </div>
       </div>
       <div class="row">
@@ -86,15 +92,16 @@
 
         </div>
       </div>
+
       <div class="row">
         <div class="col-md-6">
-          <span class="card_header">Base URL</span>
-          <p class="card_value"  *ngIf="stationDetails.baseUrl !== null">{{stationDetails.baseUrl}}</p>
-          <p class="null-value" *ngIf="stationDetails.baseUrl=== null">Nil</p>
+          <span class="card_header">Auth Password</span>
+          <p class="card_value" *ngIf="stationDetails.authPassword !== null">{{stationDetails.authPassword}}</p>
+          <p class="null-value" *ngIf="stationDetails.authPassword === null">Nil</p>
 
         </div>
+        </div>
      
-      </div>
 
       <button
         class="btn action_button_update"
