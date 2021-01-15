@@ -18,8 +18,6 @@ export class Config {
 
   public getPermissions: string;
 
-  
-
   public auditLogs: string;
 
   public changePassword: string;
@@ -55,9 +53,13 @@ export class Config {
   public getSingleMerchant: string;
   public getMerchantTerminals: string;
 
-
   //stations
   public stations: string;
+
+  // Acquirer
+  public getAllAcquirers: string;
+  getPtsps: string;
+  getPtspsList: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -71,7 +73,6 @@ export class Config {
     this.getUsers = '/users';
     this.createRole = '/roles/create';
     this.createUser = '/users/create';
-  
 
     // terminals
     this.allTerminals = '/v1/terminals';
@@ -96,5 +97,10 @@ export class Config {
     //stations
     this.stations = '/v1/stations';
 
+    //ACQUIRER
+    this.getAllAcquirers = '/v1/clients';
+
+    // PTSPTS
+    this.getPtspsList = '/v1/ptsps/list';
   }
 }
