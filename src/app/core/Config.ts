@@ -64,6 +64,8 @@ export class Config {
   public getRoutesLists: string;
   disableAcquirer: string;
   enableAcquirer: string;
+  //ptsps
+  public ptsps: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -118,5 +120,8 @@ export class Config {
 
     // ENABLE ACQUIRER
     this.enableAcquirer = '/v1/clients/{acquirerId}/enable';
+    //ptsps
+
+    this.ptsps = '/v1/ptsps';
   }
 }

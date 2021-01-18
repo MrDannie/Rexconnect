@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PtspComponent } from './ptsp.component';
+import { UpdatePtspComponent } from './update-ptsp.component';
 
-describe('PtspComponent', () => {
-  let component: PtspComponent;
-  let fixture: ComponentFixture<PtspComponent>;
+describe('UpdatePtspComponent', () => {
+  let component: UpdatePtspComponent;
+  let fixture: ComponentFixture<UpdatePtspComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PtspComponent ]
+      declarations: [ UpdatePtspComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PtspComponent);
+    fixture = TestBed.createComponent(UpdatePtspComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

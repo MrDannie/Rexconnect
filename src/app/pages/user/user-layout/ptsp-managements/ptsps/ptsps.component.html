@@ -2,7 +2,7 @@
   <div class="main-header">
     <div class="header__text animated fadeIn">
       <div>
-        <span>Stations</span>
+        <span>PTSP</span>
       </div>
 
       <div class="button_header_section">
@@ -12,11 +12,11 @@
           data-target="#createModal"
         >
           <i class="fa fa-plus animated slideIn"></i>
-          Add Station
+          Create PTSP
         </button>
       </div>
     </div>
-    <span>View details of every station on this platform</span>
+    <span>View details of every ptsp on this platform</span>
   </div>
 
   <!-- FILTER BY CODE  -->
@@ -46,12 +46,12 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="name" class="search_label">Station Name</label>
+              <label for="Ptspname" class="search_label">Ptsp Name</label>
               <input
                 type="text"
                 class="form-control search_input"
-                formControlName="name"
-                id="name"
+                formControlName="Ptspname"
+                id="Ptspname"
               />
             </div>
           </div>
@@ -79,7 +79,7 @@
         <div class="button-section text-right">
           <button class="btn button-white" (click)="showFilter = !showFilter">Close</button>
 
-          <button class="btn button-pink" (click)="pageIndex = 0; getAllStations();isSearching = true">
+          <button class="btn button-pink" (click)="pageIndex = 0; getAllPtsps();isSearching = true">
             Apply Filters
 
             <span class="fa fa-spinner fa-spin" *ngIf="isSearching === true"> </span>
@@ -104,16 +104,18 @@
   <div class="card-body">
     <table class="table table-striped">
       <thead class="thead-dark">
-          <th scope="col">Station Name</th>
-          <th scope="col">Last Echo Date</th>
-          <th scope="col">Last Zpk Change</th>
-          <th scope="col">Auth Username</th>
+          <th scope="col">PTSP Name</th>
+          <th scope="col">CTMK</th>
+          <th scope="col">CTMK KCV(Key Check Value)</th>
+          <th scope="col">CTMK BLOCK</th>
+          <th scope="col">CTMK BLOCK KCV(Key Check Value)</th>
+          <th scope="col">PTSP CODE</th>
           <th scope="col">Status</th> 
           <th scope="col">Actions</th>
       </thead>
 
-      <div class="center-body" *ngIf="(!allStations || allStations.length === 0) && !isLoading"> 
-        <div class="no-data" >No station found</div>
+      <div class="center-body" *ngIf="(!allPtsps || allPtsps.length === 0) && !isLoading"> 
+        <div class="no-data" >No ptsp found</div>
       </div>
 
 
@@ -124,17 +126,19 @@
 
       <tbody  *ngIf="!isLoading">
 
-        <tr *ngFor="let item of allStations">
-          <td>{{item.name | titlecase}}</td>
-          <td>{{item.lastEcho | date : 'medium'}} <span class="null-value" *ngIf="item.lastEcho === null">Nil</span></td>
-          <td>{{item.lastZpkChange | date: 'medium'}} <span class="null-value" *ngIf="item.lastZpkChange === null">Nil</span></td>
-          <td>{{item.authUsername}} <span class="null-value" *ngIf="item.authUsername === null">Nil</span></td>
+        <tr *ngFor="let item of allPtsps">
+          <td>{{item.PtspName | titlecase}}</td>
+          <td>{{item.Ptspctmk}} <span class="null-value" *ngIf="item.Ptspctmk === null">Nil</span></td>
+          <td>{{item.Ptspctmkkcv}} <span class="null-value" *ngIf="item.Ptspctmkkcv === null">Nil</span></td>
+          <td>{{item.Ptspctmkblock}} <span class="null-value" *ngIf="item.Ptspctmkkcv === null">Nil</span></td>
+          <td>{{item.Ptspctmkblockkcv}} <span class="null-value" *ngIf="item.Ptspctmkkcv === null">Nil</span></td>
+          <td>{{item.PtspCode}} <span class="null-value" *ngIf="item.Ptspctmkkcv === null">Nil</span></td>
           <td class="active" *ngIf="item.isActive === 1">Active</td>
           <td class="inactive" *ngIf="item.isActive === 0" >Inactive</td>
 
           <td>
             <button
-              [routerLink]="[item.id, 'station-details']"
+              [routerLink]="[item.id, 'ptsp-details']"
               class="btn table_button"
             >
               Open
@@ -174,7 +178,7 @@
 <!-- PAGINATION  -->
 <div class="paginate mt-2 animated fadeIn" *ngIf="!isLoading">
   <nav aria-label="...">
-    <ul class="pagination" *ngIf="!isLoading && allStations">
+    <ul class="pagination" *ngIf="!isLoading && allPtsps">
       <li
         class="page-item"
         (click)="previousPage()"
@@ -204,7 +208,7 @@
   </nav>
 
   <!-- Export button -->
-  <div class="export-button animated fadeIn" *ngIf="!isLoading && allStations">
+  <div class="export-button animated fadeIn" *ngIf="!isLoading && allPtsps">
     <button
       type="button"
       class="btn btn-light button-plain-icon"
@@ -235,8 +239,8 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <h5 class="modal-title" id="createModalLabel">Add Station</h5>
-        <form [formGroup]="createStationForm">
+        <h5 class="modal-title" id="createModalLabel">Create PTSP</h5>
+        <form [formGroup]="createPtspForm">
           <!-- RELEVANT CODE HERE  -->
           <div class="form-row">
             <div class="form-group col-md-12">
@@ -253,16 +257,16 @@
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('name').errors &&
-                    (createStationForm.get('name').dirty ||
-                      createStationForm.get('name').touched)
+                    createPtspForm.get('name').errors &&
+                    (createPtspForm.get('name').dirty ||
+                      createPtspForm.get('name').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('name').hasError('invalid')
+                      !createPtspForm.get('name').hasError('invalid')
                     "
                   >
                     Name is required
@@ -288,16 +292,16 @@
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('zmk').errors &&
-                    (createStationForm.get('zmk').dirty ||
-                      createStationForm.get('zmk').touched)
+                    createPtspForm.get('zmk').errors &&
+                    (createPtspForm.get('zmk').dirty ||
+                      createPtspForm.get('zmk').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('zmk').hasError('invalid')
+                      !createPtspForm.get('zmk').hasError('invalid')
                     "
                   >
                     Master key is required
@@ -322,16 +326,16 @@
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('zpk').errors &&
-                    (createStationForm.get('zpk').dirty ||
-                      createStationForm.get('zpk').touched)
+                    createPtspForm.get('zpk').errors &&
+                    (createPtspForm.get('zpk').dirty ||
+                      createPtspForm.get('zpk').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('zpk').hasError('invalid')
+                      !createPtspForm.get('zpk').hasError('invalid')
                     "
                   >
                     Primary Key is required
@@ -356,16 +360,16 @@
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('channelHost').errors &&
-                    (createStationForm.get('channelHost').dirty ||
-                      createStationForm.get('channelHost').touched)
+                    createPtspForm.get('channelHost').errors &&
+                    (createPtspForm.get('channelHost').dirty ||
+                      createPtspForm.get('channelHost').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('channelHost').hasError('invalid')
+                      !createPtspForm.get('channelHost').hasError('invalid')
                     "
                   >
                     Channel Host is required
@@ -390,16 +394,16 @@
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('channelPort').errors &&
-                    (createStationForm.get('channelPort').dirty ||
-                      createStationForm.get('channelPort').touched)
+                    createPtspForm.get('channelPort').errors &&
+                    (createPtspForm.get('channelPort').dirty ||
+                      createPtspForm.get('channelPort').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('channelPort').hasError('invalid')
+                      !createPtspForm.get('channelPort').hasError('invalid')
                     "
                   >
                     Channel Port is required
@@ -424,16 +428,16 @@
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('status').errors &&
-                    (createStationForm.get('status').dirty ||
-                      createStationForm.get('status').touched)
+                    createPtspForm.get('status').errors &&
+                    (createPtspForm.get('status').dirty ||
+                      createPtspForm.get('status').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('status').hasError('invalid')
+                      !createPtspForm.get('status').hasError('invalid')
                     "
                   >
                     Status is required
@@ -458,16 +462,16 @@
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('lastEcho').errors &&
-                    (createStationForm.get('lastEcho').dirty ||
-                      createStationForm.get('lastEcho').touched)
+                    createPtspForm.get('lastEcho').errors &&
+                    (createPtspForm.get('lastEcho').dirty ||
+                      createPtspForm.get('lastEcho').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('lastEcho').hasError('invalid')
+                      !createPtspForm.get('lastEcho').hasError('invalid')
                     "
                   >
                     Last Echo is required
@@ -483,7 +487,7 @@
             <div
               class="cancel_button"
               data-dismiss="modal"
-              (click)="createStationForm.reset()"
+              (click)="createPtspForm.reset()"
             >
               Cancel
             </div>
@@ -491,7 +495,7 @@
               class="btn action_button"
               (click)="createStation()"
               *ngIf="!isCreating"
-              [disabled]="!createStationForm.valid"
+              [disabled]="!createPtspForm.valid"
             >
               <i class="fa fa-plus animated slideIn"></i>
               Add station

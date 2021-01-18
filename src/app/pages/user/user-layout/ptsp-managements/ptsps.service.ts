@@ -1,26 +1,22 @@
-import { StorageService } from "src/app/core/helpers/storage.service";
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { map } from "rxjs/operators";
-import { Config } from "../../../../core/Config";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { Config } from 'src/app/core/Config';
 import { environment } from "src/environments/environment";
-
 const BASE_URL = environment.BASE_URL;
+
 @Injectable({
   providedIn: 'root'
 })
-export class StationsService {
+export class PtspsService {
 
   constructor(
     private httpClient: HttpClient,
-    private router: Router,
-    private storageService: StorageService,
     private config: Config
   ) { }
 
   
-  getAllStations(pageIndex, pageSize, searchFormValue?) {
+  getAllPtsps(pageIndex, pageSize, searchFormValue?) {
     let params = new HttpParams();
 
     if (pageIndex) {
@@ -37,10 +33,10 @@ export class StationsService {
     }
 
     return this.httpClient
-      .get(BASE_URL + this.config.stations, { params })
+      .get(BASE_URL + this.config.ptsps, { params })
       .pipe(
-        map((stations) => {
-          return stations;
+        map((ptsps) => {
+          return ptsps;
         })
       );
   }
@@ -80,3 +76,4 @@ export class StationsService {
   //   return this.httpClient.post(BASE_URL + this.config.deleteMerchant + '/' + code, {});
   // }
 }
+
