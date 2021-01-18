@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 
 @Component({
   selector: 'app-acquirer-details',
@@ -12,18 +14,36 @@ export class AcquirerDetailsComponent implements OnInit {
   isCSVLoading;
   boolean;
 
-  ngForArray: number[];
   editAcquirerForm: any;
 
-  constructor(private formBuilder: FormBuilder) {
+  // Component specific data
+  acquirerId: any;
+  acquirer: any;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private acquirerService: AcquirerService,
+    private route: ActivatedRoute
+  ) {
     this.showFilter = false;
     this.expression = false;
     this.isCSVLoading = false;
     this.initializeForm();
-    this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.acquirerId = this.route.snapshot.params.id;
+    console.log('ACQUIRER ID', this.acquirerId);
+    this.getSingleAcquirer(this.acquirerId);
+  }
+
+  getSingleAcquirer(acquirerId) {
+    this.acquirerService.getSingleAcquirer(acquirerId).subscribe((response) => {
+      console.log('SINGLE ACQUIRER', response);
+      this.acquirer = response['data'];
+      console.log('SINGLE OVER', this.acquirer);
+    });
+  }
 
   initializeForm() {
     this.editAcquirerForm = this.formBuilder.group({

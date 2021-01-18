@@ -1,0 +1,227 @@
+<div class="top_buttons">
+  <span class="back_button" routerLink="../../routes">
+    <i class="fa fa-long-arrow-left"></i> Return to User List
+  </span>
+</div>
+<div class="main_dashboard_flow">
+  <h1>Add Acquirer</h1>
+  <p>Please provide details of your acquirer and the fee sharing format</p>
+  <hr />
+
+  <h5>Acquirer Information</h5>
+  <p>Enter the details of your aquirer</p>
+</div>
+
+<!-- ADD AQUIRER  -->
+<div id="createAcquirer" tabindex="-1" role="dialog">
+  <form [formGroup]="createAcquirerForm">
+    <!-- RELEVANT CODE HERE  -->
+
+    <!-- ACQUIRER NAME  -->
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="clientName"
+              type="text"
+              placeholder=" "
+              formControlName="clientName"
+            />
+            <label for="clientName">Acquirer's Name</label>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="clientName"
+              type="text"
+              placeholder=" "
+              formControlName="clientName"
+            />
+            <label for="clientName">Acquirer's Short Name</label>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANK CODE  -->
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="bankCode"
+              type="text"
+              placeholder=" "
+              formControlName="bankCode"
+            />
+            <label for="bankCode">Acquirer's CBN Code</label>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="clientLocation"
+              type="text"
+              placeholder=" "
+              formControlName="clientLocation"
+            />
+            <label for="clientLocation">Aquirer's Terminal Prefix</label>
+          </span>
+        </div>
+      </div>
+    </div>
+    <hr />
+
+    <!-- SELECT BUTTONS  -->
+    <div class="form-row">
+      <div
+        style="overflow-x: auto; height: 200px"
+        class="routes-column col-md-4"
+      >
+        <p>Select Routes</p>
+        <input type="checkbox" (click)="toggleAllRoutesCheckbox(this)" /> Select
+        All
+        <div *ngFor="let rule of routingRules" class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckDefault"
+            (change)="addRouteRule(rule.name)"
+            (click)="selectAllRoutes()"
+            name="routingRules"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            {{ rule.name }}
+          </label>
+        </div>
+      </div>
+
+      <div
+        style="overflow-x: auto; height: 200px"
+        class="ptsps-column col-md-4"
+      >
+        <p>Select Ptsps</p>
+        <input type="checkbox" /> Select All
+        <div *ngFor="let ptsp of ptspsList" class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckDefault"
+            (change)="addPtsps(ptsp.ptspName)"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            {{ ptsp.ptspName }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEE SHARING FORM -->
+    <div>
+      <h1>Fee Sharing</h1>
+      <p>Enter the fee sharing format for this acquirer.</p>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="clientLocation"
+              type="text"
+              placeholder=" "
+              formControlName="clientLocation"
+            />
+            <label for="clientLocation">MSC</label>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="clientAddress"
+              type="text"
+              placeholder=" "
+              formControlName="clientAddress"
+            />
+            <label for="clientAddress">PTSP</label>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ptsps -->
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="clientAddress"
+              type="text"
+              placeholder=" "
+              formControlName="ptsps"
+            />
+            <label for="ptsps">Issuer</label>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="clientAddress"
+              type="text"
+              placeholder=" "
+              formControlName="routingRules"
+            />
+            <label for="clientAddress">Acquirer</label>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="clientAddress"
+              type="text"
+              placeholder=" "
+              formControlName="ptsps"
+            />
+            <label for="ptsps">Terminal Owner</label>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELEVANT CODE HERE  -->
+    <div class="form_actions">
+      <button
+        class="btn action_button"
+        [disabled]="!createAcquirerForm.valid"
+        (click)="addAcquirer(createAcquirerForm.value)"
+      >
+        Add Acquirer
+      </button>
+    </div>
+  </form>
+</div>
