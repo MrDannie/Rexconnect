@@ -16,10 +16,6 @@ declare var $: any;
 export class PtspDetailsComponent implements OnInit {
   showFilter: boolean;
   private route$: Subscription;
-
-
-
-
   ptspId: any;
   ptspDetails: any;
   isLoading = true;
