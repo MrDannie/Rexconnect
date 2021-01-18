@@ -3,7 +3,6 @@ import { Router, Event, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { AlertService } from 'src/app/core/alert/alert.service';
-import { error } from 'console';
 
 declare var $: any;
 
