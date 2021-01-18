@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Config } from 'src/app/core/Config';
 import { environment } from "src/environments/environment";
+import { isNullOrUndefined } from 'util';
 const BASE_URL = environment.BASE_URL;
 
 @Injectable({
@@ -17,6 +18,7 @@ export class PtspsService {
 
   
   getAllPtsps(pageIndex, pageSize, searchFormValue?) {
+    console.log(searchFormValue)
     let params = new HttpParams();
 
     if (pageIndex) {
@@ -25,12 +27,15 @@ export class PtspsService {
     if (pageSize) {
       params = params.append("limit", pageSize);
     }
-    if (searchFormValue.name) {
-      params = params.append("name", searchFormValue.name);
+    if (!isNullOrUndefined(searchFormValue)) {
+      if (searchFormValue.Ptspname) {
+        params = params.append("Ptspname", searchFormValue.Ptspname);
+      }
+      if (searchFormValue.status) {
+        params = params.append("isActive", searchFormValue.status);
+      }
     }
-    if (searchFormValue.status) {
-      params = params.append("isActive", searchFormValue.status);
-    }
+  
 
     return this.httpClient
       .get(BASE_URL + this.config.ptsps, { params })
@@ -51,29 +56,22 @@ export class PtspsService {
     return this.httpClient.put(BASE_URL + this.config.stations + '/' + id, details);
   }
 
-  createStation(stationDetails) {
-    console.log(stationDetails);
-    return this.httpClient.post(BASE_URL + this.config.stations, stationDetails);
+  createPTSP(ptspDetails) {
+    console.log(ptspDetails);
+    return this.httpClient.post(BASE_URL + this.config.ptsps, ptspDetails);
   }
-  deleteStation(id) {
+  deletePTSP(id) {
     console.log(id);
-    return this.httpClient.delete(BASE_URL + this.config.stations + '/' + id);
+    return this.httpClient.delete(BASE_URL + this.config.ptsps + '/' + id);
   }
-  disableStation(id) {
+  disablePTSP(id) {
     console.log(id);
-    return this.httpClient.post(BASE_URL + this.config.stations + '/' + id + '/disable', '');
+    return this.httpClient.post(BASE_URL + this.config.ptsps + '/' + id + '/disable', '');
   }
-  enableStation(id) {
+  enablePTSP(id) {
     console.log(id);
-    return this.httpClient.post(BASE_URL + this.config.stations + '/' + id + '/enable', '');
+    return this.httpClient.post(BASE_URL + this.config.ptsps + '/' + id + '/enable', '');
   }
-  // updateMerchant(merchantDetails) {
-  //   console.log(merchantDetails);
-  //   return this.httpClient.post(BASE_URL + this.config.updateMerchant, merchantDetails);
-  // }
-  // deleteMerchant(code: string) {
-  //   console.log(code);
-  //   return this.httpClient.post(BASE_URL + this.config.deleteMerchant + '/' + code, {});
-  // }
+ 
 }
 

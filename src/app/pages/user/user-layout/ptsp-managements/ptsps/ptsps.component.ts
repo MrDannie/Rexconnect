@@ -66,7 +66,7 @@ export class PtspsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      ptspName: '',
+      Ptspname: '',
       status: ''
         });
     this.createPtspForm = this.formBuilder.group({
@@ -84,19 +84,15 @@ export class PtspsComponent implements OnInit {
 
 
 
-  createStation() {
+  createPTSP() {
     this.isCreating = true;
-
-
-
-    this.ptspService.createStation(this.createPtspForm.value).subscribe(
+    this.ptspService.createPTSP(this.createPtspForm.value).subscribe(
       (response) => {
         console.log(response);
         this.isCreating = false;
         this.createPtspForm.reset();
         this.getAllPtsps();
         $("#createModal").modal("hide");
-  
         this.alertService.success("Station created successfully", true);
       },
       (error) => {
@@ -113,16 +109,15 @@ export class PtspsComponent implements OnInit {
     $("#confirmationModal").modal("show");
   }
 
-  deleteStation() {
+  deletePTSP() {
     this.isDeleting = true;
-    this.ptspService.deleteStation(this.selectedValue.id).subscribe(
+    this.ptspService.deletePTSP(this.selectedValue.id).subscribe(
       (response) => {
         console.log(response);
         this.isDeleting = false;
         this.getAllPtsps();
         $("#confirmationModal").modal("hide");
-  
-        this.alertService.success("Station deleted successfully", true);
+        this.alertService.success("PTSP deleted successfully", true);
       },
       (error) => {
         this.isDeleting = false;
@@ -137,7 +132,7 @@ export class PtspsComponent implements OnInit {
     this.ptspService.getAllPtsps(this.pageIndex, this.pageSize, this.searchForm.value).subscribe(
       (res) => {
         console.log(res);
-        this.allPtsps = res["data"]['stations'];
+        this.allPtsps = res["data"]['ptsps'];
         this.dataCount = this.allPtsps.length;
         console.log(this.dataCount, this.currentPage, this.pageSize);
         
@@ -221,17 +216,17 @@ export class PtspsComponent implements OnInit {
       (res) => {
         console.log(res);
         const exportData = JSON.parse(
-          JSON.stringify(res["data"]['stations'], ["name", "zmk", "zpk", "lastEcho", "lastZpkChange"], 2)
+          JSON.stringify(res["data"]['ptsps'], ["Ptspname", "Ptspctmk", "Ptspctmkblock", "Ptspctmkkcv", "Ptspctmkblockkcv", "isActive"], 2)
         );
         console.log(exportData);
         const options = {
-          headers: ["Station Name", "ZMK", "ZPK", "Last Echo Date", "Last Zpk Change"],
+          headers: ["Name", "CTMK", "CTMK BLOCK", "CTMK KCV", "CTMK BLOCK KCV", "Status"],
           decimalseparator: ".",
           showTitle: false,
           nullToEmptyString: true,
         };
         this.isCSVLoading = false;
-        return new Angular5Csv(exportData, "Stations List", options);
+        return new Angular5Csv(exportData, "Ptsp List", options);
       },
       (err) => {
         this.isCSVLoading = false;

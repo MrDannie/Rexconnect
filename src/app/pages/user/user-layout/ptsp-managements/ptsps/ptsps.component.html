@@ -46,7 +46,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="Ptspname" class="search_label">Ptsp Name</label>
+              <label for="Ptspname" class="search_label">PTSP Name</label>
               <input
                 type="text"
                 class="form-control search_input"
@@ -104,12 +104,12 @@
   <div class="card-body">
     <table class="table table-striped">
       <thead class="thead-dark">
-          <th scope="col">PTSP Name</th>
+          <th scope="col">Name</th>
+          <th scope="col">Code</th>
           <th scope="col">CTMK</th>
           <th scope="col">CTMK KCV(Key Check Value)</th>
-          <th scope="col">CTMK BLOCK</th>
-          <th scope="col">CTMK BLOCK KCV(Key Check Value)</th>
-          <th scope="col">PTSP CODE</th>
+          <!-- <th scope="col">CTMK BLOCK</th> -->
+          <!-- <th scope="col">CTMK BLOCK KCV(Key Check Value)</th> -->
           <th scope="col">Status</th> 
           <th scope="col">Actions</th>
       </thead>
@@ -127,14 +127,14 @@
       <tbody  *ngIf="!isLoading">
 
         <tr *ngFor="let item of allPtsps">
-          <td>{{item.PtspName | titlecase}}</td>
+          <td>{{item.Ptspname | titlecase}}</td>
+          <td>{{item.PtspCode}} <span class="null-value" *ngIf="item.PtspCode === null">Nil</span></td>
           <td>{{item.Ptspctmk}} <span class="null-value" *ngIf="item.Ptspctmk === null">Nil</span></td>
           <td>{{item.Ptspctmkkcv}} <span class="null-value" *ngIf="item.Ptspctmkkcv === null">Nil</span></td>
-          <td>{{item.Ptspctmkblock}} <span class="null-value" *ngIf="item.Ptspctmkkcv === null">Nil</span></td>
-          <td>{{item.Ptspctmkblockkcv}} <span class="null-value" *ngIf="item.Ptspctmkkcv === null">Nil</span></td>
-          <td>{{item.PtspCode}} <span class="null-value" *ngIf="item.Ptspctmkkcv === null">Nil</span></td>
-          <td class="active" *ngIf="item.isActive === 1">Active</td>
-          <td class="inactive" *ngIf="item.isActive === 0" >Inactive</td>
+         <!-- <td>{{item.Ptspctmkblock}} <span class="null-value" *ngIf="item.Ptspctmkblock === null">Nil</span></td> -->
+          <!-- <td>{{item.Ptspctmkblockkcv}} <span class="null-value" *ngIf="item.Ptspctmkblockkcv === null">Nil</span></td> -->
+          <td class="active" *ngIf="item.isActive === true">Active</td>
+          <td class="inactive" *ngIf="item.isActive === false" >Inactive</td>
 
           <td>
             <button
@@ -248,60 +248,93 @@
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="name"
+                    id="Ptspname"
                     type="text"
                     placeholder=" "
-                    formControlName="name"
+                    formControlName="Ptspname"
                   />
-                  <label for="name">Name</label>
+                  <label for="Ptspname">PTSP Name</label>
                 </span>
                 <div
                   *ngIf="
-                    createPtspForm.get('name').errors &&
-                    (createPtspForm.get('name').dirty ||
-                      createPtspForm.get('name').touched)
+                    createPtspForm.get('Ptspname').errors &&
+                    (createPtspForm.get('Ptspname').dirty ||
+                      createPtspForm.get('Ptspname').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createPtspForm.get('name').hasError('invalid')
+                      !createPtspForm.get('Ptspname').hasError('required')
                     "
                   >
-                    Name is required
+                    PTSP Name is required
                     <br />
                   </span>
                 </div>
               </div>
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="zmk"
+                    id="PtspCode"
                     type="text"
                     placeholder=" "
-                    formControlName="zmk"
+                    formControlName="PtspCode"
                   />
-                  <label for="zmk">ZMK (Master Key)</label>
+                  <label for="PtspCode">PTSP Code</label>
                 </span>
                 <div
                   *ngIf="
-                    createPtspForm.get('zmk').errors &&
-                    (createPtspForm.get('zmk').dirty ||
-                      createPtspForm.get('zmk').touched)
+                    createPtspForm.get('PtspCode').errors &&
+                    (createPtspForm.get('PtspCode').dirty ||
+                      createPtspForm.get('PtspCode').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createPtspForm.get('zmk').hasError('invalid')
+                      !createPtspForm.get('PtspCode').hasError('required')
+                    "
+                  >
+                    PTSP code is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="Ptspctmk"
+                    type="text"
+                    placeholder=" "
+                    formControlName="Ptspctmk"
+                  />
+                  <label for="Ptspctmk">PTSP CTMK (Master Key)</label>
+                </span>
+                <div
+                  *ngIf="
+                    createPtspForm.get('Ptspctmk').errors &&
+                    (createPtspForm.get('Ptspctmk').dirty ||
+                      createPtspForm.get('Ptspctmk').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createPtspForm.get('Ptspctmk').hasError('required')
                     "
                   >
                     Master key is required
@@ -317,170 +350,106 @@
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="zpk"
+                    id="Ptspctmkkcv"
                     type="text"
                     placeholder=" "
-                    formControlName="zpk"
+                    formControlName="Ptspctmkkcv"
                   />
-                  <label for="zpk">ZPK (Primary Key)</label>
+                  <label for="Ptspctmkkcv">PTSPCTMK KCV (Key Check Value) </label>
                 </span>
                 <div
                   *ngIf="
-                    createPtspForm.get('zpk').errors &&
-                    (createPtspForm.get('zpk').dirty ||
-                      createPtspForm.get('zpk').touched)
+                    createPtspForm.get('Ptspctmkkcv').errors &&
+                    (createPtspForm.get('Ptspctmkkcv').dirty ||
+                      createPtspForm.get('Ptspctmkkcv').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createPtspForm.get('zpk').hasError('invalid')
+                      !createPtspForm.get('Ptspctmkkcv').hasError('required')
                     "
                   >
-                    Primary Key is required
+                    CTMK KCV is required
                     <br />
                   </span>
                 </div>
               </div>
             </div>
           </div>
+       
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="channelHost"
+                    id="Ptspctmkblock"
                     type="text"
                     placeholder=" "
-                    formControlName="channelHost"
+                    formControlName="Ptspctmkblock"
                   />
-                  <label for="channelHost">Channel Host</label>
+                  <label for="Ptspctmkblock">PTSPCTMK BLOCK</label>
                 </span>
                 <div
                   *ngIf="
-                    createPtspForm.get('channelHost').errors &&
-                    (createPtspForm.get('channelHost').dirty ||
-                      createPtspForm.get('channelHost').touched)
+                    createPtspForm.get('Ptspctmkblock').errors &&
+                    (createPtspForm.get('Ptspctmkblock').dirty ||
+                      createPtspForm.get('Ptspctmkblock').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createPtspForm.get('channelHost').hasError('invalid')
+                      !createPtspForm.get('Ptspctmkblock').hasError('required')
                     "
                   >
-                    Channel Host is required
+                    CTMK BLOCK is required
                     <br />
                   </span>
                 </div>
               </div>
             </div>
           </div>
+
+
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="channelPort"
+                    id="Ptspctmkblockkcv"
                     type="text"
                     placeholder=" "
-                    formControlName="channelPort"
+                    formControlName="Ptspctmkblockkcv"
                   />
-                  <label for="channelPort">Channel Port</label>
+                  <label for="Ptspctmkblockkcv">PTSPCTMK BLOCK KCV</label>
                 </span>
                 <div
                   *ngIf="
-                    createPtspForm.get('channelPort').errors &&
-                    (createPtspForm.get('channelPort').dirty ||
-                      createPtspForm.get('channelPort').touched)
+                    createPtspForm.get('Ptspctmkblockkcv').errors &&
+                    (createPtspForm.get('Ptspctmkblockkcv').dirty ||
+                      createPtspForm.get('Ptspctmkblockkcv').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createPtspForm.get('channelPort').hasError('invalid')
+                      !createPtspForm.get('Ptspctmkblockkcv').hasError('required')
                     "
                   >
-                    Channel Port is required
+                    Key Value Check is required
                     <br />
                   </span>
                 </div>
               </div>
             </div>
           </div>
-          <!-- <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="status"
-                    type="text"
-                    placeholder=" "
-                    formControlName="status"
-                  />
-                  <label for="status">Status</label>
-                </span>
-                <div
-                  *ngIf="
-                    createPtspForm.get('status').errors &&
-                    (createPtspForm.get('status').dirty ||
-                      createPtspForm.get('status').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createPtspForm.get('status').hasError('invalid')
-                    "
-                  >
-                    Status is required
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <div class="">
-                <span class="has-float-label">
-                  <input
-                    class="form-control"
-                    id="lastEcho"
-                    type="text"
-                    placeholder=" "
-                    formControlName="lastEcho"
-                  />
-                  <label for="lastEcho">Last Echo</label>
-                </span>
-                <div
-                  *ngIf="
-                    createPtspForm.get('lastEcho').errors &&
-                    (createPtspForm.get('lastEcho').dirty ||
-                      createPtspForm.get('lastEcho').touched)
-                  "
-                  class="validation-message"
-                >
-                  <span
-                    class="validation-message"
-                    [hidden]="
-                      !createPtspForm.get('lastEcho').hasError('invalid')
-                    "
-                  >
-                    Last Echo is required
-                    <br />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div> -->
+       
           <!-- RELEVANT CODE HERE  -->
 
           <div class="form_actions">
@@ -493,12 +462,12 @@
             </div>
             <button
               class="btn action_button"
-              (click)="createStation()"
+              (click)="createPTSP()"
               *ngIf="!isCreating"
               [disabled]="!createPtspForm.valid"
             >
               <i class="fa fa-plus animated slideIn"></i>
-              Add station
+              Add PTSP
             </button>
 
             <div
@@ -532,11 +501,11 @@
     <div class="modal-content" style="min-height: 13rem !important;">
       <div class="modal-body">
         <h5 class="modal-title" id="confirmationModal">
-          <span>Delete Station</span>
+          <span>Delete PTSP</span>
         </h5>
         <span class="modal_subtitle">
           You are about to delete
-          <b *ngIf="selectedValue"> {{ selectedValue.name }} </b>
+          <b *ngIf="selectedValue"> {{ selectedValue.Ptspname }} </b>
         </span>
 
         <div class="form_actions">
@@ -552,7 +521,7 @@
 
           <button
             class="btn action_button"
-            (click)="deleteStation()"
+            (click)="deletePTSP()"
             *ngIf="!isDeleting"
           >
             Yes
