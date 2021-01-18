@@ -1,21 +1,23 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
-import { StationsService } from '../stations.service';
-import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+import { PtspsService } from '../ptsps.service';
 
-declare var $: any;
+
+declare var $:any;
+
 @Component({
-  selector: 'app-stations',
-  templateUrl: './stations.component.html',
-  styleUrls: ['./stations.component.scss'],
+  selector: 'app-ptsps',
+  templateUrl: './ptsps.component.html',
+  styleUrls: ['./ptsps.component.scss']
 })
-export class StationsComponent implements OnInit {
+export class PtspsComponent implements OnInit {
   @ViewChild("setPageSizeId") setPageSizeId: ElementRef;
 
   //Forms
-  createStationForm: FormGroup;
+  createPtspForm: FormGroup;
   searchForm: FormGroup;
 
   //Booleans/Loaders
@@ -39,11 +41,11 @@ export class StationsComponent implements OnInit {
 
 
   //component specific data
-  allStations: any;
+  allPtsps: any;
   dataCount: any;
   selectedValue: any;
 
-  constructor(private formBuilder: FormBuilder, private stationsService: StationsService,
+  constructor(private formBuilder: FormBuilder, private ptspService: PtspsService,
      private paginationService: PaginationService, private alertService: AlertService) {
     this.isCSVLoading = false;
     this.showFilter = false;
@@ -58,23 +60,23 @@ export class StationsComponent implements OnInit {
   ngOnInit() {
     this.isLoading = true;
     this.isCreating = false;
-    this.getAllStations();
+    this.getAllPtsps();
     this.setPageSizeId.nativeElement.value = this.pageSize;
   }
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      name: '',
+      ptspName: '',
       status: ''
         });
-    this.createStationForm = this.formBuilder.group({
-      name: ['', Validators.compose([Validators.required])],
-      zmk: ['', Validators.compose([Validators.required])],
-      zpk: ['', Validators.compose([Validators.required])],
+    this.createPtspForm = this.formBuilder.group({
+      Ptspname: ['', Validators.compose([Validators.required])],
+      Ptspctmk: ['', Validators.compose([Validators.required])],
+      Ptspctmkblock: ['', Validators.compose([Validators.required])],
      // status: ['', Validators.compose([Validators.required])],
-      // lastEcho: ['', Validators.compose([Validators.required])],
-      channelHost: ['', Validators.compose([Validators.required])],
-      channelPort: ['', Validators.compose([Validators.required])]
+      PtspCode: ['', Validators.compose([Validators.required])],
+      Ptspctmkblockkcv: ['', Validators.compose([Validators.required])],
+      Ptspctmkkcv: ['', Validators.compose([Validators.required])]
 
 
     });
@@ -84,12 +86,15 @@ export class StationsComponent implements OnInit {
 
   createStation() {
     this.isCreating = true;
-    this.stationsService.createStation(this.createStationForm.value).subscribe(
+
+
+
+    this.ptspService.createStation(this.createPtspForm.value).subscribe(
       (response) => {
         console.log(response);
         this.isCreating = false;
-        this.createStationForm.reset();
-        this.getAllStations();
+        this.createPtspForm.reset();
+        this.getAllPtsps();
         $("#createModal").modal("hide");
   
         this.alertService.success("Station created successfully", true);
@@ -110,11 +115,11 @@ export class StationsComponent implements OnInit {
 
   deleteStation() {
     this.isDeleting = true;
-    this.stationsService.deleteStation(this.selectedValue.id).subscribe(
+    this.ptspService.deleteStation(this.selectedValue.id).subscribe(
       (response) => {
         console.log(response);
         this.isDeleting = false;
-        this.getAllStations();
+        this.getAllPtsps();
         $("#confirmationModal").modal("hide");
   
         this.alertService.success("Station deleted successfully", true);
@@ -127,13 +132,13 @@ export class StationsComponent implements OnInit {
   }
 
 
-  getAllStations() {
+  getAllPtsps() {
     console.log(this.pageIndex, this.pageSize);
-    this.stationsService.getAllStations(this.pageIndex, this.pageSize, this.searchForm.value).subscribe(
+    this.ptspService.getAllPtsps(this.pageIndex, this.pageSize, this.searchForm.value).subscribe(
       (res) => {
         console.log(res);
-        this.allStations = res["data"]['stations'];
-        this.dataCount = this.allStations.length;
+        this.allPtsps = res["data"]['stations'];
+        this.dataCount = this.allPtsps.length;
         console.log(this.dataCount, this.currentPage, this.pageSize);
         
         this.pager = this.paginationService.getPager(
@@ -143,7 +148,7 @@ export class StationsComponent implements OnInit {
         );
         console.log(this.pager);
         
-        this.pagedItems = this.allStations;
+        this.pagedItems = this.allPtsps;
 
         this.isLoading = false;
         this.isSearching = false;
@@ -174,14 +179,14 @@ export class StationsComponent implements OnInit {
     this.searchForm.reset();
     this.currentPage = 1;
     console.log(this.pageIndex);
-    this.getAllStations();
+    this.getAllPtsps();
   }
 
   getPage(page) {
     this.isLoading = true;
     this.pageIndex = (page - 1);
     this.currentPage = page;
-    this.getAllStations();
+    this.getAllPtsps();
   }
 
   nextPage() {
@@ -189,14 +194,14 @@ export class StationsComponent implements OnInit {
     this.pageIndex = Number(this.pageIndex);
     this.currentPage++;
     console.log(this.currentPage);
-    this.getAllStations();
+    this.getAllPtsps();
 
   }
   previousPage() {
     this.isLoading = true;
     this.pageIndex = Number(this.pageIndex);
     this.currentPage--;
-    this.getAllStations();
+    this.getAllPtsps();
 
   }
 
@@ -207,12 +212,12 @@ export class StationsComponent implements OnInit {
     this.pageSize = Number(size);
     this.pageIndex = 0;
     this.currentPage = 1;
-    this.getAllStations();
+    this.getAllPtsps();
   }
   generateCSV() {
     this.isCSVLoading = true;
 
-    this.stationsService.getAllStations(0, 100000).subscribe(
+    this.ptspService.getAllPtsps(0, 100000).subscribe(
       (res) => {
         console.log(res);
         const exportData = JSON.parse(

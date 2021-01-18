@@ -59,6 +59,9 @@ export class Config {
   //stations
   public stations: string;
 
+  //ptsps
+  public ptsps: string;
+
   constructor() {
     this.login = '/v1/auth/login';
     this.getStatisticsLink = '/v1/reports/getStatistics';
@@ -95,6 +98,10 @@ export class Config {
 
     //stations
     this.stations = '/v1/stations';
+
+    //ptsps
+
+    this.ptsps = '/v1/ptsps';
 
   }
 }

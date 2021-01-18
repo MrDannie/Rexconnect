@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -31,8 +32,7 @@ import { DashboardComponent } from './pages/user/user-layout/dashboard/dashboard
 import { SharedModule } from './pages/shared/modules/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './core/helpers/interceptors/interceptor.service';
-import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
-import { PtspComponent } from './pages/user/user-layout/ptsp/ptsp.component';
+import { PtspManagementModule } from './pages/user/user-layout/ptsp-managements/ptsp-management.module';
 // import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 
 
@@ -40,7 +40,6 @@ import { PtspComponent } from './pages/user/user-layout/ptsp/ptsp.component';
   declarations: [
     AppComponent,
     AlertComponent,
-
     AllServicesComponent,
     CompleteRegistrationComponent,
     CreateAccountComponent,
@@ -60,16 +59,15 @@ import { PtspComponent } from './pages/user/user-layout/ptsp/ptsp.component';
     AuditLogsComponent,
     DashboardComponent,
     TransactionsComponent,
-    PtspComponent,
     // TerminalsComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    UserManagementModule,
     HttpClientModule,
   
   ],
