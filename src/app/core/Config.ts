@@ -58,8 +58,12 @@ export class Config {
 
   // Acquirer
   public getAllAcquirers: string;
-  getPtsps: string;
-  getPtspsList: string;
+  public getPtsps: string;
+  public getPtspsList: string;
+  public getSingleAcquirer: string;
+  public getRoutesLists: string;
+  disableAcquirer: string;
+  enableAcquirer: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -100,7 +104,19 @@ export class Config {
     //ACQUIRER
     this.getAllAcquirers = '/v1/clients';
 
-    // PTSPTS
+    // PTSPTS LISTS
     this.getPtspsList = '/v1/ptsps/list';
+
+    // ROUTES LIDTS
+    this.getRoutesLists = '/v1/routing-rules/list';
+
+    // SINGLE ACQUIRER
+    this.getSingleAcquirer = '/v1/clients/{clientId}';
+
+    //DISABLE ACQUIRER
+    this.disableAcquirer = '/v1/clients/{acquirerId}/disable';
+
+    // ENABLE ACQUIRER
+    this.enableAcquirer = '/v1/clients/{acquirerId}/enable';
   }
 }

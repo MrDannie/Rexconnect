@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AcquirerComponent } from './acquirer/acquirer.component';
 import { AcquirerRouteDetailsComponent } from './acquirer-route-details/acquirer-route-details.component';
 import { AddRoutesComponent } from '../manage-routes/add-routes/add-routes.component';
+import { AddAcquirerComponent } from './add-acquirer/add-acquirer.component';
+import { SharedModule } from 'src/app/pages/shared/modules/shared.module';
 
 @NgModule({
   declarations: [
@@ -19,13 +21,15 @@ import { AddRoutesComponent } from '../manage-routes/add-routes/add-routes.compo
     AcquirerFeeSharingComponent,
     AcquirerComponent,
     AcquirerRouteDetailsComponent,
-    AddRoutesComponent
+    AddRoutesComponent,
+    AddAcquirerComponent,
   ],
   imports: [
     CommonModule,
     ManageAcquirerRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule,
   ],
 })
-export class ManageAcquirerModule { }
+export class ManageAcquirerModule {}
