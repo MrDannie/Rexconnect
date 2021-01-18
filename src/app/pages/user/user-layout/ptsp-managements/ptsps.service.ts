@@ -46,14 +46,14 @@ export class PtspsService {
       );
   }
 
-  getStation(id) {
+  getPTSP(id) {
     console.log(id);
-    return this.httpClient.get(BASE_URL + this.config.stations + '/' + id);
+    return this.httpClient.get(BASE_URL + this.config.ptsps + '/' + id);
   }
 
-  updateStation(id, details) {
+  updatePTSP(id, details) {
     console.log(id);
-    return this.httpClient.put(BASE_URL + this.config.stations + '/' + id, details);
+    return this.httpClient.put(BASE_URL + this.config.ptsps + '/' + id, details);
   }
 
   createPTSP(ptspDetails) {

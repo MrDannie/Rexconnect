@@ -93,7 +93,7 @@ export class PtspsComponent implements OnInit {
         this.createPtspForm.reset();
         this.getAllPtsps();
         $("#createModal").modal("hide");
-        this.alertService.success("Station created successfully", true);
+        this.alertService.success("PTSP created successfully", true);
       },
       (error) => {
         this.isCreating = false;
