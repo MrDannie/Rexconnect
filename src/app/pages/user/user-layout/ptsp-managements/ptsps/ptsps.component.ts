@@ -70,13 +70,13 @@ export class PtspsComponent implements OnInit {
       status: ''
         });
     this.createPtspForm = this.formBuilder.group({
-      name: ['', Validators.compose([Validators.required])],
-      zmk: ['', Validators.compose([Validators.required])],
-      zpk: ['', Validators.compose([Validators.required])],
+      Ptspname: ['', Validators.compose([Validators.required])],
+      Ptspctmk: ['', Validators.compose([Validators.required])],
+      Ptspctmkblock: ['', Validators.compose([Validators.required])],
      // status: ['', Validators.compose([Validators.required])],
-      // lastEcho: ['', Validators.compose([Validators.required])],
-      channelHost: ['', Validators.compose([Validators.required])],
-      channelPort: ['', Validators.compose([Validators.required])]
+      PtspCode: ['', Validators.compose([Validators.required])],
+      Ptspctmkblockkcv: ['', Validators.compose([Validators.required])],
+      Ptspctmkkcv: ['', Validators.compose([Validators.required])]
 
 
     });
