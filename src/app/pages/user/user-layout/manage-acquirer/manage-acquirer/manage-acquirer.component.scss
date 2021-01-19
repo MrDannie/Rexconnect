@@ -29,8 +29,8 @@
 
 .menu {
   border: 0;
-    padding: 0.3rem 2rem;
-      // background: #ffffff;
+  padding: 0.3rem 2rem;
+  // background: #ffffff;
   color: black;
   text-align: center;
   margin: 0;
@@ -81,6 +81,30 @@
   // border: 0.5px solid #ffd1ce;
   font-size: 0.8125rem;
   margin-top: 2rem;
+}
+
+.action_button_enable {
+  background-color: #e0f1d6;
+  color: #4dc91c;
+  padding: 0.8rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  // border: 0.5px solid #c9ae1c;
+  font-size: 0.79rem;
+  margin-top: 2rem;
+  cursor: pointer;
+}
+
+.action_button_enable:hover {
+  background-color: #4dc91c;
+  border: none;
+  //transition: all 0.3s ease-in-out;
+
+  color: #ffffff;
 }
 
 .action_button_disable:hover {
@@ -159,10 +183,10 @@
   margin-right: 0.5rem;
 }
 
-// ADD ROUTE BUTTON 
+// ADD ROUTE BUTTON
 
 .action_button_addRoute {
-    background-color: #ffd1ce;
+  background-color: #ffd1ce;
   color: #950007;
   padding: 0.6rem 1rem;
   font-family: "Montserrat Bold", serif;
@@ -177,13 +201,13 @@
 }
 
 .action_button_addRoute:hover {
-    background-color: #950007;
+  background-color: #950007;
   border: 0.5px solid #950007;
   color: #f0f0f0;
 }
 
 .action_button_addRoute i {
-    transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   opacity: 0;
 }
 

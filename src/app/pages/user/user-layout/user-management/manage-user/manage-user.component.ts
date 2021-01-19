@@ -81,10 +81,6 @@ export class ManageUserComponent implements OnInit {
             pageIndex: this.pageIndex,
             pageSize: this.pageSize,
           });
-
-          // this.pagedItems = this.allUsers;
-
-          // this.paginationService.changePagerState.next(true);
         },
         (error) => {
           this.isLoaded = true;
@@ -92,6 +88,7 @@ export class ManageUserComponent implements OnInit {
           this.paginationService.pagerState.next(null);
           // this.paginationService.changePagerState.next(false);
           console.error('error occurred: ', error);
+          this.alertService.error(error);
         }
       );
   }
@@ -322,8 +319,6 @@ export class ManageUserComponent implements OnInit {
     this.showFilter = false;
     const { firstName, lastName, roleId } = filterByValues;
     this.getAllUsers(firstName, lastName, roleId);
-
-
   }
 
   // request by page size

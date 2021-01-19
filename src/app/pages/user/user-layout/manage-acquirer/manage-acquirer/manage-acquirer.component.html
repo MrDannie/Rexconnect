@@ -8,16 +8,32 @@
     <div>
       <span class="name">
         <img src="../../../../../../assets/images/girl.svg" alt="avater" />
-        Laolu Lawani</span>
+        Laolu Lawani</span
+      >
       <span class="date">Created: DEC 9, 2019, 12:04:56 AM</span>
-      <span class="status">Active</span>
+      <span class="status"> Status: {{ acquirerStatus | titlecase }}</span>
     </div>
     <div>
-      <span *ngIf="notRouteComponent != false" class="action_button_disable" data-toggle="modal"
-        data-target="#disableMerchant">Disable Aquirer</span><span *ngIf="notRouteComponent != true"
-        class="action_button_addRoute" [routerLink]="['../add-routes', 5]"><i
-          class="fa fa-plus animated slideIn"></i>Add
-        Route</span>
+      <span
+        style="cursor: pointer"
+        *ngIf="acquirerStatus === 'ACTIVE'"
+        class="action_button_disable"
+        data-toggle="modal"
+        data-target="#disableMerchantModal"
+        >Disable Aquirer</span
+      >
+      <span
+        class="action_button_enable animated fadeIn"
+        (click)="enableAcquirer()"
+        *ngIf="acquirerStatus === 'INACTIVE'"
+        >Enable Aquirer</span
+      >
+      <span
+        *ngIf="notRouteComponent != true"
+        class="action_button_addRoute"
+        [routerLink]="['../add-routes', 5]"
+        ><i class="fa fa-plus animated slideIn"></i>Add Route</span
+      >
     </div>
   </div>
 </div>
@@ -26,37 +42,60 @@
 <div class="top_row">
   <span class="left_switcher">
     <span class="menu_section">
-      <span class="menu animated" routerLink="acquirer-details" [routerLinkActive]="['active']">
-        Details</span>
-      <span class="menu" routerLink="acquirer-fee-sharing" [routerLinkActive]="['active']">Fee Sharing</span>
-      <span class="menu animated" routerLink="./acquirer-routes" [routerLinkActive]="['active']">
-        Routes</span>
+      <span
+        class="menu animated"
+        routerLink="acquirer-details"
+        [routerLinkActive]="['active']"
+      >
+        Details</span
+      >
+      <span
+        class="menu"
+        routerLink="acquirer-fee-sharing"
+        [routerLinkActive]="['active']"
+        >Fee Sharing</span
+      >
+      <!-- <span class="menu animated" routerLink="./acquirer-routes" [routerLinkActive]="['active']">
+        Routes</span> -->
     </span>
   </span>
 </div>
 
 <!-- DISABLE MERCHNAT MODAL -->
 
-<div class="modal animated zoomIn" id="disableMerchant" tabindex="-1" role="dialog" aria-labelledby="createUserLabel"
-  aria-hidden="true">
+<div
+  class="modal animated zoomIn"
+  id="disableMerchantModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="DisableUserLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
         <h5 class="modal-title" id="createUserLabel">Disable Acquirer</h5>
         <br />
         <p>
-          You are about to disable acquirer [aquirer ID]. Please confirm this
-          action to continue.
+          You are about to disable acquirer "{{ acquirerName }}". Please confirm
+          this action to continue.
         </p>
         <br />
         <div class="form_actions">
           <div class="cancel_button" data-dismiss="modal">Cancel</div>
-          <button class="btn action_button">
+          <button
+            class="btn action_button"
+            (click)="disableAcquirer(acquirerId)"
+          >
             <i class="fa fa-plus animated slideIn"></i>
             Disable Acquirer
           </button>
 
-          <div class="spinner-border spinner-border-sm ml-3" role="status">
+          <div
+            *ngIf="disablingAcquirer"
+            class="spinner-border spinner-border-sm ml-3"
+            role="status"
+          >
             <span class="sr-only">Loading...</span>
           </div>
         </div>

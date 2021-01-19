@@ -18,8 +18,6 @@ export class Config {
 
   public getPermissions: string;
 
-  
-
   public auditLogs: string;
 
   public changePassword: string;
@@ -55,10 +53,17 @@ export class Config {
   public getSingleMerchant: string;
   public getMerchantTerminals: string;
 
-
   //stations
   public stations: string;
 
+  // Acquirer
+  public getAllAcquirers: string;
+  public getPtsps: string;
+  public getPtspsList: string;
+  public getSingleAcquirer: string;
+  public getRoutesLists: string;
+  disableAcquirer: string;
+  enableAcquirer: string;
   //ptsps
   public ptsps: string;
 
@@ -74,7 +79,6 @@ export class Config {
     this.getUsers = '/users';
     this.createRole = '/roles/create';
     this.createUser = '/users/create';
-  
 
     // terminals
     this.allTerminals = '/v1/terminals';
@@ -99,9 +103,25 @@ export class Config {
     //stations
     this.stations = '/v1/stations';
 
+    //ACQUIRER
+    this.getAllAcquirers = '/v1/clients';
+
+    // PTSPTS LISTS
+    this.getPtspsList = '/v1/ptsps/list';
+
+    // ROUTES LIDTS
+    this.getRoutesLists = '/v1/routing-rules/list';
+
+    // SINGLE ACQUIRER
+    this.getSingleAcquirer = '/v1/clients/{clientId}';
+
+    //DISABLE ACQUIRER
+    this.disableAcquirer = '/v1/clients/{acquirerId}/disable';
+
+    // ENABLE ACQUIRER
+    this.enableAcquirer = '/v1/clients/{acquirerId}/enable';
     //ptsps
 
     this.ptsps = '/v1/ptsps';
-
   }
 }

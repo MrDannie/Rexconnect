@@ -10,7 +10,7 @@
       <p class="sub_header">
         Please provide details of the route you wish to add.
       </p>
-      <form [formGroup]="createRouteForm" (ngSubmit)="createRoute()">
+      <form [formGroup]="editRouteForm" (ngSubmit)="createRoute()">
         <div class="form-group">
           <div style="margin-bottom: 1rem" class="row">
             <div class="col">
@@ -20,15 +20,17 @@
                   type="text"
                   class="form-control"
                   placeholder=""
+                  id="default_ds"
                 >
+                  <option value=""></option>
                   <option
-                    *ngFor="let station of stations"
+                    *ngFor="let station of destinationStations"
                     value="{{ station.name }}"
                   >
                     {{ station.name }}
                   </option>
                 </select>
-                <label for="terminal">Default Destination Station</label>
+                <label for="default_ds">Default Destination Station</label>
               </span>
             </div>
           </div>
@@ -41,11 +43,7 @@
                   class="form-control"
                   placeholder=""
                 >
-                  <option
-                    *ngFor="let rule of ruletypes"
-                    value="{{ rule }}"
-                    value="down"
-                  >
+                  <option *ngFor="let rule of ruletypes" value="{{ rule }}">
                     {{ rule }}
                   </option>
                 </select>
@@ -64,7 +62,7 @@
           class="rule-config"
           formArrayName="rule_config"
           *ngFor="
-            let ruleConfig of createRouteForm.get('rule_config')['controls'];
+            let ruleConfig of editRouteForm.get('rule_config')['controls'];
             let i = index
           "
         >
@@ -78,7 +76,78 @@
                       type="hidden"
                       class="form-control"
                       placeholder=""
-                      [value]="createRouteForm.get('rule').value"
+                      [value]="editRouteForm.get('rule').value"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="value"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Value</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="min"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Min</label>
+                  </span>
+                </div>
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="max"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Max</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="ds"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Destination Station</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="rule"
+                      type="hidden"
+                      class="form-control"
+                      placeholder=""
+                      [value]="editRouteForm.get('rule').value"
                     />
                   </span>
                 </div>
@@ -142,17 +211,12 @@
             </div>
           </div>
         </div>
-        <<<<<<< HEAD
         <p
           class="add-more"
           (click)="duplicateForm()"
           style="color: #c91c24; font-size: 13px"
         >
-          =======
-        </p>
-
-        <p (click)="duplicateForm()" style="color: #c91c24; font-size: 13px">
-          >>>>>>> f30a51136e3eb2cd2cd48fe7ce03a03c04179f47 Add More
+          Add More
         </p>
         <hr />
         <input

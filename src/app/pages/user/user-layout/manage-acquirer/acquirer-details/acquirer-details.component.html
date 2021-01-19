@@ -4,30 +4,40 @@
       <div class="row">
         <div class="col-md-6">
           <span>Acquirer Name</span>
-          <p><strong>Sample Acquirer Name</strong></p>
+          <p>
+            <strong>{{ acquirer?.clientName }}</strong>
+          </p>
         </div>
         <div class="col-md-6">
           <span>Acquirer Short Name</span>
-          <p><strong>Short Name</strong></p>
+          <p>
+            <strong>{{ acquirer?.clientAddress }}</strong>
+          </p>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <span>CBN Code</span>
-          <p><strong>182735477</strong></p>
+          <p>
+            <strong>{{ acquirer?.bankCode }}</strong>
+          </p>
         </div>
         <div class="col-md-6">
-          <span>Terminal Prefix</span>
-          <p><strong>024</strong></p>
+          <span>Acquirer's Address</span>
+          <p>
+            <strong>{{ acquirer?.clientLocation }}</strong>
+          </p>
         </div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-6">
-          <span>Acquirer's Processor (Mastercard)</span>
-          <p><strong>Sample Processor</strong></p>
+          <span>Acquirer's Location</span>
+          <p>
+            <strong>{{ acquirer?.clientLocation }}</strong>
+          </p>
         </div>
         <div class="col-md-6">
-          <span>Mastercard's Acquiring BIN</span>
+          <span></span>
           <p><strong>Sample Acquiring BIN</strong></p>
         </div>
       </div>
@@ -50,8 +60,12 @@
           <span>VERVE's Acquiring BIN</span>
           <p><strong>Sample Acquiring BIN</strong></p>
         </div>
-      </div>
-      <button class="btn action_button_update" data-toggle="modal" data-target="#editAcquirer">
+      </div> -->
+      <button
+        class="btn action_button_update"
+        data-toggle="modal"
+        data-target="#editAcquirer"
+      >
         Edit Acquirer
       </button>
     </div>
@@ -59,8 +73,14 @@
 </div>
 
 <!-- EDIT AQUIRER MODAL  -->
-<div class="modal animated zoomIn" id="editAcquirer" tabindex="-1" role="dialog" aria-labelledby="editAcquirerLabel"
-  aria-hidden="true">
+<div
+  class="modal animated zoomIn"
+  id="editAcquirer"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editAcquirerLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
@@ -71,8 +91,13 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="merchantName" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantName">Acquirer's Name</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -89,8 +114,13 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="merchantName" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantName">Acquirer's Short Name</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -107,8 +137,13 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="merchantName" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantName">Acquirer's CBN Code</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -125,8 +160,13 @@
             <div class="form-group col-md-12">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="merchantName" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="merchantName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantName">Acquirer's Terminal Prefix</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -143,9 +183,16 @@
             <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="terminalId" type="text" placeholder=" "
-                    formControlName="merchantId" />
-                  <label for="merchantId">Acquirer's Processor (Mastercard)</label>
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId"
+                    >Acquirer's Processor (Mastercard)</label
+                  >
                 </span>
                 <div *ngIf="expression" class="validation-message">
                   <span class="validation-message">
@@ -158,8 +205,13 @@
             <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="terminalId" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantId">Mastercard's Acquiring BIN</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -176,8 +228,13 @@
             <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="terminalId" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantId">Acquirer's Processor (VISA)</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -191,8 +248,13 @@
             <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="terminalId" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantId">VISA's Acquiring BIN</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -209,8 +271,13 @@
             <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="terminalId" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantId">Acquirer's Processor (VERVE)</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -224,8 +291,13 @@
             <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
-                  <input class="form-control" id="terminalId" type="text" placeholder=" "
-                    formControlName="merchantId" />
+                  <input
+                    class="form-control"
+                    id="terminalId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
                   <label for="merchantId">VERVE's Acquiring BIN</label>
                 </span>
                 <div *ngIf="expression" class="validation-message">
@@ -251,7 +323,11 @@
               Save Changes
             </button>
 
-            <div class="spinner-border spinner-border-sm ml-3" *ngIf="expression" role="status">
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              *ngIf="expression"
+              role="status"
+            >
               <span class="sr-only">Loading...</span>
             </div>
           </div>

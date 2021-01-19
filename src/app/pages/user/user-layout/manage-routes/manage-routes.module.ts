@@ -4,9 +4,10 @@ import { RoutesComponent } from './routes/routes.component';
 import { ManageRoutesRoutingModule } from './manage-routes-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoutesDetailsComponent } from './routes-details/routes-details.component';
+import { EditRoutesComponent } from './edit-routes/edit-routes.component';
 
 @NgModule({
-  declarations: [RoutesComponent, RoutesDetailsComponent],
+  declarations: [RoutesComponent, RoutesDetailsComponent, EditRoutesComponent],
   imports: [
     CommonModule,
     ManageRoutesRoutingModule,
