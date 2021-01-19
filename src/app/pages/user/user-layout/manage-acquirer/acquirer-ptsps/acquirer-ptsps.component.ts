@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
@@ -17,18 +18,29 @@ export class AcquirerPtspsComponent implements OnInit {
   isLoaded: boolean;
   isLoading: boolean;
   acquirerPtspsToDownload: any;
+  searchForm: any;
+  showFilter: boolean;
 
   constructor(
     private routingCompService: RouteComponentService,
     private paginationService: PaginationService,
     private alertService: AlertService,
-    private fileGenerationService: FileGenerationService
+    private fileGenerationService: FileGenerationService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
     this.pageSize = 10;
     this.pageIndex = 0;
     this.getAcquirerPtsps();
+    this.initializeForm();
+    this.showFilter = false;
+  }
+  initializeForm() {
+    this.searchForm = this.formBuilder.group({
+      acquirerName: '',
+      cbnCode: '',
+    });
   }
   getAcquirerPtsps() {
     this.routingCompService
@@ -113,5 +125,14 @@ export class AcquirerPtspsComponent implements OnInit {
     return this.acquirerPtspsToDownload[index][key]
       ? this.acquirerPtspsToDownload[index][key]
       : '';
+  }
+
+  reset() {}
+
+  onRefreshData(pageParams: { pageIndex: number; pageSize: number }) {
+    this.pageIndex = pageParams.pageIndex;
+    this.pageSize = pageParams.pageSize;
+
+    this.getAcquirerPtsps();
   }
 }
