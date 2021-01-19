@@ -28,12 +28,6 @@
         *ngIf="acquirerStatus === 'INACTIVE'"
         >Enable Aquirer</span
       >
-      <span
-        *ngIf="notRouteComponent != true"
-        class="action_button_addRoute"
-        [routerLink]="['../add-routes', 5]"
-        ><i class="fa fa-plus animated slideIn"></i>Add Route</span
-      >
     </div>
   </div>
 </div>
@@ -55,8 +49,13 @@
         [routerLinkActive]="['active']"
         >Fee Sharing</span
       >
-      <!-- <span class="menu animated" routerLink="./acquirer-routes" [routerLinkActive]="['active']">
-        Routes</span> -->
+      <span
+        class="menu animated"
+        routerLink="./acquirer-routes"
+        [routerLinkActive]="['active']"
+      >
+        Routes</span
+      >
     </span>
   </span>
 </div>

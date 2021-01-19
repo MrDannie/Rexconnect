@@ -5,6 +5,7 @@ import { ManageRoutesRoutingModule } from './manage-routes-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoutesDetailsComponent } from './routes-details/routes-details.component';
 import { EditRoutesComponent } from './edit-routes/edit-routes.component';
+import { SharedModule } from 'src/app/pages/shared/modules/shared.module';
 
 @NgModule({
   declarations: [RoutesComponent, RoutesDetailsComponent, EditRoutesComponent],
@@ -13,6 +14,7 @@ import { EditRoutesComponent } from './edit-routes/edit-routes.component';
     ManageRoutesRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule,
   ],
 })
 export class ManageRoutesModule {}
