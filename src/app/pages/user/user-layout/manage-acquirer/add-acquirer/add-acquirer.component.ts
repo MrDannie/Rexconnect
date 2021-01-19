@@ -103,5 +103,5 @@ export class AddAcquirerComponent implements OnInit {
     // }
   }
 
-  addAcquirer() {}
+  addAcquirer(formValue) {}
 }

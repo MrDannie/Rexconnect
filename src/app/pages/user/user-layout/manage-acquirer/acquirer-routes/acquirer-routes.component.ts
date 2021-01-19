@@ -9,8 +9,7 @@ import { RouteComponentService } from 'src/app/pages/shared/services/route-compo
   styleUrls: ['./acquirer-routes.component.scss'],
 })
 export class AcquirerRoutesComponent implements OnInit {
-  routingRules
-
+  routingRules;
 
   // Test
   createAcquirerForm: FormGroup;
@@ -20,7 +19,10 @@ export class AcquirerRoutesComponent implements OnInit {
   searchForm: FormGroup;
   ngForArray: any;
 
-  constructor(private formBuilder: FormBuilder, private routingCompService: RouteComponentService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private routingCompService: RouteComponentService
+  ) {
     this.showFilter = false;
     this.showFilter = false;
     this.isCSVLoading = false;
@@ -30,17 +32,16 @@ export class AcquirerRoutesComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    // this.routingCompService.getAllRoutingRules().subscribe(
-    //   (response: RoutingRulesInterface) => {
-    //     this.routingRules = JSON.parse(response.data.routingRules[0].rule_config)
-    //     console.log(JSON.parse(response.data.routingRules[0].rule_config));
-    //   }
-
-    // )
+    this.ngForArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    this.getAcquirerRoutes();
+    console.log('asdf');
   }
 
-
+  getAcquirerRoutes() {
+    this.routingCompService.getAcquirerRoutes().subscribe((response) => {
+      console.log('ACQUIRER ROUTES', response);
+    });
+  }
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
@@ -53,5 +54,5 @@ export class AcquirerRoutesComponent implements OnInit {
     });
   }
 
-  reset() { }
+  reset() {}
 }

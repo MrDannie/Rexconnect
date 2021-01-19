@@ -118,4 +118,8 @@ export class AcquirerComponent implements OnInit {
   }
 
   reset() {}
+
+  beginDownload() {}
+
+  requestPageSize(data) {}
 }
