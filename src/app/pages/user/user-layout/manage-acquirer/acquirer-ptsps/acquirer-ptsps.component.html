@@ -83,17 +83,22 @@
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Default DS</th>
-          <th scope="col">Rule Type</th>
-          <th scope="col">Use Default</th>
+          <th scope="col">name</th>
+          <th scope="col">Code</th>
+
+          <th scope="col">ctmk</th>
+          <th scope="col">Ptsp ctmk kcv</th>
+          <th scope="col">Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let route of acquirerRoute">
-          <td>{{ route.default_ds }}</td>
-          <td>{{ route.rule }}</td>
-          <td class="active" *ngIf="route.use_default === 1">True</td>
-          <td class="inactive" *ngIf="route.use_default === 0">False</td>
+        <tr *ngFor="let ptsps of acquirerPtsps">
+          <td>{{ ptsps.Ptspname }}</td>
+          <td>{{ ptsps.PtspCode }}</td>
+          <td>{{ ptsps.Ptspctmk }}</td>
+          <td>{{ ptsps.Ptspctmkkcv }}</td>
+          <td class="active" *ngIf="ptsps.isActive === true">Active</td>
+          <td class="inactive" *ngIf="ptsps.isActive === false">Inactive</td>
         </tr>
       </tbody>
     </table>

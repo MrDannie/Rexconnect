@@ -8,6 +8,7 @@ import { AcquirerComponent } from './acquirer/acquirer.component';
 import { AddRoutesComponent } from '../manage-routes/add-routes/add-routes.component';
 import { ManageAcquirerComponent } from './manage-acquirer/manage-acquirer.component';
 import { AddAcquirerComponent } from './add-acquirer/add-acquirer.component';
+import { AcquirerPtspsComponent } from './acquirer-ptsps/acquirer-ptsps.component';
 
 const routes: Routes = [];
 
@@ -42,6 +43,10 @@ const routes: Routes = [];
           {
             path: 'acquirer-routes',
             component: AcquirerRoutesComponent,
+          },
+          {
+            path: 'acquirer-ptsps',
+            component: AcquirerPtspsComponent,
           },
         ],
       },

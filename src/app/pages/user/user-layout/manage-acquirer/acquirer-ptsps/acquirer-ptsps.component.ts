@@ -1,67 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 
 @Component({
-  selector: 'app-acquirer-routes',
-  templateUrl: './acquirer-routes.component.html',
-  styleUrls: ['./acquirer-routes.component.scss'],
+  selector: 'app-acquirer-ptsps',
+  templateUrl: './acquirer-ptsps.component.html',
+  styleUrls: ['./acquirer-ptsps.component.scss'],
 })
-export class AcquirerRoutesComponent implements OnInit {
-  routingRules;
-
-  // Test
-  createAcquirerForm: FormGroup;
-  showFilter: boolean;
-  isCSVLoading: boolean;
-  isUserCreating: boolean;
-  searchForm: FormGroup;
-  ngForArray: any;
-  acquirerRoute: any;
-  dataCount: any;
+export class AcquirerPtspsComponent implements OnInit {
   pageSize: number;
   pageIndex: number;
-  isLoaded: boolean = false;
+  acquirerPtsps: any;
+  dataCount: any;
+  isLoaded: boolean;
   isLoading: boolean;
-  acquirerRouteToDownload: any;
+  acquirerPtspsToDownload: any;
 
   constructor(
-    private formBuilder: FormBuilder,
     private routingCompService: RouteComponentService,
     private paginationService: PaginationService,
     private alertService: AlertService,
     private fileGenerationService: FileGenerationService
-  ) {
-    this.showFilter = false;
-    this.showFilter = false;
-    this.isCSVLoading = false;
-    this.isUserCreating = false;
-
-    this.initializeForm();
-  }
+  ) {}
 
   ngOnInit() {
     this.pageSize = 10;
     this.pageIndex = 0;
-    this.getAcquirerRoutes();
+    this.getAcquirerPtsps();
   }
-
-  getAcquirerRoutes() {
+  getAcquirerPtsps() {
     this.routingCompService
-      .getAcquirerRoutes(this.pageSize, this.pageSize)
+      .getAcquirerPtsps(this.pageSize, this.pageSize)
       .subscribe(
         (response) => {
-          this.acquirerRoute = response['data']['routingRules'];
+          console.log('fsda', response);
+          this.acquirerPtsps = response['data']['ptsps'];
           this.dataCount = response['data']['count'];
-
-          console.log('affdsa', this.acquirerRoute);
-
           this.isLoaded = true;
           this.isLoading = false;
-
           this.paginationService.pagerState.next({
             totalElements: this.dataCount,
             pageIndex: this.pageIndex,
@@ -80,12 +58,13 @@ export class AcquirerRoutesComponent implements OnInit {
 
   requestPageSize(value: number) {
     this.pageSize = value;
-    this.getAcquirerRoutes();
+    this.getAcquirerPtsps();
   }
 
   beginDownload() {
     this.exportUsers();
   }
+
   exportUsers() {
     const dataToDownload: any[] = [];
     // const currentPageSize = this.pageSize;
@@ -94,21 +73,28 @@ export class AcquirerRoutesComponent implements OnInit {
     this.pageIndex = 0;
 
     this.routingCompService
-      .getAcquirerRoutes(this.pageIndex, downloadPageSize)
+      .getAcquirerPtsps(this.pageIndex, downloadPageSize)
       .subscribe((data: any) => {
-        this.acquirerRouteToDownload = data['data']['routingRules'];
+        this.acquirerPtspsToDownload = data['data']['ptsps'];
+
         for (
           let index = 0;
-          index < this.acquirerRouteToDownload.length;
+          index < this.acquirerPtspsToDownload.length;
           index++
         ) {
           dataToDownload.push([]);
-          dataToDownload[index]['Default DS'] = this.clean('default_ds', index);
-          dataToDownload[index]['Rule Type'] = this.clean('rule', index);
-          dataToDownload[index]['Use Default'] =
-            this.acquirerRouteToDownload[index]['use_default'] === 1
-              ? 'True'
-              : 'False';
+          dataToDownload[index]['Ptsps Name'] = this.clean('Ptspname', index);
+          dataToDownload[index]['Ptsps Code'] = this.clean('PtspCode', index);
+          dataToDownload[index]['Ptsps CTMK'] = this.clean('Ptspctmk', index);
+          dataToDownload[index]['Ptsps CTMK Kcv'] = this.clean(
+            'Ptspctmkkcv',
+            index
+          );
+          dataToDownload[index]['Status'] = this.acquirerPtspsToDownload[index][
+            'isActive'
+          ]
+            ? 'Active'
+            : 'Inactive';
         }
         console.log('dataToDownload In Exxport Users', dataToDownload);
         this.exportRecords(dataToDownload);
@@ -124,28 +110,8 @@ export class AcquirerRoutesComponent implements OnInit {
     this.fileGenerationService.onDownloadCompleted.next(true);
   }
   clean(key: string, index: number) {
-    return this.acquirerRouteToDownload[index][key]
-      ? this.acquirerRouteToDownload[index][key]
+    return this.acquirerPtspsToDownload[index][key]
+      ? this.acquirerPtspsToDownload[index][key]
       : '';
   }
-
-  onRefreshData(pageParams: { pageIndex: number; pageSize: number }) {
-    this.pageIndex = pageParams.pageIndex;
-    this.pageSize = pageParams.pageSize;
-
-    this.getAcquirerRoutes();
-  }
-
-  initializeForm() {
-    this.searchForm = this.formBuilder.group({
-      acquirerName: '',
-      cbnCode: '',
-    });
-    this.createAcquirerForm = this.formBuilder.group({
-      merchantId: ['', Validators.compose([Validators.required])],
-      terminalId: ['', Validators.compose([Validators.required])],
-    });
-  }
-
-  reset() {}
 }

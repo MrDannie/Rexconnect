@@ -68,4 +68,14 @@ export class RouteComponentService {
       params: requestParams,
     });
   }
+
+  getAcquirerPtsps(pageIndex, pageSize): Observable<any> {
+    const params = new HttpParams();
+    const requestParams = params
+      .append('page', pageIndex.toString())
+      .append('size', pageSize.toString());
+    return this.http.get<any>(BASE_URL + '/v1/clients/ptsps?limit=2', {
+      params: requestParams,
+    });
+  }
 }
