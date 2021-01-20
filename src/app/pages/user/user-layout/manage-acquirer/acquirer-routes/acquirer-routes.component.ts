@@ -57,6 +57,8 @@ export class AcquirerRoutesComponent implements OnInit {
           this.acquirerRoute = response['data']['routingRules'];
           this.dataCount = response['data']['count'];
 
+          console.log('affdsa', this.acquirerRoute);
+
           this.isLoaded = true;
           this.isLoading = false;
 
