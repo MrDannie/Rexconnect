@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AcquirerDetailsComponent } from './acquirer-details/acquirer-details.component';
 import { AcquirerFeeSharingComponent } from './acquirer-fee-sharing/acquirer-fee-sharing.component';
-import { AcquirerRouteDetailsComponent } from './acquirer-route-details/acquirer-route-details.component';
 import { AcquirerRoutesComponent } from './acquirer-routes/acquirer-routes.component';
 import { AcquirerComponent } from './acquirer/acquirer.component';
 import { AddRoutesComponent } from '../manage-routes/add-routes/add-routes.component';
@@ -45,14 +44,14 @@ const routes: Routes = [];
           },
         ],
       },
-      {
-        path: 'add-routes/:id',
-        component: AddRoutesComponent,
-      },
-      {
-        path: 'acquirer-routes/:id',
-        component: AcquirerRouteDetailsComponent,
-      },
+      // {
+      //   path: 'add-routes/:id',
+      //   component: AddRoutesComponent,
+      // },
+      // {
+      //   path: 'acquirer-routes/:id',
+      //   component: AcquirerRoutesComponent,
+      // },
     ]),
   ],
   exports: [RouterModule],
