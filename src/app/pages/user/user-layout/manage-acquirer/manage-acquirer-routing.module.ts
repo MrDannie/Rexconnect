@@ -49,14 +49,14 @@ const routes: Routes = [];
           },
         ],
       },
-      {
-        path: 'add-routes/:id',
-        component: AddRoutesComponent,
-      },
-      {
-        path: 'acquirer-routes/:id',
-        component: AcquirerRoutesComponent,
-      },
+      // {
+      //   path: 'add-routes/:id',
+      //   component: AddRoutesComponent,
+      // },
+      // {
+      //   path: 'acquirer-routes/:id',
+      //   component: AcquirerRoutesComponent,
+      // },
     ]),
   ],
   exports: [RouterModule],

@@ -20,7 +20,7 @@ import { AcquirerPtspsComponent } from './acquirer-ptsps/acquirer-ptsps.componen
     AcquirerRoutesComponent,
     AcquirerFeeSharingComponent,
     AcquirerComponent,
-
+    AcquirerRoutesComponent,
     AddRoutesComponent,
     AddAcquirerComponent,
     AcquirerPtspsComponent,

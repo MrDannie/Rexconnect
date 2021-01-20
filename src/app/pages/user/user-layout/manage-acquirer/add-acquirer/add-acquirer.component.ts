@@ -3,6 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-add-acquirer',
   templateUrl: './add-acquirer.component.html',
@@ -10,7 +12,7 @@ import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service'
 })
 export class AddAcquirerComponent implements OnInit {
   createAcquirerForm: any;
-  routingRules;
+  routingRules: string[];
   ptspsList: [];
   routesToAdd: any = [];
   ptspsToAdd: any = [];
@@ -25,9 +27,11 @@ export class AddAcquirerComponent implements OnInit {
     this.getPtsts();
 
     //GET ROUTES
-    this.getRoutes();
+    // this.getRoutes();
 
     this.initializeForm();
+
+    this.routingRules = ['here', 'farm', 'postillion', 'daniel', 'friday'];
   }
 
   initializeForm() {
@@ -95,12 +99,44 @@ export class AddAcquirerComponent implements OnInit {
 
   selectAllRoutes() {}
 
-  toggleAllRoutesCheckbox(source) {
-    // var routesCheckboxes = document.querySelectorAll('input[type="checkbox"]');
-    // console.log('Check boxes', routesCheckboxes);
-    // for (var checkbox of routesCheckboxes) {
-    //   checkbox.checked = source.checked;
-    // }
+  toggleAllRoutesCheckbox() {
+    $('.routeCheckBoxName').prop(
+      'checked',
+      $('#select-all-for-routes').prop('checked')
+    );
+    this.routingRules.forEach((route: any) => {
+      if (this.routesToAdd.includes(route)) {
+        for (let i = 0; i < this.routesToAdd.length; i++) {
+          if (this.routesToAdd[i] === route) {
+            this.routesToAdd.splice(i, 1);
+          }
+        }
+      } else {
+        this.routesToAdd.push(route);
+        console.log(this.routesToAdd);
+      }
+    });
+    console.log('THis IS THE BULK ROUTE ADDED', this.routesToAdd);
+  }
+
+  toggleAllPtspsCheckbox() {
+    $('.ptspsCheckBoxName').prop(
+      'checked',
+      $('#select-all-for-ptsps').prop('checked')
+    );
+    this.ptspsList.forEach((ptsps: any) => {
+      if (this.ptspsToAdd.includes(ptsps.ptspName)) {
+        for (let i = 0; i < this.ptspsToAdd.length; i++) {
+          if (this.ptspsToAdd[i] === ptsps.ptspName) {
+            this.ptspsToAdd.splice(i, 1);
+          }
+        }
+      } else {
+        this.ptspsToAdd.push(ptsps.ptspName);
+        console.log(this.ptspsToAdd);
+      }
+    });
+    console.log('THis IS THE BULK ROUTE ADDED', this.ptspsToAdd);
   }
 
   addAcquirer(formValue) {}
