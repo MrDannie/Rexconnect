@@ -30,6 +30,24 @@
                 </select>
                 <label for="terminal">Default Destination Station</label>
               </span>
+              <div
+                *ngIf="
+                  createRouteForm.get('default_ds').errors &&
+                  (createRouteForm.get('default_ds').dirty ||
+                    createRouteForm.get('default_ds').touched)
+                "
+                class="validation-message"
+              >
+                <span
+                  class="validation-message"
+                  [hidden]="
+                    !createRouteForm.get('default_ds').hasError('required')
+                  "
+                >
+                  Default Destination Station is required
+                  <br />
+                </span>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -49,8 +67,24 @@
                     {{ rule }}
                   </option>
                 </select>
-                <label for="terminal">Rule</label>
+                <label for="terminal">Rule Type</label>
               </span>
+              <div
+                *ngIf="
+                  createRouteForm.get('rule').errors &&
+                  (createRouteForm.get('rule').dirty ||
+                    createRouteForm.get('rule').touched)
+                "
+                class="validation-message"
+              >
+                <span
+                  class="validation-message"
+                  [hidden]="!createRouteForm.get('rule').hasError('required')"
+                >
+                  Rule Type is required
+                  <br />
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -68,6 +102,14 @@
             let i = index
           "
         >
+          <p
+            style="text-align: right; color: red; font-size: 12px"
+            *ngIf="i > 0"
+            (click)="removeConfig()"
+          >
+            Remove
+          </p>
+          <hr *ngIf="i > 0" />
           <div [formGroupName]="i">
             <div class="form-group">
               <div class="row">
@@ -96,6 +138,22 @@
                     />
                     <label for="terminal">Value</label>
                   </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('value').errors &&
+                      (ruleConfig.get('value').dirty ||
+                        ruleConfig.get('value').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('value').hasError('required')"
+                    >
+                      Value is required
+                      <br />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -108,9 +166,26 @@
                       type="text"
                       class="form-control"
                       placeholder=""
+                      id="min"
                     />
-                    <label for="terminal">Min</label>
+                    <label for="min">Min</label>
                   </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('min').errors &&
+                      (ruleConfig.get('min').dirty ||
+                        ruleConfig.get('min').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('min').hasError('required')"
+                    >
+                      Min is required
+                      <br />
+                    </span>
+                  </div>
                 </div>
                 <div class="col">
                   <span class="has-float-label">
@@ -119,9 +194,26 @@
                       type="text"
                       class="form-control"
                       placeholder=""
+                      id="Max"
                     />
-                    <label for="terminal">Max</label>
+                    <label for="Max">Max</label>
                   </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('max').errors &&
+                      (ruleConfig.get('max').dirty ||
+                        ruleConfig.get('max').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('max').hasError('required')"
+                    >
+                      Max is required
+                      <br />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -137,35 +229,47 @@
                     />
                     <label for="terminal">Destination Station</label>
                   </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('ds').errors &&
+                      (ruleConfig.get('ds').dirty ||
+                        ruleConfig.get('ds').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('ds').hasError('required')"
+                    >
+                      Destination Station is required
+                      <br />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <<<<<<< HEAD
-        <p
+        <button
           class="add-more"
+          [disabled]="createRouteForm.get('rule_config').invalid"
           (click)="duplicateForm()"
-          style="color: #c91c24; font-size: 13px"
+          style="color: green; font-size: 13px; border: 0; font-weight: bold"
+          type="submit"
         >
-          =======
-        </p>
-
-        <p (click)="duplicateForm()" style="color: #c91c24; font-size: 13px">
-          >>>>>>> f30a51136e3eb2cd2cd48fe7ce03a03c04179f47 Add More
-        </p>
+          Add More Configurations
+        </button>
         <hr />
         <input
           formControlName="use_default"
-          style="color: #2c9220"
+          style="background-color: #2c9220"
           type="checkbox"
         />
         Use Default
         <button
           class="btn action_button_update"
           type="submit"
-          data-toggle="modal"
-          data-target="#editAcquirer"
+          [disabled]="createRouteForm.invalid"
         >
           Add Route
         </button>

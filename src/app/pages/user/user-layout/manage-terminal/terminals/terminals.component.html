@@ -46,13 +46,15 @@
       <img
         src="../../../../../assets/icons/Filter-Icon.svg"
         alt="search"
-        class="img-fluid"/>
+        class="img-fluid"
+      />
       <span
         class="filter_text"
         id="dropdownMenuButton"
         onselectstart="return false"
         unselectable="on"
-      >Filter Table By</span>
+        >Filter Table By</span
+      >
     </span>
     <div
       class="card search-dropdown"
@@ -60,7 +62,7 @@
       id="filter__dropdown"
       style="height: 200px"
     >
-      <form [formGroup]="searchForm" (ngSubmit)="searchBy()" >
+      <form [formGroup]="searchForm" (ngSubmit)="searchBy()">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
@@ -69,7 +71,8 @@
                 type="text"
                 class="form-control search_input"
                 formControlName="terminalId"
-                id="terminalId" />
+                id="terminalId"
+              />
             </div>
           </div>
         </div>
@@ -79,20 +82,26 @@
             type="button"
             class="btn button-white"
             (click)="showFilter = false"
-          >Close</button>
-          <button
-            type="submit"
-            class="btn button-pink"
-          >Apply Filters</button>
+          >
+            Close
+          </button>
+          <button type="submit" class="btn button-pink">Apply Filters</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- Reset button -->
-  <button class="btn btn-secondary reset-filter" (click)="clearFilters()" [disabled]="isLoading" >
-    <i class="fa fa-refresh" [class.isLoading]="isLoading && allTerminals.length != 0" ></i>
-    {{ (isLoading && allTerminals.length != 0) ? 'Loading' : 'Refresh' }}
+  <button
+    class="btn btn-secondary reset-filter"
+    (click)="clearFilters()"
+    [disabled]="isLoading"
+  >
+    <i
+      class="fa fa-refresh"
+      [class.isLoading]="isLoading && allTerminals.length != 0"
+    ></i>
+    {{ isLoading && allTerminals.length != 0 ? "Loading" : "Refresh" }}
   </button>
 
   <!-- FILTER BY CODE ENDS HERE  -->
@@ -100,7 +109,10 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
-    <app-rex-loader [isPushed]="true" *ngIf="isLoading && allTerminals.length == 0"  ></app-rex-loader>
+    <app-rex-loader
+      [isPushed]="true"
+      *ngIf="isLoading && allTerminals.length == 0"
+    ></app-rex-loader>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -119,7 +131,9 @@
             <button
               [routerLink]="[terminal.terminalId]"
               class="btn table_button"
-            >Open</button>
+            >
+              Open
+            </button>
           </td>
         </tr>
       </tbody>
@@ -150,7 +164,7 @@
     <div class="modal-content">
       <div class="modal-body">
         <h5 class="modal-title" id="createTerminalLabel">Add Terminal</h5>
-        <form [formGroup]="createTerminalForm" (ngSubmit)="addTerminal()" >
+        <form [formGroup]="createTerminalForm" (ngSubmit)="addTerminal()">
           <!-- RELEVANT CODE HERE  -->
           <div class="row">
             <div class="col-md-12 no-padding">
@@ -163,15 +177,24 @@
                     placeholder=" "
                     formControlName="merchantName"
                   >
-                    <option [value]="merchant.merchantId" *ngFor="let merchant of allMerchants"  >{{ merchant.merchantName }}</option>
+                    <option
+                      [value]="merchant.merchantId"
+                      *ngFor="let merchant of allMerchants"
+                    >
+                      {{ merchant.merchantName }}
+                    </option>
                   </select>
                   <label for="merchantName">Merchant Name</label>
                 </span>
               </div>
               <span
                 class="validation-message"
-                *ngIf="createTerminalForm.get('merchantName').errors && createTerminalForm.get('merchantName').touched"
-              >Merchant Name is required.</span>
+                *ngIf="
+                  createTerminalForm.get('merchantName').errors &&
+                  createTerminalForm.get('merchantName').touched
+                "
+                >Merchant Name is required.</span
+              >
             </div>
 
             <div class="col-md-12 no-padding">
@@ -190,11 +213,18 @@
               </div>
               <span
                 class="validation-message"
-                *ngIf="createTerminalForm.get('terminalId').hasError('required') && createTerminalForm.get('terminalId').touched"
-              >Terminal ID is required.</span>
+                *ngIf="
+                  createTerminalForm.get('terminalId').hasError('required') &&
+                  createTerminalForm.get('terminalId').touched
+                "
+                >Terminal ID is required.</span
+              >
               <span
                 class="validation-message"
-                *ngIf="!createTerminalForm.get('terminalId').hasError('required') && (createTerminalForm.get('terminalId').hasError('minlength'))"
+                *ngIf="
+                  !createTerminalForm.get('terminalId').hasError('required') &&
+                  createTerminalForm.get('terminalId').hasError('minlength')
+                "
               >
                 {{ messages.terminalId.length }}
               </span>
@@ -210,13 +240,19 @@
                     placeholder=" "
                     formControlName="transactionTimeOut"
                   />
-                  <label for="transactionTimeOut">Transaction Timeout (In Seconds)</label>
+                  <label for="transactionTimeOut"
+                    >Transaction Timeout (In Seconds)</label
+                  >
                 </span>
               </div>
               <span
                 class="validation-message"
-                *ngIf="createTerminalForm.get('transactionTimeOut').errors && createTerminalForm.get('transactionTimeOut').touched"
-              >Transaction Timeout is required.</span>
+                *ngIf="
+                  createTerminalForm.get('transactionTimeOut').errors &&
+                  createTerminalForm.get('transactionTimeOut').touched
+                "
+                >Transaction Timeout is required.</span
+              >
             </div>
 
             <div class="col-md-12 no-padding">
@@ -234,10 +270,13 @@
               </div>
               <span
                 class="validation-message"
-                *ngIf="createTerminalForm.get('callHomeTime').errors && createTerminalForm.get('callHomeTime').touched"
-              >Call Home Time is required.</span>
+                *ngIf="
+                  createTerminalForm.get('callHomeTime').errors &&
+                  createTerminalForm.get('callHomeTime').touched
+                "
+                >Call Home Time is required.</span
+              >
             </div>
-
           </div>
 
           <div class="form_actions">
@@ -248,7 +287,7 @@
               data-dismiss="modal"
               (click)="createTerminalForm.reset()"
             >
-            Cancel
+              Cancel
             </button>
             <button
               type="submit"
@@ -288,13 +327,21 @@
         <h5 class="modal-title" id="bulkUploadLabel">Upload Terminal</h5>
         <p>Upload the NIBSS Terminal/merchant registeration file</p>
         <section>
-
           <div class="file-input">
-            <span>{{ selectedFile ? ('File Selected: ' + selectedFile.name) : 'Browse Excel/CSV file...' }}</span>
-            <button (click)="uploadFile()" >Browse</button>
+            <span>{{
+              selectedFile
+                ? "File Selected: " + selectedFile.name
+                : "Browse Excel/CSV file..."
+            }}</span>
+            <button (click)="uploadFile()">Browse</button>
           </div>
 
-          <a download href="./../../../../../../assets/files/bulk-terminal-upload-sample.csv" class="download-template">Download Template</a>
+          <a
+            download
+            href="./../../../../../../assets/files/bulk-terminal-upload-sample.csv"
+            class="download-template"
+            >Download Template</a
+          >
 
           <div class="form_actions">
             <div
