@@ -19,7 +19,7 @@
         *ngIf="acquirerStatus === 'ACTIVE'"
         class="action_button_disable"
         data-toggle="modal"
-        data-target="#disableMerchantModal"
+        data-target="#disableAcquirertModal"
         >Disable Aquirer</span
       >
       <span
@@ -71,7 +71,7 @@
 
 <div
   class="modal animated zoomIn"
-  id="disableMerchantModal"
+  id="disableAcquirertModal"
   tabindex="-1"
   role="dialog"
   aria-labelledby="DisableUserLabel"
@@ -93,7 +93,6 @@
             class="btn action_button"
             (click)="disableAcquirer(acquirerId)"
           >
-            <i class="fa fa-plus animated slideIn"></i>
             Disable Acquirer
           </button>
 

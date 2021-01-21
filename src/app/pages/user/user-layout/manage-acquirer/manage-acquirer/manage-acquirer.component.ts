@@ -56,7 +56,7 @@ export class ManageAcquirerComponent implements OnInit {
         console.log('DISABLED RESPONSE', response);
         this.alertService.success('Acquirer Disabled Successfully');
         this.disablingAcquirer = false;
-        $('#disableMerchantModal').modal('hide');
+        $('#disableAcquirertModal').modal('hide');
         this.acquirerStatus = 'INACTIVE';
       },
       (error) => {
