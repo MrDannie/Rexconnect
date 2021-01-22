@@ -147,9 +147,9 @@
           <input
             class="form-check-input routeCheckBoxName"
             type="checkbox"
-            value=""
+            [value]="rule.id"
             id="flexCheckDefault"
-            (change)="addRouteRule(rule)"
+            (change)="addRouteRule(rule.id)"
             (click)="selectAllRoutes()"
             name="routingRules"
           />
@@ -159,7 +159,7 @@
             for="flexCheckDefault"
             class="select-label"
           >
-            {{ rule }}
+            {{ rule.rule }}
           </label>
         </div>
       </div>

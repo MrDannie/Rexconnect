@@ -17,4 +17,5 @@ export interface IAddTerminal {
   terminalId: string;
   transactionTimeout: number;
   callHomeTime: number;
+  ptspId: number;
 }

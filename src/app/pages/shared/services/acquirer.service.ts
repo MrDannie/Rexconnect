@@ -54,4 +54,8 @@ export class AcquirerService {
       ''
     );
   }
+
+  getAcquirerPtspsList(): Observable<any> {
+    return this.http.get<any>(BASE_URL + this.config.getAquirerPtspList);
+  }
 }
