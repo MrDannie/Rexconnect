@@ -11,14 +11,24 @@
         {{ merchant?.merchantName }}</span
       >
       <span class="date">Created: DEC 9, 2019, 12:04:56 AM</span>
-      <span class="status">Active</span>
+      <span class="status"
+        >Status: {{ merchantStatus === true ? "Active" : "Inactive" }}</span
+      >
     </div>
     <div>
       <span
+        style="cursor: pointer"
         class="action_button_disable"
+        *ngIf="merchantStatus === true"
         data-toggle="modal"
-        data-target="#disableMerchant"
+        data-target="#disableMerchantModal"
         >Disable Merchant</span
+      >
+      <span
+        class="action_button_enable animated fadeIn"
+        (click)="enableMerchant()"
+        *ngIf="merchantStatus === false"
+        >Enable Aquirer</span
       >
     </div>
   </div>
@@ -49,7 +59,7 @@
 
 <div
   class="modal animated zoomIn"
-  id="disableMerchant"
+  id="disableMerchantModal"
   tabindex="-1"
   role="dialog"
   aria-labelledby="createUserLabel"
@@ -61,18 +71,24 @@
         <h5 class="modal-title" id="createUserLabel">Disable Merchant</h5>
         <br />
         <p>
-          You are about to disable merchant [Merchant ID]. Please confirm this
-          action to continue.
+          You are about to disable acquirer "{{ merchantName }}". Please confirm
+          this action to continue.
         </p>
         <br />
         <div class="form_actions">
           <div class="cancel_button" data-dismiss="modal">Cancel</div>
-          <button class="btn action_button">
-            <i class="fa fa-plus animated slideIn"></i>
+          <button
+            class="btn action_button"
+            (click)="disableMerchant(merchantId)"
+          >
             Disable Merchant
           </button>
 
-          <div class="spinner-border spinner-border-sm ml-3" role="status">
+          <div
+            *ngIf="disablingMerchant"
+            class="spinner-border spinner-border-sm ml-3"
+            role="status"
+          >
             <span class="sr-only">Loading...</span>
           </div>
         </div>

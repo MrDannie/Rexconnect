@@ -163,3 +163,27 @@
   opacity: 1;
   margin-right: 0.5rem;
 }
+
+.action_button_enable {
+  background-color: #e0f1d6;
+  color: #4dc91c;
+  padding: 0.8rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  // border: 0.5px solid #c9ae1c;
+  font-size: 0.79rem;
+  margin-top: 2rem;
+  cursor: pointer;
+}
+
+.action_button_enable:hover {
+  background-color: #4dc91c;
+  border: none;
+  //transition: all 0.3s ease-in-out;
+
+  color: #ffffff;
+}

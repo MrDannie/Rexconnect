@@ -68,6 +68,8 @@ export class Config {
   public ptsps: string;
   getAcquirerRoutes: string;
   getAcquirerPtsps: string;
+  disableMerchant: string;
+  enableMerchant: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -120,8 +122,12 @@ export class Config {
     //DISABLE ACQUIRER
     this.disableAcquirer = '/v1/clients/{acquirerId}/disable';
 
+    this.disableMerchant = '/v1/merchants/{merchantId}/disable';
+
     // ENABLE ACQUIRER
     this.enableAcquirer = '/v1/clients/{acquirerId}/enable';
+
+    this.enableMerchant = '/v1/merchants/{merchantId}/enable';
     //ptsps
 
     this.ptsps = '/v1/ptsps';

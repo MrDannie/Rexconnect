@@ -9,4 +9,5 @@ export interface IMerchant {
   merchantKey: string;
   city: string;
   merchantId: number;
+  isActive: boolean;
 }
