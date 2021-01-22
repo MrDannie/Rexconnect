@@ -102,17 +102,22 @@ export class AddRoutesComponent implements OnInit {
 
   createRuleConfigForm(): FormGroup {
     return this.fb.group({
-      rule: '',
-      value: '',
-      max: '',
-      min: '',
-      ds: '',
+      rule: [''],
+      value: ['', Validators.required],
+      max: ['', Validators.required],
+      min: ['', Validators.required],
+      ds: ['', Validators.required],
     });
   }
 
-  duplicateForm(): void {
-    console.log('here');
+  removeConfig() {
+    this.ruleConfig = this.createRouteForm.get('rule_config') as FormArray;
+    this.ruleConfig.controls.pop();
+    this.ruleConfig['status'] = 'VALID';
+    // this.createRouteForm['status'] = 'VALID'
+  }
 
+  duplicateForm(): void {
     this.ruleConfig = this.createRouteForm.get('rule_config') as FormArray;
     this.ruleConfig.push(this.createRuleConfigForm());
   }
