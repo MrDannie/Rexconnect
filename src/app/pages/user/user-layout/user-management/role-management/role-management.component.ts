@@ -25,8 +25,8 @@ export class RoleManagementComponent implements OnInit {
   isPermissionsLoading: boolean;
   isRoleCreating: boolean;
   permissionChecked: boolean;
-  selectedPermissions: any[] = [];
-  permissionsToAdd: any = [];
+  // selectedPermissions: any[] = [];
+  selectedPermissionsToAdd: any = [];
   permissionToSend: any = [];
   validationMessage: any;
 
@@ -45,9 +45,16 @@ export class RoleManagementComponent implements OnInit {
     this.isLoading = false;
     this.isPermissionsLoading = false;
     this.isRoleCreating = false;
+
     this.initializeForm();
+    this.selectedPermissionsToAdd = [];
+
+    this.allRoles = [];
+    this.allPermissions = [];
+
     this.getAllPermissions();
     this.getRoles();
+    console.log('PErmisssion Array', this.selectedPermissionsToAdd);
   }
 
   getRoles() {
@@ -58,10 +65,15 @@ export class RoleManagementComponent implements OnInit {
         this.allRoles = response['content'];
         this.makeRoleActive(this.allRoles[0]);
         this.isLoading = false;
+        console.log('ALL ROLES GOTEEN NOW', this.allRoles);
       },
       (e) => {
         this.isLoading = false;
-        this.errorHandler.customClientErrors('Failed to retrieve roles', e.error.error.code, e.error.error.responseMessage);
+        this.errorHandler.customClientErrors(
+          'Failed to retrieve roles',
+          e.error.error.code,
+          e.error.error.responseMessage
+        );
       }
     );
   }
@@ -71,26 +83,32 @@ export class RoleManagementComponent implements OnInit {
 
     this.roleMgtService.getAllPermissions().subscribe(
       (response) => {
+        console.log('GETALLPERMISIONS', response);
+
         this.allPermissions = response;
         this.isLoading = false;
       },
       (e) => {
         this.isLoading = false;
-        this.errorHandler.customClientErrors('Failed to retrieve permissions', e.error.error.code, e.error.error.responseMessage);
+        this.errorHandler.customClientErrors(
+          'Failed to retrieve permissions',
+          e.error.error.code,
+          e.error.error.responseMessage
+        );
       }
     );
   }
 
   makeRoleActive(role: any) {
     this.permissionChecked = false;
-    this.selectedPermissions = [];
+    this.selectedPermissionsToAdd = [];
     this.allPermissions.forEach((genPerm) => {
       document.getElementById(genPerm)['checked'] = false;
     });
 
     this.selectedRole = role;
 
-    this.selectedPermissions = this.selectedRole.permissions;
+    this.selectedPermissionsToAdd = this.selectedRole.permissions;
 
     this.updateRoleForm.controls['name'].setValue(this.selectedRole.name);
 
@@ -106,33 +124,51 @@ export class RoleManagementComponent implements OnInit {
   }
 
   addPermission(permission: any) {
-    if (this.permissionsToAdd.includes(permission)) {
-      for (let i = 0; i < this.permissionsToAdd.length; i++) {
-        if (this.permissionsToAdd[i] === permission) {
-          this.permissionsToAdd.splice(i, 1);
+    if (this.selectedPermissionsToAdd.includes(permission)) {
+      for (let i = 0; i < this.selectedPermissionsToAdd.length; i++) {
+        if (this.selectedPermissionsToAdd[i] === permission) {
+          this.selectedPermissionsToAdd.splice(i, 1);
         }
       }
     } else {
-      this.permissionsToAdd.push(permission);
+      this.selectedPermissionsToAdd.push(permission);
     }
   }
 
   createRole(formValue) {
+    console.log(
+      'Selct permissions length',
+      this.selectedPermissionsToAdd.length
+    );
+
+    if (this.selectedPermissionsToAdd.length < 1) {
+      this.alertService.info('Cant create role with empty permissions', true);
+      return;
+    }
+
     this.isRoleCreating = true;
-    formValue.permissions = this.permissionsToAdd;
+    formValue.permissions = this.selectedPermissionsToAdd;
     this.roleMgtService.createRole(formValue).subscribe(
       (response: IRole) => {
         this.isRoleCreating = false;
+
+        // Empty array
+        this.selectedPermissionsToAdd = [];
         this.createRoleForm.reset();
+
         this.getRoles();
         $('#createRole').modal('hide');
+
         this.alertService.success('Role Created Successfully');
       },
       (e) => {
         this.isRoleCreating = false;
         this.isLoading = false;
-        this.errorHandler.customClientErrors('Error occured in creating role', e.error.error.code, e.error.error.responseMessage);
-
+        this.errorHandler.customClientErrors(
+          'Error occured in creating role',
+          e.error.error.code,
+          e.error.error.responseMessage
+        );
       }
     );
   }
@@ -152,17 +188,28 @@ export class RoleManagementComponent implements OnInit {
       (e) => {
         this.isRoleCreating = false;
         this.isLoading = false;
-        this.errorHandler.customClientErrors('Error occured in updating role', e.error.error.code, e.error.error.responseMessage);
-
+        this.errorHandler.customClientErrors(
+          'Error occured in updating role',
+          e.error.error.code,
+          e.error.error.responseMessage
+        );
       }
     );
   }
-  clearSelection() { }
+  clearSelection() {
+    if (this.selectedPermissionsToAdd.length > 0) {
+      this.allPermissions.forEach((genPerm) => {
+        document.getElementById(genPerm)['checked'] = false;
+        // console.log("cleared");
+      });
+      this.selectedPermissionsToAdd = [];
+    }
+  }
 
   updatePermission(permission: any) {
     if (!this.permissionChecked) {
       this.permissionToSend = JSON.parse(
-        JSON.stringify(this.selectedPermissions)
+        JSON.stringify(this.selectedPermissionsToAdd)
       );
     }
     if (this.permissionToSend.includes(permission)) {

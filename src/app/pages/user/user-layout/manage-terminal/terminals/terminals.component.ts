@@ -242,19 +242,24 @@ export class TerminalsComponent implements OnInit {
             this.percentDone = Math.round(
               (100 * response['loaded']) / response['total']
             );
+            console.log('File Uploaded successfully', response);
+            this.alerts.success('File uploaded successfully!');
           } else if (event instanceof HttpResponse) {
             this.isUploading = false;
-            this.alerts.success('File uploaded successfully!');
+            console.log('File Uploaded successfully 2', response);
           }
           this.closeModal('cancel_button_upload_file');
+          console.log('File Uploaded successfully 3', response);
         },
         (e) => {
           this.isUploading = false;
-          this.errorHandler.customClientErrors(
-            'Failed to upload file',
-            e.error.error.code,
-            e.error.error.responseMessage
-          );
+          this.alerts.error(e);
+
+          // this.errorHandler.customClientErrors(
+          //   'Failed to upload file',
+          //   e.error.error.code,
+          //   e.error.error.responseMessage
+          // );
         }
       );
     }

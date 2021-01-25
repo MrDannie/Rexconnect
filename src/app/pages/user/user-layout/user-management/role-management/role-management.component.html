@@ -167,7 +167,7 @@
                 ><span>{{ permission }}</span>
                 <input
                   type="checkbox"
-                  id="{{ permission.name }}aa"
+                  id="{{ permission }}"
                   (change)="addPermission(permission)"
                 />
                 <span class="checkmark"></span>
@@ -179,7 +179,7 @@
             <div
               class="cancel_button"
               data-dismiss="modal"
-              (click)="selectedPermissions = []"
+              (click)="initializeForm()"
             >
               Cancel
             </div>

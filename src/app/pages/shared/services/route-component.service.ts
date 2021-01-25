@@ -59,12 +59,12 @@ export class RouteComponentService {
     );
   }
 
-  getAcquirerRoutes(pageIndex, pageSize): Observable<any> {
+  getAcquirerRoutes(pageIndex, pageSize, acquirerId): Observable<any> {
     const params = new HttpParams();
     const requestParams = params
       .append('page', pageIndex.toString())
       .append('size', pageSize.toString());
-    return this.http.get<any>(BASE_URL + '/v1/clients/routes', {
+    return this.http.get<any>(BASE_URL + '/v1/clients/routes/' + acquirerId, {
       params: requestParams,
     });
   }
