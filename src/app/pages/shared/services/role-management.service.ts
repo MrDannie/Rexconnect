@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
 import { Config } from 'src/app/core/Config';
@@ -17,12 +17,22 @@ export class RoleManagementService {
   constructor(private httpClient: HttpClient) {}
 
   getAllRoles(): Observable<AllRoles> {
-    return this.httpClient.get<AllRoles>(BASE_URL + '/v1/roles').pipe(
-      map((response: AllRoles) => {
-        console.log('ROLES GOTTEN', response);
-        return response;
+    const pageSize = 1000;
+    const pageIndex = 0;
+    const params = new HttpParams();
+    const requestParams = params
+      .append('page', pageIndex.toString())
+      .append('size', pageSize.toString());
+    return this.httpClient
+      .get<AllRoles>(BASE_URL + '/v1/roles', {
+        params: requestParams,
       })
-    );
+      .pipe(
+        map((response: AllRoles) => {
+          console.log('ROLES GOTTEN', response);
+          return response;
+        })
+      );
   }
 
   getAllPermissions(): Observable<IPermissions> {
