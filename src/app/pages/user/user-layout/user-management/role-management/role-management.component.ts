@@ -17,7 +17,7 @@ declare var $: any;
 export class RoleManagementComponent implements OnInit {
   allRoles: any;
   permission;
-  selectedRole;
+  selectedRole: any = {};
   isLoading;
   allPermissions;
   createRoleForm: FormGroup;
@@ -27,7 +27,7 @@ export class RoleManagementComponent implements OnInit {
   permissionChecked: boolean;
   // selectedPermissions: any[] = [];
   selectedPermissionsToAdd: any = [];
-  permissionToSend: any = [];
+  permissionsToUpdate: any = [];
   validationMessage: any;
 
   constructor(
@@ -41,7 +41,7 @@ export class RoleManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedRole = {};
+    // this.selectedRole = {};
     this.isLoading = false;
     this.isPermissionsLoading = false;
     this.isRoleCreating = false;
@@ -54,6 +54,8 @@ export class RoleManagementComponent implements OnInit {
 
     this.getAllPermissions();
     this.getRoles();
+
+    this.permissionChecked = false;
     console.log('PErmisssion Array', this.selectedPermissionsToAdd);
   }
 
@@ -123,18 +125,6 @@ export class RoleManagementComponent implements OnInit {
     }
   }
 
-  addPermission(permission: any) {
-    if (this.selectedPermissionsToAdd.includes(permission)) {
-      for (let i = 0; i < this.selectedPermissionsToAdd.length; i++) {
-        if (this.selectedPermissionsToAdd[i] === permission) {
-          this.selectedPermissionsToAdd.splice(i, 1);
-        }
-      }
-    } else {
-      this.selectedPermissionsToAdd.push(permission);
-    }
-  }
-
   createRole(formValue) {
     console.log(
       'Selct permissions length',
@@ -174,8 +164,13 @@ export class RoleManagementComponent implements OnInit {
   }
 
   updateRole(formValue) {
+    if (this.permissionsToUpdate.length < 1) {
+      this.alertService.info('Cant update role with empty permissions', true);
+      return;
+    }
+
     this.isRoleCreating = true;
-    formValue.permissions = this.permissionToSend;
+    formValue.permissions = this.permissionsToUpdate;
 
     this.roleMgtService.updateRole(formValue, this.selectedRole.id).subscribe(
       (response: IRole) => {
@@ -207,27 +202,51 @@ export class RoleManagementComponent implements OnInit {
   }
 
   updatePermission(permission: any) {
-    if (!this.permissionChecked) {
-      this.permissionToSend = JSON.parse(
-        JSON.stringify(this.selectedPermissionsToAdd)
-      );
-    }
-    if (this.permissionToSend.includes(permission)) {
-      //console.log("there", this.permissionToSend);
-
-      for (let i = 0; i < this.permissionToSend.length; i++) {
-        if (this.permissionToSend[i] === permission) {
-          this.permissionToSend.splice(i, 1);
+    if (this.permissionsToUpdate.includes(permission)) {
+      for (let i = 0; i < this.permissionsToUpdate.length; i++) {
+        if (this.permissionsToUpdate[i] === permission) {
+          this.permissionsToUpdate.splice(i, 1);
         }
       }
     } else {
-      //console.log("not there");
-
-      this.permissionToSend.push(permission);
+      this.permissionsToUpdate.push(permission);
     }
     this.permissionChecked = true;
-    //console.log(this.permissionToSend);
-    //console.log(this.selectedPermissions);
+  }
+
+  addPermission(permission: any) {
+    if (this.selectedPermissionsToAdd.includes(permission)) {
+      for (let i = 0; i < this.selectedPermissionsToAdd.length; i++) {
+        if (this.selectedPermissionsToAdd[i] === permission) {
+          this.selectedPermissionsToAdd.splice(i, 1);
+        }
+      }
+    } else {
+      this.selectedPermissionsToAdd.push(permission);
+    }
+  }
+
+  editHandler() {
+    console.log('SELCTED ROLE', this.selectedRole);
+
+    this.updateRoleForm.setValue({
+      name: this.selectedRole.name || '',
+    });
+
+    this.clearSelection();
+    this.permissionsToUpdate = JSON.parse(
+      JSON.stringify(this.selectedRole.permissions)
+    );
+    if (this.permissionsToUpdate.length > 0) {
+      this.permissionsToUpdate.forEach((perm) => {
+        this.allPermissions.forEach((genPerm) => {
+          if (genPerm === perm) {
+            console.log(perm);
+            document.getElementById(perm + 'aa')['checked'] = true;
+          }
+        });
+      });
+    }
   }
 
   initializeForm() {
