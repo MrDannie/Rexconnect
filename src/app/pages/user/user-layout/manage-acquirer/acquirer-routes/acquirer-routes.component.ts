@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
@@ -27,13 +28,15 @@ export class AcquirerRoutesComponent implements OnInit {
   isLoaded: boolean = false;
   isLoading: boolean;
   acquirerRouteToDownload: any;
+  acquirerId: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private routingCompService: RouteComponentService,
     private paginationService: PaginationService,
     private alertService: AlertService,
-    private fileGenerationService: FileGenerationService
+    private fileGenerationService: FileGenerationService,
+    private route: ActivatedRoute
   ) {
     this.showFilter = false;
     this.showFilter = false;
@@ -50,8 +53,9 @@ export class AcquirerRoutesComponent implements OnInit {
   }
 
   getAcquirerRoutes() {
+    this.acquirerId = this.route.snapshot.params.id;
     this.routingCompService
-      .getAcquirerRoutes(this.pageSize, this.pageSize)
+      .getAcquirerRoutes(this.pageSize, this.pageSize, this.acquirerId)
       .subscribe(
         (response) => {
           this.acquirerRoute = response['data']['routingRules'];
@@ -94,7 +98,7 @@ export class AcquirerRoutesComponent implements OnInit {
     this.pageIndex = 0;
 
     this.routingCompService
-      .getAcquirerRoutes(this.pageIndex, downloadPageSize)
+      .getAcquirerRoutes(this.pageIndex, downloadPageSize, this.acquirerId)
       .subscribe((data: any) => {
         this.acquirerRouteToDownload = data['data']['routingRules'];
         for (

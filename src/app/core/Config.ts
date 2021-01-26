@@ -70,6 +70,7 @@ export class Config {
   getAcquirerPtsps: string;
   disableMerchant: string;
   enableMerchant: string;
+  getAquirerPtspList: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -136,5 +137,9 @@ export class Config {
     this.getAcquirerRoutes = '/v1/clients/routes';
 
     this.getAcquirerPtsps = '/v1/clients/ptsps/list';
+
+    this.getAcquirerPtsps = '/v1/clients/ptsps/list';
+
+    this.getAquirerPtspList = '/v1/clients/ptsps/list';
   }
 }

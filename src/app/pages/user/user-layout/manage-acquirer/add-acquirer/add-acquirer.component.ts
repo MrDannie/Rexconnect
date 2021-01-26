@@ -27,11 +27,11 @@ export class AddAcquirerComponent implements OnInit {
     this.getPtsts();
 
     //GET ROUTES
-    // this.getRoutes();
+    this.getRoutes();
 
     this.initializeForm();
 
-    this.routingRules = ['here', 'farm', 'postillion', 'daniel', 'friday'];
+    // this.routingRules = ['here', 'farm', 'postillion', 'daniel', 'friday'];
   }
 
   initializeForm() {
@@ -105,14 +105,14 @@ export class AddAcquirerComponent implements OnInit {
       $('#select-all-for-routes').prop('checked')
     );
     this.routingRules.forEach((route: any) => {
-      if (this.routesToAdd.includes(route)) {
+      if (this.routesToAdd.includes(route.rule)) {
         for (let i = 0; i < this.routesToAdd.length; i++) {
-          if (this.routesToAdd[i] === route) {
+          if (this.routesToAdd[i] === route.rule) {
             this.routesToAdd.splice(i, 1);
           }
         }
       } else {
-        this.routesToAdd.push(route);
+        this.routesToAdd.push(route.rule);
         console.log(this.routesToAdd);
       }
     });

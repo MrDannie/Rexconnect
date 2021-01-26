@@ -277,6 +277,32 @@
                 >Call Home Time is required.</span
               >
             </div>
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="ptspId"
+                    class="form-control"
+                    type="text"
+                    placeholder=" "
+                    formControlName="ptspId"
+                  >
+                    <option [value]="ptsp.id" *ngFor="let ptsp of ptspsList">
+                      {{ ptsp.ptspName }}
+                    </option>
+                  </select>
+                  <label for="ptspId">Ptsps</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createTerminalForm.get('ptspId').errors &&
+                  createTerminalForm.get('ptspId').touched
+                "
+                >Ptsps is required.</span
+              >
+            </div>
           </div>
 
           <div class="form_actions">
@@ -338,7 +364,7 @@
 
           <a
             download
-            href="./../../../../../../assets/files/bulk-terminal-upload-sample.csv"
+            href="./../../../../../../assets/files/bulk_terminal.csv"
             class="download-template"
             >Download Template</a
           >
