@@ -10,6 +10,30 @@
       <span class="date">Created: DEC 9, 2019, 12:04:56 AM</span>
       <span class="status">Active</span>
     </div>
+    <div>
+      <span
+        style="cursor: pointer; margin-right: 10px"
+        class="action_button_disable"
+        data-toggle="modal"
+        data-target="#disableAcquirertModal"
+        >Disable Aquirer</span
+      >
+      <!-- <span
+        class="action_button_enable animated fadeIn"
+        (click)="enableAcquirer()"
+        *ngIf="acquirerStatus === 'INACTIVE'"
+        >Enable Aquirer</span
+      > -->
+
+      <span
+        style="cursor: pointer"
+        class="action_button_update"
+        data-toggle="modal"
+        data-target="#disableAcquirertModal"
+        [routerLink]="['../../edit-routes', routeId]"
+        >Edit Route</span
+      >
+    </div>
   </div>
 </div>
 
@@ -65,12 +89,12 @@
         <div class="row">
           <div class="col-sm-12"><input type="checkbox" /> Use Default</div>
         </div>
-        <button
+        <!-- <button
           [routerLink]="['../../edit-routes', routeId]"
           class="btn action_button_update"
         >
           Edit Station
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
