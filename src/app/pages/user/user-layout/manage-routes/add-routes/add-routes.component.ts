@@ -4,6 +4,7 @@ import { RoutingRulesInterface } from 'src/app/pages/shared/interfaces/routing-r
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 import { RULETYPES } from 'src/app/pages/shared/constants';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from 'src/app/core/alert/alert.service';
 
 @Component({
   selector: 'app-add-routes',
@@ -18,11 +19,13 @@ export class AddRoutesComponent implements OnInit {
   value: string = 'safd';
   routing: any;
   routeConfigs: any;
+  isAddingRoute: boolean;
 
   constructor(
     private routingCompService: RouteComponentService,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alertService: AlertService
   ) {}
 
   ngOnInit() {
@@ -31,21 +34,22 @@ export class AddRoutesComponent implements OnInit {
     console.log(this.ruletypes);
 
     // Call to get default destination Stations
-    const idOfRouteToBeFetched = this.route.snapshot.params.id;
-    if (idOfRouteToBeFetched != 0) {
-      this.routingCompService
-        .getSingleRoute(idOfRouteToBeFetched)
-        .subscribe((response) => {
-          console.log('this is route to be edited', response);
-          let parsedData = JSON.parse(response.data.rule_config);
-          response.data.rule_config = parsedData;
-          this.routing = parsedData;
-          this.routeConfigs = this.routing.ruleconfig;
-          this.setFormValue(response);
-        });
-    } else {
-      this.getDestinationStations();
-    }
+    // const idOfRouteToBeFetched = this.route.snapshot.params.id;
+    // if (idOfRouteToBeFetched != 0) {
+    //   this.routingCompService
+    //     .getSingleRoute(idOfRouteToBeFetched)
+    //     .subscribe((response) => {
+    //       console.log('this is route to be edited', response);
+    //       let parsedData = JSON.parse(response.data.rule_config);
+    //       response.data.rule_config = parsedData;
+    //       this.routing = parsedData;
+    //       this.routeConfigs = this.routing.ruleconfig;
+    //       this.setFormValue(response);
+    //     });
+    // } else {
+    //   this.getDestinationStations();
+    // }
+    this.getDestinationStations();
   }
   setFormValue(route) {
     console.log('Router in set form value', route);
@@ -87,15 +91,20 @@ export class AddRoutesComponent implements OnInit {
   }
 
   createRoute(): void {
+    this.isAddingRoute = true;
     console.log(this.createRouteForm.value);
     this.routingCompService
       .createRoutingRule(this.createRouteForm.value)
       .subscribe(
         (response) => {
-          console.log('sucessfully addes', response);
+          this.isAddingRoute = false;
+          this.alertService.success(response.message, true);
         },
         (error) => {
+          this.isAddingRoute = false;
           console.log('an error ocured ', error);
+          console.log(error);
+          this.alertService.error(error);
         }
       );
   }

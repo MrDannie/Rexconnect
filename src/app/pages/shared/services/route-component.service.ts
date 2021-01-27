@@ -30,6 +30,18 @@ export class RouteComponentService {
       );
   }
 
+  // /v1/routing-rules/:id
+  editRoute(routeConfigurations, routeId): Observable<any> {
+    return this.http
+      .put<any>(BASE_URL + '/v1/routing-rules/' + routeId, routeConfigurations)
+      .pipe(
+        map((response) => {
+          console.log('routing rule rtesponse');
+          return response;
+        })
+      );
+  }
+
   createRoutingRule(routeConfigurations): Observable<any> {
     return this.http
       .post<any>(BASE_URL + '/v1/routing-rules', routeConfigurations)
