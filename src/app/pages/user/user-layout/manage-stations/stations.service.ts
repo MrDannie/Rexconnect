@@ -29,12 +29,15 @@ export class StationsService {
     if (pageSize) {
       params = params.append("limit", pageSize);
     }
-    if (searchFormValue.name) {
-      params = params.append("name", searchFormValue.name);
+    if (searchFormValue) {
+      if (searchFormValue.name) {
+        params = params.append("name", searchFormValue.name);
+      }
+      if (searchFormValue.status) {
+        params = params.append("isActive", searchFormValue.status);
+      }
     }
-    if (searchFormValue.status) {
-      params = params.append("isActive", searchFormValue.status);
-    }
+   
 
     return this.httpClient
       .get(BASE_URL + this.config.stations, { params })

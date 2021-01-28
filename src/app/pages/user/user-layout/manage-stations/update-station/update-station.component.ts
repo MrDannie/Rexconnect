@@ -72,7 +72,7 @@ export class UpdateStationComponent implements OnInit {
     );
   }
 
-  private updateStation() {
+  public updateStation() {
     this.isUpdating = true;
     this.stationsService.updateStation(this.stationId, this.editStationForm.value).subscribe(
       (res) => {
