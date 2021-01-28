@@ -98,14 +98,14 @@
           <table class="table table-sm">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Terminal ID</th>
+                <th scope="col">Merchant ID</th>
                 <th scope="col">Count</th>
                 <th scope="col">Amount</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let merchants of topMerchantsStatistics">
-                <td>{{ merchants.name }}</td>
+                <td>{{ merchants.mid }}</td>
                 <td>{{ merchants.count }}</td>
                 <td>{{ merchants.sum }}</td>
               </tr>
