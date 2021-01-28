@@ -57,7 +57,7 @@
               <span
                 class="validation-message"
                 [hidden]="
-                  !editStationForm.get('name').hasError('invalid')
+                  !editStationForm.get('name').hasError('required')
                 "
               >
                 Name is required
@@ -89,7 +89,7 @@
               <span
                 class="validation-message"
                 [hidden]="
-                  !editStationForm.get('zmk').hasError('invalid')
+                  !editStationForm.get('zmk').hasError('required')
                 "
               >
                 Master key is required
@@ -125,7 +125,7 @@
               <span
                 class="validation-message"
                 [hidden]="
-                  !editStationForm.get('zpk').hasError('invalid')
+                  !editStationForm.get('zpk').hasError('required')
                 "
               >
                 Primary Key is required
@@ -139,28 +139,28 @@
             <span class="has-float-label">
               <input
                 class="form-control"
-                id="channelHost"
+                id="baseUrl"
                 type="text"
                 placeholder=" "
-                formControlName="channelHost"
+                formControlName="baseUrl"
               />
-              <label for="channelHost">Channel Host</label>
+              <label for="baseUrl">Base Url</label>
             </span>
             <div
               *ngIf="
-                editStationForm.get('channelHost').errors &&
-                (editStationForm.get('channelHost').dirty ||
-                  editStationForm.get('channelHost').touched)
+                editStationForm.get('baseUrl').errors &&
+                (editStationForm.get('baseUrl').dirty ||
+                  editStationForm.get('baseUrl').touched)
               "
               class="validation-message"
             >
               <span
                 class="validation-message"
                 [hidden]="
-                  !editStationForm.get('channelHost').hasError('invalid')
+                  !editStationForm.get('baseUrl').hasError('required')
                 "
               >
-                Channel Host is required
+                Base Url is required
                 <br />
               </span>
             </div>
@@ -192,7 +192,7 @@
               <span
                 class="validation-message"
                 [hidden]="
-                  !editStationForm.get('channelPort').hasError('invalid')
+                  !editStationForm.get('channelPort').hasError('required')
                 "
               >
                 Channel Port is required
@@ -202,40 +202,114 @@
           </div>
         </div>
      
-        <!-- <div class="form-group col-md-6">
+        <div class="form-group col-md-6">
           <div class="">
             <span class="has-float-label">
               <input
                 class="form-control"
-                id="status"
+                id="channelHost"
                 type="text"
                 placeholder=" "
-                formControlName="status"
+                formControlName="channelHost"
               />
-              <label for="status">Status</label>
+              <label for="channelHost">Channel Host</label>
             </span>
             <div
               *ngIf="
-                editStationForm.get('status').errors &&
-                (editStationForm.get('status').dirty ||
-                  editStationForm.get('status').touched)
+                editStationForm.get('channelHost').errors &&
+                (editStationForm.get('channelHost').dirty ||
+                  editStationForm.get('channelHost').touched)
               "
               class="validation-message"
             >
               <span
                 class="validation-message"
                 [hidden]="
-                  !editStationForm.get('status').hasError('invalid')
+                  !editStationForm.get('channelHost').hasError('required')
                 "
               >
-                Status is required
+                Channel Host is required
                 <br />
               </span>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
 
+
+
+     
+
+
+
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="authUsername"
+                type="text"
+                placeholder=" "
+                formControlName="authUsername"
+              />
+              <label for="authUsername">Auth Username</label>
+            </span>
+            <div
+              *ngIf="
+                editStationForm.get('authUsername').errors &&
+                (editStationForm.get('authUsername').dirty ||
+                  editStationForm.get('authUsername').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editStationForm.get('authUsername').hasError('required')
+                "
+              >
+                Auth Username is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+     
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="authPassword"
+                type="text"
+                placeholder=" "
+                formControlName="authPassword"
+              />
+              <label for="authPassword">Auth Password</label>
+            </span>
+            <div
+              *ngIf="
+                editStationForm.get('authPassword').errors &&
+                (editStationForm.get('authPassword').dirty ||
+                  editStationForm.get('authPassword').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editStationForm.get('authPassword').hasError('required')
+                "
+              >
+                Auth Password is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- RELEVANT CODE HERE  -->
 
       <div class="form_actions">
