@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { RULETYPES } from 'src/app/pages/shared/constants';
+import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 
 @Component({
@@ -23,13 +24,15 @@ export class EditRoutesComponent implements OnInit {
   RoutingRule: any = {};
   routeId: any;
   isUpdatingRoute: boolean;
+  routingRules: any;
 
   constructor(
     private routeCompService: RouteComponentService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private acquirerService: AcquirerService
   ) {}
 
   ngOnInit() {
