@@ -76,18 +76,24 @@ export class RouteComponentService {
     const requestParams = params
       .append('page', pageIndex.toString())
       .append('size', pageSize.toString());
-    return this.http.get<any>(BASE_URL + '/v1/clients/routes/' + acquirerId, {
-      params: requestParams,
-    });
+    return this.http.get<any>(
+      BASE_URL + '/v1/clients/' + acquirerId + '/routes',
+      {
+        params: requestParams,
+      }
+    );
   }
 
-  getAcquirerPtsps(pageIndex, pageSize): Observable<any> {
+  getAcquirerPtsps(pageIndex, pageSize, acquirerId): Observable<any> {
     const params = new HttpParams();
     const requestParams = params
       .append('page', pageIndex.toString())
       .append('size', pageSize.toString());
-    return this.http.get<any>(BASE_URL + '/v1/clients/ptsps?limit=2', {
-      params: requestParams,
-    });
+    return this.http.get<any>(
+      BASE_URL + '/v1/clients/' + acquirerId + '/ptsps',
+      {
+        params: requestParams,
+      }
+    );
   }
 }
