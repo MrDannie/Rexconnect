@@ -58,4 +58,15 @@ export class AcquirerService {
   getAcquirerPtspsList(): Observable<any> {
     return this.http.get<any>(BASE_URL + this.config.getAquirerPtspList);
   }
+
+  addAcquirer(acquirerDetails): Observable<any> {
+    return this.http.post<any>(BASE_URL + '/v1/clients', acquirerDetails);
+  }
+
+  updateAcquirer(acquirerDetails, acquirerId): Observable<any> {
+    return this.http.put<any>(
+      BASE_URL + '/v1/clients/' + acquirerId,
+      acquirerDetails
+    );
+  }
 }
