@@ -27,6 +27,7 @@ export class AcquirerComponent implements OnInit {
   // PAgination
   pageIndex: number;
   pageSize: number;
+  isRefreshing: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -80,6 +81,7 @@ export class AcquirerComponent implements OnInit {
           this.dataCount = response['data']['count'];
           this.isLoaded = true;
           this.isLoading = false;
+          this.isRefreshing = false;
 
           // Handling Pagination
           this.paginationService.pagerState.next({
@@ -122,4 +124,15 @@ export class AcquirerComponent implements OnInit {
   beginDownload() {}
 
   requestPageSize(data) {}
+
+  refreshTableData() {
+    this.showFilter = false;
+    this.searchForm.reset();
+    this.isRefreshing = true;
+
+    this.pageIndex = 0;
+    this.pageSize = 10;
+
+    this.getAllAcquirers();
+  }
 }
