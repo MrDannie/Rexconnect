@@ -87,7 +87,13 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-12"><input type="checkbox" /> Use Default</div>
+          <div class="col-sm-12">
+            <input
+              checked="{{ routeConfig.use_default === 0 ? false : true }}"
+              type="checkbox"
+            />
+            Use Default
+          </div>
         </div>
         <!-- <button
           [routerLink]="['../../edit-routes', routeId]"
