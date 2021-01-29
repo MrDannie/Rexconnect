@@ -8,6 +8,7 @@ import { AddRoutesComponent } from '../manage-routes/add-routes/add-routes.compo
 import { ManageAcquirerComponent } from './manage-acquirer/manage-acquirer.component';
 import { AddAcquirerComponent } from './add-acquirer/add-acquirer.component';
 import { AcquirerPtspsComponent } from './acquirer-ptsps/acquirer-ptsps.component';
+import { UpdateAcquirerComponent } from './update-acquirer/update-acquirer.component';
 
 const routes: Routes = [];
 
@@ -21,6 +22,10 @@ const routes: Routes = [];
       {
         path: 'add-acquirer',
         component: AddAcquirerComponent,
+      },
+      {
+        path: 'edit-acquirer/:id',
+        component: UpdateAcquirerComponent,
       },
       {
         path: ':id',

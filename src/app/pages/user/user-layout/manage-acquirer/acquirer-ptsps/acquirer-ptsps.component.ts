@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
@@ -20,13 +21,15 @@ export class AcquirerPtspsComponent implements OnInit {
   acquirerPtspsToDownload: any;
   searchForm: any;
   showFilter: boolean;
+  acquirerId: any;
 
   constructor(
     private routingCompService: RouteComponentService,
     private paginationService: PaginationService,
     private alertService: AlertService,
     private fileGenerationService: FileGenerationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -43,8 +46,9 @@ export class AcquirerPtspsComponent implements OnInit {
     });
   }
   getAcquirerPtsps() {
+    this.acquirerId = this.route.snapshot.params.id;
     this.routingCompService
-      .getAcquirerPtsps(this.pageSize, this.pageSize)
+      .getAcquirerPtsps(this.pageSize, this.pageSize, this.acquirerId)
       .subscribe(
         (response) => {
           console.log('fsda', response);
@@ -85,7 +89,7 @@ export class AcquirerPtspsComponent implements OnInit {
     this.pageIndex = 0;
 
     this.routingCompService
-      .getAcquirerPtsps(this.pageIndex, downloadPageSize)
+      .getAcquirerPtsps(this.pageIndex, downloadPageSize, this.acquirerId)
       .subscribe((data: any) => {
         this.acquirerPtspsToDownload = data['data']['ptsps'];
 

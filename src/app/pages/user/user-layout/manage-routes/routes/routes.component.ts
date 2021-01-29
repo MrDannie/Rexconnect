@@ -30,6 +30,7 @@ export class RoutesComponent implements OnInit {
   pageSize: number;
   isLoading: boolean;
   routesRecordsToDownload: any;
+  isFiltering: any = false;
 
   constructor(
     private formBuilder: FormBuilder,

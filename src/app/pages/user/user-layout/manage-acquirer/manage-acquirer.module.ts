@@ -12,6 +12,7 @@ import { AddRoutesComponent } from '../manage-routes/add-routes/add-routes.compo
 import { AddAcquirerComponent } from './add-acquirer/add-acquirer.component';
 import { SharedModule } from 'src/app/pages/shared/modules/shared.module';
 import { AcquirerPtspsComponent } from './acquirer-ptsps/acquirer-ptsps.component';
+import { UpdateAcquirerComponent } from './update-acquirer/update-acquirer.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { AcquirerPtspsComponent } from './acquirer-ptsps/acquirer-ptsps.componen
     AddRoutesComponent,
     AddAcquirerComponent,
     AcquirerPtspsComponent,
+    UpdateAcquirerComponent,
   ],
   imports: [
     CommonModule,
