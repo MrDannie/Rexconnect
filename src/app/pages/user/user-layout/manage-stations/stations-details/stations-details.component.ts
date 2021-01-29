@@ -29,7 +29,6 @@ export class StationsDetailsComponent implements OnInit {
      private router: Router, private stationsService: StationsService, private alertService: AlertService) {
     this.showFilter = false;
 
-    this.initializeForm();
   }
 
   ngOnInit() {
@@ -40,17 +39,7 @@ export class StationsDetailsComponent implements OnInit {
     this.getStationDetails();
   }
 
-  initializeForm() {
-    this.editStationForm = this.formBuilder.group({
-      name: ['', Validators.compose([Validators.required])],
-      zmk: ['', Validators.compose([Validators.required])],
-      zpk: ['', Validators.compose([Validators.required])],
-      status: ['', Validators.compose([Validators.required])],
-      lastEcho: ['', Validators.compose([Validators.required])],
-      channelHost: ['', Validators.compose([Validators.required])],
-      channelPort: ['', Validators.compose([Validators.required])]
-    });
-  }
+
 
   getStationDetails() {
     this.stationsService.getStation(this.stationId).subscribe(

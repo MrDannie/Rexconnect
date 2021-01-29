@@ -100,7 +100,24 @@
           <p class="null-value" *ngIf="stationDetails.authPassword === null">Nil</p>
 
         </div>
+
+        <div class="col-md-6">
+          <span class="card_header">Channel Host</span>
+          <p class="card_value" *ngIf="stationDetails.channelConfig.host !== null">{{stationDetails.channelConfig.host}}</p>
+          <p class="null-value" *ngIf="stationDetails.channelConfig.host === null">Nil</p>
+
         </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <span class="card_header">Channel Port</span>
+            <p class="card_value" *ngIf="stationDetails.channelConfig.port !== null">{{stationDetails.channelConfig.port}}</p>
+            <p class="null-value" *ngIf="stationDetails.channelConfig.port === null">Nil</p>
+  
+          </div>
+  
+         
+          </div>
       <button
         class="btn action_button_update"
         [routerLink]="['../../update-station', stationDetails.id]"

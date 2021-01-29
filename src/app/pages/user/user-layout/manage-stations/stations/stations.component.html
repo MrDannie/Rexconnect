@@ -236,10 +236,10 @@
     <div class="modal-content">
       <div class="modal-body">
         <h5 class="modal-title" id="createModalLabel">Add Station</h5>
-        <form [formGroup]="createStationForm">
+        <form [formGroup]="createStationForm" *ngIf="!isLoading">
           <!-- RELEVANT CODE HERE  -->
           <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
                   <input
@@ -262,7 +262,7 @@
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('name').hasError('invalid')
+                      !createStationForm.get('name').hasError('required')
                     "
                   >
                     Name is required
@@ -271,10 +271,7 @@
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
                   <input
@@ -297,7 +294,7 @@
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('zmk').hasError('invalid')
+                      !createStationForm.get('zmk').hasError('required')
                     "
                   >
                     Master key is required
@@ -307,8 +304,10 @@
               </div>
             </div>
           </div>
+    
+         
           <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
                   <input
@@ -331,7 +330,7 @@
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('zpk').hasError('invalid')
+                      !createStationForm.get('zpk').hasError('required')
                     "
                   >
                     Primary Key is required
@@ -340,43 +339,42 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="channelHost"
+                    id="baseUrl"
                     type="text"
                     placeholder=" "
-                    formControlName="channelHost"
+                    formControlName="baseUrl"
                   />
-                  <label for="channelHost">Channel Host</label>
+                  <label for="baseUrl">Base Url</label>
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('channelHost').errors &&
-                    (createStationForm.get('channelHost').dirty ||
-                      createStationForm.get('channelHost').touched)
+                    createStationForm.get('baseUrl').errors &&
+                    (createStationForm.get('baseUrl').dirty ||
+                      createStationForm.get('baseUrl').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('channelHost').hasError('invalid')
+                      !createStationForm.get('baseUrl').hasError('required')
                     "
                   >
-                    Channel Host is required
+                    Base Url is required
                     <br />
                   </span>
                 </div>
               </div>
             </div>
           </div>
+        
           <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
                   <input
@@ -399,7 +397,7 @@
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('channelPort').hasError('invalid')
+                      !createStationForm.get('channelPort').hasError('required')
                     "
                   >
                     Channel Port is required
@@ -408,95 +406,129 @@
                 </div>
               </div>
             </div>
-          </div>
-          <!-- <div class="form-row">
-            <div class="form-group col-md-12">
+         
+            <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="status"
+                    id="channelHost"
                     type="text"
                     placeholder=" "
-                    formControlName="status"
+                    formControlName="channelHost"
                   />
-                  <label for="status">Status</label>
+                  <label for="channelHost">Channel Host</label>
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('status').errors &&
-                    (createStationForm.get('status').dirty ||
-                      createStationForm.get('status').touched)
+                    createStationForm.get('channelHost').errors &&
+                    (createStationForm.get('channelHost').dirty ||
+                      createStationForm.get('channelHost').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('status').hasError('invalid')
+                      !createStationForm.get('channelHost').hasError('required')
                     "
                   >
-                    Status is required
+                    Channel Host is required
                     <br />
                   </span>
                 </div>
               </div>
             </div>
           </div>
+    
+    
+    
+         
+    
+    
+    
+    
           <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
                   <input
                     class="form-control"
-                    id="lastEcho"
+                    id="authUsername"
                     type="text"
                     placeholder=" "
-                    formControlName="lastEcho"
+                    formControlName="authUsername"
                   />
-                  <label for="lastEcho">Last Echo</label>
+                  <label for="authUsername">Auth Username</label>
                 </span>
                 <div
                   *ngIf="
-                    createStationForm.get('lastEcho').errors &&
-                    (createStationForm.get('lastEcho').dirty ||
-                      createStationForm.get('lastEcho').touched)
+                    createStationForm.get('authUsername').errors &&
+                    (createStationForm.get('authUsername').dirty ||
+                      createStationForm.get('authUsername').touched)
                   "
                   class="validation-message"
                 >
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('lastEcho').hasError('invalid')
+                      !createStationForm.get('authUsername').hasError('required')
                     "
                   >
-                    Last Echo is required
+                    Auth Username is required
                     <br />
                   </span>
                 </div>
               </div>
             </div>
-          </div> -->
-          <!-- RELEVANT CODE HERE  -->
-
-          <div class="form_actions">
-            <div
-              class="cancel_button"
-              data-dismiss="modal"
-              (click)="createStationForm.reset()"
-            >
-              Cancel
+         
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="authPassword"
+                    type="text"
+                    placeholder=" "
+                    formControlName="authPassword"
+                  />
+                  <label for="authPassword">Auth Password</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('authPassword').errors &&
+                    (createStationForm.get('authPassword').dirty ||
+                      createStationForm.get('authPassword').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm.get('authPassword').hasError('required')
+                    "
+                  >
+                    Auth Password is required
+                    <br />
+                  </span>
+                </div>
+              </div>
             </div>
+          </div>
+          <!-- RELEVANT CODE HERE  -->
+    
+          <div class="form_actions">
+        
             <button
-              class="btn action_button"
+              class="btn action_button col-md-6"
               (click)="createStation()"
               *ngIf="!isCreating"
               [disabled]="!createStationForm.valid"
             >
               <i class="fa fa-plus animated slideIn"></i>
-              Add station
+              Create Station
             </button>
-
+    
             <div
               class="spinner-border spinner-border-sm ml-3"
               role="status"
