@@ -49,6 +49,8 @@ export class ManageUserComponent implements OnInit {
   validationMessage: any;
   userRecordsToDownload: any;
 
+  isFiltering: any = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private userManagementService: UserManagementService,

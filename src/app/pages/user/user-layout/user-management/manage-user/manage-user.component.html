@@ -113,7 +113,11 @@
           <button class="btn button-pink" type="submit">
             Apply Filters
 
-            <div class="spinner-border spinner-border-sm ml-3" role="status">
+            <div
+              *ngIf="isFiltering"
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+            >
               <span class="sr-only">Loading...</span>
             </div>
           </button>
@@ -697,8 +701,8 @@
         <h5 class="modal-title" id="deleteUserLabel">Delete User</h5>
         <br />
         <p>
-          You are about to delete user <b> {{ userToBeDeleted?.username }} </b>. Please
-          confirm this action to continue.
+          You are about to delete user <b> {{ userToBeDeleted?.username }} </b>.
+          Please confirm this action to continue.
         </p>
         <br />
         <div class="form_actions">
