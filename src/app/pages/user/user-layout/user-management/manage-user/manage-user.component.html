@@ -63,31 +63,31 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="firstname" class="search_label">First Name</label>
+              <label for="username" class="search_label">Username</label>
               <input
                 type="text"
                 class="form-control search_input"
-                formControlName="firstName"
-                id="firstname"
+                formControlName="username"
+                id="username"
               />
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="form-group">
-              <label for="lastname" class="search_label">Last Name</label>
+              <label for="email" class="search_label">Email</label>
               <input
                 type="text"
                 class="form-control search_input"
-                formControlName="lastName"
-                id="lastname"
+                formControlName="email"
+                id="email"
               />
             </div>
           </div>
 
-          <div class="col-md-4">
+          <!-- <div class="col-md-4">
             <div class="form-group">
-              <label for="role" class="search_label">Role</label>
+              <label for="role" class="search_label">Status</label>
               <select
                 type="text"
                 class="form-control search_input"
@@ -102,11 +102,29 @@
                 </option>
               </select>
             </div>
+          </div> -->
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="role" class="search_label">Status</label>
+              <select
+                type="text"
+                class="form-control search_input"
+                formControlName="enabled"
+                id="status"
+              >
+                <option value="true">Active</option>
+                <option value="false">InActive</option>
+              </select>
+            </div>
           </div>
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white" (click)="showFilter = false">
+          <button
+            class="btn button-white"
+            (click)="showFilter = false; searchForm.reset()"
+          >
             Close
           </button>
 
