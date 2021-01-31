@@ -62,14 +62,10 @@ export class ManageUserComponent implements OnInit {
   ) {
     this.validationMessage = validationMessages;
   }
-  getAllUsers(
-    firstName: string = '',
-    lastName: string = '',
-    roleId: string = ''
-  ) {
+  getAllUsers(username?, email?, enabled?) {
     this.isLoading = true;
     this.userManagementService
-      .getAllUsers(this.pageIndex, this.pageSize, firstName, lastName, roleId)
+      .getAllUsers(this.pageIndex, this.pageSize, username, email, enabled)
       .subscribe(
         (response: AllUsers) => {
           this.allUsers = response['content'];
@@ -77,6 +73,8 @@ export class ManageUserComponent implements OnInit {
           this.originalResponse = response;
           this.isLoaded = true;
           this.isLoading = false;
+          this.isFiltering = false;
+          this.showFilter = false;
 
           this.paginationService.pagerState.next({
             totalElements: this.dataCount,
@@ -87,6 +85,7 @@ export class ManageUserComponent implements OnInit {
         (error) => {
           this.isLoaded = true;
           this.isLoading = false;
+          this.isFiltering = false;
           this.paginationService.pagerState.next(null);
           // this.paginationService.changePagerState.next(false);
           console.error('error occurred: ', error);
@@ -241,22 +240,22 @@ export class ManageUserComponent implements OnInit {
       roleId,
     });
 
-    // this.userManagementService.getSingleUser(userId).subscribe(
-    //   (response) => {
-    //     console.log('COMP: SINGLE USER', response);
-    //     const { firstName, surname, username, email, roleId } = response;
-    //     this.editUserForm.patchValue({
-    //       firstName,
-    //       surname,
-    //       username,
-    //       email,
-    //       roleId,
-    //     });
-    //   },
-    //   (error) => {
-    //     console.log('COULD NOT GET SINGLE USER', error);
-    //   }
-    // );
+    this.userManagementService.getSingleUser(userId).subscribe(
+      (response) => {
+        console.log('COMP: SINGLE USER', response);
+        const { firstName, surname, username, email, roleId } = response;
+        this.editUserForm.patchValue({
+          firstName,
+          surname,
+          username,
+          email,
+          roleId,
+        });
+      },
+      (error) => {
+        console.log('COULD NOT GET SINGLE USER', error);
+      }
+    );
   }
 
   initializeDeleteModal(user) {
@@ -291,9 +290,9 @@ export class ManageUserComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      firstName: [''],
-      lastName: '',
-      roleId: '',
+      username: '',
+      email: '',
+      enabled: '',
     });
     this.createUserForm = this.formBuilder.group({
       username: ['', Validators.compose([Validators.required])],
@@ -316,11 +315,34 @@ export class ManageUserComponent implements OnInit {
     });
   }
 
-  searchBy(filterByValues) {
-    console.log(filterByValues);
-    this.showFilter = false;
-    const { firstName, lastName, roleId } = filterByValues;
-    this.getAllUsers(firstName, lastName, roleId);
+  searchBy(value) {
+    console.log(value);
+    this.isFiltering = true;
+
+    let { username, email, enabled } = value;
+
+    if (!value.username) {
+      delete value.username;
+      username = '';
+    } else {
+      username = value.username;
+    }
+    if (!value.email) {
+      delete value.email;
+      email = '';
+    } else {
+      email = value.email;
+    }
+    if (!value.enabled) {
+      delete value.enabled;
+      enabled = '';
+    } else {
+      enabled = value.enabled;
+    }
+
+    // this.pageIndex = 0;
+    // this.currentPage = 1;
+    this.getAllUsers(username, email, enabled);
   }
 
   // request by page size

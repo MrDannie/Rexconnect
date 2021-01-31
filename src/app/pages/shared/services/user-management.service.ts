@@ -15,27 +15,38 @@ const BASE_URL = environment.BASE_URL;
   providedIn: 'root',
 })
 export class UserManagementService {
-  constructor(private httpClient: HttpClient, private config: Config) { }
+  constructor(private httpClient: HttpClient, private config: Config) {}
 
   getAllUsers(
     pageIndex: number,
     pageSize: number,
-    firstName?: string,
-    lastName?: string,
-    roleId?: string
-  ): Observable<AllUsers> {
-    const params = new HttpParams();
-    const requestParams = params.append('page', pageIndex.toString()).append('size', pageSize.toString())
-      .append('firstName', firstName).append('lastName', lastName).append('role', roleId);
+    username?: string,
+    email?: string,
+    enabled?: string
+  ) {
+    let params = new HttpParams();
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (username) {
+      params = params.append('username', username);
+    }
+    if (email) {
+      params = params.append('email', email);
+    }
+    if (enabled) {
+      params = params.append('enabled', enabled);
+    }
+
     return this.httpClient.get<AllUsers>(BASE_URL + '/v1/users', {
-      params: requestParams
-    }).pipe(
-      map((response: AllUsers) => {
-        console.log('FIRST ALL USERS', response);
-        return response;
-      })
-    )
+      params: params,
+    });
   }
+
+  // makeRequest(requestParams) {}
 
   getUsersRoles(category): Observable<AllRoles> {
     return this.httpClient
