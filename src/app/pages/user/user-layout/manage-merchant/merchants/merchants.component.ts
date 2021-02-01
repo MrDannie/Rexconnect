@@ -9,7 +9,12 @@ import { IMerchant } from '../../../../../pages/shared/interfaces/merchants.mode
 import { PaginationService } from '../../../../../core/pagination.service';
 import { MerchantsService } from '../../../../../pages/shared/services/merchants.service';
 import { AlertService } from '../../../../../core/alert/alert.service';
-import { countries, merchantCodes, currencies, states } from '../../../../../pages/shared/constants';
+import {
+  countries,
+  merchantCodes,
+  currencies,
+  states,
+} from '../../../../../pages/shared/constants';
 
 declare var $: any;
 
@@ -19,7 +24,6 @@ declare var $: any;
   styleUrls: ['./merchants.component.scss'],
 })
 export class MerchantsComponent implements OnInit {
-
   showFilter = false;
   allMerchants: IMerchant[] = [];
 
@@ -40,6 +44,7 @@ export class MerchantsComponent implements OnInit {
   storedCities: any[];
   isLoadingCities: boolean;
   isCreatingMerchant: boolean;
+  isFiltering: boolean;
 
   merchantsWrapper: IWrapper<IMerchant>;
 
@@ -58,33 +63,45 @@ export class MerchantsComponent implements OnInit {
     this.messages = this.validationMessages;
   }
 
-  getAllMerchants(merchantId: string = '') {
+  getAllMerchants(merchantId?, merchantName?, status?) {
     this.isLoading = true;
-    this.merchants.getAllMerchants(this.pageIndex, this.pageSize, merchantId).subscribe(
-      data => {
-        this.merchantsWrapper = data;
-        this.allMerchants = data.content;
-        this.dataCount = data.totalElements;
+    this.merchants
+      .getAllMerchants(
+        this.pageIndex,
+        this.pageSize,
+        merchantId,
+        merchantName,
+        status
+      )
+      .subscribe(
+        (data) => {
+          this.merchantsWrapper = data;
+          this.allMerchants = data.content;
+          this.dataCount = data.totalElements;
 
-        this.isLoading = false;
-        this.isLoaded = true;
+          this.isLoading = false;
+          this.isLoaded = true;
+          this.showFilter = false;
+          this.isFiltering = false;
 
-        this.paginationService.pagerState.next({
-          totalElements: this.dataCount,
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize
-        });
-      },
-      error => {
-        this.isLoaded = true;
-        this.isLoading = false;
-        this.paginationService.pagerState.next(null);
-        this.errorHandler.customClientErrors('Error occurred while getting merchants',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
-      }
-    )
+          this.paginationService.pagerState.next({
+            totalElements: this.dataCount,
+            pageIndex: this.pageIndex,
+            pageSize: this.pageSize,
+          });
+        },
+        (error) => {
+          this.isLoaded = true;
+          this.isLoading = false;
+          this.isFiltering = false;
+          this.paginationService.pagerState.next(null);
+          this.errorHandler.customClientErrors(
+            'Error occurred while getting merchants',
+            error.error.error.code,
+            error.error.error.responseMessage
+          );
+        }
+      );
   }
 
   beginDownload() {
@@ -99,35 +116,44 @@ export class MerchantsComponent implements OnInit {
     this.pageSize = this.merchantsWrapper.totalElements;
     this.pageIndex = 0;
 
-    this.merchants.getAllMerchants(this.pageIndex, this.pageSize, merchantId).subscribe(
-      (data: any) => {
-        this.exportedMerchantRecords = data.content;
-        this.pageSize = pageSize;
-        for (let idx = 0; idx < this.exportedMerchantRecords.length; idx++) {
-          temp.push([]);
-          temp[idx]['Merchant Name'] = this.clean('merchantName', idx);
-          temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
-          temp[idx]['Merchant Category Code'] = this.clean('merchantCategoryCode', idx);
+    this.merchants
+      .getAllMerchants(this.pageIndex, this.pageSize, merchantId)
+      .subscribe(
+        (data: any) => {
+          this.exportedMerchantRecords = data.content;
+          this.pageSize = pageSize;
+          for (let idx = 0; idx < this.exportedMerchantRecords.length; idx++) {
+            temp.push([]);
+            temp[idx]['Merchant Name'] = this.clean('merchantName', idx);
+            temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
+            temp[idx]['Merchant Category Code'] = this.clean(
+              'merchantCategoryCode',
+              idx
+            );
+          }
+          this.exportedMerchantRecords = temp;
+          this.exportRecords();
+        },
+        (error) => {
+          this.fileGenerationService.onDownloadCompleted.next(false);
+          this.alertService.error('Merchants download could not be completed');
         }
-        this.exportedMerchantRecords = temp;
-        this.exportRecords();
-
-      },
-      error => {
-        this.fileGenerationService.onDownloadCompleted.next(false);
-        this.alertService.error('Merchants download could not be completed');
-      }
-    );
-
+      );
   }
   exportRecords() {
     const headers = ['Merchant Name', 'Merchant ID', 'Merchant Category Code'];
-    this.fileGenerationService.generateCSV(this.exportedMerchantRecords, headers, 'Merchants');
+    this.fileGenerationService.generateCSV(
+      this.exportedMerchantRecords,
+      headers,
+      'Merchants'
+    );
     this.fileGenerationService.onDownloadCompleted.next(true);
   }
 
   clean(key: string, index: number) {
-    return this.exportedMerchantRecords[index][key] ? this.exportedMerchantRecords[index][key] : '';
+    return this.exportedMerchantRecords[index][key]
+      ? this.exportedMerchantRecords[index][key]
+      : '';
   }
 
   requestPageSize(newSize: number) {
@@ -135,7 +161,7 @@ export class MerchantsComponent implements OnInit {
     this.getAllMerchants();
   }
 
-  onRefreshData(payload: { pageIndex: number, pageSize: number }) {
+  onRefreshData(payload: { pageIndex: number; pageSize: number }) {
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 
@@ -152,9 +178,9 @@ export class MerchantsComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.pageSize = 10;
     this.pageIndex = 0;
+    this.isFiltering = false;
     this.getAllMerchants();
     this.initializeForm();
 
@@ -170,23 +196,47 @@ export class MerchantsComponent implements OnInit {
   resetForm() {
     this.createMerchantForm.reset();
     this.createMerchantForm.patchValue({
-      categoryCode: ''
-    })
+      categoryCode: '',
+    });
   }
 
-  searchBy() {
-    this.showFilter = false;
-    const merchantId = this.searchForm.value.merchantId || '';
-    if (merchantId) {
-      this.getAllMerchants(merchantId);
+  searchBy(value) {
+    console.log('FILTER', value);
+    this.isFiltering = true;
+    let { merchantId, merchantName, status } = value;
+
+    if (!value.merchantId) {
+      delete value.merchantId;
+      merchantId = '';
+    } else {
+      merchantId = value.merchantId;
     }
+    if (!value.merchantName) {
+      delete value.merchantName;
+      merchantName = '';
+    } else {
+      merchantName = value.merchantName;
+    }
+    if (!value.status) {
+      delete value.status;
+      status = '';
+    } else {
+      status = value.status;
+    }
+
+    this.getAllMerchants(merchantId, merchantName, status);
   }
 
   // utils
   getCountries() {
     this.countryCodes = countries.COUNTRY_CODES;
-    this.countryCodes = this.countryCodes.map(function(country) {
-      country.fullCountryLabel = country['ISO3166-1-Alpha-3'] + ' ' + '(' + country['ISO3166-1-numeric'] + ')';
+    this.countryCodes = this.countryCodes.map(function (country) {
+      country.fullCountryLabel =
+        country['ISO3166-1-Alpha-3'] +
+        ' ' +
+        '(' +
+        country['ISO3166-1-numeric'] +
+        ')';
       return country;
     });
   }
@@ -194,7 +244,8 @@ export class MerchantsComponent implements OnInit {
   getCategoryCodes() {
     this.merchantCategoryCodes = merchantCodes.MERCHANT_CODES;
     this.merchantCategoryCodes = this.merchantCategoryCodes.map(function (cat) {
-      cat.fullCatLabel = cat['Program Type'] + ' ' + '(' + cat['MCC CODE'] + ')';
+      cat.fullCatLabel =
+        cat['Program Type'] + ' ' + '(' + cat['MCC CODE'] + ')';
       return cat;
     });
   }
@@ -202,7 +253,12 @@ export class MerchantsComponent implements OnInit {
   getCurrencyCodes() {
     this.currencyCodes = currencies.CURRENCY_CODES;
     this.currencyCodes = this.currencyCodes.map(function (curr) {
-      curr.fullCurrencyLabel = curr['ISO4217-currency_name'] + ' ' + '(' + curr['ISO4217-currency_numeric_code'] + ')';
+      curr.fullCurrencyLabel =
+        curr['ISO4217-currency_name'] +
+        ' ' +
+        '(' +
+        curr['ISO4217-currency_numeric_code'] +
+        ')';
       return curr;
     });
   }
@@ -214,10 +270,10 @@ export class MerchantsComponent implements OnInit {
   }
 
   onSelectCountryCode(countryCode) {
-    const countryObj = countries.COUNTRY_CODES.find(country => {
-      return country["ISO3166-1-numeric"] == countryCode;
-    })
-    const countryAlpha2 = countryObj["ISO3166-1-Alpha-2"];
+    const countryObj = countries.COUNTRY_CODES.find((country) => {
+      return country['ISO3166-1-numeric'] == countryCode;
+    });
+    const countryAlpha2 = countryObj['ISO3166-1-Alpha-2'];
     this.getAllCities(countryAlpha2);
   }
 
@@ -230,7 +286,6 @@ export class MerchantsComponent implements OnInit {
       (e) => e.country_code === String(code)
     );
     this.isLoadingCities = false;
-
   }
 
   addNewMerchant() {
@@ -243,25 +298,24 @@ export class MerchantsComponent implements OnInit {
       merchantKey: this.createMerchantForm.value.merchantKey,
       currencyCode: String(this.createMerchantForm.value.currency),
       countryCode: Number(this.createMerchantForm.value.countryCode),
-      city: this.createMerchantForm.value.city
-    }
-    this.merchants.addNewMerchant(newMerchant)
-      .subscribe(
-        response => {
-          this.isCreatingMerchant = false;
-          this.closeModal('cancel_button_add_merchant');
-          this.alertService.success('Merchant created successfully!');
-          this.getAllMerchants();
-        },
-        error => {
-          this.isCreatingMerchant = false;
-          this.errorHandler.customClientErrors('Error occurred while creating merchant',
+      city: this.createMerchantForm.value.city,
+    };
+    this.merchants.addNewMerchant(newMerchant).subscribe(
+      (response) => {
+        this.isCreatingMerchant = false;
+        this.closeModal('cancel_button_add_merchant');
+        this.alertService.success('Merchant created successfully!');
+        this.getAllMerchants();
+      },
+      (error) => {
+        this.isCreatingMerchant = false;
+        this.errorHandler.customClientErrors(
+          'Error occurred while creating merchant',
           error.error.error.code,
           error.error.error.responseMessage
         );
-        }
-      )
-
+      }
+    );
   }
 
   closeModal(id: string) {
@@ -270,22 +324,26 @@ export class MerchantsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.fb.group({
-      transactionType: [''],
-      terminalId: [''],
-      rrn: [''],
-      approvalDate: [''],
-      lastUpdateDate: [''],
-      merchantId: ['']
+      merchantId: '',
+      merchantName: '',
+      status: '',
     });
     this.createMerchantForm = this.fb.group({
       merchantName: ['', Validators.required],
       merchantKey: ['', Validators.required],
-      merchantId: ['', Validators.compose([Validators.required, Validators.maxLength(15), Validators.minLength(15)])],
+      merchantId: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(15),
+          Validators.minLength(15),
+        ]),
+      ],
       currency: ['', Validators.required],
       categoryCode: ['', Validators.required],
       countryCode: ['', Validators.required],
       city: ['', Validators.required],
-      merchantToken: ['', Validators.required]
+      merchantToken: ['', Validators.required],
     });
   }
 }

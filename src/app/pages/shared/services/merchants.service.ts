@@ -48,20 +48,31 @@ export class MerchantsService {
   getAllMerchants(
     pageIndex: number,
     pageSize: number,
-    merchantId?: string
+    merchantId?: string,
+    merchantName?,
+    isActive?
   ): Observable<IWrapper<IMerchant>> {
-    const headers = this.createAuthorizationHeader();
-    const params = new HttpParams();
-    const getMerchantsParams = params
-      .append('page', pageIndex.toString())
-      .append('size', pageSize.toString())
-      .append('merchantId', merchantId || '');
+    let params = new HttpParams();
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (merchantId) {
+      params = params.append('merchantId', merchantId);
+    }
+    if (merchantName) {
+      params = params.append('merchantName', merchantName);
+    }
+    if (status) {
+      params = params.append('isActive', isActive);
+    }
 
     return this.http.get<IWrapper<IMerchant>>(
       BASE_URL + this.config.getAllMerchants,
       {
-        headers,
-        params: getMerchantsParams,
+        params,
       }
     );
   }
