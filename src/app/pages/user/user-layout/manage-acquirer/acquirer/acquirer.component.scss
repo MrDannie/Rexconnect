@@ -112,3 +112,8 @@ caption {
   opacity: 1;
   margin-right: 0.5rem;
 }
+
+.search_input[_ngcontent-c5]:focus,
+.form-control[_ngcontent-c5]:focus {
+  border: gray 1px solid !important;
+}
