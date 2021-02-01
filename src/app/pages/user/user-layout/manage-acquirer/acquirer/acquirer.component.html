@@ -55,24 +55,47 @@
 
           <div class="col-md-4">
             <div class="form-group">
-              <label for="cbnCode" class="search_label">CBN Code</label>
+              <label for="bankCode" class="search_label">CBN Code</label>
               <input
                 type="text"
                 class="form-control search_input"
-                formControlName="cbnCode"
-                id="cbnCode"
+                formControlName="bankCode"
+                id="bankCode"
               />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="status" class="search_label">Status</label>
+              <select
+                type="text"
+                class="form-control search_input"
+                formControlName="status"
+                id="status"
+              >
+                <option value="ACTIVE">Active</option>
+                <option value="INACTIVE">Inactive</option>
+              </select>
             </div>
           </div>
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white">Close</button>
+          <button
+            (click)="showFilter = !showFilter; searchForm.reset()"
+            class="btn button-white"
+          >
+            Close
+          </button>
 
-          <button class="btn button-pink">
+          <button (click)="filterBy(searchForm.value)" class="btn button-pink">
             Apply Filters
 
-            <div class="spinner-border spinner-border-sm ml-3" role="status">
+            <div
+              *ngIf="isFiltering"
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+            >
               <span class="sr-only">Loading...</span>
             </div>
           </button>
@@ -95,6 +118,8 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
+    <app-rex-loader [isPushed]="true" *ngIf="!allAcquirer"></app-rex-loader>
+
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -108,7 +133,12 @@
         <tr *ngFor="let acquirer of allAcquirer">
           <td>{{ acquirer.clientName }}</td>
           <td>{{ acquirer.bankCode }}</td>
-          <td class="active">{{ acquirer.status }}</td>
+          <td
+            [ngClass]="{ Inactive: acquirer.status === 'INACTIVE' }"
+            class="active"
+          >
+            {{ acquirer.status | titlecase }}
+          </td>
           <td>
             <button [routerLink]="[acquirer.id]" class="btn table_button">
               Open

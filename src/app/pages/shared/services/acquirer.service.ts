@@ -16,13 +16,32 @@ export class AcquirerService {
     this.config = new Config();
   }
 
-  getAllAcquirer(pageIndex: number, pageSize: number): Observable<any> {
-    const params = new HttpParams();
-    const requestParams = params
-      .append('page', pageIndex.toString())
-      .append('size', pageSize.toString());
+  getAllAcquirer(
+    pageIndex: number,
+    pageSize: number,
+    clientName?,
+    bankCode?,
+    status?
+  ): Observable<any> {
+    let params = new HttpParams();
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (clientName) {
+      params = params.append('clientName', clientName);
+    }
+    if (bankCode) {
+      params = params.append('bankCode', bankCode);
+    }
+    if (status) {
+      params = params.append('status', status);
+    }
+
     return this.http.get<any>(BASE_URL + this.config.getAllAcquirers, {
-      params: requestParams,
+      params: params,
     });
   }
 

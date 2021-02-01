@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
+import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
+import { UserManagementService } from 'src/app/pages/shared/services/user-management.service';
 
 @Component({
   selector: 'app-acquirer',
@@ -28,12 +30,16 @@ export class AcquirerComponent implements OnInit {
   pageIndex: number;
   pageSize: number;
   isRefreshing: boolean;
+  isFiltering: boolean;
+  acquirerRecordsToDownload: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private acquirerService: AcquirerService,
     private alertService: AlertService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    private userManagementService: UserManagementService,
+    private fileGenerationService: FileGenerationService
   ) {
     this.showFilter = false;
     this.showFilter = false;
@@ -56,8 +62,9 @@ export class AcquirerComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      acquirerName: '',
-      cbnCode: '',
+      clientName: '',
+      bankCode: '',
+      status: '',
     });
     this.createAcquirerForm = this.formBuilder.group({
       clientName: ['', Validators.compose([Validators.required])],
@@ -71,9 +78,15 @@ export class AcquirerComponent implements OnInit {
   }
 
   // GET ALL ACQUIRER
-  getAllAcquirers() {
+  getAllAcquirers(clientName?, bankCode?, status?) {
     this.acquirerService
-      .getAllAcquirer(this.pageIndex, this.pageSize)
+      .getAllAcquirer(
+        this.pageIndex,
+        this.pageSize,
+        clientName,
+        bankCode,
+        status
+      )
       .subscribe(
         (response) => {
           console.log('Acquirers Data', response);
@@ -82,6 +95,8 @@ export class AcquirerComponent implements OnInit {
           this.isLoaded = true;
           this.isLoading = false;
           this.isRefreshing = false;
+          this.isFiltering = false;
+          this.showFilter = false;
 
           // Handling Pagination
           this.paginationService.pagerState.next({
@@ -96,6 +111,7 @@ export class AcquirerComponent implements OnInit {
           this.alertService.error(error);
           this.isLoaded = true;
           this.isLoading = false;
+          this.isFiltering = false;
           this.paginationService.pagerState.next(null);
         }
       );
@@ -108,22 +124,113 @@ export class AcquirerComponent implements OnInit {
       .subscribe((response) => console.log('PTSTS GOTTEN', response));
   }
 
-  onRefreshData(pageParams: { pageIndex: number; pageSize: number }) {
-    this.pageIndex = pageParams.pageIndex;
-    this.pageSize = pageParams.pageSize;
-
-    this.getAllAcquirers();
-  }
-
   addAcquirer(formValue) {
     console.log(formValue);
   }
 
+  filterBy(value) {
+    console.log('FILTER', this.searchForm.value);
+    console.log(value);
+    this.isFiltering = true;
+
+    let { clientName, bankCode, status } = value;
+
+    if (!value.clientName) {
+      delete value.clientName;
+      clientName = '';
+    } else {
+      clientName = value.clientName;
+    }
+    if (!value.bankCode) {
+      delete value.bankCode;
+      bankCode = '';
+    } else {
+      bankCode = value.bankCode;
+    }
+    if (!value.status) {
+      delete value.status;
+      status = '';
+    } else {
+      status = value.status;
+    }
+
+    this.getAllAcquirers(clientName, bankCode, status);
+  }
+
+  clearFilters() {
+    this.showFilter = false;
+
+    this.searchForm.reset();
+
+    this.pageIndex = 0;
+    this.pageSize = 10;
+
+    this.getAllAcquirers();
+  }
+
   reset() {}
 
-  beginDownload() {}
+  beginDownload() {
+    this.exportUsers();
+  }
+  exportUsers() {
+    const dataToDownload: any[] = [];
+    // const currentPageSize = this.pageSize;
 
-  requestPageSize(data) {}
+    const downloadPageSize = this.dataCount;
+    this.pageIndex = 0;
+
+    this.userManagementService
+      .getAllUsers(this.pageIndex, downloadPageSize)
+      .subscribe((data: any) => {
+        this.acquirerRecordsToDownload = data['content'];
+        for (
+          let index = 0;
+          index < this.acquirerRecordsToDownload.length;
+          index++
+        ) {
+          dataToDownload.push([]);
+          dataToDownload[index]['Acquirer Name'] = this.clean(
+            'clientName',
+            index
+          );
+          dataToDownload[index]['CBN Code'] = this.clean('bankCode', index);
+          dataToDownload[index]['Status'] = this.acquirerRecordsToDownload[
+            index
+          ]['enabled']
+            ? 'Active'
+            : 'Inactive';
+        }
+        console.log('dataToDownload In Exxport Users', dataToDownload);
+        this.exportRecords(dataToDownload);
+      });
+  }
+  exportRecords(dataToDownload: any[]) {
+    const headers = ['Acquirer Name', 'Cbn Code', 'Status'];
+    this.fileGenerationService.generateCSV(
+      dataToDownload,
+      headers,
+      'Acquirers'
+    );
+    this.fileGenerationService.onDownloadCompleted.next(true);
+  }
+  clean(key: string, index: number): any {
+    return this.acquirerRecordsToDownload[index][key]
+      ? this.acquirerRecordsToDownload[index][key]
+      : '';
+  }
+
+  requestPageSize(value: number) {
+    this.pageSize = value;
+    this.getAllAcquirers();
+  }
+
+  onRefreshData(payload: { pageIndex: number; pageSize: number }) {
+    this.pageIndex = payload.pageIndex;
+    this.pageSize = payload.pageSize;
+
+    this.getAllAcquirers();
+  }
 
   refreshTableData() {
     this.showFilter = false;
