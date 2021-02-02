@@ -54,9 +54,9 @@ export class UpdateAcquirerComponent implements OnInit {
       currencyCode: ['', Validators.compose([Validators.required])],
       terminalPrefix: [[''], Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
-      ruleOrder: ['', Validators.compose([Validators.required])],
-      ptsps: ['', Validators.compose([Validators.required])],
-      routingRules: ['', Validators.compose([Validators.required])],
+      // ruleOrder: ['', Validators.compose([Validators.required])],
+      // ptsps: ['', Validators.compose([Validators.required])],
+      // routingRules: ['', Validators.compose([Validators.required])],
     });
   }
 
@@ -67,11 +67,11 @@ export class UpdateAcquirerComponent implements OnInit {
         this.acquirerToBeUpdated = response['data'];
 
         //extract Rule Order & Routing Rules
-        this.ruleOrder = ['Bin_series', 'PROC_CODE', 'scheme'];
-        this.routingRulesToBeAdded = [1, 2, 3, 4, 5];
-        this.ptspsListOfAcquirer = [1, 2, 3, 4, 5];
+        this.ruleOrder = this.acquirerToBeUpdated.ruleOrder;
+        this.routingRulesToBeAdded = this.acquirerToBeUpdated.routes;
+        this.ptspsListOfAcquirer = this.acquirerToBeUpdated.ptsps;
         this.ptspsToAdd = this.ptspsListOfAcquirer;
-        console.log(this.acquirerToBeUpdated);
+        console.log('Acquirer To Edit', this.acquirerToBeUpdated);
         this.fillFormValue();
       },
       (error) => {
@@ -93,8 +93,6 @@ export class UpdateAcquirerComponent implements OnInit {
       ptsps: '',
       routingRules: '',
     });
-
-    this.addAcquirer(this.editAcquirerForm.value);
 
     console.log('HERHE IS EDIT ACQUIRER FORM', this.editAcquirerForm.value);
   }
@@ -153,6 +151,17 @@ export class UpdateAcquirerComponent implements OnInit {
     }
   }
 
+  removeRuleFromRuleOrder(ruleType: string) {
+    this.ruleOrder = this.ruleOrder.filter((rule) => rule != ruleType);
+    const ruleToBeRemoved = this.routingRules.find(
+      (rule) => rule.rule === ruleType
+    );
+    this.routingRulesToBeAdded = this.routingRulesToBeAdded.filter(
+      (item) => item != +ruleToBeRemoved.id
+    );
+    console.log('RUlE TO BE REMOVED FROM RULE TO BE ADDED', ruleToBeRemoved);
+  }
+
   toggleAllPtspsCheckbox() {
     $('.ptspsCheckBoxName').prop(
       'checked',
@@ -181,38 +190,42 @@ export class UpdateAcquirerComponent implements OnInit {
   }
 
   addAcquirer(formValue) {
-    // this.isAddingAcquirer = true;
-    // formValue.routingRules = this.routingRulesToBeAdded;
-    // formValue.ptsps = this.ptspsToAdd;
-    // formValue.ruleOrder = this.ruleOrder;
-    // formValue.terminalPrefix = [
-    //   this.editAcquirerForm.get('terminalPrefix').value,
-    // ];
-    // console.log('FORM VAL,', formValue);
-
-    // // ADD RULE
-    // this.acquirerService.updateAcquirer(formValue, this.acquirerId).subscribe(
-    //   (response) => {
-    //     this.isAddingAcquirer = false;
-    //     this.alertService.success('Acquirer Successfully Added', true);
-    //     console.log('SUCEESS', response);
-    //   },
-    //   (error) => {
-    //     this.isAddingAcquirer = false;
-    //     this.alertService.error(error);
-    //     console.log('ERROR', error);
-    //   }
-    // );
-
-    this.acquirerService
-      .updateAcquirer(this.editAcquirerForm.value, this.acquirerId)
-      .subscribe(
-        (response) => {
-          console.log('Sucess', response);
-        },
-        (error) => {
-          console.log(error);
-        }
+    if (this.routingRulesToBeAdded.length < 1) {
+      this.alertService.info(
+        'Please Select Routes. Routes cannot be empty.',
+        true
       );
+      return;
+    }
+
+    if (this.ptspsToAdd.length < 1) {
+      this.alertService.info(
+        'Please Select Ptsps. Ptsps cannot be empty.',
+        true
+      );
+      return;
+    }
+    this.isAddingAcquirer = true;
+    formValue.routingRules = this.routingRulesToBeAdded;
+    formValue.ptsps = this.ptspsToAdd;
+    formValue.ruleOrder = this.ruleOrder;
+    formValue.terminalPrefix = [
+      this.editAcquirerForm.get('terminalPrefix').value,
+    ];
+    console.log('FORM VAL,', formValue);
+
+    // ADD RULE
+    this.acquirerService.updateAcquirer(formValue, this.acquirerId).subscribe(
+      (response) => {
+        this.isAddingAcquirer = false;
+        this.alertService.success('Acquirer Successfully Added', true);
+        console.log('SUCEESS', response);
+      },
+      (error) => {
+        this.isAddingAcquirer = false;
+        this.alertService.error(error);
+        console.log('ERROR', error);
+      }
+    );
   }
 }
