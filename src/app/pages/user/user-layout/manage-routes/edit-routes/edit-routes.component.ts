@@ -67,6 +67,7 @@ export class EditRoutesComponent implements OnInit {
     this.routeCompService.getSingleRoute(this.routeId).subscribe(
       (response) => {
         console.log('THIS IS THE ROUTE TO EDITTED', response);
+        this.routeToBeEditted = response.data;
 
         // PARSE THE DATA
         let parsedData = JSON.parse(response.data.rule_config);
@@ -74,6 +75,7 @@ export class EditRoutesComponent implements OnInit {
         // SET FORM VALUE
 
         this.defaultDestinationStation = response.data.default_ds;
+
         // this.defaultDestinationStation = 'transware';
 
         console.log('This defaut Ds', this.defaultDestinationStation);
@@ -90,9 +92,11 @@ export class EditRoutesComponent implements OnInit {
         this.duplicateFormField(this.ruleConfigForRouteToBeEditted.length);
 
         console.log('afadsf', this.ruleConfigForRouteToBeEditted);
+        console.log('asfsdasdf', this.ruleConfig);
 
         // SET FORM VALUE
         this.setEditFormValue();
+        console.log(this.editRouteForm);
       },
       (error) => {
         console.log(error);
@@ -145,18 +149,19 @@ export class EditRoutesComponent implements OnInit {
       );
   }
 
-  removeConfig() {
-    this.ruleConfig = this.editRouteForm.get('rule_config') as FormArray;
-    this.ruleConfig.controls.pop();
-    // this.ruleConfig['status'] = 'VALID';
-    // this.createRouteForm['status'] = 'VALID'
+  removeConfig(skillGroupIndex: number): void {
+    (<FormArray>this.editRouteForm.get('rule_config')).removeAt(
+      skillGroupIndex
+    );
   }
 
   duplicateForm(): void {
     console.log('here');
+    console.log(this.ruleConfig);
 
     this.ruleConfig = this.editRouteForm.get('rule_config') as FormArray;
     this.ruleConfig.push(this.createRuleConfigForm());
+    console.log(this.ruleConfig);
   }
 }
 // {
