@@ -177,21 +177,23 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li *ngFor="let rule of routingRules">
-              <a class="dropdown-item">{{ rule.rule }}</a
-              ><a
-                (click)="addRuleType(rule.id, rule.rule)"
-                *ngIf="!routingRulesToBeAdded.includes(+rule.id)"
-                style="color: green; cursor: pointer"
-                class="dropdown-item"
-                >Add Route</a
-              >
-              <a
-                (click)="removeRuleType(+rule.id, rule.rule)"
-                *ngIf="routingRulesToBeAdded.includes(+rule.id)"
-                style="color: red; cursor: pointer"
-                class="dropdown-item"
-                >Remove</a
-              >
+              <div style="font-family: Roboto Bold" class="general">
+                <span>{{ rule.rule }}</span>
+                <span
+                  (click)="addRuleType(rule.id, rule.rule)"
+                  class="dropdown-item"
+                  *ngIf="!routingRulesToBeAdded?.includes(+rule.id)"
+                  style="color: green; cursor: pointer"
+                  >Add Route</span
+                >
+                <span
+                  (click)="removeRuleType(+rule.id, rule.rule)"
+                  *ngIf="routingRulesToBeAdded?.includes(+rule.id)"
+                  style="color: red; cursor: pointer"
+                  class="dropdown-item"
+                  >Remove Route</span
+                >
+              </div>
             </li>
           </ul>
         </div>
@@ -209,7 +211,12 @@
             <span class="badge slideInDown" *ngFor="let rule of ruleOrder">
               {{ rule }}
 
-              <!-- <i class="fa fa-remove"> </i> -->
+              <i
+                style="cursor: pointer"
+                class="fa fa-remove"
+                (click)="removeRuleFromRuleOrder(rule)"
+              >
+              </i>
             </span>
           </div>
         </div>
@@ -225,7 +232,9 @@
           id="select-all-for-ptsps"
           (click)="toggleAllPtspsCheckbox()"
         />
-        <label class="select-label" for="select-all">Select all</label>
+        <label style="margin-left: 9px" class="select-label" for="select-all"
+          >Select all</label
+        >
         <div *ngFor="let ptsp of ptspsList" class="form-check">
           <input
             class="form-check-input ptspsCheckBoxName"
@@ -233,13 +242,14 @@
             value=""
             id="flexCheckDefault"
             (change)="addPtsps(ptsp.id)"
-            [checked]="ptspsListOfAcquirer.includes(+ptsp.id)"
+            [checked]="ptspsListOfAcquirer?.includes(+ptsp.id)"
           />
           <label
             class="select-all"
             class="form-check-label"
             for="flexCheckDefault"
             class="select-label"
+            style="font-family: Roboto"
           >
             {{ ptsp.ptspName }}
           </label>
@@ -266,54 +276,6 @@
         </div>
       </div>
     </div>
-
-    <!-- ptsps -->
-    <!-- <div class="form-row">
-      <div class="form-group col-md-4">
-        <div class="">
-          <span class="has-float-label">
-            <input
-              class="form-control"
-              id="clientAddress"
-              type="text"
-              placeholder=" "
-              formControlName="ptsps"
-            />
-            <label for="ptsps">Issuer</label>
-          </span>
-        </div>
-      </div>
-      <div class="form-group col-md-4">
-        <div class="">
-          <span class="has-float-label">
-            <input
-              class="form-control"
-              id="clientAddress"
-              type="text"
-              placeholder=" "
-              formControlName="routingRules"
-            />
-            <label for="clientAddress">Acquirer</label>
-          </span>
-        </div>
-      </div>
-    </div> -->
-    <!-- <div class="form-row">
-      <div class="form-group col-md-4">
-        <div class="">
-          <span class="has-float-label">
-            <input
-              class="form-control"
-              id="clientAddress"
-              type="text"
-              placeholder=" "
-              formControlName="ptsps"
-            />
-            <label for="ptsps">Terminal Owner</label>
-          </span>
-        </div>
-      </div>
-    </div> -->
 
     <!-- RELEVANT CODE HERE  -->
   </form>
