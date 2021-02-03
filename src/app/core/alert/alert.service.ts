@@ -44,13 +44,17 @@ export class AlertService {
 
   error(error: any, keepAfterRouteChange = false) {
     console.log(error);
+    console.log(error.error);
+
     
     let errorMessage = '';
     this.alertId++;
     if (typeof error === 'string') {
       errorMessage = error;
     } else {
-      if (error.error.code === 401) {
+      if (error.error.error.code === 401) {
+        console.log('logging put');
+        
         this.authService.logout();
       }
       

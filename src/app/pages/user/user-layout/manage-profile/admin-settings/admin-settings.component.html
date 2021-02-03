@@ -1,0 +1,354 @@
+<!-- <span class="name_and_role"> Profile </span>
+<span class="menu_section">
+  <span class="menu active animated" routerLink="../personal-details"
+    >Personal Details</span
+  >
+  <span class="menu" routerLink="../manage-password">Change Password</span>
+</span> -->
+
+<div class="form_area">
+  <form [formGroup]="updateSettingsForm">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="name"
+              type="text"
+              placeholder=" "
+              formControlName="name"
+            />
+            <label for="name">Name</label>
+          </span>
+          <div
+            *ngIf="
+              updateSettingsForm.get('name').errors &&
+              (updateSettingsForm.get('name').dirty ||
+                updateSettingsForm.get('name').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateSettingsForm.get('name').hasError('required')"
+            >
+              {{ validationMessage.name.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="terminalPrefix"
+              type="text"
+              placeholder=" "
+              formControlName="terminalPrefix"
+            />
+            <label for="terminalPrefix">Terminal Prefix </label>
+          </span>
+          <div
+            *ngIf="
+              updateSettingsForm.get('terminalPrefix').errors &&
+              (updateSettingsForm.get('terminalPrefix').dirty ||
+                updateSettingsForm.get('terminalPrefix').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateSettingsForm.get('terminalPrefix').hasError('required')"
+            >
+              {{ validationMessage.terminalPrefix.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="shortName"
+              type="text"
+              placeholder=" "
+              formControlName="shortName"
+              maxlength="10"
+            />
+            <label for="shortName">Short Name</label>
+          </span>
+          <div
+            *ngIf="
+              updateSettingsForm.get('shortName').errors &&
+              (updateSettingsForm.get('shortName').dirty ||
+                updateSettingsForm.get('shortName').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateSettingsForm.get('shortName').hasError('required')"
+            >
+              {{ validationMessage.shortName.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+    
+      <div class="form-group col-md-4">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="address"
+              type="text"
+              placeholder=" "
+              formControlName="address"
+            />
+            <label for="address">Address</label>
+          </span>
+          <div
+            *ngIf="
+              updateSettingsForm.get('address').errors &&
+              (updateSettingsForm.get('address').dirty ||
+                updateSettingsForm.get('address').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateSettingsForm.get('address').hasError('required')"
+            >
+              {{ validationMessage.address.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group col-md-4">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="currencyCode"
+              type="text"
+              placeholder=" "
+              formControlName="currencyCode"
+              maxlength="10"
+            />
+            <label for="currencyCode">Currency Code</label>
+          </span>
+          <div
+            *ngIf="
+              updateSettingsForm.get('currencyCode').errors &&
+              (updateSettingsForm.get('currencyCode').dirty ||
+                updateSettingsForm.get('currencyCode').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateSettingsForm.get('currencyCode').hasError('required')"
+            >
+              {{ validationMessage.currencyCode.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="form-group col-md-4">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="bankCode"
+              type="text"
+              placeholder=" "
+              formControlName="bankCode"
+              maxlength="10"
+            />
+            <label for="bankCode">Bank Code</label>
+          </span>
+          <div
+            *ngIf="
+              updateSettingsForm.get('bankCode').errors &&
+              (updateSettingsForm.get('bankCode').dirty ||
+                updateSettingsForm.get('bankCode').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateSettingsForm.get('bankCode').hasError('required')"
+            >
+              {{ validationMessage.bankCode.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+  
+
+
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="location"
+              type="text"
+              placeholder=" "
+              formControlName="location"
+            />
+            <label for="location">Location</label>
+          </span>
+          <div
+            *ngIf="
+              updateSettingsForm.get('location').errors &&
+              (updateSettingsForm.get('location').dirty ||
+                updateSettingsForm.get('location').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateSettingsForm.get('location').hasError('required')"
+            >
+              {{ validationMessage.location.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="color"
+              type="text"
+              placeholder=" "
+              formControlName="color"
+            />
+            <label for="color">Color</label>
+          </span>
+          <div
+            *ngIf="
+              updateSettingsForm.get('color').errors &&
+              (updateSettingsForm.get('color').dirty ||
+                updateSettingsForm.get('color').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateSettingsForm.get('color').hasError('required')"
+            >
+              {{ validationMessage.color.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+    
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="logo_url"
+              type="text"
+              placeholder=" "
+              formControlName="logo_url"
+            />
+            <label for="logo_url">Logo Url</label>
+          </span>
+          <div
+            *ngIf="
+              updateSettingsForm.get('logo_url').errors &&
+              (updateSettingsForm.get('logo_url').dirty ||
+                updateSettingsForm.get('logo_url').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateSettingsForm.get('logo_url').hasError('required')"
+            >
+              {{ validationMessage.logo_url.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <label class="container"
+      ><span>Auto Generate Merchant ID</span>
+      <input
+        type="checkbox"
+        id="auto_mid"
+        formControlName="auto_mid"
+
+      />
+      <span class="checkmark"></span>
+    </label>
+    </div>
+
+
+    <div class="row">
+      <label class="container"
+      ><span>Auto Generate Terminal ID</span>
+      <input
+        type="checkbox"
+        id="auto_tid"
+        formControlName="auto_tid"
+      />
+      <span class="checkmark"></span>
+    </label>
+
+    </div>
+    <div class="form_actions">
+      <button
+        class="btn action_button"
+        *ngIf="!isUpdating"
+        (click)="updateSettings(updateSettingsForm.value)"
+        [disabled]="!updateSettingsForm.valid"
+      >
+        Save Changes
+      </button>
+
+      <div
+        class="spinner-border spinner-border-sm ml-3"
+        role="status"
+        *ngIf="isUpdating"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </form>
+</div>

@@ -61,9 +61,10 @@ export class StationsDetailsComponent implements OnInit {
     this.stationsService.disableStation(this.stationId).subscribe(
       (res) => {
         console.log(res);
+        $('#confirmationModal').modal('hide');
+
         this.alertService.success('Station disabled successfully');
         this.getStationDetails();
-        $('#confirmationModal').modal('hide');
         this.isDisabling = false;
       },
       (error) => {
