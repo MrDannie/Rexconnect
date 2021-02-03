@@ -7,10 +7,17 @@
     >Personal Details</span
   >
   <span
+class="menu animated"
+routerLink="admin-settings"
+[routerLinkActive]="['active']">Admin Settings</span>
+
+
+  <span
     class="menu animated"
     routerLink="manage-password"
     [routerLinkActive]="['active']"
     >Change Password</span
   >
 </span>
+
 <router-outlet></router-outlet>
