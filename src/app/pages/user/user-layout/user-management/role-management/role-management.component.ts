@@ -1,6 +1,7 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { error } from 'protractor';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { IRole } from 'src/app/pages/shared/interfaces/Role';
@@ -29,6 +30,7 @@ export class RoleManagementComponent implements OnInit {
   selectedPermissionsToAdd: any = [];
   permissionsToUpdate: any = [];
   validationMessage: any;
+  deletingRole: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -247,6 +249,23 @@ export class RoleManagementComponent implements OnInit {
         });
       });
     }
+  }
+
+  deleteRole(roleId) {
+    this.deletingRole = true;
+    console.log('ROLE TO DELTE', roleId);
+    this.roleMgtService.deleteRole(roleId).subscribe(
+      (response) => {
+        console.log('ROLE DELETED', response);
+        this.alertService.success('Role Deleted Successfully', true);
+        this.getRoles();
+        this.deletingRole = false;
+      },
+      (error) => {
+        this.alertService.error(error);
+        this.deletingRole = false;
+      }
+    );
   }
 
   initializeForm() {

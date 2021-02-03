@@ -59,4 +59,12 @@ export class RoleManagementService {
       })
     );
   }
+
+  deleteRole(roleId): Observable<IRole> {
+    return this.httpClient.delete(BASE_URL + '/v1/roles/' + roleId).pipe(
+      map((response: IRole) => {
+        return response;
+      })
+    );
+  }
 }
