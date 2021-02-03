@@ -119,7 +119,7 @@
           <td>{{ route.default_ds }}</td>
           <td>{{ route.rule }}</td>
           <!-- <td>{{route.rule_config.ruleconfig.rule}}</td> -->
-          <td class="active">
+          <td [ngClass]="{ Inactive: route.use_default === 0 }" class="active">
             {{ route.use_default == "1" ? "True" : "False" }}
           </td>
           <td>
