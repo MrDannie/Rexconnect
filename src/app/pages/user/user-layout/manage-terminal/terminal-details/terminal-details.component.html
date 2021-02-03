@@ -38,7 +38,7 @@
         </div>
         <div class="col-md-6">
           <b>Currency</b>
-          <p>{{  terminalDetails?.currencyCode }}</p>
+          <p>{{ terminalDetails?.currencyCode }}</p>
         </div>
       </div>
       <div class="row">
@@ -75,8 +75,10 @@
     <div class="modal-content">
       <div class="modal-body">
         <h5 class="modal-title" id="updateTerminalLabel">Update Terminal</h5>
-        <form [formGroup]="updateTerminalForm" (ngSubmit)="updateTerminalDetails()" >
-
+        <form
+          [formGroup]="updateTerminalForm"
+          (ngSubmit)="updateTerminalDetails()"
+        >
           <div class="col-md-12 no-padding">
             <div class="form-group">
               <span class="has-float-label">
@@ -87,94 +89,112 @@
                   placeholder=" "
                   formControlName="merchantId"
                 >
-                  <option [value]="merchant.merchantId" *ngFor="let merchant of allMerchants"  >{{ merchant.merchantName }}</option>
+                  <option
+                    [value]="merchant.merchantId"
+                    *ngFor="let merchant of allMerchants"
+                  >
+                    {{ merchant.merchantName }}
+                  </option>
                 </select>
                 <label for="merchantId">Merchant Name</label>
               </span>
             </div>
             <span
               class="validation-message"
-              *ngIf="updateTerminalForm.get('merchantId').errors && updateTerminalForm.get('merchantId').touched"
-            >Merchant Name is required.</span>
+              *ngIf="
+                updateTerminalForm.get('merchantId').errors &&
+                updateTerminalForm.get('merchantId').touched
+              "
+              >Merchant Name is required.</span
+            >
           </div>
 
           <div class="col-md-12 no-padding">
-              <div class="form-group">
-                <span class="has-float-label">
-                  <input
-                    id="terminalId"
-                    type="text"
-                    disabled
-                    class="form-control"
-                    placeholder=" "
-                    formControlName="terminalId"
-                  />
-                  <label for="terminalId">Terminal ID</label>
-                </span>
-              </div>
+            <div class="form-group">
+              <span class="has-float-label">
+                <input
+                  id="terminalId"
+                  type="text"
+                  class="form-control"
+                  placeholder=" "
+                  formControlName="terminalId"
+                />
+                <label for="terminalId">Terminal ID</label>
+              </span>
             </div>
+          </div>
 
           <div class="col-md-12 no-padding">
-              <div class="form-group">
-                <span class="has-float-label">
-                  <input
-                    id="transactionTimeout"
-                    type="number"
-                    class="form-control no-arrows"
-                    placeholder=" "
-                    formControlName="transactionTimeout"
-                  />
-                  <label for="transactionTimeout">Transaction Timeout (In Seconds)</label>
-                </span>
-              </div>
-              <span
-                class="validation-message"
-                *ngIf="updateTerminalForm.get('transactionTimeout').errors && updateTerminalForm.get('transactionTimeout').touched"
-              >Transaction Timeout is required.</span>
+            <div class="form-group">
+              <span class="has-float-label">
+                <input
+                  id="transactionTimeout"
+                  type="number"
+                  class="form-control no-arrows"
+                  placeholder=" "
+                  formControlName="transactionTimeout"
+                />
+                <label for="transactionTimeout"
+                  >Transaction Timeout (In Seconds)</label
+                >
+              </span>
             </div>
+            <span
+              class="validation-message"
+              *ngIf="
+                updateTerminalForm.get('transactionTimeout').errors &&
+                updateTerminalForm.get('transactionTimeout').touched
+              "
+              >Transaction Timeout is required.</span
+            >
+          </div>
 
           <div class="col-md-12 no-padding">
-              <div class="form-group">
-                <span class="has-float-label">
-                  <input
-                    id="callHomeTime"
-                    type="number"
-                    class="form-control no-arrows"
-                    placeholder=" "
-                    formControlName="callHomeTime"
-                  />
-                  <label for="callHomeTime">Call Home Time (In Seconds)</label>
-                </span>
-              </div>
-              <span
-                class="validation-message"
-                *ngIf="updateTerminalForm.get('callHomeTime').errors && updateTerminalForm.get('callHomeTime').touched"
-              >Call Home Time is required.</span>
+            <div class="form-group">
+              <span class="has-float-label">
+                <input
+                  id="callHomeTime"
+                  type="number"
+                  class="form-control no-arrows"
+                  placeholder=" "
+                  formControlName="callHomeTime"
+                />
+                <label for="callHomeTime">Call Home Time (In Seconds)</label>
+              </span>
             </div>
+            <span
+              class="validation-message"
+              *ngIf="
+                updateTerminalForm.get('callHomeTime').errors &&
+                updateTerminalForm.get('callHomeTime').touched
+              "
+              >Call Home Time is required.</span
+            >
+          </div>
 
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="terminalState"
-                id="activateTerminal"
-                checked
-              />
-              <label class="form-check-label" for="activateTerminal">
-                Activate Terminal
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="terminalState"
-                id="deactivateTerminal"
-              />
-              <label class="form-check-label" for="deactivateTerminal">
-                Deactivate Terminal
-              </label>
-            </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="terminalState"
+              id="activateTerminal"
+              checked
+            />
+            <label class="form-check-label" for="activateTerminal">
+              Activate Terminal
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="terminalState"
+              id="deactivateTerminal"
+            />
+            <label class="form-check-label" for="deactivateTerminal">
+              Deactivate Terminal
+            </label>
+          </div>
 
           <!-- RELEVANT CODE HERE  -->
 

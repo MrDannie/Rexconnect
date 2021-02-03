@@ -1,6 +1,6 @@
 <div class="top_buttons">
   <span class="back_button" [routerLink]="['../../route-details', routeId]">
-    <i class="fa fa-long-arrow-left"></i> Return to User List
+    <i class="fa fa-long-arrow-left"></i> Return to Route List
   </span>
 </div>
 <div class="main_dashboard_flow">
@@ -75,7 +75,7 @@
               cursor: pointer;
             "
             *ngIf="i > 0"
-            (click)="removeConfig()"
+            (click)="removeConfig(i)"
           >
             Remove
           </p>
@@ -156,7 +156,7 @@
         </div>
         <button
           class="add-more"
-          [disabled]="editRouteForm.get('rule_config').invalid"
+          [disabled]="editRouteForm.get('rule_config').status == 'INVALID'"
           (click)="duplicateForm()"
           style="color: green; font-size: 13px; border: 0; font-weight: bold"
         >
@@ -166,6 +166,7 @@
         <input
           formControlName="use_default"
           style="color: #2c9220"
+          [checked]="routeToBeEditted?.use_default === 0 ? false : true"
           type="checkbox"
         />
         Use Default
