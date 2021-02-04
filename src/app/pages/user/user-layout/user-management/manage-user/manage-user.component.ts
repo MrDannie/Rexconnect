@@ -141,6 +141,7 @@ export class ManageUserComponent implements OnInit {
         $('#createUser').modal('hide');
         this.isLoading = false;
         console.log('User Gotten IN component', response);
+        this.createUserForm.reset();
         this.alertService.success('User Created Successfully', true);
       },
       (error) => {

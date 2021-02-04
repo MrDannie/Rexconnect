@@ -74,12 +74,14 @@
               font-size: 12px;
               cursor: pointer;
             "
+            class="remove"
             *ngIf="i > 0"
             (click)="removeConfig(i)"
           >
             Remove
           </p>
           <hr *ngIf="i > 0" />
+
           <div [formGroupName]="i">
             <div class="form-group">
               <div class="row">
@@ -175,6 +177,7 @@
           type="submit"
           data-toggle="modal"
           data-target="#editAcquirer"
+          [disabled]="editRouteForm.invalid"
         >
           Edit Route
         </button>
