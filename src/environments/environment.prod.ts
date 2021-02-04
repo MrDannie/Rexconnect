@@ -3,5 +3,7 @@ export const environment = {
   BASE_URL: 'https://accesstams.globalaccelerex.com/api/tams',
   EXTERNAL_BASE_URL: 'https://pgs.globalaccelerex.com',
   APP_REF: 'REXCONNECT-',
-  ALLOW_CAPTCHA: true,
+  ACCESS_CONTROL_BTOA: btoa("peter" + ":" + "peter"),
+  NONCE: "TESTME",
+  TIMESTAMP: "1670080359",
 };
