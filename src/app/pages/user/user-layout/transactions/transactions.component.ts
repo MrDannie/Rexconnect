@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ErrorHandler } from '../../../shared/services/error-handler.service';
 import { PaginationService } from 'src/app/core/pagination.service';
-import { ITransactions } from 'src/app/pages/shared/interfaces/Transactions';
+import { ITransactions, SearchTransactions } from 'src/app/pages/shared/interfaces/Transactions';
 import { TransactionsService } from 'src/app/pages/shared/services/transactions.service';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
+import { AlertService } from 'src/app/core/alert/alert.service';
 
 @Component({
   selector: 'app-transactions',
@@ -18,7 +19,7 @@ export class TransactionsComponent implements OnInit {
   isCSVLoading;
   boolean;
   searchForm: FormGroup;
-  transactions: ITransactions[];
+  transactions: ITransactions[] = [];
   dataCount: number;
   isLoaded: boolean;
   isLoading: boolean;
@@ -27,12 +28,22 @@ export class TransactionsComponent implements OnInit {
   isFiltering: boolean;
   transactionRecordsToDownload: any;
 
+  startDate = new Date(Date.now() - ( 7 * 86400000));
+  endDate = new Date();
+  hasError: boolean;
+
+  dateValues = {
+    startDate: this.startDate.toISOString().substring(0, 10),
+    endDate: this.endDate.toISOString().substring(0, 10)
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private transactionsService: TransactionsService,
     private paginationService: PaginationService,
     private errorHandler: ErrorHandler,
-    private fileGenerationService: FileGenerationService
+    private fileGenerationService: FileGenerationService,
+    private alerts: AlertService
   ) { }
 
   ngOnInit() {
@@ -49,33 +60,45 @@ export class TransactionsComponent implements OnInit {
     this.initializeForm();
     this.getTransactions();
   }
+
+  clearFilters() {
+    this.searchForm.reset('');
+
+    this.dateValues = {
+      startDate: this.startDate.toISOString().substring(0, 10),
+      endDate: this.endDate.toISOString().substring(0, 10)
+    }
+
+    this.initializeForm();
+
+    this.getTransactions();
+
+
+  }
+
   getTransactions(): void {
     this.isLoading = true;
     this.transactionsService
-      .getTransactions(this.pageIndex, this.pageSize)
+      .getTransactions(this.pageIndex, this.pageSize, this.searchForm.value.startDate, this.searchForm.value.endDate)
       .subscribe(
         (response) => {
-          console.log('here', response);
           this.transactions = response.content;
           this.dataCount = response.totalElements;
           this.isLoaded = true;
           this.isLoading = false;
+          this.hasError = false;
 
           this.paginationService.pagerState.next({
             totalElements: this.dataCount,
             pageIndex: this.pageIndex,
             pageSize: this.pageSize,
           });
-          console.log('Transaction Gotten Sucessfully', response);
         },
         (error) => {
           this.isLoaded = true;
           this.isLoading = false;
-          this.errorHandler.customClientErrors(
-            'Failed to get terminals',
-            error.error.error.code,
-            error.error.error.responseMessage
-          );
+          this.alerts.error('Error occurred while getting transactions: ', error.error.message);
+          this.hasError = true;
           this.paginationService.pagerState.next(null);
         }
       );
@@ -83,12 +106,12 @@ export class TransactionsComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      transactionId: '',
-      // terminalId: '',
-      rrn: '',
-      transactionType: '',
-      startDate: '',
-      endDate: '',
+      terminalId: [''],
+      rrn: [''],
+      merchantId: [''],
+      transactionType: [''],
+      startDate: [this.getDateString(this.startDate)],
+      endDate: [this.getDateString(this.endDate)],
     });
   }
 
@@ -99,44 +122,110 @@ export class TransactionsComponent implements OnInit {
     this.getTransactions();
   }
 
-  filterTable(filterValues) {
-    console.log(filterValues);
-    this.isFiltering = true;
+  getDateString(dateObj: Date): string {
+    let day, month, year, date;
+    day = dateObj.getDate();
+    if (day < 10) {
+      day = '0' + day;
+    }
+    month = dateObj.getMonth() + 1;
+    if (month < 10) {
+      month = '0' + month;
+    }
+    year = dateObj.getFullYear();
+    date = year + '-' + month + '-' + day;
 
-    //Compare Start Date and End Date
-    const {
-      transactionId,
-      rrn,
-      transactionType,
-      startDate,
-      endDate,
-    } = filterValues;
-    if (
-      !this.compareStartEndDate(filterValues.startDate, filterValues.endDate)
-    ) {
-      console.log('Start Date Is Grater than End Date');
-    } else {
-      this.transactionsService
-        .getFilteredTransactions(
+    return date;
+
+  }
+
+  filterTable() {
+
+    this.showFilter = false;
+    this.isLoading = true;
+
+    const options: SearchTransactions = {
+      merchantId: this.searchForm.value.merchantId,
+      terminalId: this.searchForm.value.terminalId,
+      type: this.searchForm.value.transactionType,
+      referenceNumber: this.searchForm.value.rrn,
+      startDate: this.startDate.toISOString().substring(0, 10),
+      endDate: this.endDate.toISOString().substring(0, 10)
+    };
+
+    if (this.searchForm.value.startDate != null && this.searchForm.value.startDate != '') {
+      options.startDate = this.searchForm.value.startDate;
+      this.dateValues.startDate = options.startDate;
+    }
+
+    if (this.searchForm.value.endDate != null && this.searchForm.value.endDate != '') {
+      options.endDate = this.searchForm.value.endDate;
+      this.dateValues.endDate = options.endDate;
+    }
+
+    this.transactionsService.getFilteredTransactions(
           this.pageIndex,
           this.pageSize,
-          transactionId,
-          rrn,
-          transactionType,
-          startDate,
-          endDate
+          options
         )
         .subscribe(
           (response) => {
-            this.isFiltering = false;
-            console.log('response after the filter tra');
+            this.transactions = response.content;
+            this.dataCount = response.totalElements;
+            this.isLoaded = true;
+            this.isLoading = false;
+            this.hasError = false;
+
+            this.paginationService.pagerState.next({
+              totalElements: this.dataCount,
+              pageIndex: this.pageIndex,
+              pageSize: this.pageSize,
+            });
           },
           (error) => {
-            console.log(error);
+            this.alerts.error('Error occurred while getting transactions: ', error.error.message);
             this.isFiltering = false;
+            this.isLoaded = true;
+            this.isLoading = false;
+            this.hasError = true;
+            this.paginationService.pagerState.next(null);
           }
         );
-    }
+
+    //Compare Start Date and End Date
+    // const {
+    //   transactionId,
+    //   rrn,
+    //   transactionType,
+    //   startDate,
+    //   endDate,
+    // } = filterValues;
+    // if (
+    //   !this.compareStartEndDate(filterValues.startDate, filterValues.endDate)
+    // ) {
+    //   console.log('Start Date Is Grater than End Date');
+    // } else {
+    //   this.transactionsService
+    //     .getFilteredTransactions(
+    //       this.pageIndex,
+    //       this.pageSize,
+    //       transactionId,
+    //       rrn,
+    //       transactionType,
+    //       startDate,
+    //       endDate
+    //     )
+    //     .subscribe(
+    //       (response) => {
+    //         this.isFiltering = false;
+    //         console.log('response after the filter tra');
+    //       },
+    //       (error) => {
+    //         console.log(error);
+    //         this.isFiltering = false;
+    //       }
+    //     );
+    // }
   }
 
   compareStartEndDate(startDate, endDate): boolean {
@@ -178,7 +267,7 @@ export class TransactionsComponent implements OnInit {
     this.pageIndex = 0;
 
     this.transactionsService
-      .getTransactions(this.pageIndex, downloadPageSize)
+      .getTransactions(this.pageIndex, downloadPageSize, this.searchForm.value.startDate, this.searchForm.value.endDate)
       .subscribe((data: any) => {
         this.transactionRecordsToDownload = data['content'];
         for (

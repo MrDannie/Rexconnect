@@ -15,6 +15,15 @@
   font-weight: bold;
 }
 
+.show-results-span {
+  color: black;
+  // font-family: $mont-bold;
+  font-size: .9rem;
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+}
+
 .declined {
   color: #943e08;
   padding: 3px 6px;
