@@ -8,32 +8,36 @@ import { SharedService } from '../../services/shared.service';
   styleUrls: ['./top-navigation.component.scss'],
 })
 export class TopNavigationComponent implements OnInit {
-  currentUser: any = '';
+  public currentUser: any = '';
+  public ac: any = '';
+
   constructor(
     private authService: AuthService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
   ) {
+
+    this.sharedService.userData$.subscribe((res) => {
+      //      console.log(res);
+      this.ac = res.user;
+      console.log('accccc', this.ac);
+      
+
+    });
+
     this.getUserData();
-    this.getUserRole();
-    this.getUserBusinessData();
+    
   }
-  getUserBusinessData() {
-    // throw new Error('Method not implemented.');
-  }
-  getUserRole() {
-    // throw new Error('Method not implemented.');
-  }
-  getUserData() {
-    // throw new Error('Method not implemented.');
-    this.sharedService.userDataObservable$.subscribe((response) => {
+ 
+  public getUserData() {
+    this.sharedService.userData$.subscribe((response) => {
       this.currentUser = response.user;
       console.log('User in TOp Nav', this.currentUser);
     });
   }
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {}
 
-  logOut() {
+  public logOut() {
     this.authService.logout();
   }
 }

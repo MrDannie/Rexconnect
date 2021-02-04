@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
 
   getUserData() {
     // throw new Error('Method not implemented.');
-    this.sharedService.userDataObservable$.subscribe((response) => {
+    this.sharedService.userData$.subscribe((response) => {
       this.currentUser = response.user;
       console.log('User', this.currentUser);
     });

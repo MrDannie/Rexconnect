@@ -30,4 +30,9 @@ export class ProfileManagementService {
     return this.httpClient
       .put(BASE_URL + this.config.settings, value);
   }
+
+  updateProfile(value): Observable<any> {
+    return this.httpClient
+      .put(BASE_URL + this.config.updateProfile, value);
+  }
 }

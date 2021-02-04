@@ -8,6 +8,8 @@ export class StorageService {
   constructor() { }
 
   storeCurrentUser(userData: any) {
+    console.log(userData);
+    
     localStorage.setItem('UserDait_er', JSON.stringify(userData));
   }
 
@@ -27,6 +29,5 @@ export class StorageService {
   removeAll() {
     localStorage.removeItem('UserDait_er');
     localStorage.removeItem('Clients_Dtls');
-
   }
 }

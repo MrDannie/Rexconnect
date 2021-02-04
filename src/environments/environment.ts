@@ -7,8 +7,10 @@ export const environment = {
   //BASE_URL: "https://accesstams.globalaccelerex.com/api/tams",
   BASE_URL: 'https://sandbox.globalaccelerex.com/api/rexconnect',
   EXTERNAL_BASE_URL: 'https://sandbox.globalaccelerex.com',
-
-  ALLOW_CAPTCHA: true,
+  APP_REF: 'REXCONNECT-',
+  ACCESS_CONTROL_BTOA: btoa("peter" + ":" + "peter"),
+  NONCE: "TESTME",
+  TIMESTAMP: "1670080359",
 };
 
 /*

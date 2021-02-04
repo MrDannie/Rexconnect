@@ -7,6 +7,8 @@
 </span> -->
 
 <div class="form_area">
+  <div class="form_header">Personal Details</div>
+  <div class="form_sub_header">Update your personal user information</div>
   <form [formGroup]="updateUserForm">
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -14,12 +16,12 @@
           <span class="has-float-label">
             <input
               class="form-control"
-              id="firstname"
+              id="firstName"
               type="text"
               placeholder=" "
               formControlName="firstName"
             />
-            <label for="firstname">First Name</label>
+            <label for="firstName">First Name</label>
           </span>
           <div
             *ngIf="
@@ -44,26 +46,26 @@
           <span class="has-float-label">
             <input
               class="form-control"
-              id="lastname"
+              id="surname"
               type="text"
               placeholder=" "
-              formControlName="lastname"
+              formControlName="surname"
             />
-            <label for="lastname">Last Name</label>
+            <label for="surname">Surname</label>
           </span>
           <div
             *ngIf="
-              updateUserForm.get('lastname').errors &&
-              (updateUserForm.get('lastname').dirty ||
-                updateUserForm.get('lastname').touched)
+              updateUserForm.get('surname').errors &&
+              (updateUserForm.get('surname').dirty ||
+                updateUserForm.get('surname').touched)
             "
             class="validation-message"
           >
             <span
               class="validation-message"
-              [hidden]="!updateUserForm.get('lastname').hasError('required')"
+              [hidden]="!updateUserForm.get('surname').hasError('required')"
             >
-              {{ validationMessage.lastname.required }}
+              {{ validationMessage.surname.required }}
               <br />
             </span>
           </div>
@@ -71,47 +73,32 @@
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group col-md-4">
+    
+      <div class="form-group col-md-12">
         <div class="form-group">
           <span class="has-float-label">
             <input
               class="form-control"
-              id="firstname"
+              id="username"
               type="text"
               placeholder=" "
-              disabled="true"
-              value="+234"
+              formControlName="username"
             />
-            <label for="dialing_code">Dialing Code</label>
-          </span>
-        </div>
-      </div>
-      <div class="form-group col-md-8">
-        <div class="form-group">
-          <span class="has-float-label">
-            <input
-              class="form-control"
-              id="phone"
-              type="text"
-              placeholder=" "
-              formControlName="phone"
-              maxlength="10"
-            />
-            <label for="phone">Phone Number</label>
+            <label for="username">Username</label>
           </span>
           <div
             *ngIf="
-              updateUserForm.get('phone').errors &&
-              (updateUserForm.get('phone').dirty ||
-                updateUserForm.get('phone').touched)
+              updateUserForm.get('username').errors &&
+              (updateUserForm.get('username').dirty ||
+                updateUserForm.get('username').touched)
             "
             class="validation-message"
           >
             <span
               class="validation-message"
-              [hidden]="!updateUserForm.get('phone').hasError('required')"
+              [hidden]="!updateUserForm.get('username').hasError('required')"
             >
-              {{ validationMessage.phone_number.required }}
+              {{ validationMessage.username_number.required }}
               <br />
             </span>
           </div>
@@ -155,7 +142,7 @@
     <div class="form_actions">
       <button
         class="btn action_button"
-        *ngIf="!isUserCreating"
+        *ngIf="!isUpdating"
         (click)="updateUser(updateUserForm.value)"
         [disabled]="!updateUserForm.valid"
       >
@@ -165,7 +152,7 @@
       <div
         class="spinner-border spinner-border-sm ml-3"
         role="status"
-        *ngIf="isUserCreating"
+        *ngIf="isUpdating"
       >
         <span class="sr-only">Loading...</span>
       </div>

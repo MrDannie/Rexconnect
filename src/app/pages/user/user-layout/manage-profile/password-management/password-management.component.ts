@@ -29,7 +29,7 @@ export class PasswordManagementComponent implements OnInit {
 
   initializeForm() {
     this.changePasswordForm = this.formBuilder.group({
-      currentPassword: ['', Validators.compose([Validators.required])],
+      oldPassword: ['', Validators.compose([Validators.required])],
       newPassword: ['', Validators.compose([Validators.required])],
       verifyPassword: ['', Validators.compose([Validators.required])],
     });
@@ -38,9 +38,13 @@ export class PasswordManagementComponent implements OnInit {
   updatePassword(formValue) {
     this.isUserCreating = true;
 
-    // console.log(value);
+    console.log(formValue);
+    const val = {
+      oldPassword: formValue.oldPassword,
+      newPassword: formValue.newPassword,
+    }
 
-    this.profileMgt.updatePassword(formValue).subscribe(
+    this.profileMgt.updatePassword(val).subscribe(
       (response) => {
         console.log('response', response);
         this.isUserCreating = false;
@@ -50,8 +54,7 @@ export class PasswordManagementComponent implements OnInit {
       (error) => {
         console.log(error);
         this.isUserCreating = false;
-
-        this.alertService.error(error.error.message, false);
+        this.alertService.error(error, false);
       }
     );
   }
