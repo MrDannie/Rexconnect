@@ -40,41 +40,49 @@
       id="filter__dropdown"
       style="height: 200px"
     >
-      <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" (ngSubmit)="performFiltering()" >
         <div class="row">
+
           <div class="col-md-4">
             <div class="form-group">
-              <label for="acquirerName" class="search_label"
-                >Acquirer Name</label
-              >
+              <label for="defaultDs" class="search_label">Default DS</label>
               <input
+                name="defaultDs"
+                id="defaultDs"
                 type="text"
                 class="form-control search_input"
-                formControlName="acquirerName"
-                id="acquirerName"
+                formControlName="defaultDs"
               />
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="form-group">
-              <label for="cbnCode" class="search_label">CBN Code</label>
-              <input
-                type="text"
+              <label for="ruletype" class="search_label">Rule</label>
+              <select
                 class="form-control search_input"
-                formControlName="cbnCode"
-                id="cbnCode"
-              />
+                formControlName="ruletype"
+                id="ruletype"
+                name="ruletype"
+              >
+
+              <option value="" disabled></option>
+              <option
+                [value]="rule"
+                *ngFor="let rule of ruletypes"
+              >{{ rule }}</option>
+
+            </select>
             </div>
           </div>
         </div>
 
         <div class="button-section text-right">
-          <button (click)="showFilter = false" class="btn button-white">
+          <button (click)="showFilter = false" type="button" class="btn button-white">
             Close
           </button>
 
-          <button class="btn button-pink">
+          <button class="btn button-pink" type="submit" >
             Apply Filters
 
             <div
@@ -91,12 +99,17 @@
   </div>
 
   <!-- Reset button -->
-  <button class="btn btn-secondary reset-filter" (click)="reset()">
-    <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
-    <i class="fa fa-refresh"></i>
-    Refresh
+  <button
+    class="btn btn-secondary reset-filter"
+    (click)="clearFilters()"
+    [disabled]="isLoading"
+  >
+    <i
+      class="fa fa-refresh"
+      [class.isLoading]="isLoading && allRoutes.length != 0"
+    ></i>
+    {{ isLoading && allRoutes.length != 0 ? "Loading" : "Refresh" }}
   </button>
-
   <!-- FILTER BY CODE ENDS HERE  -->
 
   <!-- New Header Ends HEre  -->
@@ -104,6 +117,10 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
+    <app-rex-loader
+      [isPushed]="true"
+      *ngIf="isLoading && allRoutes.length == 0"
+    ></app-rex-loader>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -144,6 +161,9 @@
         </tr> -->
       </tbody>
     </table>
+    <span class="empty-state" *ngIf="allRoutes.length === 0 && !isLoading">
+      No Records Found
+    </span>
   </div>
 </div>
 

@@ -98,7 +98,7 @@
 
 .center-body {
   position: absolute;
-  left: 50%;  
+  left: 50%;
   margin-top: 1.3rem;
 }
 
@@ -163,7 +163,8 @@ td {
 }
 .custom-table {
   overflow-x: auto;
-  height: 482px;
+  height: auto;
+  max-height: 482px;
   font-size: 1rem;
   margin-top: 1.25rem;
   font-family: "Roboto", serif;

@@ -5,6 +5,7 @@ import { PaginationService } from 'src/app/core/pagination.service';
 import { RoutingRulesInterface } from 'src/app/pages/shared/interfaces/routing-rules.model';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
+import { RULETYPES } from 'src/app/pages/shared/constants';
 
 @Component({
   selector: 'app-routes',
@@ -16,9 +17,12 @@ export class RoutesComponent implements OnInit {
   rawResponse;
   dataCount;
 
-  allRoutes;
+  allRoutes = [];
 
   isLoaded: boolean;
+
+  stations = [];
+  ruletypes = [];
 
   // Test
   createAcquirerForm: FormGroup;
@@ -31,6 +35,8 @@ export class RoutesComponent implements OnInit {
   isLoading: boolean;
   routesRecordsToDownload: any;
   isFiltering: any = false;
+
+  filter
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,15 +57,23 @@ export class RoutesComponent implements OnInit {
     this.pageSize = 10;
     this.pageIndex = 0;
 
+    this.ruletypes = RULETYPES;
+
     this.getAllRoutingRules();
+    // this.getDestinationStations();
   }
 
   // GET ALL ROUTING RULES
-  getAllRoutingRules() {
+  getAllRoutingRules(options?: any) {
+    this.isLoading = true;
     this.routingCompService
-      .getAllRoutingRules(this.pageIndex, this.pageSize)
+      .getAllRoutingRules(this.pageIndex, this.pageSize, options)
       .subscribe(
         (response: RoutingRulesInterface) => {
+
+          this.isLoading = false;
+
+          console.log(response);
           // FOR PAGINATION
           this.dataCount = response['data']['count'];
           this.allRoutes = response['data']['routingRules'];
@@ -76,7 +90,7 @@ export class RoutesComponent implements OnInit {
           this.paginationService.pagerState.next({
             totalElements: this.dataCount,
             pageIndex: this.pageIndex,
-            pageSize: this.pageSize,
+            pageSize: this.pageSize
           });
         },
         (error) => {
@@ -90,10 +104,23 @@ export class RoutesComponent implements OnInit {
       );
   }
 
+  performFiltering() {
+
+    this.showFilter = false;
+
+    const filterProperties = {
+      default_ds: this.searchForm.value.defaultDs || '',
+      rule: this.searchForm.value.ruletype || ''
+    }
+
+    console.log(filterProperties);
+    this.getAllRoutingRules(filterProperties);
+  }
+
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      acquirerName: '',
-      cbnCode: '',
+      defaultDs: [''],
+      ruletype: ['']
     });
   }
 
@@ -157,5 +184,13 @@ export class RoutesComponent implements OnInit {
 
     this.getAllRoutingRules();
   }
-  reset() {}
+
+  clearFilters() {
+    this.searchForm.reset();
+
+    this.pageIndex = 0;
+    this.pageSize = 10;
+
+    this.getAllRoutingRules();
+  }
 }
