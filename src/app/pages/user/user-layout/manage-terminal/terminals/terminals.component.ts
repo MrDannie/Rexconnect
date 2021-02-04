@@ -280,11 +280,23 @@ export class TerminalsComponent implements OnInit {
     );
   }
 
+  // getPtspsList() {
+  //   this.acquirerService.getAcquirerPtspsList().subscribe((response) => {
+  //     this.ptspsList = response['data'];
+  //     console.log('THIS IS PTSPS LIST', response);
+  //   });
+  // }
+
   getPtspsList() {
-    this.acquirerService.getAcquirerPtspsList().subscribe((response) => {
-      this.ptspsList = response['data'];
-      console.log('THIS IS PTSPS LIST', response);
-    });
+    this.acquirerService.getAcquirerPtspsList().subscribe(
+      (response) => {
+        this.ptspsList = response['data'];
+        console.log('HERE YOU GO', this.ptspsList);
+      },
+      (error) => {
+        this.alerts.error(error);
+      }
+    );
   }
 
   searchBy() {
