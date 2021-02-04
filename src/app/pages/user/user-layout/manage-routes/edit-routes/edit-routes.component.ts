@@ -131,6 +131,10 @@ export class EditRoutesComponent implements OnInit {
     this.isUpdatingRoute = true;
     console.log(this.editRouteForm.value);
 
+    this.editRouteForm.get('rule_config').value.map((config) => {
+      config.rule = this.editRouteForm.get('rule').value;
+    });
+
     this.routeCompService
       .editRoute(this.editRouteForm.value, this.routeId)
       .subscribe(

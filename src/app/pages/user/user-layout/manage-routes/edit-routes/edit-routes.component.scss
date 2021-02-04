@@ -106,7 +106,7 @@ p.sub_header {
 }
 
 .rule-config {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 }
 
 .add-more {
@@ -114,5 +114,22 @@ p.sub_header {
 }
 
 .add-more:hover {
+  text-decoration: underline;
+}
+
+.add-more[disabled],
+.action_button_update[disabled] {
+  cursor: not-allowed;
+}
+
+.add-more:not(:disabled):hover {
+  text-decoration: underline;
+}
+
+.form-control {
+  height: calc(1.5em + 0.75rem + 10px) !important;
+}
+
+.remove:hover {
   text-decoration: underline;
 }
