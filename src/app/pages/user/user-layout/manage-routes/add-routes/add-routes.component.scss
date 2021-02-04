@@ -129,3 +129,11 @@ p.sub_header {
 .action_button_update[disabled] {
   cursor: not-allowed;
 }
+
+.form-control {
+  height: calc(1.5em + 0.75rem + 10px) !important;
+}
+
+.remove:hover {
+  text-decoration: underline;
+}
