@@ -18,8 +18,6 @@ export class Config {
 
   public getPermissions: string;
 
-  public auditLogs: string;
-
   public uploadBusinessLogo: string;
 
   public getSingleBusiness: string;
@@ -76,6 +74,12 @@ export class Config {
   // settings
   public settings: string;
   public changePassword: string;
+  public updateProfile: string;
+
+
+  //auditlogs
+
+  public auditLogs: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -153,8 +157,19 @@ export class Config {
     this.getAquirerPtspList = '/v1/clients/ptsps/list';
 
       // settings
-    this.changePassword = '/v1/users/change-password';
+    this.changePassword = '/v1/auth/password/change';
     this.settings = '/v1/settings';
+
+
+    //auditLogs
+    this.auditLogs = '/api/audit-log/logs/v3/search/';
+
+    //xtoken
+    this.getXToken = "/api/access-control/v2/getToken";
+
+
+    // profile
+    this.updateProfile = '/v1/users/profile/me'
   }
 
 }

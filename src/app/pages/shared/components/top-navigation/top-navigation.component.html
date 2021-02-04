@@ -10,10 +10,10 @@
   <span class="logout" id="logout" (click)="logOut()"> Logout </span>
   <span class="user_name">
     <span class="name"
-      >{{ currentUser.firstName | titlecase }}
-      {{ currentUser.surname | titlecase }}</span
+      >{{ ac.firstName | titlecase }}
+      {{ ac.surname | titlecase }}</span
     >
-    <span class="role"> {{ currentUser.role }} </span>
+    <span class="role"> {{ ac.role }} </span>
   </span>
   <span class="profile_picture">
     <img src="../../../../../assets/images/boy.svg" alt="user_profile" />

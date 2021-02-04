@@ -14,8 +14,6 @@ export class StationsService {
 
   constructor(
     private httpClient: HttpClient,
-    private router: Router,
-    private storageService: StorageService,
     private config: Config
   ) { }
 
