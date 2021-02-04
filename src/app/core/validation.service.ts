@@ -156,6 +156,25 @@ export class ValidationService {
       country: {
         required: 'Country is required',
       },
+      color: {
+        required: 'Color is required',
+      },
+      terminalPrefix: {
+        required: 'Terminal Prefix is required',
+      },
+      logo_url: {
+        required: 'Logo is required',
+      },
+      location: {
+        required: 'Location is required',
+      },
+      bankCode: {
+        required: 'Bank Code is required',
+      },
+       shortName: {
+        required: 'shortName is required',
+      },
+
     };
   }
 }

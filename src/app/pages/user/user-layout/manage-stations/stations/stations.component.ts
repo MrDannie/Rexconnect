@@ -154,10 +154,10 @@ export class StationsComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.alertService.error(error);
         this.isLoading = false;
         this.isSearching = false;
         this.isRefreshing = false;
+        this.alertService.error(error);
 
       }
     );

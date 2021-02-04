@@ -20,7 +20,6 @@ export class Config {
 
   public auditLogs: string;
 
-  public changePassword: string;
   public uploadBusinessLogo: string;
 
   public getSingleBusiness: string;
@@ -53,7 +52,7 @@ export class Config {
   public getSingleMerchant: string;
   public getMerchantTerminals: string;
 
-  //stations
+  // stations
   public stations: string;
 
   // Acquirer
@@ -62,17 +61,21 @@ export class Config {
   public getPtspsList: string;
   public getSingleAcquirer: string;
   public getRoutesLists: string;
-  disableAcquirer: string;
-  enableAcquirer: string;
-  //ptsps
+  public disableAcquirer: string;
+  public enableAcquirer: string;
+  // ptsps
   public ptsps: string;
-  getAcquirerRoutes: string;
-  getAcquirerPtsps: string;
-  disableMerchant: string;
-  enableMerchant: string;
-  getAquirerPtspList: string;
-  disableRoute: string;
-  enableRoute: string;
+  public getAcquirerRoutes: string;
+  public getAcquirerPtsps: string;
+  public disableMerchant: string;
+  public enableMerchant: string;
+  public getAquirerPtspList: string;
+  public disableRoute: string;
+  public enableRoute: string;
+
+  // settings
+  public settings: string;
+  public changePassword: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -107,10 +110,10 @@ export class Config {
     // utils
     this.getStates = '/v1/countries/getStates/{countryCode}';
 
-    //stations
+    // stations
     this.stations = '/v1/stations';
 
-    //ACQUIRER
+    // ACQUIRER
     this.getAllAcquirers = '/v1/clients';
 
     // PTSPTS LISTS
@@ -122,7 +125,7 @@ export class Config {
     // SINGLE ACQUIRER
     this.getSingleAcquirer = '/v1/clients/{clientId}';
 
-    //DISABLE ACQUIRER
+    // DISABLE ACQUIRER
     this.disableAcquirer = '/v1/clients/{acquirerId}/disable';
 
     this.disableRoute = '/v1/routing-rules/{routeId}/disable';
@@ -136,11 +139,11 @@ export class Config {
 
     this.enableRoute = '/v1/routing-rules/{routeId}/enable';
 
-    //ptsps
+    // ptsps
 
     this.ptsps = '/v1/ptsps';
 
-    //GET ACQUIRER ROUTES
+    // GET ACQUIRER ROUTES
     this.getAcquirerRoutes = '/v1/clients/routes';
 
     this.getAcquirerPtsps = '/v1/clients/ptsps/list';
@@ -148,5 +151,10 @@ export class Config {
     this.getAcquirerPtsps = '/v1/clients/ptsps/list';
 
     this.getAquirerPtspList = '/v1/clients/ptsps/list';
+
+      // settings
+    this.changePassword = '/v1/users/change-password';
+    this.settings = '/v1/settings';
   }
+
 }

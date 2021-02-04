@@ -17,7 +17,17 @@ export class ProfileManagementService {
 
   updatePassword(updatedPassword): Observable<any> {
     return this.httpClient
-      .post(BASE_URL + '/v1/users/change-password', updatedPassword)
+      .post(BASE_URL + this.config.changePassword, updatedPassword)
       .pipe(map((response) => console.log(response)));
+  }
+
+  getUserSettings(): Observable<any> {
+    return this.httpClient
+      .get(BASE_URL + this.config.settings);
+  }
+
+  updateUserSettings(value): Observable<any> {
+    return this.httpClient
+      .put(BASE_URL + this.config.settings, value);
   }
 }
