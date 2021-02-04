@@ -43,6 +43,10 @@ export class RoleManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    $('#updateModal').modal({
+      backdrop: 'static',
+      keyboard: false,
+    });
     // this.selectedRole = {};
     this.isLoading = false;
     this.isPermissionsLoading = false;
@@ -260,6 +264,8 @@ export class RoleManagementComponent implements OnInit {
         this.alertService.success('Role Deleted Successfully', true);
         this.getRoles();
         this.deletingRole = false;
+        $('#deleteRoleModal').modal('hide');
+        console.log('LOVE');
       },
       (error) => {
         this.alertService.error(error);
