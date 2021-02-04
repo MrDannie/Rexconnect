@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { isNullOrUndefined } from 'util';
 import { environment } from '../../../../environments/environment';
-import { ITransactions } from '../interfaces/Transactions';
+import { ITransactions, SearchTransactions } from '../interfaces/Transactions';
 import { IWrapper } from '../interfaces/wrapper.model';
 
 const BASE_URL = environment.BASE_URL;
@@ -16,11 +16,13 @@ const BASE_URL = environment.BASE_URL;
 export class TransactionsService {
   constructor(private httpClient: HttpClient) {}
 
-  getTransactions(pageIndex, pageSize): Observable<IWrapper<ITransactions>> {
+  getTransactions(pageIndex, pageSize, startDate, endDate): Observable<IWrapper<ITransactions>> {
     const params = new HttpParams();
     const requestParams = params
       .append('page', pageIndex.toString())
-      .append('size', pageSize.toString());
+      .append('size', pageSize.toString())
+      .append('startDate', startDate)
+      .append('endDate', endDate);
     return this.httpClient
       .get<IWrapper<ITransactions>>(BASE_URL + '/v1/transactions', {
         params: requestParams,
@@ -35,29 +37,18 @@ export class TransactionsService {
   getFilteredTransactions(
     pageIndex,
     pageSize,
-    transactionId,
-    rrn,
-    transactionType,
-    startDate,
-    endDate
+    options?: SearchTransactions
   ) {
-    // terminalId = terminalId || '';
-    transactionId = transactionId || '';
-
-    rrn = rrn || '';
-    transactionType = transactionType || '';
-    startDate = startDate || '';
-    endDate = endDate || '';
     const params = new HttpParams();
     const requestParams = params
       .append('page', pageIndex.toString())
       .append('size', pageSize.toString())
-      // .append('terminalId', terminalId.toString())
-      .append('transactionId', transactionId.toString())
-      .append('rrn', rrn.toString())
-      .append('transactionType', transactionType.toString())
-      .append('startDate', startDate.toString())
-      .append('endDate', endDate.toString());
+      .append('terminalId', options.terminalId)
+      .append('referenceNumber', options.referenceNumber)
+      .append('transactionType', options.type)
+      .append('startDate', options.startDate)
+      .append('merchantId', options.merchantId)
+      .append('endDate', options.endDate);
     return this.httpClient
       .get<IWrapper<ITransactions>>(BASE_URL + '/v1/transactions', {
         params: requestParams,

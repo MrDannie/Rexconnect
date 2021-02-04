@@ -1,3 +1,5 @@
+<app-alert></app-alert>
+
 <div class="header">
   <!-- <div class="top-header my-5">
   <div class="header">
@@ -45,21 +47,9 @@
       id="filter__dropdown"
       style="height: 250px"
     >
-      <form [formGroup]="searchForm" (ngSubmit)="filterTable(searchForm.value)">
+      <form [formGroup]="searchForm" (ngSubmit)="filterTable()">
         <div class="row">
           <div class="col-md-4">
-            <div class="form-group">
-              <label for="terminslID" class="search_label">Terminal ID</label>
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="terminslID"
-                id="terminslID"
-              />
-            </div>
-          </div>
-
-          <!-- <div class="col-md-4">
             <div class="form-group">
               <label for="terminalId" class="search_label">Terminal ID</label>
               <input
@@ -69,7 +59,19 @@
                 id="terminalId"
               />
             </div>
-          </div> -->
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="merchantId" class="search_label">Merchant ID</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="merchantId"
+                id="merchantId"
+              />
+            </div>
+          </div>
 
           <div class="col-md-4">
             <div class="form-group">
@@ -85,14 +87,17 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="transactionType" class="search_label"
-                >Transactions Type</label
+                >Transaction Type</label
               >
-              <input
-                type="text"
+              <select
                 class="form-control search_input"
                 formControlName="transactionType"
                 id="transactionType"
-              />
+              >
+                <option value="" disabled></option>
+                <option value="mobile">MOBILE</option>
+                <option value="pos">POS</option>
+              </select>
             </div>
           </div>
           <div class="col-md-4">
@@ -120,11 +125,11 @@
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white" (click)="showFilter = false">
+          <button class="btn button-white" type="button" (click)="showFilter = false">
             Close
           </button>
 
-          <button class="btn button-pink">
+          <button class="btn button-pink" type="submit" >
             Apply Filters
 
             <div
@@ -141,9 +146,16 @@
   </div>
 
   <!-- REFRESH BUTTON  -->
-  <button class="btn btn-secondary reset-filter" (click)="refreshTableData()">
-    <i class="fa fa-refresh" [class.isLoading]="isLoading"></i>
-    {{ isLoading ? "Loading" : "Refresh" }}
+  <button
+    class="btn btn-secondary reset-filter"
+    (click)="clearFilters()"
+    [disabled]="isLoading"
+  >
+    <i
+      class="fa fa-refresh"
+      [class.isLoading]="isLoading && transactions.length != 0"
+    ></i>
+    {{ isLoading && transactions.length != 0 ? "Loading" : "Refresh" }}
   </button>
 
   <!-- FILTER BY CODE ENDS HERE  -->
@@ -153,11 +165,14 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
-    <app-rex-loader [isPushed]="true" *ngIf="!transactions"></app-rex-loader>
+    <app-rex-loader
+      [isPushed]="true"
+      *ngIf="isLoading && transactions.length == 0"
+    ></app-rex-loader>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Transaction ID</th>
+          <th scope="col">Terminal ID</th>
           <th scope="col">Merchant</th>
           <th scope="col">RRN</th>
           <th scope="col">STAN</th>
@@ -171,9 +186,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let txn of transactions">
-          <td>{{ txn.mid }}</td>
-
           <td>{{ txn.tid }}</td>
+
+          <td>{{ txn.mid }}</td>
 
           <td>{{ txn.rrn }}</td>
           <td>{{ txn.stan }}</td>
@@ -195,30 +210,16 @@
         </tr>
       </tbody>
     </table>
-    <span class="empty-state" *ngIf="transactions?.length === 0"
+    <span class="empty-state" *ngIf="!isLoading && transactions?.length === 0"
       >No Records Found</span
     >
   </div>
 </div>
 
-<!-- PAGE SIZE  -->
-<!-- <div class="text-right mt-4 page_size_section animated fadeIn">
-  <span>Number of Items:&nbsp;&nbsp;</span>
-  <span> Num Here </span>
-
-  <span class="ml-3">Page size:</span>
-  <form class="inline_select">
-    <select class="form-control form-control-sm" #setPageSizeId>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-      <option value="40">40</option>
-      <option value="50">50</option>
-    </select>
-  </form>
-</div> -->
-
-<!-- PAGINATION  -->
+<span
+      class="show-results-span"
+      *ngIf="!hasError"
+    >Showing results between <span class="color-red">{{ dateValues.startDate }}</span> and <span class="color-red">{{ dateValues.endDate }}</span></span>
 
 <app-rex-pagination
   [data]="transactions"
@@ -249,7 +250,7 @@
     </ul>
   </nav> -->
 
-<!-- EXPORT BUTTON 
+<!-- EXPORT BUTTON
 
   <div class="export-button animated fadeIn">
     <button
