@@ -68,7 +68,12 @@ export class AdminSettingsComponent implements OnInit {
   public updateSettings(value) {
     this.isUpdating = true;
     console.log(value);
-    value.terminalPrefix = value.terminalPrefix.split(",");
+    console.log(typeof value.terminalPrefix);
+    
+    if (typeof value.terminalPrefix === 'string') {
+      value.terminalPrefix = value.terminalPrefix.split(",");
+
+    }
     console.log(value);
 
     this.profileMgt.updateUserSettings(value).subscribe((resp)=> {
