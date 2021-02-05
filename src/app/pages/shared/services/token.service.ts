@@ -22,21 +22,26 @@ const BASE_URL = environment.EXTERNAL_BASE_URL;
 export class TokenService {
 public token: any;
   constructor( private httpClient: HttpClient,
-               private config: Config, private alertService: AlertService) { 
+               private config: Config, private alertService: AlertService) {
 
                }
 
- public  getAccessControlData(httpMethod: string, encodedUrl: string) {
+  public  getAccessControlData(httpMethod: string, encodedUrl: string) {
+
+    return this.getXtoken(httpMethod, encodedUrl).then((data) => data);
+
+  }
+
+ public  getXtoken(httpMethod: string, encodedUrl: string) {
 
  return new Promise((resolve, reject) => {
     this.httpClient
       .post(`${BASE_URL}${this.config.getXToken}` , { durtion: 1200 })
       .toPromise()
-      .then((res: any) => {
+      .then((res: IAccessControlData) => {
         // Success
         console.log(res, '1st');
-        resolve();
-        this.computeSignature(httpMethod, encodedUrl, res);
+        resolve(this.computeSignature(httpMethod, encodedUrl));
 
       },
         (err) => {
@@ -44,61 +49,23 @@ public token: any;
           reject(err);
         },
       );
-  }).then((res)=> {
-    this.token = res;
-    console.log(this.token)
-    return this.token;
-
-  }, (error)=> {
-
   });
 }
 
-  public computeSignature(httpMethod, encodedUrl, token) {
-    console.log(token);
+  public computeSignature(httpMethod, encodedUrl) {
     const timestamp: string = environment.TIMESTAMP;
     const nonce: string = environment.NONCE;
-
-    const accessControlData = {
-      nonce: environment.NONCE,
-      signature: cryptoJS
-        .SHA512(
-          `${token.accessToken}&&${token.accessSecret}&&${timestamp}&&${nonce}&&${httpMethod}&&${encodeURIComponent(
-            encodedUrl,
-          )}`,
-        )
-        .toString(),
-      timestamp: environment.TIMESTAMP,
-      x_token: token.accessToken,
-
-    };
-    console.log(accessControlData);
-    return accessControlData;
-    // return Observable.of(cryptoJS
-    //   .SHA512(
-    //     `${token.accessToken}&&${token.accessSecret}&&${timestamp}&&${nonce}&&${httpMethod}&&${encodeURIComponent(
-    //       encodedUrl,
-    //     )}`,
-    //   )
-    //   .toString()).toPromise();
+    const { accessToken, accessSecret, validTill } = JSON.parse(
+      localStorage.getItem("AC")
+    );
+    return cryptoJS
+    .SHA512(
+      `${accessToken}&&${accessSecret}&&${timestamp}&&${nonce}&&${httpMethod}&&${encodeURIComponent(
+        encodedUrl
+      )}`
+    )
+    .toString();
   }
 
-  public getPosts() {
-    const promise = new Promise((resolve, reject) => {
-      this.httpClient
-        .post(`${BASE_URL}${this.config.getXToken}` , { durtion: 1200 })
-        .toPromise()
-        .then((res: any) => {
-          // Success
-          resolve();
-        },
-          (err) => {
-            // Error
-            reject(err);
-          },
-        );
-    });
-    return promise;
-  }
 }
 

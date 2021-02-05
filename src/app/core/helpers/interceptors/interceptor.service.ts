@@ -17,6 +17,8 @@ import { environment } from 'src/environments/environment';
 import { isNullOrUndefined } from 'util';
 import { Config } from '../../Config';
 import { StorageService } from '../storage.service';
+import { from } from 'rxjs';
+
 
 
 const ACCESS_CONTROL_BTOA = environment.ACCESS_CONTROL_BTOA;
@@ -28,7 +30,9 @@ const EXTERNAL_BASE_URL = environment.EXTERNAL_BASE_URL;
 export class InterceptorService implements HttpInterceptor {
   accessControlData: IAccessControlData;
 
-  constructor(private storageService: StorageService, private config: Config, private tokenService: TokenService) {}
+  constructor(private storageService: StorageService, private config: Config, private tokenService: TokenService) {
+
+  }
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -65,20 +69,32 @@ export class InterceptorService implements HttpInterceptor {
             `Basic ${ACCESS_CONTROL_BTOA}`
           );
       } else if (req.url.includes(this.config.auditLogs)) {
-        console.log(ACCESS_CONTROL_BTOA);
-        console.log('access control');
-        
-        headers = headers.append("Content-Type", "application/json");
-        headers = headers.append("Accept", "application/json");
-        // headers = headers.append("Signature",   this.getAccessControlData(req))
-        // headers = headers.append("X_TOKEN",   this.accessControlData.x_token)
-        // headers = headers.append("Nonce",   this.accessControlData.nonce)
-        // headers = headers.append("Timestamp",   this.accessControlData.timestamp)
+        const ACCESS_CONTROL_VALUES = JSON.parse(localStorage.getItem("AC"));
+        console.log(ACCESS_CONTROL_VALUES);
 
-        headers = headers.append(
-          "Authorization",
-          `Basic ${ACCESS_CONTROL_BTOA}`
+        const { accessToken, validTill } = ACCESS_CONTROL_VALUES;
+        console.log(EXTERNAL_BASE_URL);
+
+        console.log(
+          req.urlWithParams.split(EXTERNAL_BASE_URL).join().replace(/,/g, ""),
+          req.urlWithParams
         );
+
+        headers = new HttpHeaders({
+          "Content-Type": "application/json",
+          Signature: this.tokenService
+            .computeSignature(
+              req.method,
+              req.urlWithParams
+                .split(EXTERNAL_BASE_URL)
+                .join()
+                .replace(/,/g, "")            )
+            .toString(),
+          X_TOKEN: accessToken,
+          NONCE: environment.NONCE,
+          TIMESTAMP: environment.TIMESTAMP,
+        });
+
     }
       
       
@@ -103,20 +119,33 @@ export class InterceptorService implements HttpInterceptor {
   //  return 'sdsd'
   //  }
 
-   getAccessControlData() {
-    const promise = new Promise((resolve, reject) => {
-      this.tokenService.getAccessControlData('POST', 'htttpdsdds').then((res: any) => {
-          // Success
-         console.log(res)
-          resolve();
-        },
-          err => {
-            // Error
-            reject(err);
-          }
-        );
-    });
-    return promise;
+
+
+
+ 
+
+     getAccessControlData(req): HttpHeaders  {
+  
+    const headers = new HttpHeaders();
+
+    from(this.tokenService.getAccessControlData('POST', 'htttpdsdds')).subscribe((res: IAccessControlData)=> {
+      console.log('ssfdsfsd', res);
+      
+      const headers = new HttpHeaders({
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Signature":   res.signature,
+        "X_TOKEN":   res.x_token,
+        "timestamp":   res.timestamp,
+        "nonce":   res.nonce,
+  
+      });
+      return headers;
+    }, (error)=> {
+console.log(error);
+    })
+    return headers;
+
   }
 
    

@@ -39,7 +39,7 @@ export class AuditLogsComponent implements OnInit {
   public currentPage: any;
 
   // component specific data
-  public allStations: any;
+  public allLogs: any;
   public dataCount: any;
   public selectedValue: any;
 
@@ -59,67 +59,57 @@ export class AuditLogsComponent implements OnInit {
   public ngOnInit() {
     this.isLoading = true;
     this.isCreating = false;
-    this.getAllStations();
+    this.getAuditLogs();
     this.setPageSizeId.nativeElement.value = this.pageSize;
   }
 
   public initializeForm() {
     this.searchForm = this.formBuilder.group({
-      name: '',
-      status: '',
+      startDate: ['', Validators.compose([Validators.required])],
+      endDate: ['', Validators.compose([Validators.required])],
         });
-    this.createStationForm = this.formBuilder.group({
-      name: ['', Validators.compose([Validators.required])],
-      zmk: ['', Validators.compose([Validators.required])],
-      zpk: ['', Validators.compose([Validators.required])],
-      // status: ['', Validators.compose([Validators.required])],
-      channelHost: ['', Validators.compose([Validators.required])],
-      channelPort: ['', Validators.compose([Validators.required])],
-      baseUrl: ['', Validators.compose([Validators.required])],
-      authUsername: ['', Validators.compose([Validators.required])],
-      authPassword: ['', Validators.compose([Validators.required])],
-
-    });
   }
 
- 
- 
 
 
 
-   public async getAllStations() {
-    // console.log(this.pageIndex, this.pageSize);
-    // this.auditLogService.getAuditLogs(this.pageIndex, this.pageSize, this.searchForm.value).subscribe(
-    //   (res) => {
-    //     console.log(res);
-    //     // this.allStations = res['data'].stations;
-    //     // this.dataCount = this.allStations.length;
-    //     // console.log(this.dataCount, this.currentPage, this.pageSize);
-    //     // this.pager = this.paginationService.getPager(
-    //     //   this.dataCount,
-    //     //   this.currentPage,
-    //     //   this.pageSize,
-    //     // );
-    //     // console.log(this.pager);
 
-    //     // this.pagedItems = this.allStations;
 
-    //     // this.isLoading = false;
-    //     // this.isSearching = false;
-    //     // this.isRefreshing = false;
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     this.isLoading = false;
-    //     this.isSearching = false;
-    //     this.isRefreshing = false;
-    //     this.alertService.error(error);
+   public  getAuditLogs() {
+     this.isLoading = true;
+     console.log(this.pageIndex, this.pageSize);
+     this.allLogs = [];
+     this.auditLogService.getAuditLogs(this.pageIndex, this.pageSize, this.searchForm.value).subscribe(
+      (res) => {
+        console.log(res);
+        this.allLogs = res['logs'];
+        this.dataCount = res['count'];
+        console.log(this.dataCount, this.currentPage, this.pageSize);
+        this.pager = this.paginationService.getPager(
+          this.dataCount,
+          this.currentPage,
+          this.pageSize,
+        );
+        console.log(this.pager);
 
-    //   },
-    // );
- const result = await this.sig.getAccessControlData('POST', 'htttpdsdds');
- console.log(result);
- 
+        this.pagedItems = this.allLogs;
+
+        this.isLoading = false;
+        this.isSearching = false;
+        this.isRefreshing = false;
+      },
+      (error) => {
+        console.log(error);
+        this.isLoading = false;
+        this.isSearching = false;
+        this.isRefreshing = false;
+        this.alertService.error(error.error.message);
+
+      },
+    );
+//  const result = await this.sig.getAccessControlData('POST', 'htttpdsdds');
+//  console.log(result);
+
   }
 
   /**
@@ -134,14 +124,14 @@ export class AuditLogsComponent implements OnInit {
     this.searchForm.reset();
     this.currentPage = 1;
     console.log(this.pageIndex);
-    this.getAllStations();
+    this.getAuditLogs();
   }
 
   public getPage(page) {
     this.isLoading = true;
     this.pageIndex = (page - 1);
     this.currentPage = page;
-    this.getAllStations();
+    this.getAuditLogs();
   }
 
   public nextPage() {
@@ -149,14 +139,14 @@ export class AuditLogsComponent implements OnInit {
     this.pageIndex = Number(this.pageIndex);
     this.currentPage++;
     console.log(this.currentPage);
-    this.getAllStations();
+    this.getAuditLogs();
 
   }
   public previousPage() {
     this.isLoading = true;
     this.pageIndex = Number(this.pageIndex);
     this.currentPage--;
-    this.getAllStations();
+    this.getAuditLogs();
 
   }
 
@@ -167,7 +157,7 @@ export class AuditLogsComponent implements OnInit {
     this.pageSize = Number(size);
     this.pageIndex = 0;
     this.currentPage = 1;
-    this.getAllStations();
+    this.getAuditLogs();
   }
   public generateCSV() {
     this.isCSVLoading = true;
@@ -176,17 +166,17 @@ export class AuditLogsComponent implements OnInit {
       (res) => {
         console.log(res);
         const exportData = JSON.parse(
-          JSON.stringify(res['data'].stations, ['name', 'zmk', 'zpk', 'lastEcho', 'lastZpkChange'], 2),
+          JSON.stringify(res['logs'], ['when', 'owner', 'description', 'what'], 2),
         );
         console.log(exportData);
         const options = {
-          headers: ['Station Name', 'ZMK', 'ZPK', 'Last Echo Date', 'Last Zpk Change'],
+          headers: ['Date Performed', 'Performed By', 'Action Performed', 'Endpoint called'],
           decimalseparator: '.',
           showTitle: false,
           nullToEmptyString: true,
         };
         this.isCSVLoading = false;
-        return new Angular5Csv(exportData, 'Stations List', options);
+        return new Angular5Csv(exportData, 'Audit Log', options);
       },
       (err) => {
         this.isCSVLoading = false;
