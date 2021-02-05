@@ -165,17 +165,23 @@
       </div> -->
 
       <div class="col-md-4">
-        <div class="dropdown">
+        <div class="">
           <button
-            class="btn dropdown-toggle"
+            (click)="showDropdown = !showDropdown"
+            class="drop-button"
             type="button"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            id=""
           >
             Select Routes
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <ul
+            class="card dropdown-men search-dropdown"
+            id=""
+            style="position: absolute; z-index: 1234"
+            *ngIf="showDropdown"
+            class=""
+            (click)="showDropdown = !showDropdown"
+          >
             <li *ngFor="let rule of routingRules">
               <div style="font-family: Roboto Bold" class="general">
                 <span>{{ rule.rule }}</span>

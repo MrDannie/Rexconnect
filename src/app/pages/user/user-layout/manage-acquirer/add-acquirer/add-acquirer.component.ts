@@ -19,11 +19,14 @@ export class AddAcquirerComponent implements OnInit {
   routingRulesToBeAdded: any = [];
   ruleOrder: string[] = [];
   isAddingAcquirer: boolean;
+  showDropdown: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private acquirerService: AcquirerService,
     private alertService: AlertService
-  ) {}
+  ) {
+    this.showDropdown = false;
+  }
 
   ngOnInit() {
     // GET PTSPS

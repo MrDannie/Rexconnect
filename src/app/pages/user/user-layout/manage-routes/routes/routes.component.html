@@ -40,9 +40,8 @@
       id="filter__dropdown"
       style="height: 200px"
     >
-      <form [formGroup]="searchForm" (ngSubmit)="performFiltering()" >
+      <form [formGroup]="searchForm" (ngSubmit)="performFiltering()">
         <div class="row">
-
           <div class="col-md-4">
             <div class="form-group">
               <label for="defaultDs" class="search_label">Default DS</label>
@@ -65,24 +64,25 @@
                 id="ruletype"
                 name="ruletype"
               >
-
-              <option value="" disabled></option>
-              <option
-                [value]="rule"
-                *ngFor="let rule of ruletypes"
-              >{{ rule }}</option>
-
-            </select>
+                <option value="" disabled></option>
+                <option [value]="rule" *ngFor="let rule of ruletypes">
+                  {{ rule }}
+                </option>
+              </select>
             </div>
           </div>
         </div>
 
         <div class="button-section text-right">
-          <button (click)="showFilter = false" type="button" class="btn button-white">
+          <button
+            (click)="showFilter = false"
+            type="button"
+            class="btn button-white"
+          >
             Close
           </button>
 
-          <button class="btn button-pink" type="submit" >
+          <button class="btn button-pink" type="submit">
             Apply Filters
 
             <div
