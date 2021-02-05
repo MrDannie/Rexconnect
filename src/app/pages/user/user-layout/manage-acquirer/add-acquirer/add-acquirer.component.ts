@@ -143,7 +143,7 @@ export class AddAcquirerComponent implements OnInit {
     this.acquirerService.addAcquirer(formValue).subscribe(
       (response) => {
         this.isAddingAcquirer = false;
-        this.alertService.success('Acquirer Successfully Added', true);
+        this.alertService.success('Acquirer Created Successfully ', true);
         console.log('SUCEESS', response);
       },
       (error) => {
