@@ -11,10 +11,11 @@ import { Observable } from 'rxjs';
 import { IUser } from '../../pages/shared/interfaces/user';
 import { StorageService } from '../helpers/storage.service';
 import { Router } from '@angular/router';
+import { Config } from '../Config';
 
 
 const BASE_URL = environment.BASE_URL;
-// const EXTERNAL_BASE_URL = environment.EXTERNAL_BASE_URL;
+const EXTERNAL_BASE_URL = environment.EXTERNAL_BASE_URL;
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,8 @@ export class AuthService {
   constructor(
     private httpClient: HttpClient,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    private config: Config
   ) {}
 
   login(loginDetails: object) {
@@ -45,6 +47,25 @@ export class AuthService {
         localStorage.setItem('Currency', response['currencyCode']);
         return response;
       })
+    );
+  }
+
+  useXToken() {
+    this.getXToken().subscribe(
+      (res) => {
+        localStorage.setItem("AC", JSON.stringify(res));
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+  getXToken() {
+    return this.httpClient.post(
+      `${EXTERNAL_BASE_URL}${this.config.getXToken}`,
+      {
+        durtion: 12000,
+      }
     );
   }
 }
