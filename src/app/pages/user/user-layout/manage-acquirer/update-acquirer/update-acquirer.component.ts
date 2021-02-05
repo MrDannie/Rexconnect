@@ -218,7 +218,7 @@ export class UpdateAcquirerComponent implements OnInit {
     this.acquirerService.updateAcquirer(formValue, this.acquirerId).subscribe(
       (response) => {
         this.isAddingAcquirer = false;
-        this.alertService.success('Acquirer Successfully Added', true);
+        this.alertService.success('Acquirer updated sucessfully', true);
         console.log('SUCEESS', response);
       },
       (error) => {
