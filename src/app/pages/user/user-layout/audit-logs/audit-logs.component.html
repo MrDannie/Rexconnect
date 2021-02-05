@@ -36,27 +36,26 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="name" class="search_label">Station Name</label>
+              <label for="email" class="search_label">Start Date</label>
               <input
-                type="text"
-                class="form-control search_input"
-                formControlName="name"
-                id="name"
-              />
+              type="date"
+              class="form-control search_input"
+              formControlName="startDate"
+              id="startDate"
+            />
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="form-group">
-              <label for="status" class="search_label">Status</label>
-              <select
-                class="form-control search_input"
-                formControlName="status"
-                id="status"
-              >
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-              </select>
+              <label for="ip" class="search_label">End Date</label>
+              
+              <input
+              type="date"
+              class="form-control search_input"
+              formControlName="endDate"
+              id="endDate"
+            />
             </div>
           </div>
         </div>
@@ -68,7 +67,7 @@
 
           <button
             class="btn button-pink"
-            (click)="pageIndex = 0; getAllStations(); isSearching = true"
+            (click)="pageIndex = 0; getAuditLogs(); isSearching = true"
           >
             Apply Filters
 
@@ -92,61 +91,31 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
-    <app-rex-loader [isPushed]="true" *ngIf="!allStations"></app-rex-loader>
+    <app-rex-loader [isPushed]="true" *ngIf="!allLogs || isLoading"></app-rex-loader>
 
     <table class="table table-striped">
       <thead class="thead-dark">
-        <th scope="col">Station Name</th>
-        <th scope="col">Last Echo Date</th>
-        <th scope="col">Last Zpk Change</th>
-        <th scope="col">Auth Username</th>
-        <th scope="col">Status</th>
-        <th scope="col">Actions</th>
+        <th scope="col">Action Performed</th>
+        <th scope="col">Date Performed</th>
       </thead>
 
       <div
         class="center-body"
-        *ngIf="(!allStations || allStations.length === 0) && !isLoading"
+        *ngIf="(dataCount === 0) && !isLoading"
       >
-        <div class="no-data">No station found</div>
+        <div class="no-data" >No logs found</div>
       </div>
-      <!-- 
-      <div class="center-body" *ngIf="isLoading">
-        <div class="sbl-circ-path text-center"></div>
-      </div> -->
+      
+     
 
       <tbody *ngIf="!isLoading">
-        <tr *ngFor="let item of allStations">
-          <td>{{ item.name | titlecase }}</td>
+        <tr *ngFor="let item of allLogs">
+          <td>{{ item.description | titlecase }}</td>
           <td>
-            {{ item.lastEcho | date: "medium" }}
-            <span class="null-value" *ngIf="item.lastEcho === null">Nil</span>
+            {{ item.when | date: "medium" }}
+            <span class="null-value" *ngIf="item.when === null">Nil</span>
           </td>
-          <td>
-            {{ item.lastZpkChange | date: "medium" }}
-            <span class="null-value" *ngIf="item.lastZpkChange === null"
-              >Nil</span
-            >
-          </td>
-          <td>
-            {{ item.authUsername }}
-            <span class="null-value" *ngIf="item.authUsername === null"
-              >Nil</span
-            >
-          </td>
-          <td class="active" *ngIf="item.isActive === 1">Active</td>
-          <td class="inactive" *ngIf="item.isActive === 0">Inactive</td>
-
-          <td>
-            <button
-              [routerLink]="[item.id, 'station-details']"
-              class="btn table_button"
-            >
-              Open
-            </button>
-
-            
-          </td>
+    
         </tr>
       </tbody>
     </table>
@@ -177,7 +146,7 @@
 <!-- PAGINATION  -->
 <div class="paginate mt-2 animated fadeIn" *ngIf="!isLoading">
   <nav aria-label="...">
-    <ul class="pagination" *ngIf="!isLoading && allStations">
+    <ul class="pagination" *ngIf="!isLoading && allLogs">
       <li
         class="page-item"
         (click)="previousPage()"
@@ -207,7 +176,7 @@
   </nav>
 
   <!-- Export button -->
-  <div class="export-button animated fadeIn" *ngIf="!isLoading && allStations">
+  <div class="export-button animated fadeIn" *ngIf="!isLoading && allLogs">
     <button
       type="button"
       class="btn btn-light button-plain-icon"
