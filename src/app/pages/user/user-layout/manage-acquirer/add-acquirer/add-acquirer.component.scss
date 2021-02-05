@@ -88,24 +88,24 @@
   font-weight: bold;
 }
 
-.dropdown-menu {
+.dropdown-men {
   width: 100%;
 }
 
-.dropdown-menu {
+.dropdown-men {
   font-size: 10px;
 }
 
-.dropdown-menu li {
+.dropdown-men li {
   display: flex;
 }
 
-.dropdown-menu li span {
+.dropdown-men li span {
   text-align: right;
   padding: 0.5rem;
 }
 
-.dropdown-menu li > * {
+.dropdown-men li > * {
   flex: 1;
 }
 
@@ -152,4 +152,30 @@
   background-color: transparent;
   border: 0;
   width: fit-content;
+}
+
+ul {
+  list-style-type: none;
+  font-size: 10px;
+  width: 100%;
+  background-color: white;
+  margin: 0;
+  padding: 7px;
+}
+
+ul li {
+  margin: 10px;
+}
+
+.drop-button {
+  width: 100%;
+  border: none;
+  font-size: 12px;
+  height: 40px;
+  margin-bottom: 6px;
+}
+
+button:focus {
+  outline: none;
+  outline: none;
 }
