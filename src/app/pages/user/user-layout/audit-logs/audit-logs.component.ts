@@ -76,6 +76,7 @@ export class AuditLogsComponent implements OnInit {
 
 
    public  getAuditLogs() {
+     this.showFilter = false;
      this.isLoading = true;
      console.log(this.pageIndex, this.pageSize);
      this.allLogs = [];
@@ -83,7 +84,7 @@ export class AuditLogsComponent implements OnInit {
       (res) => {
         console.log(res);
         this.allLogs = res['logs'];
-        this.dataCount = res['totalCount'];
+        this.dataCount = res['count'];
         console.log(this.dataCount, this.currentPage, this.pageSize);
         this.pager = this.paginationService.getPager(
           this.dataCount,
