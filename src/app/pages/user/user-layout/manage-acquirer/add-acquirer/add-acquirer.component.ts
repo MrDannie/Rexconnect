@@ -19,11 +19,14 @@ export class AddAcquirerComponent implements OnInit {
   routingRulesToBeAdded: any = [];
   ruleOrder: string[] = [];
   isAddingAcquirer: boolean;
+  showDropdown: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private acquirerService: AcquirerService,
     private alertService: AlertService
-  ) {}
+  ) {
+    this.showDropdown = false;
+  }
 
   ngOnInit() {
     // GET PTSPS
@@ -140,7 +143,7 @@ export class AddAcquirerComponent implements OnInit {
     this.acquirerService.addAcquirer(formValue).subscribe(
       (response) => {
         this.isAddingAcquirer = false;
-        this.alertService.success('Acquirer Successfully Added', true);
+        this.alertService.success('Acquirer Created Successfully ', true);
         console.log('SUCEESS', response);
       },
       (error) => {
