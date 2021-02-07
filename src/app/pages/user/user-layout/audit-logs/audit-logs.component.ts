@@ -84,7 +84,7 @@ export class AuditLogsComponent implements OnInit {
       (res) => {
         console.log(res);
         this.allLogs = res['logs'];
-        this.dataCount = res['count'];
+        this.dataCount = res['totalCount'];
         console.log(this.dataCount, this.currentPage, this.pageSize);
         this.pager = this.paginationService.getPager(
           this.dataCount,
