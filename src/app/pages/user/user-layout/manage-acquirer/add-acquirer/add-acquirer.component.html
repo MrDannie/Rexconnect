@@ -33,6 +33,24 @@
             />
             <label for="acquirerName">Acquirer's Name</label>
           </span>
+          <div
+            *ngIf="
+              createAcquirerForm.get('clientName').errors &&
+              (createAcquirerForm.get('clientName').dirty ||
+                createAcquirerForm.get('clientName').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !createAcquirerForm.get('clientName').hasError('required')
+              "
+            >
+              Acquirer name is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
       <div class="form-group col-md-4">
@@ -47,6 +65,24 @@
             />
             <label for="acquirerShortName">Acquirer's Short Name</label>
           </span>
+          <div
+            *ngIf="
+              createAcquirerForm.get('shortName').errors &&
+              (createAcquirerForm.get('shortName').dirty ||
+                createAcquirerForm.get('shortName').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !createAcquirerForm.get('shortName').hasError('required')
+              "
+            >
+              Acquirer short name is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -65,6 +101,24 @@
             />
             <label for="bankCode">Acquirer's CBN Code</label>
           </span>
+          <div
+            *ngIf="
+              createAcquirerForm.get('bankCode').errors &&
+              (createAcquirerForm.get('bankCode').dirty ||
+                createAcquirerForm.get('bankCode').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !createAcquirerForm.get('bankCode').hasError('required')
+              "
+            >
+              Acquirer CBN code is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
       <div class="form-group col-md-4">
@@ -79,6 +133,24 @@
             />
             <label for="terminalPrefix">Aquirer's Terminal Prefix</label>
           </span>
+          <div
+            *ngIf="
+              createAcquirerForm.get('terminalPrefix').errors &&
+              (createAcquirerForm.get('terminalPrefix').dirty ||
+                createAcquirerForm.get('terminalPrefix').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !createAcquirerForm.get('terminalPrefix').hasError('required')
+              "
+            >
+              Terminal prefix is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -95,6 +167,24 @@
             />
             <label for="clientLocation">Acquirer's Location</label>
           </span>
+          <div
+            *ngIf="
+              createAcquirerForm.get('clientLocation').errors &&
+              (createAcquirerForm.get('clientLocation').dirty ||
+                createAcquirerForm.get('clientLocation').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !createAcquirerForm.get('clientLocation').hasError('required')
+              "
+            >
+              Acquirer location is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
       <div class="form-group col-md-4">
@@ -102,13 +192,31 @@
           <span class="has-float-label">
             <input
               class="form-control"
-              id="clientAddress"
+              id="currencyCode"
               type="text"
               placeholder=" "
-              formControlName="clientAddress"
+              formControlName="currencyCode"
             />
-            <label for="clientAddress">Aquirer's Address</label>
+            <label for="currencyCode">Aquirer's Address</label>
           </span>
+          <div
+            *ngIf="
+              createAcquirerForm.get('currencyCode').errors &&
+              (createAcquirerForm.get('currencyCode').dirty ||
+                createAcquirerForm.get('currencyCode').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !createAcquirerForm.get('currencyCode').hasError('required')
+              "
+            >
+              Acqurier address is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -125,6 +233,24 @@
             />
             <label for="currencyCode">Currency Code</label>
           </span>
+          <div
+            *ngIf="
+              createAcquirerForm.get('currencyCode').errors &&
+              (createAcquirerForm.get('currencyCode').dirty ||
+                createAcquirerForm.get('currencyCode').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !createAcquirerForm.get('currencyCode').hasError('required')
+              "
+            >
+              Acquirer currency code is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -132,38 +258,6 @@
 
     <!-- SELECT BUTTONS  -->
     <div class="form-row">
-      <!-- <div
-        style="overflow-x: auto; height: 200px"
-        class="routes-column col-md-4"
-      >
-        <p class="select_title">Select Routes</p>
-        <input
-          id="select-all-for-routes"
-          type="checkbox"
-          (click)="toggleAllRoutesCheckbox()"
-        />
-        <label id="select-all" class="select-label" for="">Select All</label>
-        <div *ngFor="let rule of routingRules" class="form-check">
-          <input
-            class="form-check-input routeCheckBoxName"
-            type="checkbox"
-            [value]="rule.id"
-            id="flexCheckDefault"
-            (change)="addRouteRule(rule.)"
-            (click)="selectAllRoutes()"
-            name="routingRules"
-          />
-          <label
-            class="select-all"
-            class="form-check-label"
-            for="flexCheckDefault"
-            class="select-label"
-          >
-            {{ rule.rule }}
-          </label>
-        </div>
-      </div> -->
-
       <div class="col-md-4">
         <div class="">
           <button
@@ -288,7 +382,7 @@
           <span class="has-float-label">
             <input
               class="form-control"
-              id="clientAddress"
+              id="currencyCode"
               type="text"
               placeholder=" "
               formControlName="ptsps"
@@ -302,12 +396,12 @@
           <span class="has-float-label">
             <input
               class="form-control"
-              id="clientAddress"
+              id="currencyCode"
               type="text"
               placeholder=" "
               formControlName="routingRules"
             />
-            <label for="clientAddress">Acquirer</label>
+            <label for="currencyCode">Acquirer</label>
           </span>
         </div>
       </div>
@@ -318,7 +412,7 @@
           <span class="has-float-label">
             <input
               class="form-control"
-              id="clientAddress"
+              id="currencyCode"
               type="text"
               placeholder=" "
               formControlName="ptsps"

@@ -128,8 +128,8 @@ export class PtspsComponent implements OnInit {
       .subscribe(
         (res) => {
           console.log(res);
-          this.allPtsps = res['data']['ptsps'];
-          this.dataCount = res['data']['count'];
+          this.allPtsps = res['data']['content'];
+          this.dataCount = res['data']['totalElements'];
           console.log(this.dataCount, this.currentPage, this.pageSize);
 
           this.pager = this.paginationService.getPager(

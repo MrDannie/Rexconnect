@@ -90,8 +90,8 @@ export class AcquirerComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('Acquirers Data', response);
-          this.allAcquirer = response['data']['clients'];
-          this.dataCount = response['data']['count'];
+          this.allAcquirer = response['data']['content'];
+          this.dataCount = response['data']['totalElements'];
           this.isLoaded = true;
           this.isLoading = false;
           this.isRefreshing = false;

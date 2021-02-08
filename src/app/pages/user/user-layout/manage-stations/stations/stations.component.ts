@@ -131,8 +131,8 @@ export class StationsComponent implements OnInit {
       .subscribe(
         (res) => {
           console.log(res);
-          this.allStations = res['data']['stations'];
-          this.dataCount = this.allStations.length;
+          this.allStations = res['data']['content'];
+          this.dataCount = res['data']['totalElements'];
           console.log(this.dataCount, this.currentPage, this.pageSize);
 
           this.pager = this.paginationService.getPager(

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ManageUserRoleGuardGuard } from 'src/app/core/guards/manage-user-role-guard.guard';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
 import { RoleManagementComponent } from './role-management/role-management.component';
@@ -21,6 +22,7 @@ import { RoleManagementComponent } from './role-management/role-management.compo
       {
         path: 'manage-user-roles',
         component: RoleManagementComponent,
+        canActivate: [ManageUserRoleGuardGuard],
       },
     ]),
   ],

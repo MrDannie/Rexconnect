@@ -33,6 +33,24 @@
             />
             <label for="acquirerName">Acquirer's Name</label>
           </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('clientName').errors &&
+              (editAcquirerForm.get('clientName').dirty ||
+                editAcquirerForm.get('clientName').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !editAcquirerForm.get('clientName').hasError('required')
+              "
+            >
+              Acquirer name is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
       <div class="form-group col-md-4">
@@ -47,6 +65,22 @@
             />
             <label for="acquirerShortName">Acquirer's Short Name</label>
           </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('shortName').errors &&
+              (editAcquirerForm.get('shortName').dirty ||
+                editAcquirerForm.get('shortName').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!editAcquirerForm.get('shortName').hasError('required')"
+            >
+              Acquirer short name is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -65,6 +99,22 @@
             />
             <label for="bankCode">Acquirer's CBN Code</label>
           </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('bankCode').errors &&
+              (editAcquirerForm.get('bankCode').dirty ||
+                editAcquirerForm.get('bankCode').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!editAcquirerForm.get('bankCode').hasError('required')"
+            >
+              Acquirer CBN code is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
       <div class="form-group col-md-4">
@@ -79,6 +129,24 @@
             />
             <label for="terminalPrefix">Aquirer's Terminal Prefix</label>
           </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('terminalPrefix').errors &&
+              (editAcquirerForm.get('terminalPrefix').dirty ||
+                editAcquirerForm.get('terminalPrefix').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !editAcquirerForm.get('terminalPrefix').hasError('required')
+              "
+            >
+              Terminal prefix is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -95,6 +163,24 @@
             />
             <label for="clientLocation">Acquirer's Location</label>
           </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('clientLocation').errors &&
+              (editAcquirerForm.get('clientLocation').dirty ||
+                editAcquirerForm.get('clientLocation').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !editAcquirerForm.get('clientLocation').hasError('required')
+              "
+            >
+              Acquirer location is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
       <div class="form-group col-md-4">
@@ -109,6 +195,24 @@
             />
             <label for="clientAddress">Aquirer's Address</label>
           </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('clientAddress').errors &&
+              (editAcquirerForm.get('clientAddress').dirty ||
+                editAcquirerForm.get('clientAddress').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !editAcquirerForm.get('clientAddress').hasError('required')
+              "
+            >
+              Acqurier address is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -125,6 +229,24 @@
             />
             <label for="currencyCode">Currency Code</label>
           </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('currencyCode').errors &&
+              (editAcquirerForm.get('currencyCode').dirty ||
+                editAcquirerForm.get('currencyCode').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !editAcquirerForm.get('currencyCode').hasError('required')
+              "
+            >
+              Acquirer currency code is required
+              <br />
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -165,17 +287,23 @@
       </div> -->
 
       <div class="col-md-4">
-        <div class="dropdown">
+        <div class="">
           <button
-            class="btn dropdown-toggle"
+            (click)="showDropdown = !showDropdown"
+            class="drop-button"
             type="button"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            id=""
           >
             Select Routes
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <ul
+            class="card dropdown-men search-dropdown"
+            id=""
+            style="position: absolute; z-index: 1234"
+            *ngIf="showDropdown"
+            class=""
+            (click)="showDropdown = !showDropdown"
+          >
             <li *ngFor="let rule of routingRules">
               <div style="font-family: Roboto Bold" class="general">
                 <span>{{ rule.rule }}</span>

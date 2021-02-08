@@ -11,7 +11,7 @@ const BASE_URL: string = environment.BASE_URL;
 
 export interface SearchRoutingRules {
   default_ds: string;
-  rule:string
+  rule: string;
 }
 
 @Injectable({
@@ -28,7 +28,7 @@ export class RouteComponentService {
     pageIndex,
     pageSize,
     options: SearchRoutingRules = { default_ds: '', rule: '' }
-  ): Observable<RoutingRulesInterface> {
+  ): Observable<any> {
     const params = new HttpParams();
 
     let requestParams;
