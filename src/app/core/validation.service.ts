@@ -68,6 +68,9 @@ export class ValidationService {
       username: {
         required: 'Username is required',
       },
+      surname: {
+        required: 'Surname is required',
+      },
       role: {
         required: 'Role Name is required',
       },
