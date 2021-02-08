@@ -36,7 +36,7 @@ export class RoutesComponent implements OnInit {
   routesRecordsToDownload: any;
   isFiltering: any = false;
 
-  filter
+  filter;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,19 +69,18 @@ export class RoutesComponent implements OnInit {
     this.routingCompService
       .getAllRoutingRules(this.pageIndex, this.pageSize, options)
       .subscribe(
-        (response: RoutingRulesInterface) => {
-
+        (response) => {
           this.isLoading = false;
 
           console.log(response);
           // FOR PAGINATION
-          this.dataCount = response['data']['count'];
-          this.allRoutes = response['data']['routingRules'];
+          this.dataCount = response['data']['totalElements'];
+          this.allRoutes = response['data']['content'];
           console.log('UNPARSED RESPONSE DATA', response);
 
           // PARSING THE OBJECT
-          this.routingRules = response.data.routingRules;
-          let parsedData = response.data.routingRules.map((item) =>
+          this.routingRules = response.data.content;
+          let parsedData = response.data.content.map((item) =>
             JSON.parse(item.rule_config)
           );
           this.routingRules.map((item) => (item.rule_config = parsedData));
@@ -90,7 +89,7 @@ export class RoutesComponent implements OnInit {
           this.paginationService.pagerState.next({
             totalElements: this.dataCount,
             pageIndex: this.pageIndex,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
           });
         },
         (error) => {
@@ -105,13 +104,12 @@ export class RoutesComponent implements OnInit {
   }
 
   performFiltering() {
-
     this.showFilter = false;
 
     const filterProperties = {
       default_ds: this.searchForm.value.defaultDs || '',
-      rule: this.searchForm.value.ruletype || ''
-    }
+      rule: this.searchForm.value.ruletype || '',
+    };
 
     console.log(filterProperties);
     this.getAllRoutingRules(filterProperties);
@@ -120,7 +118,7 @@ export class RoutesComponent implements OnInit {
   initializeForm() {
     this.searchForm = this.formBuilder.group({
       defaultDs: [''],
-      ruletype: ['']
+      ruletype: [''],
     });
   }
 

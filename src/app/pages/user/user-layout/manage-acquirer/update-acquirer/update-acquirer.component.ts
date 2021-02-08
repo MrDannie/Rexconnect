@@ -24,13 +24,16 @@ export class UpdateAcquirerComponent implements OnInit {
   routesToAdd: any = [];
   ptspsListOfAcquirer: number[];
   isAddingAcquirer: boolean;
+  showDropdown: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private acquirerService: AcquirerService,
     private route: ActivatedRoute,
     private alertService: AlertService
-  ) {}
+  ) {
+    this.showDropdown = false;
+  }
 
   ngOnInit() {
     this.initializeForm();

@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ErrorHandler } from '../../../shared/services/error-handler.service';
 import { PaginationService } from 'src/app/core/pagination.service';
-import { ITransactions, SearchTransactions } from 'src/app/pages/shared/interfaces/Transactions';
+import {
+  ITransactions,
+  SearchTransactions,
+} from 'src/app/pages/shared/interfaces/Transactions';
 import { TransactionsService } from 'src/app/pages/shared/services/transactions.service';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 import { AlertService } from 'src/app/core/alert/alert.service';
@@ -28,14 +31,14 @@ export class TransactionsComponent implements OnInit {
   isFiltering: boolean;
   transactionRecordsToDownload: any;
 
-  startDate = new Date(Date.now() - ( 7 * 86400000));
+  startDate = new Date(Date.now() - 7 * 86400000);
   endDate = new Date();
   hasError: boolean;
 
   dateValues = {
     startDate: this.startDate.toISOString().substring(0, 10),
-    endDate: this.endDate.toISOString().substring(0, 10)
-  }
+    endDate: this.endDate.toISOString().substring(0, 10),
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,7 +47,7 @@ export class TransactionsComponent implements OnInit {
     private errorHandler: ErrorHandler,
     private fileGenerationService: FileGenerationService,
     private alerts: AlertService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.pageSize = 10;
@@ -66,20 +69,23 @@ export class TransactionsComponent implements OnInit {
 
     this.dateValues = {
       startDate: this.startDate.toISOString().substring(0, 10),
-      endDate: this.endDate.toISOString().substring(0, 10)
-    }
+      endDate: this.endDate.toISOString().substring(0, 10),
+    };
 
     this.initializeForm();
 
     this.getTransactions();
-
-
   }
 
   getTransactions(): void {
     this.isLoading = true;
     this.transactionsService
-      .getTransactions(this.pageIndex, this.pageSize, this.searchForm.value.startDate, this.searchForm.value.endDate)
+      .getTransactions(
+        this.pageIndex,
+        this.pageSize,
+        this.searchForm.value.startDate,
+        this.searchForm.value.endDate
+      )
       .subscribe(
         (response) => {
           this.transactions = response.content;
@@ -97,7 +103,10 @@ export class TransactionsComponent implements OnInit {
         (error) => {
           this.isLoaded = true;
           this.isLoading = false;
-          this.alerts.error('Error occurred while getting transactions: ', error.error.message);
+          this.alerts.error(
+            'Error occurred while getting transactions: ',
+            error.error.message
+          );
           this.hasError = true;
           this.paginationService.pagerState.next(null);
         }
@@ -136,11 +145,9 @@ export class TransactionsComponent implements OnInit {
     date = year + '-' + month + '-' + day;
 
     return date;
-
   }
 
   filterTable() {
-
     this.showFilter = false;
     this.isLoading = true;
 
@@ -150,47 +157,53 @@ export class TransactionsComponent implements OnInit {
       type: this.searchForm.value.transactionType,
       referenceNumber: this.searchForm.value.rrn,
       startDate: this.startDate.toISOString().substring(0, 10),
-      endDate: this.endDate.toISOString().substring(0, 10)
+      endDate: this.endDate.toISOString().substring(0, 10),
     };
 
-    if (this.searchForm.value.startDate != null && this.searchForm.value.startDate != '') {
+    if (
+      this.searchForm.value.startDate != null &&
+      this.searchForm.value.startDate != ''
+    ) {
       options.startDate = this.searchForm.value.startDate;
       this.dateValues.startDate = options.startDate;
     }
 
-    if (this.searchForm.value.endDate != null && this.searchForm.value.endDate != '') {
+    if (
+      this.searchForm.value.endDate != null &&
+      this.searchForm.value.endDate != ''
+    ) {
       options.endDate = this.searchForm.value.endDate;
       this.dateValues.endDate = options.endDate;
     }
 
-    this.transactionsService.getFilteredTransactions(
-          this.pageIndex,
-          this.pageSize,
-          options
-        )
-        .subscribe(
-          (response) => {
-            this.transactions = response.content;
-            this.dataCount = response.totalElements;
-            this.isLoaded = true;
-            this.isLoading = false;
-            this.hasError = false;
+    this.transactionsService
+      .getFilteredTransactions(this.pageIndex, this.pageSize, options)
+      .subscribe(
+        (response) => {
+          this.transactions = response.content;
+          this.dataCount = response.totalElements;
+          this.isLoaded = true;
+          this.isLoading = false;
+          this.hasError = false;
 
-            this.paginationService.pagerState.next({
-              totalElements: this.dataCount,
-              pageIndex: this.pageIndex,
-              pageSize: this.pageSize,
-            });
-          },
-          (error) => {
-            this.alerts.error('Error occurred while getting transactions: ', error.error.message);
-            this.isFiltering = false;
-            this.isLoaded = true;
-            this.isLoading = false;
-            this.hasError = true;
-            this.paginationService.pagerState.next(null);
-          }
-        );
+          this.paginationService.pagerState.next({
+            totalElements: this.dataCount,
+            pageIndex: this.pageIndex,
+            pageSize: this.pageSize,
+          });
+        },
+        (error) => {
+          this.alerts.error(
+            'Error occurred while getting transactions: ',
+            error.error.message
+          );
+          this.isFiltering = false;
+          this.isLoaded = true;
+          this.isLoading = false;
+          this.hasError = true;
+          this.paginationService.pagerState.next(null);
+        }
+      );
 
     //Compare Start Date and End Date
     // const {
@@ -267,7 +280,12 @@ export class TransactionsComponent implements OnInit {
     this.pageIndex = 0;
 
     this.transactionsService
-      .getTransactions(this.pageIndex, downloadPageSize, this.searchForm.value.startDate, this.searchForm.value.endDate)
+      .getTransactions(
+        this.pageIndex,
+        downloadPageSize,
+        this.searchForm.value.startDate,
+        this.searchForm.value.endDate
+      )
       .subscribe((data: any) => {
         this.transactionRecordsToDownload = data['content'];
         for (

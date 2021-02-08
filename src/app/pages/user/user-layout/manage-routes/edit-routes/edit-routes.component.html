@@ -32,6 +32,24 @@
                 </select>
                 <label for="default_ds">Default Destination Station</label>
               </span>
+              <div
+                *ngIf="
+                  editRouteForm.get('default_ds').errors &&
+                  (editRouteForm.get('default_ds').dirty ||
+                    editRouteForm.get('default_ds').touched)
+                "
+                class="validation-message"
+              >
+                <span
+                  class="validation-message"
+                  [hidden]="
+                    !editRouteForm.get('default_ds').hasError('required')
+                  "
+                >
+                  Default Destination Station is required
+                  <br />
+                </span>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -50,6 +68,22 @@
                 </select>
                 <label for="ruleType">Rule Type</label>
               </span>
+              <div
+                *ngIf="
+                  editRouteForm.get('rule').errors &&
+                  (editRouteForm.get('rule').dirty ||
+                    editRouteForm.get('rule').touched)
+                "
+                class="validation-message"
+              >
+                <span
+                  class="validation-message"
+                  [hidden]="!editRouteForm.get('rule').hasError('required')"
+                >
+                  Rule Type is required
+                  <br />
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -110,6 +144,22 @@
                     />
                     <label for="terminal">Value</label>
                   </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('value').errors &&
+                      (ruleConfig.get('value').dirty ||
+                        ruleConfig.get('value').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('value').hasError('required')"
+                    >
+                      Value is required
+                      <br />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -125,6 +175,22 @@
                     />
                     <label for="terminal">Min</label>
                   </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('min').errors &&
+                      (ruleConfig.get('min').dirty ||
+                        ruleConfig.get('min').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('min').hasError('required')"
+                    >
+                      Min is required
+                      <br />
+                    </span>
+                  </div>
                 </div>
                 <div class="col">
                   <span class="has-float-label">
@@ -136,6 +202,22 @@
                     />
                     <label for="terminal">Max</label>
                   </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('max').errors &&
+                      (ruleConfig.get('max').dirty ||
+                        ruleConfig.get('max').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('max').hasError('required')"
+                    >
+                      Max is required
+                      <br />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -151,6 +233,22 @@
                     />
                     <label for="terminal">Destination Station</label>
                   </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('ds').errors &&
+                      (ruleConfig.get('ds').dirty ||
+                        ruleConfig.get('ds').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('ds').hasError('required')"
+                    >
+                      Destination Station is required
+                      <br />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

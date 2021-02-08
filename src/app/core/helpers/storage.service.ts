@@ -5,11 +5,11 @@ import { isNullOrUndefined } from 'util';
   providedIn: 'root',
 })
 export class StorageService {
-  constructor() { }
+  constructor() {}
 
   storeCurrentUser(userData: any) {
     console.log(userData);
-    
+
     localStorage.setItem('UserDait_er', JSON.stringify(userData));
   }
 
@@ -22,12 +22,20 @@ export class StorageService {
       return JSON.parse(localStorage.getItem('UserDait_er'));
     }
   }
-  getCurrentRole() {
-
-  }
+  getCurrentRole() {}
 
   removeAll() {
     localStorage.removeItem('UserDait_er');
     localStorage.removeItem('Clients_Dtls');
+  }
+
+  getPermissions() {
+    if (
+      !isNullOrUndefined(
+        JSON.parse(localStorage.getItem('UserDait_er')).user.permissions
+      )
+    ) {
+      return JSON.parse(localStorage.getItem('UserDait_er')).user.permissions;
+    }
   }
 }
