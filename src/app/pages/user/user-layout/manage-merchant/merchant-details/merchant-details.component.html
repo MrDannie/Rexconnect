@@ -17,9 +17,13 @@
             <b>Merchant Key</b>
             <p>{{ merchantDetails?.merchantKey }}</p>
           </div>
-          <div class="col-md-6" *ngIf="merchantDetails?.merchantCategoryCode"  >
+          <div class="col-md-6" *ngIf="merchantDetails?.merchantCategoryCode">
             <b>Merchant Category</b>
-            <p>{{ getMCCodes(merchantDetails?.merchantCategoryCode) }} ({{ merchantDetails?.merchantCategoryCode }})</p>
+            <p>
+              {{ getMCCodes(merchantDetails?.merchantCategoryCode) }} ({{
+                merchantDetails?.merchantCategoryCode
+              }})
+            </p>
           </div>
         </div>
         <div class="row">
@@ -37,9 +41,13 @@
             <b>Country Code</b>
             <p>({{ merchantDetails?.countryCode }})</p>
           </div>
-          <div class="col-md-6" *ngIf="merchantDetails?.currencyCode"  >
+          <div class="col-md-6" *ngIf="merchantDetails?.currencyCode">
             <b>Currency</b>
-            <p>{{ getCurrencyName(merchantDetails?.currencyCode) }} ({{ merchantDetails?.currencyCode }})</p>
+            <p>
+              {{ getCurrencyName(merchantDetails?.currencyCode) }} ({{
+                merchantDetails?.currencyCode
+              }})
+            </p>
           </div>
         </div>
         <!-- <div class="row">
@@ -78,7 +86,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let terminal of merchantTerminals"  >
+          <tr *ngFor="let terminal of merchantTerminals">
             <td class="text-center">{{ terminal.terminalId }}</td>
             <td class="text-center">{{ terminal.callHomeTime }}</td>
           </tr>
@@ -87,11 +95,11 @@
       <span
         class="empty-state"
         *ngIf="merchantTerminals.length == 0 && !isLoadingTerminals"
-      >No Records Found</span>
+        >No Records Found</span
+      >
     </div>
   </div>
 </div>
-
 
 <div
   class="modal animated zoomIn"
@@ -105,7 +113,7 @@
     <div class="modal-content">
       <div class="modal-body">
         <h5 class="modal-title" id="createUserLabel">Edit Merchant</h5>
-        <form [formGroup]="updateMerchantForm" (ngSubmit)="updateMerchant()" >
+        <form [formGroup]="updateMerchantForm" (ngSubmit)="updateMerchant()">
           <div class="row">
             <div class="col-md-12 no-padding">
               <div class="form-group">
@@ -123,8 +131,12 @@
               </div>
               <span
                 class="validation-message"
-                *ngIf="updateMerchantForm?.get('merchantName').errors && updateMerchantForm?.get('merchantName').touched"
-              >Merchant Name is required.</span>
+                *ngIf="
+                  updateMerchantForm?.get('merchantName').errors &&
+                  updateMerchantForm?.get('merchantName').touched
+                "
+                >Merchant Name is required.</span
+              >
             </div>
 
             <div class="col-md-12 no-padding">
@@ -142,11 +154,15 @@
               </div>
               <span
                 class="validation-message"
-                *ngIf="updateMerchantForm?.get('merchantKey').errors && updateMerchantForm?.get('merchantKey').touched"
-              >Merchant Key is required.</span>
+                *ngIf="
+                  updateMerchantForm?.get('merchantKey').errors &&
+                  updateMerchantForm?.get('merchantKey').touched
+                "
+                >Merchant Key is required.</span
+              >
             </div>
 
-            <div class="col-md-12 no-padding">
+            <div *ngIf="autoMidState != true" class="col-md-12 no-padding">
               <div class="form-group">
                 <span class="has-float-label">
                   <input
@@ -177,8 +193,12 @@
               </div>
               <span
                 class="validation-message"
-                *ngIf="updateMerchantForm?.get('merchantToken').errors && updateMerchantForm?.get('merchantToken').touched"
-              >Merchant Token is required.</span>
+                *ngIf="
+                  updateMerchantForm?.get('merchantToken').errors &&
+                  updateMerchantForm?.get('merchantToken').touched
+                "
+                >Merchant Token is required.</span
+              >
             </div>
 
             <div class="col-md-12 no-padding">
@@ -194,86 +214,144 @@
                     <option
                       [value]="categoryCode['MCC CODE']"
                       *ngFor="let categoryCode of merchantCategoryCodes"
-                    >{{ categoryCode.fullCatLabel }}</option>
+                    >
+                      {{ categoryCode.fullCatLabel }}
+                    </option>
                   </select>
                   <label for="categoryCode">Merchant Category Code</label>
                 </span>
               </div>
               <span
                 class="validation-message"
-                *ngIf="updateMerchantForm?.get('categoryCode').errors && updateMerchantForm?.get('categoryCode').touched"
-              >Merchant Category Code is required.</span>
+                *ngIf="
+                  updateMerchantForm?.get('categoryCode').errors &&
+                  updateMerchantForm?.get('categoryCode').touched
+                "
+                >Merchant Category Code is required.</span
+              >
             </div>
 
-              <div class="col-md-4 no-padding">
-                <div class="form-group">
-                  <span class="has-float-label">
-                    <select
-                      id="currency"
-                      type="text"
-                      class="form-control"
-                      placeholder=" "
-                      formControlName="currency"
+            <div class="col-md-4 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="currency"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="currency"
+                  >
+                    <option
+                      [value]="currency['ISO4217-currency_numeric_code']"
+                      *ngFor="let currency of currencyCodes"
                     >
-                      <option
-                        [value]="currency['ISO4217-currency_numeric_code']"
-                        *ngFor="let currency of currencyCodes"
-                      >{{ currency.fullCurrencyLabel }}</option>
-                    </select>
-                    <label for="currency">Currency</label>
-                  </span>
-                </div>
-                <span
-                  class="validation-message"
-                  *ngIf="updateMerchantForm?.get('currency').errors && updateMerchantForm?.get('currency').touched"
-                >Currency is required.</span>
+                      {{ currency.fullCurrencyLabel }}
+                    </option>
+                  </select>
+                  <label for="currency">Currency</label>
+                </span>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  updateMerchantForm?.get('currency').errors &&
+                  updateMerchantForm?.get('currency').touched
+                "
+                >Currency is required.</span
+              >
+            </div>
 
-              <div class="col-md-4 no-padding">
-                <div class="form-group">
-                  <span class="has-float-label">
-                    <select
-                      id="countryCode"
-                      type="text"
-                      class="form-control"
-                      placeholder=" "
-                      (change)="onSelectCountryCode(updateMerchantForm.value.countryCode)"
-                      formControlName="countryCode"
+            <div class="col-md-4 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="countryCode"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    (change)="
+                      onSelectCountryCode(updateMerchantForm.value.countryCode)
+                    "
+                    formControlName="countryCode"
+                  >
+                    <option
+                      [value]="countryCode['ISO3166-1-numeric']"
+                      *ngFor="let countryCode of countryCodes"
                     >
-                      <option
-                        [value]="countryCode['ISO3166-1-numeric']"
-                        *ngFor="let countryCode of countryCodes"
-                      >{{ countryCode.fullCountryLabel }}</option>
-                    </select>
-                    <label for="countryCode">Country Code</label>
-                  </span>
-                </div>
-                <span
-                  class="validation-message"
-                  *ngIf="updateMerchantForm?.get('countryCode').errors && updateMerchantForm?.get('countryCode').touched"
-                >Country Code is required.</span>
+                      {{ countryCode.fullCountryLabel }}
+                    </option>
+                  </select>
+                  <label for="countryCode">Country Code</label>
+                </span>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  updateMerchantForm?.get('countryCode').errors &&
+                  updateMerchantForm?.get('countryCode').touched
+                "
+                >Country Code is required.</span
+              >
+            </div>
 
-              <div class="col-md-4 no-padding">
-                <div class="form-group">
-                  <span class="has-float-label">
-                    <select
-                      id="city"
-                      type="text"
-                      class="form-control"
-                      placeholder=" "
-                      formControlName="city"
+            <div class="col-md-4 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="city"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="city"
+                  >
+                    <option
+                      [value]="city['subdivision_name']"
+                      *ngFor="let city of allCities"
                     >
-                      <option [value]="city['subdivision_name']" *ngFor="let city of allCities" >{{ city['subdivision_name'] }}</option>
-                    </select>
-                    <label for="city">City</label>
-                  </span>
-                </div>
-                <span
-                  class="validation-message"
-                  *ngIf="updateMerchantForm?.get('city').errors && updateMerchantForm?.get('city').touched"
-                >City is required.</span>
+                      {{ city["subdivision_name"] }}
+                    </option>
+                  </select>
+                  <label for="city">City</label>
+                </span>
               </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  updateMerchantForm?.get('city').errors &&
+                  updateMerchantForm?.get('city').touched
+                "
+                >City is required.</span
+              >
+            </div>
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="timezoneId"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="timezoneId"
+                  >
+                    <option
+                      [value]="+timezone.id"
+                      *ngFor="let timezone of allTimeZones"
+                    >
+                      {{ timezone.timeZoneName }}
+                    </option>
+                  </select>
+                  <label for="timezoneId">Time Zone</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  updateMerchantForm.get('timezoneId').errors &&
+                  updateMerchantForm.get('timezoneId').touched
+                "
+                >Timezone is required.</span
+              >
+            </div>
           </div>
           <div class="form_actions">
             <button
@@ -286,7 +364,11 @@
             </button>
             <button
               class="btn button-primary"
-              [disabled]="updateMerchantForm.invalid || isLoadingCities || isUpdatingMerchant"
+              [disabled]="
+                updateMerchantForm.invalid ||
+                isLoadingCities ||
+                isUpdatingMerchant
+              "
               type="submit"
             >
               Update Merchant
@@ -305,5 +387,3 @@
     </div>
   </div>
 </div>
-
-

@@ -62,7 +62,7 @@
       id="filter__dropdown"
       style="height: 200px"
     >
-      <form [formGroup]="searchForm" (ngSubmit)="searchBy()">
+      <form [formGroup]="searchForm" (ngSubmit)="searchBy(searchForm.value)">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
@@ -73,6 +73,20 @@
                 formControlName="terminalId"
                 id="terminalId"
               />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="status" class="search_label">Status</label>
+              <select
+                type="text"
+                class="form-control search_input"
+                formControlName="status"
+                id="status"
+              >
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
             </div>
           </div>
         </div>
@@ -119,6 +133,7 @@
           <th scope="col">Terminal ID</th>
           <th scope="col">Merchant ID</th>
           <th scope="col">Transaction Time Out</th>
+          <th scope="col">Status</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -127,6 +142,12 @@
           <td>{{ terminal.terminalId }}</td>
           <td>{{ terminal.merchantId }}</td>
           <td>{{ terminal.transactionTimeout }}</td>
+          <td
+            [ngClass]="{ Inactive: terminal.isActive === false }"
+            class="active"
+          >
+            {{ terminal.isActive ? "Active" : "Inactive" }}
+          </td>
           <td>
             <button
               [routerLink]="[terminal.terminalId]"
@@ -197,7 +218,7 @@
               >
             </div>
 
-            <div class="col-md-12 no-padding">
+            <div *ngIf="autoTidState != true" class="col-md-12 no-padding">
               <div class="form-group">
                 <span class="has-float-label">
                   <input
@@ -351,7 +372,7 @@
     <div class="modal-content">
       <div class="modal-body">
         <h5 class="modal-title" id="bulkUploadLabel">Upload Terminal</h5>
-        <p>Upload the NIBSS Terminal/merchant registeration file</p>
+        <p>Upload the Terminal/merchant registration file</p>
         <section>
           <div class="file-input">
             <span>{{
