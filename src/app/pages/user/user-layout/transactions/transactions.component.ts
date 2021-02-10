@@ -29,7 +29,7 @@ export class TransactionsComponent implements OnInit {
   pageSize: number;
   pageIndex: number;
   isFiltering: boolean;
-  // transactions: any;
+  transactionRecordsToDownload: any;
 
   startDate = new Date(Date.now() - 7 * 86400000);
   endDate = new Date();
@@ -279,39 +279,51 @@ export class TransactionsComponent implements OnInit {
     const downloadPageSize = this.dataCount;
     this.pageIndex = 0;
 
-    // this.transactionsService
-    //   .getTransactions(
-    //     this.pageIndex,
-    //     downloadPageSize,
-    //     this.searchForm.value.startDate,
-    //     this.searchForm.value.endDate
-    //   )
-    //   .subscribe((data: any) => {
-    //     this.transactions = data['content'];
-    for (let index = 0; index < this.transactions.length; index++) {
-      dataToDownload.push([]);
-      dataToDownload[index]['Date/Time'] = this.getDate('creationDate', index);
-      dataToDownload[index]['Transaction ID'] = this.clean('tid', index);
-      dataToDownload[index]['Merchant ID'] = this.clean('mid', index);
-      dataToDownload[index]['RRN'] = this.clean('mid', index);
-      dataToDownload[index]['Stan'] = this.clean('stan', index);
-      dataToDownload[index]['PAN/Account'] = this.clean('pan', index);
-      dataToDownload[index]['Amount'] = this.clean('username', index);
-      dataToDownload[index]['Currency'] = this.getCurrencyValue(index);
-      dataToDownload[index]['Type'] = this.clean('type', index);
-      dataToDownload[index]['Status'] = this.clean('status', index);
-    }
-    console.log('dataToDownload In Exxport Users', dataToDownload);
-    this.exportRecords(dataToDownload);
+    this.transactionsService
+      .getTransactions(
+        this.pageIndex,
+        downloadPageSize,
+        this.searchForm.value.startDate,
+        this.searchForm.value.endDate
+      )
+      .subscribe((data: any) => {
+        this.transactionRecordsToDownload = data['content'];
+        for (
+          let index = 0;
+          index < this.transactionRecordsToDownload.length;
+          index++
+        ) {
+          dataToDownload.push([]);
+          dataToDownload[index]['Date/Time'] = this.getDate(
+            'creationDate',
+            index
+          );
+          dataToDownload[index]['Transaction ID'] = this.clean('tid', index);
+          dataToDownload[index]['Merchant ID'] = this.clean('mid', index);
+          dataToDownload[index]['RRN'] = this.clean('mid', index);
+          dataToDownload[index]['Stan'] = this.clean('stan', index);
+          dataToDownload[index]['PAN/Account'] = this.clean('pan', index);
+          dataToDownload[index]['Amount'] = this.clean('username', index);
+          dataToDownload[index]['Currency'] = this.getCurrencyValue(index);
+          dataToDownload[index]['Type'] = this.clean('type', index);
+          dataToDownload[index]['Status'] = this.clean('status', index);
+        }
+        console.log('dataToDownload In Exxport Users', dataToDownload);
+        this.exportRecords(dataToDownload);
+      });
   }
 
   getDate(creationDate, index) {
-    return new Date(this.transactions[index][creationDate]);
+    return new Date(this.transactionRecordsToDownload[index][creationDate]);
   }
 
   getCurrencyValue(index) {
-    const currencyCode = this.transactions[index]['currencyCode'];
-    const currencyAlpha = this.transactions[index]['currencyAlpha'];
+    const currencyCode = this.transactionRecordsToDownload[index][
+      'currencyCode'
+    ];
+    const currencyAlpha = this.transactionRecordsToDownload[index][
+      'currencyAlpha'
+    ];
     return `${currencyCode} (${currencyAlpha})`;
   }
   exportRecords(dataToDownload: any[]) {
@@ -336,6 +348,8 @@ export class TransactionsComponent implements OnInit {
   }
 
   clean(key: string, index: number) {
-    return this.transactions[index][key] ? this.transactions[index][key] : '';
+    return this.transactionRecordsToDownload[index][key]
+      ? this.transactionRecordsToDownload[index][key]
+      : '';
   }
 }

@@ -206,38 +206,40 @@ export class StationsComponent implements OnInit {
   }
   generateCSV() {
     this.isCSVLoading = true;
+    const downloadPageSize = this.dataCount;
 
-    this.stationsService.getAllStations(0, 100000).subscribe(
-      (res) => {
-        console.log(res);
-        const exportData = JSON.parse(
-          JSON.stringify(
-            // res['data']['content'],
-            this.allStations,
-            ['name', 'zmk', 'zpk', 'lastEcho', 'lastZpkChange'],
-            2
-          )
-        );
-        console.log(exportData);
-        const options = {
-          headers: [
-            'Station Name',
-            'ZMK',
-            'ZPK',
-            'Last Echo Date',
-            'Last Zpk Change',
-          ],
-          decimalseparator: '.',
-          showTitle: false,
-          nullToEmptyString: true,
-        };
-        this.isCSVLoading = false;
-        return new Angular5Csv(exportData, 'Stations List', options);
-      },
-      (err) => {
-        this.isCSVLoading = false;
-        this.alertService.error(err, false);
-      }
-    );
+    this.stationsService
+      .getAllStations(0, downloadPageSize, this.searchForm.value)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          const exportData = JSON.parse(
+            JSON.stringify(
+              res['data']['content'],
+              ['name', 'zmk', 'zpk', 'lastEcho', 'lastZpkChange'],
+              2
+            )
+          );
+          console.log(exportData);
+          const options = {
+            headers: [
+              'Station Name',
+              'ZMK',
+              'ZPK',
+              'Last Echo Date',
+              'Last Zpk Change',
+            ],
+            decimalseparator: '.',
+            showTitle: false,
+            nullToEmptyString: true,
+          };
+          this.isCSVLoading = false;
+          return new Angular5Csv(exportData, 'Stations List', options);
+        },
+        (err) => {
+          this.isCSVLoading = false;
+          this.alertService.error(err, false);
+        }
+      );
   }
 }

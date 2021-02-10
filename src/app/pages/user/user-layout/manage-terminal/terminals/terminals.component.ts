@@ -59,6 +59,7 @@ export class TerminalsComponent implements OnInit {
   isFiltering: boolean;
   autoMidState: any;
   autoTidState: any;
+  terminalRecordsToDownload: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -148,19 +149,44 @@ export class TerminalsComponent implements OnInit {
     const temp: any[] = [];
     this.isCSVLoading = true;
 
-    // this.pageIndex = 0;
+    const downloadPageSize = this.dataCount;
 
-    for (let idx = 0; idx < this.allTerminals.length; idx++) {
-      temp.push([]);
-      temp[idx]['Terminal ID'] = this.clean('terminalId', idx);
-      temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
-      temp[idx]['Transaction Timeout'] = this.clean('transactionTimeout', idx);
-      temp[idx]['Status'] = this.allMerchants[idx]['isActive']
-        ? 'Active'
-        : 'Inactive';
-    }
-    // this.allTerminals = temp;
-    this.exportRecords(temp);
+    this.pageIndex = 0;
+    this.terminals
+      .getAllTerminals(
+        this.pageIndex,
+        downloadPageSize,
+        this.searchForm.value.terminalId,
+        this.searchForm.value.status
+      )
+      .subscribe(
+        (data: any) => {
+          this.terminalRecordsToDownload = data['content'];
+          for (
+            let idx = 0;
+            idx < this.terminalRecordsToDownload.length;
+            idx++
+          ) {
+            temp.push([]);
+            temp[idx]['Terminal ID'] = this.clean('terminalId', idx);
+            temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
+            temp[idx]['Transaction Timeout'] = this.clean(
+              'transactionTimeout',
+              idx
+            );
+            temp[idx]['Status'] = this.terminalRecordsToDownload[idx][
+              'isActive'
+            ]
+              ? 'Active'
+              : 'Inactive';
+          }
+          // this.allTerminals = temp;
+          this.exportRecords(temp);
+        },
+        (error) => {
+          this.alerts.error(error);
+        }
+      );
   }
 
   exportRecords(temp) {
@@ -176,7 +202,9 @@ export class TerminalsComponent implements OnInit {
   }
 
   clean(key: string, index: number) {
-    return this.allTerminals[index][key] ? this.allTerminals[index][key] : '';
+    return this.terminalRecordsToDownload[index][key]
+      ? this.terminalRecordsToDownload[index][key]
+      : '';
   }
 
   getMerchantId(name: string) {

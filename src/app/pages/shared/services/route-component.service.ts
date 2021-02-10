@@ -10,8 +10,8 @@ import { RoutingRulesInterface } from '../interfaces/routing-rules.model';
 const BASE_URL: string = environment.BASE_URL;
 
 export interface SearchRoutingRules {
-  default_ds: string;
-  rule: string;
+  defaultDs: string;
+  ruletype: string;
 }
 
 @Injectable({
@@ -24,30 +24,27 @@ export class RouteComponentService {
     this.config = new Config();
   }
 
-  getAllRoutingRules(
-    pageIndex,
-    pageSize,
-    options: SearchRoutingRules = { default_ds: '', rule: '' }
-  ): Observable<any> {
-    const params = new HttpParams();
+  getAllRoutingRules(pageIndex, pageSize, options): Observable<any> {
+    let params = new HttpParams();
 
-    let requestParams;
-
-    if (options.default_ds.length > 0 || options.rule.length > 0) {
-      requestParams = params
-        .append('default_ds', options.default_ds)
-        .append('rule', options.rule.toUpperCase())
-        .append('page', pageIndex.toString())
-        .append('size', pageSize.toString());
-    } else {
-      requestParams = params
-        .append('page', pageIndex.toString())
-        .append('size', pageSize.toString());
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (options) {
+      if (options.defaultDs) {
+        params = params.append('default_ds', options.defaultDs);
+      }
+      if (options.ruletype) {
+        params = params.append('rule', options.ruletype);
+      }
     }
 
     return this.http
       .get<RoutingRulesInterface>(BASE_URL + '/v1/routing-rules', {
-        params: requestParams,
+        params: params,
       })
       .pipe(
         map((response: RoutingRulesInterface) => {

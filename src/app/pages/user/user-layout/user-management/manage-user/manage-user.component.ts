@@ -163,18 +163,41 @@ export class ManageUserComponent implements OnInit {
     const dataToDownload: any[] = [];
     // const currentPageSize = this.pageSize;
 
-    // const downloadPageSize = this.dataCount;
+    const downloadPageSize = this.dataCount;
+
     this.pageIndex = 0;
-    for (let index = 0; index < this.allUsers.length; index++) {
-      dataToDownload.push([]);
-      dataToDownload[index]['Username'] = this.clean('username', index);
-      dataToDownload[index]['Email'] = this.clean('email', index);
-      dataToDownload[index]['Status'] = this.allUsers[index]['enabled']
-        ? 'Active'
-        : 'Inactive';
-    }
-    console.log('dataToDownload In Exxport Users', dataToDownload);
-    this.exportRecords(dataToDownload);
+    this.userManagementService
+      .getAllUsers(
+        this.pageIndex,
+        downloadPageSize,
+        this.searchForm.value.username,
+        this.searchForm.value.endDate
+      )
+      .subscribe(
+        (data: any) => {
+          this.userRecordsToDownload = data['content'];
+
+          for (
+            let index = 0;
+            index < this.userRecordsToDownload.length;
+            index++
+          ) {
+            dataToDownload.push([]);
+            dataToDownload[index]['Username'] = this.clean('username', index);
+            dataToDownload[index]['Email'] = this.clean('email', index);
+            dataToDownload[index]['Status'] = this.userRecordsToDownload[index][
+              'enabled'
+            ]
+              ? 'Active'
+              : 'Inactive';
+          }
+          console.log('dataToDownload In Exxport Users', dataToDownload);
+          this.exportRecords(dataToDownload);
+        },
+        (error) => {
+          this.alertService.error(error);
+        }
+      );
   }
 
   exportRecords(dataToDownload: any[]) {
@@ -184,7 +207,9 @@ export class ManageUserComponent implements OnInit {
   }
 
   clean(key: string, index: number) {
-    return this.allUsers[index][key] ? this.allUsers[index][key] : '';
+    return this.userRecordsToDownload[index][key]
+      ? this.userRecordsToDownload[index][key]
+      : '';
   }
 
   deleteUser(userId) {

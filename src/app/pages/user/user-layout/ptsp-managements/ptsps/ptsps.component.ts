@@ -203,46 +203,49 @@ export class PtspsComponent implements OnInit {
   }
   generateCSV() {
     this.isCSVLoading = true;
+    const downloadPageSize = this.dataCount;
 
-    this.ptspService.getAllPtsps(0, 100000).subscribe(
-      (res) => {
-        console.log(res);
-        const exportData = JSON.parse(
-          JSON.stringify(
-            this.allPtsps,
-            // res['data']['ptsps'],
-            [
-              'Ptspname',
-              'Ptspctmk',
-              'Ptspctmkblock',
-              'Ptspctmkkcv',
-              'Ptspctmkblockkcv',
-              'isActive',
+    this.ptspService
+      .getAllPtsps(0, downloadPageSize, this.searchForm.value)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          const exportData = JSON.parse(
+            JSON.stringify(
+              this.allPtsps,
+              // res['data']['ptsps'],
+              [
+                'Ptspname',
+                'Ptspctmk',
+                'Ptspctmkblock',
+                'Ptspctmkkcv',
+                'Ptspctmkblockkcv',
+                'isActive',
+              ],
+              2
+            )
+          );
+          console.log(exportData);
+          const options = {
+            headers: [
+              'Name',
+              'CTMK',
+              'CTMK BLOCK',
+              'CTMK KCV',
+              'CTMK BLOCK KCV',
+              'Status',
             ],
-            2
-          )
-        );
-        console.log(exportData);
-        const options = {
-          headers: [
-            'Name',
-            'CTMK',
-            'CTMK BLOCK',
-            'CTMK KCV',
-            'CTMK BLOCK KCV',
-            'Status',
-          ],
-          decimalseparator: '.',
-          showTitle: false,
-          nullToEmptyString: true,
-        };
-        this.isCSVLoading = false;
-        return new Angular5Csv(exportData, 'Ptsp List', options);
-      },
-      (err) => {
-        this.isCSVLoading = false;
-        this.alertService.error(err, false);
-      }
-    );
+            decimalseparator: '.',
+            showTitle: false,
+            nullToEmptyString: true,
+          };
+          this.isCSVLoading = false;
+          return new Angular5Csv(exportData, 'Ptsp List', options);
+        },
+        (err) => {
+          this.isCSVLoading = false;
+          this.alertService.error(err, false);
+        }
+      );
   }
 }
