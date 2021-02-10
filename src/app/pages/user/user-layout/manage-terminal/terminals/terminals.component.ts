@@ -18,6 +18,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { PtspsService } from '../../ptsp-managements/ptsps.service';
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 
 declare var $: any;
 
@@ -53,8 +54,11 @@ export class TerminalsComponent implements OnInit {
   isLoading: boolean;
 
   messages: any;
-  exportTerminalsRecords: any;
+  // allTerminals: any;
   ptspsList: any;
+  isFiltering: boolean;
+  autoMidState: any;
+  autoTidState: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,15 +69,16 @@ export class TerminalsComponent implements OnInit {
     private errorHandler: ErrorHandler,
     public validationMessages: ValidationService,
     private fileGenerationService: FileGenerationService,
-    private acquirerService: AcquirerService
+    private acquirerService: AcquirerService,
+    private storageService: StorageService
   ) {
     this.messages = this.validationMessages;
   }
 
-  getTerminals() {
+  getTerminals(terminalId?, status?) {
     this.isLoading = true;
     this.terminals
-      .getAllTerminals(this.pageIndex, this.pageSize, this.terminalId)
+      .getAllTerminals(this.pageIndex, this.pageSize, terminalId, status)
       .subscribe(
         (data) => {
           this.terminalsWrapper = data;
@@ -81,6 +86,7 @@ export class TerminalsComponent implements OnInit {
           this.dataCount = data.totalElements;
           this.isLoaded = true;
           this.isLoading = false;
+          this.showFilter = false;
 
           this.paginationService.pagerState.next({
             totalElements: this.dataCount,
@@ -116,6 +122,7 @@ export class TerminalsComponent implements OnInit {
   initializeForm() {
     this.searchForm = this.formBuilder.group({
       terminalId: [''],
+      status: [''],
     });
     this.createTerminalForm = this.formBuilder.group({
       merchantName: ['', Validators.compose([Validators.required])],
@@ -139,49 +146,37 @@ export class TerminalsComponent implements OnInit {
 
   exportTerminals() {
     const temp: any[] = [];
-    const pageSize = this.pageSize;
+    this.isCSVLoading = true;
 
-    this.pageSize = this.terminalsWrapper.totalElements;
-    this.pageIndex = 0;
+    // this.pageIndex = 0;
 
-    this.terminals
-      .getAllTerminals(this.pageIndex, this.pageSize, this.terminalId)
-      .subscribe(
-        (data: any) => {
-          this.exportTerminalsRecords = data.content;
-          this.pageSize = pageSize;
-          for (let idx = 0; idx < this.exportTerminalsRecords.length; idx++) {
-            temp.push([]);
-            temp[idx]['Terminal ID'] = this.clean('terminalId', idx);
-            temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
-            temp[idx]['Transaction Timeout'] = this.clean(
-              'transactionTimeout',
-              idx
-            );
-          }
-          this.exportTerminalsRecords = temp;
-          this.exportRecords();
-        },
-        (error) => {
-          this.fileGenerationService.onDownloadCompleted.next(false);
-          this.alerts.error('Terminals download could not be completed');
-        }
-      );
+    for (let idx = 0; idx < this.allTerminals.length; idx++) {
+      temp.push([]);
+      temp[idx]['Terminal ID'] = this.clean('terminalId', idx);
+      temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
+      temp[idx]['Transaction Timeout'] = this.clean('transactionTimeout', idx);
+      temp[idx]['Status'] = this.allMerchants[idx]['isActive']
+        ? 'Active'
+        : 'Inactive';
+    }
+    // this.allTerminals = temp;
+    this.exportRecords(temp);
   }
-  exportRecords() {
-    const headers = ['Terminal ID', 'Merchant ID', 'Transaction Timeout'];
-    this.fileGenerationService.generateCSV(
-      this.exportTerminalsRecords,
-      headers,
-      'Terminals'
-    );
+
+  exportRecords(temp) {
+    const headers = [
+      'Terminal ID',
+      'Merchant ID',
+      'Transaction Timeout',
+      'Status',
+    ];
+    this.fileGenerationService.generateCSV(temp, headers, 'Terminals');
     this.fileGenerationService.onDownloadCompleted.next(true);
+    this.isCSVLoading = false;
   }
 
   clean(key: string, index: number) {
-    return this.exportTerminalsRecords[index][key]
-      ? this.exportTerminalsRecords[index][key]
-      : '';
+    return this.allTerminals[index][key] ? this.allTerminals[index][key] : '';
   }
 
   getMerchantId(name: string) {
@@ -238,28 +233,17 @@ export class TerminalsComponent implements OnInit {
       formData.append('file', this.selectedFile);
       this.terminals.uploadTerminals(formData).subscribe(
         (response) => {
-          if (response['type'] === HttpEventType.UploadProgress) {
-            this.percentDone = Math.round(
-              (100 * response['loaded']) / response['total']
-            );
-            console.log('File Uploaded successfully', response);
-            this.alerts.success('File uploaded successfully!');
+          if (response['message'] === 'Terminals Uploaded Successfully') {
+            this.closeModal('cancel_button_upload_file');
+            this.alerts.success('Terminals uploaded sucessfully!', true);
+            this.isUploading = false;
           } else if (event instanceof HttpResponse) {
             this.isUploading = false;
-            console.log('File Uploaded successfully 2', response);
           }
-          this.closeModal('cancel_button_upload_file');
-          console.log('File Uploaded successfully 3', response);
         },
         (e) => {
           this.isUploading = false;
           this.alerts.error(e);
-
-          // this.errorHandler.customClientErrors(
-          //   'Failed to upload file',
-          //   e.error.error.code,
-          //   e.error.error.responseMessage
-          // );
         }
       );
     }
@@ -299,12 +283,25 @@ export class TerminalsComponent implements OnInit {
     );
   }
 
-  searchBy() {
-    const terminalId = this.searchForm.value.terminalId || '';
-    this.terminalId = terminalId;
-    this.showFilter = false;
+  searchBy(value) {
+    console.log('asdfasdf', value);
 
-    this.getTerminals();
+    this.isFiltering = true;
+    let { terminalId, status } = value;
+    if (!value.terminalId) {
+      delete value.terminalId;
+      terminalId = '';
+    } else {
+      terminalId = value.terminalId;
+    }
+    if (!value.status) {
+      delete value.status;
+      status = '';
+    } else {
+      status = value.status;
+    }
+
+    this.getTerminals(terminalId, status);
   }
 
   clearFilters() {
@@ -332,7 +329,14 @@ export class TerminalsComponent implements OnInit {
 
     this.getPtspsList();
 
+    this.getAutoMidState();
+
     $('#createTerminal').on('hidden.bs.modal', this.resetForm.bind(this));
+  }
+
+  getAutoMidState() {
+    this.autoTidState = this.storageService.getCurrentUser().user.autoMID;
+    console.log('AUTO MID STATE', this.autoTidState);
   }
 
   resetForm() {

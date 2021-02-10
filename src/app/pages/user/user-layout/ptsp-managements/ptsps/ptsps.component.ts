@@ -209,7 +209,8 @@ export class PtspsComponent implements OnInit {
         console.log(res);
         const exportData = JSON.parse(
           JSON.stringify(
-            res['data']['ptsps'],
+            this.allPtsps,
+            // res['data']['ptsps'],
             [
               'Ptspname',
               'Ptspctmk',

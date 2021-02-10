@@ -43,9 +43,13 @@ export class AuditLogsComponent implements OnInit {
   public dataCount: any;
   public selectedValue: any;
 
-  constructor(private formBuilder: FormBuilder, private auditLogService: AuditLogService,
-              private paginationService: PaginationService, private alertService: AlertService, private sig: TokenService) {
-
+  constructor(
+    private formBuilder: FormBuilder,
+    private auditLogService: AuditLogService,
+    private paginationService: PaginationService,
+    private alertService: AlertService,
+    private sig: TokenService
+  ) {
     this.isCSVLoading = false;
     this.showFilter = false;
     this.isRefreshing = false;
@@ -67,50 +71,46 @@ export class AuditLogsComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       startDate: ['', Validators.compose([Validators.required])],
       endDate: ['', Validators.compose([Validators.required])],
-        });
+    });
   }
 
+  public getAuditLogs() {
+    this.isLoading = true;
+    console.log(this.pageIndex, this.pageSize);
+    this.allLogs = [];
+    this.auditLogService
+      .getAuditLogs(this.pageIndex, this.pageSize, this.searchForm.value)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.allLogs = res['logs'];
+          console.log('AFTER FILTER', this.allLogs);
 
+          this.dataCount = res['totalCount'];
+          console.log(this.dataCount, this.currentPage, this.pageSize);
+          this.pager = this.paginationService.getPager(
+            this.dataCount,
+            this.currentPage,
+            this.pageSize
+          );
+          console.log('HERE IS THE PAGER', this.pager);
 
+          this.pagedItems = this.allLogs;
 
-
-
-   public  getAuditLogs() {
-     this.showFilter = false;
-     this.isLoading = true;
-     console.log(this.pageIndex, this.pageSize);
-     this.allLogs = [];
-     this.auditLogService.getAuditLogs(this.pageIndex, this.pageSize, this.searchForm.value).subscribe(
-      (res) => {
-        console.log(res);
-        this.allLogs = res['logs'];
-        this.dataCount = res['totalCount'];
-        console.log(this.dataCount, this.currentPage, this.pageSize);
-        this.pager = this.paginationService.getPager(
-          this.dataCount,
-          this.currentPage,
-          this.pageSize,
-        );
-        console.log(this.pager);
-
-        this.pagedItems = this.allLogs;
-
-        this.isLoading = false;
-        this.isSearching = false;
-        this.isRefreshing = false;
-      },
-      (error) => {
-        console.log(error);
-        this.isLoading = false;
-        this.isSearching = false;
-        this.isRefreshing = false;
-        this.alertService.error(error.error.message);
-
-      },
-    );
-//  const result = await this.sig.getAccessControlData('POST', 'htttpdsdds');
-//  console.log(result);
-
+          this.isLoading = false;
+          this.isSearching = false;
+          this.isRefreshing = false;
+        },
+        (error) => {
+          console.log(error);
+          this.isLoading = false;
+          this.isSearching = false;
+          this.isRefreshing = false;
+          this.alertService.error(error.error.message);
+        }
+      );
+    //  const result = await this.sig.getAccessControlData('POST', 'htttpdsdds');
+    //  console.log(result);
   }
 
   /**
@@ -130,7 +130,7 @@ export class AuditLogsComponent implements OnInit {
 
   public getPage(page) {
     this.isLoading = true;
-    this.pageIndex = (page - 1);
+    this.pageIndex = (page - 1) * 20;
     this.currentPage = page;
     this.getAuditLogs();
   }
@@ -141,14 +141,12 @@ export class AuditLogsComponent implements OnInit {
     this.currentPage++;
     console.log(this.currentPage);
     this.getAuditLogs();
-
   }
   public previousPage() {
     this.isLoading = true;
     this.pageIndex = Number(this.pageIndex);
     this.currentPage--;
     this.getAuditLogs();
-
   }
 
   public setPageSize(size: number) {
@@ -166,12 +164,22 @@ export class AuditLogsComponent implements OnInit {
     this.auditLogService.getAuditLogs(0, 100000).subscribe(
       (res) => {
         console.log(res);
+        // res['logs']
         const exportData = JSON.parse(
-          JSON.stringify(res['logs'], ['when', 'owner', 'description', 'what'], 2),
+          JSON.stringify(
+            this.allLogs,
+            ['when', 'owner', 'description', 'what'],
+            2
+          )
         );
         console.log(exportData);
         const options = {
-          headers: ['Date Performed', 'Performed By', 'Action Performed', 'Endpoint called'],
+          headers: [
+            'Date Performed',
+            'Performed By',
+            'Action Performed',
+            'Endpoint called',
+          ],
           decimalseparator: '.',
           showTitle: false,
           nullToEmptyString: true,
@@ -182,7 +190,7 @@ export class AuditLogsComponent implements OnInit {
       (err) => {
         this.isCSVLoading = false;
         this.alertService.error(err, false);
-      },
+      }
     );
   }
 }
