@@ -49,8 +49,7 @@ export class MerchantsService {
     pageIndex: number,
     pageSize: number,
     merchantId?: string,
-    merchantName?,
-    isActive?
+    status?
   ): Observable<IWrapper<IMerchant>> {
     let params = new HttpParams();
     if (pageIndex) {
@@ -62,11 +61,9 @@ export class MerchantsService {
     if (merchantId) {
       params = params.append('merchantId', merchantId);
     }
-    if (merchantName) {
-      params = params.append('merchantName', merchantName);
-    }
+
     if (status) {
-      params = params.append('isActive', isActive);
+      params = params.append('isActive', status);
     }
 
     return this.http.get<IWrapper<IMerchant>>(
@@ -86,6 +83,10 @@ export class MerchantsService {
         headers: header,
       }
     );
+  }
+
+  getTimezones(): Observable<any> {
+    return this.http.get<any>(BASE_URL + '/v1/timezones');
   }
 
   getMerchant(merchantId: string): Observable<IMerchant> {

@@ -10,4 +10,5 @@ export interface IMerchant {
   city: string;
   merchantId: number;
   isActive: boolean;
+  timezoneId: number;
 }

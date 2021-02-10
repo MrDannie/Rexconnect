@@ -14,28 +14,25 @@ import { ITransaction } from '../interfaces/transactions.model';
 const BASE_URL = environment.BASE_URL;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TerminalsService {
-
   bearerToken: string;
   config: Config;
 
-  constructor(
-    public httpClient: HttpClient
-  ) {
+  constructor(public httpClient: HttpClient) {
     this.config = new Config();
   }
 
   createAuthorizationHeader(): HttpHeaders {
-    const bearer_token = localStorage.getItem("Genin");
+    const bearer_token = localStorage.getItem('Genin');
     if (!isNullOrUndefined(bearer_token) || bearer_token !== null) {
-      const Data = CryptoJS.AES.decrypt(bearer_token.toString(), "Konohamaru");
+      const Data = CryptoJS.AES.decrypt(bearer_token.toString(), 'Konohamaru');
       this.bearerToken = JSON.parse(Data.toString(CryptoJS.enc.Utf8));
       // console.log(this.bearerToken);
-      this.bearerToken = this.bearerToken["accessToken"];
+      this.bearerToken = this.bearerToken['accessToken'];
       let header = new HttpHeaders();
-      header = header.append("Authorization", "Bearer " + this.bearerToken);
+      header = header.append('Authorization', 'Bearer ' + this.bearerToken);
       return header;
     } else {
       return new HttpHeaders();
@@ -45,35 +42,58 @@ export class TerminalsService {
   /**
    * Api to get all terminals
    * @returns {Observable<ITerminals>
-    *     }
-    */
-  getAllTerminals(pageIndex: number, pageSize: number, terminalId: string): Observable<IWrapper<ITerminal>> {
-    const header = this.createAuthorizationHeader();
-    const params = new HttpParams();
-    const terminalsParams = params.append('page', pageIndex.toString()).append('size', pageSize.toString())
-      .append('terminalId', terminalId);
-    return this.httpClient.get<IWrapper<ITerminal>>(BASE_URL + this.config.allTerminals, {
-      headers: header,
-      params: terminalsParams
-    });
+   *     }
+   */
+  getAllTerminals(
+    pageIndex: number,
+    pageSize: number,
+    terminalId?: string,
+    status?
+  ): Observable<IWrapper<ITerminal>> {
+    let params = new HttpParams();
+
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (terminalId) {
+      params = params.append('terminalId', terminalId);
+    }
+    if (status) {
+      params = params.append('isActive', status);
+    }
+    return this.httpClient.get<IWrapper<ITerminal>>(
+      BASE_URL + this.config.allTerminals,
+      {
+        params: params,
+      }
+    );
   }
 
   addNewTerminal(terminalDetails: IAddTerminal): Observable<any> {
     const header = this.createAuthorizationHeader();
-    return this.httpClient
-      .post<IAddTerminal>(BASE_URL + this.config.addNewTerminal, terminalDetails, {
-        headers: header
-      });
+    return this.httpClient.post<IAddTerminal>(
+      BASE_URL + this.config.addNewTerminal,
+      terminalDetails,
+      {
+        headers: header,
+      }
+    );
   }
 
   uploadTerminals(formData) {
     const header = this.createAuthorizationHeader();
-    return this.httpClient
-      .post(BASE_URL + this.config.uploadTerminals, formData, {
-        headers: header,
-        reportProgress: true,
-        observe: "events",
-      });
+    return this.httpClient.post(
+      BASE_URL + this.config.uploadTerminals,
+      formData
+      // {
+      //   headers: header,
+      //   reportProgress: true,
+      //   observe: 'events',
+      // }
+    );
   }
 
   /**
@@ -82,33 +102,44 @@ export class TerminalsService {
    */
   updateTerminal(terminalDetails: ITerminal, id): Observable<ITerminal> {
     const header = this.createAuthorizationHeader();
-    return this.httpClient
-      .put<ITerminal>(BASE_URL + this.config.updateTerminal.replace('{terminalId}', id), terminalDetails, {
+    return this.httpClient.put<ITerminal>(
+      BASE_URL + this.config.updateTerminal.replace('{terminalId}', id),
+      terminalDetails,
+      {
         headers: header,
-      });
+      }
+    );
   }
 
   getTerminal(id: string): Observable<ITerminal> {
     const headers = this.createAuthorizationHeader();
     return this.httpClient.get<ITerminal>(
-      BASE_URL + this.config.getSingleTerminal.replace('{terminalId}', id), {
-        headers
+      BASE_URL + this.config.getSingleTerminal.replace('{terminalId}', id),
+      {
+        headers,
       }
     );
   }
 
-  getAllTerminalTransactions(terminalId: string, pageSize: number, pageIndex: number): Observable<IWrapper<ITransaction>> {
+  getAllTerminalTransactions(
+    terminalId: string,
+    pageSize: number,
+    pageIndex: number
+  ): Observable<IWrapper<ITransaction>> {
     const header = this.createAuthorizationHeader();
 
     const params = new HttpParams();
-    const terminalTransactionsParams = params.append('terminalId', terminalId)
+    const terminalTransactionsParams = params
+      .append('terminalId', terminalId)
       .append('page', pageIndex.toString())
       .append('size', pageSize.toString());
 
-    return this.httpClient.get<IWrapper<ITransaction>>(BASE_URL + this.config.getTransactions, {
-      headers: header,
-      params: terminalTransactionsParams
-    })
+    return this.httpClient.get<IWrapper<ITransaction>>(
+      BASE_URL + this.config.getTransactions,
+      {
+        headers: header,
+        params: terminalTransactionsParams,
+      }
+    );
   }
-
 }
