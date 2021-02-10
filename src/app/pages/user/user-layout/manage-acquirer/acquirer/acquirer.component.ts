@@ -31,6 +31,7 @@ export class AcquirerComponent implements OnInit {
   pageSize: number;
   isRefreshing: boolean;
   isFiltering: boolean;
+  acquirerRecordsToDownload: any;
   // allAcquirer: any;
 
   constructor(
@@ -177,20 +178,44 @@ export class AcquirerComponent implements OnInit {
     const dataToDownload: any[] = [];
     // const currentPageSize = this.pageSize;
 
-    // const downloadPageSize = this.dataCount;
+    const downloadPageSize = this.dataCount;
     this.isCSVLoading = true;
 
     this.pageIndex = 0;
-
-    for (let index = 0; index < this.allAcquirer.length; index++) {
-      dataToDownload.push([]);
-      dataToDownload[index]['Acquirer Name'] = this.clean('clientName', index);
-      dataToDownload[index]['CBN Code'] = this.clean('bankCode', index);
-      dataToDownload[index]['Status'] =
-        this.allAcquirer[index]['status'] === 'ACTIVE' ? 'Active' : 'Inactive';
-    }
-    console.log('dataToDownload In Exxport Users', dataToDownload);
-    this.exportRecords(dataToDownload);
+    this.acquirerService
+      .getAllAcquirer(
+        this.pageIndex,
+        downloadPageSize,
+        this.searchForm.value.clientName,
+        this.searchForm.value.bankCode,
+        this.searchForm.value.status
+      )
+      .subscribe(
+        (data) => {
+          this.acquirerRecordsToDownload = data.data['content'];
+          for (
+            let index = 0;
+            index < this.acquirerRecordsToDownload.length;
+            index++
+          ) {
+            dataToDownload.push([]);
+            dataToDownload[index]['Acquirer Name'] = this.clean(
+              'clientName',
+              index
+            );
+            dataToDownload[index]['CBN Code'] = this.clean('bankCode', index);
+            dataToDownload[index]['Status'] =
+              this.acquirerRecordsToDownload[index]['status'] === 'ACTIVE'
+                ? 'Active'
+                : 'Inactive';
+          }
+          console.log('dataToDownload In Exxport Users', dataToDownload);
+          this.exportRecords(dataToDownload);
+        },
+        (error) => {
+          this.alertService.error(error);
+        }
+      );
   }
 
   exportRecords(dataToDownload: any[]) {
@@ -204,7 +229,9 @@ export class AcquirerComponent implements OnInit {
     this.isCSVLoading = false;
   }
   clean(key: string, index: number): any {
-    return this.allAcquirer[index][key] ? this.allAcquirer[index][key] : '';
+    return this.acquirerRecordsToDownload[index][key]
+      ? this.acquirerRecordsToDownload[index][key]
+      : '';
   }
 
   requestPageSize(value: number) {

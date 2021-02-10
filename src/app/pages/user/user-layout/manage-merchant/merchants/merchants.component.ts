@@ -53,6 +53,8 @@ export class MerchantsComponent implements OnInit {
   allTimeZones: any;
   isCSVLoading: boolean;
   autoMidState: any;
+  userRecordsToDownload: any;
+  merchantRecordsToDownload: any;
   // allMerchants: any;
 
   constructor(
@@ -111,33 +113,47 @@ export class MerchantsComponent implements OnInit {
 
   exportMerchants(merchantId: string = '') {
     const temp: any[] = [];
-    // const pageSize = this.pageSize;
+    const pageSize = this.pageSize;
 
-    // this.pageSize = this.merchantsWrapper.totalElements;
-    // this.pageIndex = 0;
+    const downloadPageSize = this.dataCount;
+    this.pageIndex = 0;
 
-    // this.merchants
-    //   .getAllMerchants(this.pageIndex, this.pageSize, merchantId)
-    //   .subscribe(
-    //     (data: any) => {
-    //       this.allMerchants = data.content;
-    //       this.pageSize = pageSize;
-    for (let idx = 0; idx < this.allMerchants.length; idx++) {
-      temp.push([]);
-      temp[idx]['Merchant Name'] = this.clean('merchantName', idx);
-      temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
-      temp[idx]['Merchant Category Code'] = this.clean(
-        'merchantCategoryCode',
-        idx
+    this.merchants
+      .getAllMerchants(
+        this.pageIndex,
+        this.pageSize,
+        this.searchForm.value.merchantId,
+        this.searchForm.value.status
+      )
+      .subscribe(
+        (data: any) => {
+          this.merchantRecordsToDownload = data.content;
+
+          for (
+            let idx = 0;
+            idx < this.merchantRecordsToDownload.length;
+            idx++
+          ) {
+            temp.push([]);
+            temp[idx]['Merchant Name'] = this.clean('merchantName', idx);
+            temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
+            temp[idx]['Merchant Category Code'] = this.clean(
+              'merchantCategoryCode',
+              idx
+            );
+            temp[idx]['Status'] = this.merchantRecordsToDownload[idx][
+              'isActive'
+            ]
+              ? 'Active'
+              : 'Inactive';
+          }
+          // this.allMerchants = temp;
+          this.exportRecords(temp);
+        },
+        (err) => {
+          this.alertService.error(err);
+        }
       );
-      temp[idx]['Status'] = this.allMerchants[idx]['isActive']
-        ? 'Active'
-        : 'Inactive';
-    }
-    // this.allMerchants = temp;
-    this.exportRecords(temp);
-
-    this.fileGenerationService.onDownloadCompleted.next(false);
   }
 
   exportRecords(temp) {
@@ -153,7 +169,9 @@ export class MerchantsComponent implements OnInit {
   }
 
   clean(key: string, index: number) {
-    return this.allMerchants[index][key] ? this.allMerchants[index][key] : '';
+    return this.merchantRecordsToDownload[index][key]
+      ? this.merchantRecordsToDownload[index][key]
+      : '';
   }
 
   requestPageSize(newSize: number) {

@@ -37,6 +37,7 @@ export class RoutesComponent implements OnInit {
   isFiltering: any = false;
 
   filter;
+  routesRecordsToDownload: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -135,24 +136,40 @@ export class RoutesComponent implements OnInit {
     this.isCSVLoading = true;
     // const currentPageSize = this.pageSize;
 
-    // const downloadPageSize = this.dataCount;
+    const downloadPageSize = this.dataCount;
     this.pageIndex = 0;
 
-    // this.routingCompService
-    //   .getAllRoutingRules(this.pageIndex, downloadPageSize)
-    //   .subscribe((data: any) => {
-    //     this.allRoutes = data['data']['routingRules'];
-    //     console.log('otondo', data['data']['routingRules']);
+    this.routingCompService
+      .getAllRoutingRules(
+        this.pageIndex,
+        downloadPageSize,
+        this.searchForm.value
+      )
+      .subscribe(
+        (data: any) => {
+          this.routesRecordsToDownload = data['data']['content'];
 
-    for (let index = 0; index < this.allRoutes.length; index++) {
-      dataToDownload.push([]);
-      dataToDownload[index]['Default DS'] = this.clean('default_ds', index);
-      dataToDownload[index]['Rule Type'] = this.clean('rule', index);
-      dataToDownload[index]['Use Default'] =
-        this.allRoutes[index]['use_default'] === 1 ? 'True' : 'False';
-    }
-    console.log('dataToDownload In Exxport Users', dataToDownload);
-    this.exportRecords(dataToDownload);
+          for (
+            let index = 0;
+            index < this.routesRecordsToDownload.length;
+            index++
+          ) {
+            dataToDownload.push([]);
+            dataToDownload[index]['Default DS'] = this.clean(
+              'default_ds',
+              index
+            );
+            dataToDownload[index]['Rule Type'] = this.clean('rule', index);
+            dataToDownload[index]['Use Default'] =
+              this.allRoutes[index]['use_default'] === 1 ? 'True' : 'False';
+          }
+          console.log('dataToDownload In Exxport Users', dataToDownload);
+          this.exportRecords(dataToDownload);
+        },
+        (error) => {
+          this.alertService.error(error);
+        }
+      );
   }
   exportRecords(dataToDownload: any[]) {
     const headers = ['Default DS', 'Rule Type', 'Use Default'];
@@ -166,7 +183,9 @@ export class RoutesComponent implements OnInit {
   }
 
   clean(key: string, index: number): any {
-    return this.allRoutes[index][key] ? this.allRoutes[index][key] : '';
+    return this.routesRecordsToDownload[index][key]
+      ? this.routesRecordsToDownload[index][key]
+      : '';
   }
 
   onRefreshData(pageParams: { pageIndex: number; pageSize: number }) {

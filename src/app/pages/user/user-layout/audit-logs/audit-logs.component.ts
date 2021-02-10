@@ -160,37 +160,40 @@ export class AuditLogsComponent implements OnInit {
   }
   public generateCSV() {
     this.isCSVLoading = true;
+    const downloadPageSize = this.dataCount;
 
-    this.auditLogService.getAuditLogs(0, 100000).subscribe(
-      (res) => {
-        console.log(res);
-        // res['logs']
-        const exportData = JSON.parse(
-          JSON.stringify(
-            this.allLogs,
-            ['when', 'owner', 'description', 'what'],
-            2
-          )
-        );
-        console.log(exportData);
-        const options = {
-          headers: [
-            'Date Performed',
-            'Performed By',
-            'Action Performed',
-            'Endpoint called',
-          ],
-          decimalseparator: '.',
-          showTitle: false,
-          nullToEmptyString: true,
-        };
-        this.isCSVLoading = false;
-        return new Angular5Csv(exportData, 'Audit Log', options);
-      },
-      (err) => {
-        this.isCSVLoading = false;
-        this.alertService.error(err, false);
-      }
-    );
+    this.auditLogService
+      .getAuditLogs(0, downloadPageSize, this.searchForm.value)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          // res['logs']
+          const exportData = JSON.parse(
+            JSON.stringify(
+              this.allLogs,
+              ['when', 'owner', 'description', 'what'],
+              2
+            )
+          );
+          console.log(exportData);
+          const options = {
+            headers: [
+              'Date Performed',
+              'Performed By',
+              'Action Performed',
+              'Endpoint called',
+            ],
+            decimalseparator: '.',
+            showTitle: false,
+            nullToEmptyString: true,
+          };
+          this.isCSVLoading = false;
+          return new Angular5Csv(exportData, 'Audit Log', options);
+        },
+        (err) => {
+          this.isCSVLoading = false;
+          this.alertService.error(err, false);
+        }
+      );
   }
 }
