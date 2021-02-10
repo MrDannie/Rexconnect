@@ -60,7 +60,7 @@ export class ManageMerchantComponent implements OnInit {
   enableMerchant() {
     this.merchants.enableMerchant(this.merchantId).subscribe(
       (response) => {
-        this.alertService.success('Acquirer Enabled Successfully');
+        this.alertService.success('Merchant Enabled Successfully');
         this.merchantStatus = true;
       },
       (error) => {

@@ -33,7 +33,7 @@ export class RoutesComponent implements OnInit {
   pageIndex: number;
   pageSize: number;
   isLoading: boolean;
-  routesRecordsToDownload: any;
+  // allRoutes: any;
   isFiltering: any = false;
 
   filter;
@@ -132,33 +132,27 @@ export class RoutesComponent implements OnInit {
   }
   exportRoutes() {
     const dataToDownload: any[] = [];
+    this.isCSVLoading = true;
     // const currentPageSize = this.pageSize;
 
-    const downloadPageSize = this.dataCount;
+    // const downloadPageSize = this.dataCount;
     this.pageIndex = 0;
 
-    this.routingCompService
-      .getAllRoutingRules(this.pageIndex, downloadPageSize)
-      .subscribe((data: any) => {
-        this.routesRecordsToDownload = data['data']['routingRules'];
-        console.log('otondo', data['data']['routingRules']);
+    // this.routingCompService
+    //   .getAllRoutingRules(this.pageIndex, downloadPageSize)
+    //   .subscribe((data: any) => {
+    //     this.allRoutes = data['data']['routingRules'];
+    //     console.log('otondo', data['data']['routingRules']);
 
-        for (
-          let index = 0;
-          index < this.routesRecordsToDownload.length;
-          index++
-        ) {
-          dataToDownload.push([]);
-          dataToDownload[index]['Default DS'] = this.clean('default_ds', index);
-          dataToDownload[index]['Rule Type'] = this.clean('rule', index);
-          dataToDownload[index]['Use Default'] =
-            this.routesRecordsToDownload[index]['use_default'] === 1
-              ? 'True'
-              : 'False';
-        }
-        console.log('dataToDownload In Exxport Users', dataToDownload);
-        this.exportRecords(dataToDownload);
-      });
+    for (let index = 0; index < this.allRoutes.length; index++) {
+      dataToDownload.push([]);
+      dataToDownload[index]['Default DS'] = this.clean('default_ds', index);
+      dataToDownload[index]['Rule Type'] = this.clean('rule', index);
+      dataToDownload[index]['Use Default'] =
+        this.allRoutes[index]['use_default'] === 1 ? 'True' : 'False';
+    }
+    console.log('dataToDownload In Exxport Users', dataToDownload);
+    this.exportRecords(dataToDownload);
   }
   exportRecords(dataToDownload: any[]) {
     const headers = ['Default DS', 'Rule Type', 'Use Default'];
@@ -168,12 +162,11 @@ export class RoutesComponent implements OnInit {
       'All Routes'
     );
     this.fileGenerationService.onDownloadCompleted.next(true);
+    this.isCSVLoading = false;
   }
 
   clean(key: string, index: number): any {
-    return this.routesRecordsToDownload[index][key]
-      ? this.routesRecordsToDownload[index][key]
-      : '';
+    return this.allRoutes[index][key] ? this.allRoutes[index][key] : '';
   }
 
   onRefreshData(pageParams: { pageIndex: number; pageSize: number }) {
