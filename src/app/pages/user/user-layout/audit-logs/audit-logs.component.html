@@ -4,7 +4,6 @@
       <div>
         <span>Audit Logs</span>
       </div>
-
     </div>
     <!-- <span>View details of every station on this platform</span> -->
   </div>
@@ -38,24 +37,24 @@
             <div class="form-group">
               <label for="email" class="search_label">Start Date</label>
               <input
-              type="date"
-              class="form-control search_input"
-              formControlName="startDate"
-              id="startDate"
-            />
+                type="date"
+                class="form-control search_input"
+                formControlName="startDate"
+                id="startDate"
+              />
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="form-group">
               <label for="ip" class="search_label">End Date</label>
-              
+
               <input
-              type="date"
-              class="form-control search_input"
-              formControlName="endDate"
-              id="endDate"
-            />
+                type="date"
+                class="form-control search_input"
+                formControlName="endDate"
+                id="endDate"
+              />
             </div>
           </div>
         </div>
@@ -91,7 +90,10 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
-    <app-rex-loader [isPushed]="true" *ngIf="!allLogs || isLoading"></app-rex-loader>
+    <app-rex-loader
+      [isPushed]="true"
+      *ngIf="!allLogs || isLoading"
+    ></app-rex-loader>
 
     <table class="table table-striped">
       <thead class="thead-dark">
@@ -99,14 +101,9 @@
         <th scope="col">Date Performed</th>
       </thead>
 
-      <div
-        class="center-body"
-        *ngIf="(dataCount === 0) && !isLoading"
-      >
-        <div class="no-data" >No logs found</div>
+      <div class="center-body" *ngIf="dataCount === 0 && !isLoading">
+        <div class="no-data">No logs found</div>
       </div>
-      
-     
 
       <tbody *ngIf="!isLoading">
         <tr *ngFor="let item of allLogs">
@@ -115,7 +112,6 @@
             {{ item.when | date: "medium" }}
             <span class="null-value" *ngIf="item.when === null">Nil</span>
           </td>
-    
         </tr>
       </tbody>
     </table>
@@ -194,4 +190,3 @@
     </div>
   </div>
 </div>
-
