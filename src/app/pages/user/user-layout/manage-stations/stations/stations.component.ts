@@ -212,7 +212,8 @@ export class StationsComponent implements OnInit {
         console.log(res);
         const exportData = JSON.parse(
           JSON.stringify(
-            res['data']['stations'],
+            // res['data']['content'],
+            this.allStations,
             ['name', 'zmk', 'zpk', 'lastEcho', 'lastZpkChange'],
             2
           )
