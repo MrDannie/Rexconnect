@@ -69,7 +69,7 @@
               />
             </div>
           </div>
-
+          <!-- 
           <div class="col-md-4">
             <div class="form-group">
               <label for="merchantName" class="search_label"
@@ -82,7 +82,7 @@
                 id="merchantName"
               />
             </div>
-          </div>
+          </div> -->
 
           <div class="col-md-4">
             <div class="form-group">
@@ -155,6 +155,7 @@
           <th scope="col">Merchant Name</th>
           <th scope="col">Merchant ID</th>
           <th scope="col">Merchant Category Code</th>
+          <th scope="col">Status</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -163,6 +164,12 @@
           <td>{{ merchant.merchantName }}</td>
           <td>{{ merchant.merchantId }}</td>
           <td>{{ merchant.merchantCategoryCode }}</td>
+          <td
+            [ngClass]="{ Inactive: merchant.isActive === false }"
+            class="active"
+          >
+            {{ merchant.isActive ? "Active" : "Inactive" }}
+          </td>
           <td>
             <button [routerLink]="[merchant.id]" class="btn table_button">
               Open
@@ -247,7 +254,7 @@
               >
             </div>
 
-            <div class="col-md-12 no-padding">
+            <div *ngIf="autoMidState != true" class="col-md-12 no-padding">
               <div class="form-group">
                 <span class="has-float-label">
                   <input
@@ -423,6 +430,36 @@
                   createMerchantForm.get('city').touched
                 "
                 >City is required.</span
+              >
+            </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="timezoneId"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="timezoneId"
+                  >
+                    <option
+                      [value]="+timezone.id"
+                      *ngFor="let timezone of allTimeZones"
+                    >
+                      {{ timezone.timeZoneName }}
+                    </option>
+                  </select>
+                  <label for="timezoneId">Time Zone</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createMerchantForm.get('timezoneId').errors &&
+                  createMerchantForm.get('timezoneId').touched
+                "
+                >Timezone is required.</span
               >
             </div>
           </div>
