@@ -31,7 +31,7 @@ export class AcquirerComponent implements OnInit {
   pageSize: number;
   isRefreshing: boolean;
   isFiltering: boolean;
-  acquirerRecordsToDownload: any;
+  // allAcquirer: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -177,34 +177,22 @@ export class AcquirerComponent implements OnInit {
     const dataToDownload: any[] = [];
     // const currentPageSize = this.pageSize;
 
-    const downloadPageSize = this.dataCount;
+    // const downloadPageSize = this.dataCount;
+    this.isCSVLoading = true;
+
     this.pageIndex = 0;
 
-    this.userManagementService
-      .getAllUsers(this.pageIndex, downloadPageSize)
-      .subscribe((data: any) => {
-        this.acquirerRecordsToDownload = data['content'];
-        for (
-          let index = 0;
-          index < this.acquirerRecordsToDownload.length;
-          index++
-        ) {
-          dataToDownload.push([]);
-          dataToDownload[index]['Acquirer Name'] = this.clean(
-            'clientName',
-            index
-          );
-          dataToDownload[index]['CBN Code'] = this.clean('bankCode', index);
-          dataToDownload[index]['Status'] = this.acquirerRecordsToDownload[
-            index
-          ]['enabled']
-            ? 'Active'
-            : 'Inactive';
-        }
-        console.log('dataToDownload In Exxport Users', dataToDownload);
-        this.exportRecords(dataToDownload);
-      });
+    for (let index = 0; index < this.allAcquirer.length; index++) {
+      dataToDownload.push([]);
+      dataToDownload[index]['Acquirer Name'] = this.clean('clientName', index);
+      dataToDownload[index]['CBN Code'] = this.clean('bankCode', index);
+      dataToDownload[index]['Status'] =
+        this.allAcquirer[index]['status'] === 'ACTIVE' ? 'Active' : 'Inactive';
+    }
+    console.log('dataToDownload In Exxport Users', dataToDownload);
+    this.exportRecords(dataToDownload);
   }
+
   exportRecords(dataToDownload: any[]) {
     const headers = ['Acquirer Name', 'Cbn Code', 'Status'];
     this.fileGenerationService.generateCSV(
@@ -213,19 +201,21 @@ export class AcquirerComponent implements OnInit {
       'Acquirers'
     );
     this.fileGenerationService.onDownloadCompleted.next(true);
+    this.isCSVLoading = false;
   }
   clean(key: string, index: number): any {
-    return this.acquirerRecordsToDownload[index][key]
-      ? this.acquirerRecordsToDownload[index][key]
-      : '';
+    return this.allAcquirer[index][key] ? this.allAcquirer[index][key] : '';
   }
 
   requestPageSize(value: number) {
+    console.log('afdasdfasdf');
     this.pageSize = value;
     this.getAllAcquirers();
   }
 
   onRefreshData(payload: { pageIndex: number; pageSize: number }) {
+    console.log('adfadsf', payload);
+
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 

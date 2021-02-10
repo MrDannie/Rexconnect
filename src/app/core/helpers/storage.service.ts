@@ -38,4 +38,17 @@ export class StorageService {
       return JSON.parse(localStorage.getItem('UserDait_er')).user.permissions;
     }
   }
+
+  getTimezones() {
+    if (!isNullOrUndefined(JSON.parse(localStorage.getItem('Time_Zones')))) {
+      console.log('IT RETURNS THNAKS');
+
+      return JSON.parse(localStorage.getItem('Time_Zones'));
+    }
+    console.log('IT RETURNS THNAKS');
+  }
+
+  storeTimeZones(timeZones) {
+    localStorage.setItem('Time_Zones', JSON.stringify(timeZones));
+  }
 }
