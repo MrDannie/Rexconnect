@@ -105,6 +105,7 @@ export class RoutesComponent implements OnInit {
   }
 
   performFiltering() {
+    this.pageIndex = 0;
     this.showFilter = false;
     console.log('asdfadfadf', this.searchForm.value);
 

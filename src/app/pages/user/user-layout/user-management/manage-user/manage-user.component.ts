@@ -329,6 +329,8 @@ export class ManageUserComponent implements OnInit {
   }
 
   searchBy(value) {
+    this.pageIndex = 0;
+
     console.log(value);
     this.isFiltering = true;
 
