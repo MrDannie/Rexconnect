@@ -34,11 +34,11 @@ export class RouteComponentService {
       params = params.append('size', pageSize.toString());
     }
     if (options) {
-      if (options.defaultDs) {
-        params = params.append('default_ds', options.defaultDs);
+      if (options.default_ds) {
+        params = params.append('default_ds', options.default_ds);
       }
-      if (options.ruletype) {
-        params = params.append('rule', options.ruletype);
+      if (options.rule) {
+        params = params.append('rule', options.rule);
       }
     }
 

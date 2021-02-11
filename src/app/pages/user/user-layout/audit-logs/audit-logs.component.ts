@@ -167,7 +167,7 @@ export class AuditLogsComponent implements OnInit {
       .subscribe(
         (res) => {
           console.log(res);
-          // res['logs']
+          res['logs'];
           const exportData = JSON.parse(
             JSON.stringify(
               this.allLogs,

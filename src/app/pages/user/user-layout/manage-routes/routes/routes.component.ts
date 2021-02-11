@@ -106,6 +106,7 @@ export class RoutesComponent implements OnInit {
 
   performFiltering() {
     this.showFilter = false;
+    console.log('asdfadfadf', this.searchForm.value);
 
     const filterProperties = {
       default_ds: this.searchForm.value.defaultDs || '',
