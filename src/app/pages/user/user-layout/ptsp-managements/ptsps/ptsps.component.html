@@ -72,7 +72,10 @@
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white" (click)="showFilter = !showFilter">
+          <button
+            class="btn button-white"
+            (click)="showFilter = !showFilter; searchForm.reset()"
+          >
             Close
           </button>
 

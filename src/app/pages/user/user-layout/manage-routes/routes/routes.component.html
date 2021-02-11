@@ -50,7 +50,7 @@
                 id="defaultDs"
                 type="text"
                 class="form-control search_input"
-                formControlName="defaultDs"
+                formControlName="default_ds"
               />
             </div>
           </div>
@@ -60,7 +60,7 @@
               <label for="ruletype" class="search_label">Rule</label>
               <select
                 class="form-control search_input"
-                formControlName="ruletype"
+                formControlName="rule"
                 id="ruletype"
                 name="ruletype"
               >
@@ -75,7 +75,7 @@
 
         <div class="button-section text-right">
           <button
-            (click)="showFilter = false"
+            (click)="showFilter = false; searchForm.reset()"
             type="button"
             class="btn button-white"
           >

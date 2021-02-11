@@ -22,7 +22,7 @@ export class RoutesComponent implements OnInit {
   isLoaded: boolean;
 
   stations = [];
-  ruletypes = [];
+  rules = [];
 
   // Test
   createAcquirerForm: FormGroup;
@@ -58,7 +58,7 @@ export class RoutesComponent implements OnInit {
     this.pageSize = 10;
     this.pageIndex = 0;
 
-    this.ruletypes = RULETYPES;
+    this.rules = RULETYPES;
 
     this.getAllRoutingRules();
     // this.getDestinationStations();
@@ -110,8 +110,8 @@ export class RoutesComponent implements OnInit {
     console.log('asdfadfadf', this.searchForm.value);
 
     const filterProperties = {
-      default_ds: this.searchForm.value.defaultDs || '',
-      rule: this.searchForm.value.ruletype || '',
+      default_ds: this.searchForm.value.default_ds || '',
+      rule: this.searchForm.value.rule || '',
     };
 
     console.log(filterProperties);
@@ -120,8 +120,8 @@ export class RoutesComponent implements OnInit {
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      defaultDs: [''],
-      ruletype: [''],
+      default_ds: [''],
+      rule: [''],
     });
   }
 
