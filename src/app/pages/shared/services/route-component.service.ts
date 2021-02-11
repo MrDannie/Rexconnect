@@ -25,6 +25,8 @@ export class RouteComponentService {
   }
 
   getAllRoutingRules(pageIndex, pageSize, options): Observable<any> {
+    console.log('OPTIONS IN ROUTE SERVICE', options);
+
     let params = new HttpParams();
 
     if (pageIndex) {

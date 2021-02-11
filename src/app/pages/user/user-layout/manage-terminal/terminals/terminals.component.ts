@@ -354,14 +354,13 @@ export class TerminalsComponent implements OnInit {
 
     this.getPtspsList();
 
-    this.getAutoMidState();
+    this.getAutoTidState();
 
     $('#createTerminal').on('hidden.bs.modal', this.resetForm.bind(this));
   }
 
-  getAutoMidState() {
-    this.autoTidState = this.storageService.getCurrentUser().user.autoMID;
-    console.log('AUTO MID STATE', this.autoTidState);
+  getAutoTidState() {
+    this.autoTidState = this.storageService.getCurrentUser().user.autoTID;
   }
 
   resetForm() {
