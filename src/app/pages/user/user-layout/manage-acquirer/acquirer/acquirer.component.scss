@@ -117,3 +117,10 @@ caption {
 .form-control[_ngcontent-c5]:focus {
   border: gray 1px solid !important;
 }
+
+input.ng-valid.ng-touched.ng-dirty[_ngcontent-c5],
+input.ng-valid[_ngcontent-c5]:focus,
+select.ng-valid.ng-touched.ng-dirty[_ngcontent-c5],
+select.ng-valid[_ngcontent-c5]:focus {
+  border: 1px solid gray !important;
+}

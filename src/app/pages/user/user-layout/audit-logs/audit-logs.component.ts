@@ -84,6 +84,7 @@ export class AuditLogsComponent implements OnInit {
         (res) => {
           console.log(res);
           this.allLogs = res['logs'];
+          this.showFilter = false;
           console.log('AFTER FILTER', this.allLogs);
 
           this.dataCount = res['totalCount'];
