@@ -58,7 +58,7 @@ export class AddRoutesComponent implements OnInit {
   // }
   getDestinationStations(): void {
     this.routingCompService.getAllStations().subscribe((response) => {
-      this.stations = response.data.stations;
+      this.stations = response.data.content;
     }),
       (error) => {
         console.log('Error in COmp', error);

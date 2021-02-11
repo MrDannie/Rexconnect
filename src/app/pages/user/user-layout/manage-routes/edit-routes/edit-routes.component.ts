@@ -122,7 +122,7 @@ export class EditRoutesComponent implements OnInit {
 
   getAllDestinationStations() {
     this.routeCompService.getAllStations().subscribe((response) => {
-      this.destinationStations = response.data.stations;
+      this.destinationStations = response.data.content;
       // this.setEditFormValue();
     });
   }
