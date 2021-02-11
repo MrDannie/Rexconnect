@@ -130,6 +130,8 @@ export class AcquirerComponent implements OnInit {
   }
 
   filterBy(value) {
+    this.pageIndex = 0;
+
     console.log('FILTER', this.searchForm.value);
     console.log(value);
     this.isFiltering = true;
@@ -181,10 +183,10 @@ export class AcquirerComponent implements OnInit {
     const downloadPageSize = this.dataCount;
     this.isCSVLoading = true;
 
-    this.pageIndex = 0;
+    // this.pageIndex = 0;
     this.acquirerService
       .getAllAcquirer(
-        this.pageIndex,
+        0,
         downloadPageSize,
         this.searchForm.value.clientName,
         this.searchForm.value.bankCode,

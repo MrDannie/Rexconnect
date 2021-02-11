@@ -129,11 +129,7 @@ export class TerminalsComponent implements OnInit {
       merchantName: ['', Validators.compose([Validators.required])],
       terminalId: [
         '',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(8),
-          Validators.minLength(8),
-        ]),
+        Validators.compose([Validators.maxLength(8), Validators.minLength(8)]),
       ],
       transactionTimeOut: ['', Validators.compose([Validators.required])],
       callHomeTime: ['', Validators.compose([Validators.required])],
@@ -154,7 +150,7 @@ export class TerminalsComponent implements OnInit {
     this.pageIndex = 0;
     this.terminals
       .getAllTerminals(
-        this.pageIndex,
+        0,
         downloadPageSize,
         this.searchForm.value.terminalId,
         this.searchForm.value.status
@@ -313,6 +309,7 @@ export class TerminalsComponent implements OnInit {
 
   searchBy(value) {
     console.log('asdfasdf', value);
+    this.pageIndex = 0;
 
     this.isFiltering = true;
     let { terminalId, status } = value;

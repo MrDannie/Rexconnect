@@ -109,7 +109,7 @@
         <tr *ngFor="let item of allLogs">
           <td>{{ item.description | titlecase }}</td>
           <td>
-            {{ item.when | date: "medium" }}
+            {{ item.when | date: "medium":"UTC-10" }}
             <span class="null-value" *ngIf="item.when === null">Nil</span>
           </td>
         </tr>

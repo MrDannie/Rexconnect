@@ -148,6 +148,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   filterTable() {
+    this.pageIndex = 0;
     this.showFilter = false;
     this.isLoading = true;
 
@@ -277,11 +278,11 @@ export class TransactionsComponent implements OnInit {
     // const currentPageSize = this.pageSize;
 
     const downloadPageSize = this.dataCount;
-    this.pageIndex = 0;
+    // this.pageIndex = 0;
 
     this.transactionsService
       .getTransactions(
-        this.pageIndex,
+        0,
         downloadPageSize,
         this.searchForm.value.startDate,
         this.searchForm.value.endDate

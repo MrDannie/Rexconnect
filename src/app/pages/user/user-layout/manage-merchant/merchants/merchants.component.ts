@@ -240,6 +240,8 @@ export class MerchantsComponent implements OnInit {
   }
 
   searchBy(value) {
+    this.pageIndex = 0;
+
     console.log('FILTER', value);
     this.isFiltering = true;
     let { merchantId, status } = value;
