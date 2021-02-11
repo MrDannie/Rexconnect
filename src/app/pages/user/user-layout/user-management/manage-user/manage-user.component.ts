@@ -165,13 +165,14 @@ export class ManageUserComponent implements OnInit {
 
     const downloadPageSize = this.dataCount;
 
-    this.pageIndex = 0;
+    // this.pageIndex = 0;
     this.userManagementService
       .getAllUsers(
-        this.pageIndex,
+        0,
         downloadPageSize,
         this.searchForm.value.username,
-        this.searchForm.value.endDate
+        this.searchForm.value.email,
+        this.searchForm.value.enabled
       )
       .subscribe(
         (data: any) => {
