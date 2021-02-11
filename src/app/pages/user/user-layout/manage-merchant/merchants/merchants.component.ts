@@ -116,12 +116,12 @@ export class MerchantsComponent implements OnInit {
     const pageSize = this.pageSize;
 
     const downloadPageSize = this.dataCount;
-    this.pageIndex = 0;
+    // this.pageIndex = 0;
 
     this.merchants
       .getAllMerchants(
-        this.pageIndex,
-        this.pageSize,
+        0,
+        downloadPageSize,
         this.searchForm.value.merchantId,
         this.searchForm.value.status
       )
