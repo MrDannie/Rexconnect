@@ -90,22 +90,7 @@ export class AuditLogsComponent implements OnInit {
           this.allLogs.map((log) => {
             let resolvedTime = this.resolveTimeDiffernce.transform(log.when);
             log.when = resolvedTime;
-            // console.log('HERE WE GO', resolvedTime);
-
-            // log.when = resolvedTime;
-            // let time = log.when;
-            // const timeString = time.split(' ')[1];
           });
-          console.log('AFTER NEW WORK FILTER', this.allLogs);
-
-          // let str = '2021-02-12 09:39:27';
-          // undefined;
-          // let value = str.split(' ');
-          // undefined;
-          // value(2)[('2021-02-12', '09:39:27')];
-          // let string = value[1];
-          // undefined;
-
           this.dataCount = res['totalCount'];
           console.log(this.dataCount, this.currentPage, this.pageSize);
           this.pager = this.paginationService.getPager(
@@ -129,8 +114,6 @@ export class AuditLogsComponent implements OnInit {
           this.alertService.error(error.error.message);
         }
       );
-    //  const result = await this.sig.getAccessControlData('POST', 'htttpdsdds');
-    //  console.log(result);
   }
 
   /**
