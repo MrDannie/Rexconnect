@@ -195,22 +195,22 @@
               id="currencyCode"
               type="text"
               placeholder=" "
-              formControlName="currencyCode"
+              formControlName="clientAddress"
             />
             <label for="currencyCode">Aquirer's Address</label>
           </span>
           <div
             *ngIf="
-              createAcquirerForm.get('currencyCode').errors &&
-              (createAcquirerForm.get('currencyCode').dirty ||
-                createAcquirerForm.get('currencyCode').touched)
+              createAcquirerForm.get('clientAddress').errors &&
+              (createAcquirerForm.get('clientAddress').dirty ||
+                createAcquirerForm.get('clientAddress').touched)
             "
             class="validation-message"
           >
             <span
               class="validation-message"
               [hidden]="
-                !createAcquirerForm.get('currencyCode').hasError('required')
+                !createAcquirerForm.get('clientAddress').hasError('required')
               "
             >
               Acqurier address is required

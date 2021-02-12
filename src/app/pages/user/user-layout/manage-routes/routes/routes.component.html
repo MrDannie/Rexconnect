@@ -64,8 +64,8 @@
                 id="ruletype"
                 name="ruletype"
               >
-                <option value="" disabled></option>
-                <option [value]="rule" *ngFor="let rule of ruletypes">
+                <option value="">Select Rule Type</option>
+                <option [value]="rule" *ngFor="let rule of rules">
                   {{ rule }}
                 </option>
               </select>
