@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
@@ -34,8 +34,9 @@ import { PtspManagementModule } from './pages/user/user-layout/ptsp-managements/
 import { TransactionsComponent } from './pages/user/user-layout/transactions/transactions.component';
 // import { SanitizePermissionsPipe } from './pages/shared/pipes/sanitize-permissions.pipe';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
+import { ResolveTimeDifferncePipe } from './pages/shared/pipes/resolve-time-differnce.pipe';
+// import { ResolveTimeDifferncePipe } from './pages/shared/pipes/resolve-time-differnce.pipe';
 // import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
-
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { UserLayoutComponent } from './pages/user/user-layout/user-layout.compon
     AuditLogsComponent,
     DashboardComponent,
     TransactionsComponent,
+    ResolveTimeDifferncePipe,
     // TerminalsComponent,
   ],
   imports: [
@@ -71,8 +73,6 @@ import { UserLayoutComponent } from './pages/user/user-layout/user-layout.compon
     SharedModule,
     HttpClientModule,
     DatePickerModule,
-
-  
   ],
   providers: [
     {
@@ -80,6 +80,7 @@ import { UserLayoutComponent } from './pages/user/user-layout/user-layout.compon
       useClass: InterceptorService,
       multi: true,
     },
+    ResolveTimeDifferncePipe,
   ],
   bootstrap: [AppComponent],
 })
