@@ -5,6 +5,7 @@ import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
+import { ResolveTimeDifferncePipe } from 'src/app/pages/shared/pipes/resolve-time-differnce.pipe';
 import { TokenService } from 'src/app/pages/shared/services/token.service';
 import { StationsService } from '../manage-stations/stations.service';
 import { AuditLogService } from './audit-log.service';
@@ -48,7 +49,8 @@ export class AuditLogsComponent implements OnInit {
     private auditLogService: AuditLogService,
     private paginationService: PaginationService,
     private alertService: AlertService,
-    private sig: TokenService
+    private sig: TokenService,
+    private resolveTimeDiffernce: ResolveTimeDifferncePipe
   ) {
     this.isCSVLoading = false;
     this.showFilter = false;
@@ -85,7 +87,24 @@ export class AuditLogsComponent implements OnInit {
           console.log(res);
           this.allLogs = res['logs'];
           this.showFilter = false;
-          console.log('AFTER FILTER', this.allLogs);
+          this.allLogs.map((log) => {
+            let resolvedTime = this.resolveTimeDiffernce.transform(log.when);
+            log.when = resolvedTime;
+            // console.log('HERE WE GO', resolvedTime);
+
+            // log.when = resolvedTime;
+            // let time = log.when;
+            // const timeString = time.split(' ')[1];
+          });
+          console.log('AFTER NEW WORK FILTER', this.allLogs);
+
+          // let str = '2021-02-12 09:39:27';
+          // undefined;
+          // let value = str.split(' ');
+          // undefined;
+          // value(2)[('2021-02-12', '09:39:27')];
+          // let string = value[1];
+          // undefined;
 
           this.dataCount = res['totalCount'];
           console.log(this.dataCount, this.currentPage, this.pageSize);
