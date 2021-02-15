@@ -70,7 +70,7 @@ export class AuthService {
 
   sendLink(email: object) {
     return this.httpClient
-      .post(BASE_URL + '/v1/auth/reset-password', email)
+      .post(BASE_URL + '/v1/auth/password/reset', email)
       .pipe(
         map((user) => {
           return user;
