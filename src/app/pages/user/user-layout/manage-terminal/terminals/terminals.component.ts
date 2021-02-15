@@ -60,6 +60,7 @@ export class TerminalsComponent implements OnInit {
   autoMidState: any;
   autoTidState: any;
   terminalRecordsToDownload: any;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -106,6 +107,10 @@ export class TerminalsComponent implements OnInit {
           this.paginationService.pagerState.next(null);
         }
       );
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   requestPageSize(value: number) {
@@ -357,6 +362,8 @@ export class TerminalsComponent implements OnInit {
     this.getAutoTidState();
 
     $('#createTerminal').on('hidden.bs.modal', this.resetForm.bind(this));
+
+    this.getPermissions();
   }
 
   getAutoTidState() {

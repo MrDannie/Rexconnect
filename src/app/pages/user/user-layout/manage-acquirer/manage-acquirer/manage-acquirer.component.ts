@@ -17,6 +17,7 @@ export class ManageAcquirerComponent implements OnInit {
   acquirerName: any;
   disablingAcquirer: boolean = false;
   acquirerStatus: string = 'Active';
+  createdAt: any;
 
   constructor(
     private router: Router,
@@ -46,6 +47,7 @@ export class ManageAcquirerComponent implements OnInit {
         console.log('acquirer Gotten', response);
         this.acquirerName = response['data']['clientName'];
         this.acquirerStatus = response['data']['status'];
+        this.createdAt = response['data']['createdAt'];
       });
   }
 

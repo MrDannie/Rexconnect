@@ -39,6 +39,7 @@ export class MerchantDetailsComponent implements OnInit {
   citiesMap = new Map();
   allTimeZones: any;
   autoMidState: any;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -71,6 +72,10 @@ export class MerchantDetailsComponent implements OnInit {
         );
       }
     );
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   getAutoMidState() {
@@ -234,6 +239,8 @@ export class MerchantDetailsComponent implements OnInit {
     this.getCurrencyCodes();
     this.getMerchantTimezones();
     this.getAutoMidState();
+
+    this.getPermissions();
   }
 
   populateEditForm() {

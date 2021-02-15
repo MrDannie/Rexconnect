@@ -6,6 +6,7 @@ import { RoutingRulesInterface } from 'src/app/pages/shared/interfaces/routing-r
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 import { RULETYPES } from 'src/app/pages/shared/constants';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 
 @Component({
   selector: 'app-routes',
@@ -38,13 +39,15 @@ export class RoutesComponent implements OnInit {
 
   filter;
   routesRecordsToDownload: any;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private routingCompService: RouteComponentService,
     private paginationService: PaginationService,
     private alertService: AlertService,
-    private fileGenerationService: FileGenerationService
+    private fileGenerationService: FileGenerationService,
+    private storageService: StorageService
   ) {
     this.showFilter = false;
     this.showFilter = false;
@@ -62,6 +65,8 @@ export class RoutesComponent implements OnInit {
 
     this.getAllRoutingRules();
     // this.getDestinationStations();
+
+    this.getPermissions();
   }
 
   // GET ALL ROUTING RULES
@@ -102,6 +107,10 @@ export class RoutesComponent implements OnInit {
           this.alertService.error(error);
         }
       );
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   performFiltering() {

@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { AllRoles } from 'src/app/pages/shared/interfaces/AllRoles';
@@ -50,6 +51,7 @@ export class ManageUserComponent implements OnInit {
   userRecordsToDownload: any;
 
   isFiltering: any = false;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,7 +60,8 @@ export class ManageUserComponent implements OnInit {
     private alertService: AlertService,
     private validationMessages: ValidationService,
     private fileGenerationService: FileGenerationService,
-    private errorHandler: ErrorHandler
+    private errorHandler: ErrorHandler,
+    private storageService: StorageService
   ) {
     this.validationMessage = validationMessages;
   }
@@ -94,6 +97,9 @@ export class ManageUserComponent implements OnInit {
       );
   }
 
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
+  }
   ngOnInit() {
     this.showFilter = false;
     this.isCSVLoading = false;
@@ -105,6 +111,7 @@ export class ManageUserComponent implements OnInit {
     this.initializeForm();
     this.getAllUsers();
     this.getUsersRoles('MERCHANT');
+    this.getPermissions();
   }
 
   onRefreshData(pageParams: { pageIndex: number; pageSize: number }) {

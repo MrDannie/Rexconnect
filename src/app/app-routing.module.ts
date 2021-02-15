@@ -26,6 +26,7 @@ import { ViewClientsGuard } from './core/guards/view-clients.guard';
 import { ManageStationsGuard } from './core/guards/Manage-stations.guard';
 import { ManageRoutingGuard } from './core/guards/Manage-routing.guard';
 import { ManageClientsGuard } from './core/guards/Manage-clients.guard';
+import { RecoverPasswordComponent } from './pages/landing-page/authentication/recover-password/recover-password.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'sign-in',
     component: SignInComponent,
+  },
+  {
+    path: 'recover-password',
+    component: RecoverPasswordComponent,
   },
   {
     path: 'user',

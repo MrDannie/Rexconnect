@@ -19,7 +19,10 @@
         <span>Merchants</span>
       </div>
 
-      <div class="button_header_section">
+      <div
+        *ngIf="permissions.includes('CAN_MANAGE_MERCHANT')"
+        class="button_header_section"
+      >
         <button
           class="btn action_button"
           data-toggle="modal"

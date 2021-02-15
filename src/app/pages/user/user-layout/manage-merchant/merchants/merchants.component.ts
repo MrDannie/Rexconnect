@@ -55,6 +55,7 @@ export class MerchantsComponent implements OnInit {
   autoMidState: any;
   userRecordsToDownload: any;
   merchantRecordsToDownload: any;
+  permissions: any;
   // allMerchants: any;
 
   constructor(
@@ -103,6 +104,10 @@ export class MerchantsComponent implements OnInit {
           );
         }
       );
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   beginDownload() {
@@ -209,6 +214,8 @@ export class MerchantsComponent implements OnInit {
     this.getCurrencyCodes();
     this.getMerchantTimezones();
     this.getAutoMidState();
+
+    this.getPermissions();
 
     $('#createMerchant').on('hidden.bs.modal', this.resetForm.bind(this));
   }
