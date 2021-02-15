@@ -13,17 +13,15 @@ const APP_REF = environment.APP_REF;
   providedIn: 'root',
 })
 export class AuditLogService {
-
   constructor(
     private httpClient: HttpClient,
     private storageService: StorageService,
     private config: Config,
-    private dateService: DateService,
-  ) { }
+    private dateService: DateService
+  ) {}
 
   public getAuditLogs(pageIndex, pageSize, searchParams?) {
-
-    const {clientId} = this.storageService.getCurrentUser().user;
+    const { clientId } = this.storageService.getCurrentUser().user;
     let params = new HttpParams();
 
     if (pageIndex) {
@@ -33,11 +31,10 @@ export class AuditLogService {
       params = params.append('limit', pageSize);
     }
     if (searchParams) {
-
       if (searchParams.startDate) {
         params = params.append(
           'start',
-          this.dateService.formatDate(searchParams.startDate),
+          this.dateService.formatDate(searchParams.startDate)
         );
       }
 
@@ -45,17 +42,18 @@ export class AuditLogService {
         params = params.append(
           'end',
           this.dateService.formatDate(searchParams.endDate)
-        )
+        );
       }
     }
 
     return this.httpClient
-      .get(`${BASE_URL}${this.config.auditLogs}${APP_REF}${clientId}` , { params })
+      .get(`${BASE_URL}${this.config.auditLogs}${APP_REF}${clientId}`, {
+        params,
+      })
       .pipe(
         map((resp) => {
           return resp;
-        }),
+        })
       );
   }
-
 }

@@ -81,16 +81,11 @@
           </div>
         </div>
       </div>
-   
-      
-      <div class="bottom_text">
+
+      <div routerLink="../recover-password" class="bottom_text">
         <a> Forgot password </a>
       </div>
-      <button
-        class="form_button"
-        *ngIf="!isLoading"
-        (click)="login()"
-      >
+      <button class="form_button" *ngIf="!isLoading" (click)="login()">
         <img src="../../../../assets/icons/icon-log-out.svg" alt="" />
 
         <span>Sign In</span>

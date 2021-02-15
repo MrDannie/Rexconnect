@@ -21,6 +21,7 @@ export class RoutesDetailsComponent implements OnInit {
   routeStatus: string;
   disablingRoute: boolean;
   routeName: string;
+  createdAt: any;
 
   constructor(
     private routingCompService: RouteComponentService,
@@ -33,6 +34,7 @@ export class RoutesDetailsComponent implements OnInit {
     this.routingCompService
       .getSingleRoute(this.routeId)
       .subscribe((response) => {
+        this.createdAt = response.data.created_at;
         let parsedData = JSON.parse(response.data.rule_config);
         response.data.rule_config = parsedData;
         this.routing = parsedData;

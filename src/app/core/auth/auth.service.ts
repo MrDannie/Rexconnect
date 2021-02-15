@@ -13,7 +13,6 @@ import { StorageService } from '../helpers/storage.service';
 import { Router } from '@angular/router';
 import { Config } from '../Config';
 
-
 const BASE_URL = environment.BASE_URL;
 const EXTERNAL_BASE_URL = environment.EXTERNAL_BASE_URL;
 
@@ -53,7 +52,7 @@ export class AuthService {
   useXToken() {
     this.getXToken().subscribe(
       (res) => {
-        localStorage.setItem("AC", JSON.stringify(res));
+        localStorage.setItem('AC', JSON.stringify(res));
       },
       (err) => {
         console.log(err);
@@ -67,5 +66,15 @@ export class AuthService {
         durtion: 12000,
       }
     );
+  }
+
+  sendLink(email: object) {
+    return this.httpClient
+      .post(BASE_URL + '/v1/auth/reset-password', email)
+      .pipe(
+        map((user) => {
+          return user;
+        })
+      );
   }
 }

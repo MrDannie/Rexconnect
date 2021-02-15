@@ -79,18 +79,18 @@ export class AuditLogsComponent implements OnInit {
   public getAuditLogs() {
     this.isLoading = true;
     console.log(this.pageIndex, this.pageSize);
-    this.allLogs = [];
+    // this.allLogs = [];
     this.auditLogService
       .getAuditLogs(this.pageIndex, this.pageSize, this.searchForm.value)
       .subscribe(
         (res) => {
-          console.log(res);
-          this.allLogs = res['logs'];
+          console.log('HERE IS THE REAL LOG', res);
           this.showFilter = false;
-          this.allLogs.map((log) => {
+          res['logs'].map((log) => {
             let resolvedTime = this.resolveTimeDiffernce.transform(log.when);
             log.when = resolvedTime;
           });
+          this.allLogs = res['logs'];
           this.dataCount = res['totalCount'];
           console.log(this.dataCount, this.currentPage, this.pageSize);
           this.pager = this.paginationService.getPager(

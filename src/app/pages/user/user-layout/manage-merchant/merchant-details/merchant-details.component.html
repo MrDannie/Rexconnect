@@ -64,6 +64,7 @@
           class="btn action_button_update"
           data-toggle="modal"
           data-target="#editMerchant"
+          *ngIf="permissions.includes('CAN_MANAGE_MERCHANT')"
         >
           Edit Merchant
         </button>

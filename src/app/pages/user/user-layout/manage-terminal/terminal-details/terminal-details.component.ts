@@ -9,6 +9,7 @@ import { AlertService } from './../../../../../core/alert/alert.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 
 @Component({
   selector: 'app-terminal-details',
@@ -31,6 +32,7 @@ export class TerminalDetailsComponent implements OnInit {
   terminalId: string;
   isUpdating: boolean;
   ptspsList: any;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,11 +43,16 @@ export class TerminalDetailsComponent implements OnInit {
     private merchants: MerchantsService,
     private errorHandler: ErrorHandler,
     private acquirerService: AcquirerService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {
     this.showFilter = false;
     this.isCSVLoading = false;
     this.initializeForm();
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   getTerminalDetails() {
@@ -164,6 +171,8 @@ export class TerminalDetailsComponent implements OnInit {
       this.terminalId = params.id;
       this.getTerminalDetails();
       this.getPtspsList();
+
+      this.getPermissions();
     });
   }
   getPtspsList() {

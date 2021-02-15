@@ -24,10 +24,12 @@
           class="btn plain_button"
           data-toggle="modal"
           data-target="#bulkTerminalUpload"
+          *ngIf="permissions.includes('CAN_CREATE_TERMINAL')"
         >
           Bulk Terminal Upload
         </button>
         <button
+          *ngIf="permissions.includes('CAN_CREATE_TERMINAL')"
           class="btn action_button"
           data-toggle="modal"
           data-target="#createTerminal"

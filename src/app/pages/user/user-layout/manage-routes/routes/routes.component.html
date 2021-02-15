@@ -128,7 +128,12 @@
           <th scope="col">Rule Type</th>
           <!-- <th scope="col">Value</th> -->
           <th scope="col">Use Default</th>
-          <th scope="col">Actions</th>
+          <th
+            *ngIf="permissions.includes('CAN_VIEW_ROUTING_RULES')"
+            scope="col"
+          >
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -143,6 +148,7 @@
             <button
               [routerLink]="['route-details', route.id]"
               class="btn table_button"
+              *ngIf="permissions.includes('CAN_VIEW_ROUTING_RULES')"
             >
               Open
             </button>

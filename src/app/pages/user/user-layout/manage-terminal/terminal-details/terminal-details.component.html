@@ -223,7 +223,11 @@
             >
               Cancel
             </div>
-            <button class="btn button-primary" type="submit">
+            <button
+              *ngIf="permissions.includes('CAN_UPDATE_TERMINAL')"
+              class="btn button-primary"
+              type="submit"
+            >
               Update Terminal
             </button>
 

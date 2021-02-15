@@ -19,7 +19,10 @@
         <span>My Users</span>
       </div>
 
-      <div class="button_header_section">
+      <div
+        class="button_header_section"
+        *ngIf="permissions.includes('CAN_MANAGE_USERS')"
+      >
         <button class="btn plain_button" routerLink="../manage-user-roles">
           Manage User Roles
         </button>
@@ -166,7 +169,9 @@
           <th scope="col">Email</th>
           <!-- <th scope="col">Phone Number</th> -->
           <th scope="col">Status</th>
-          <th scope="col">Actions</th>
+          <th *ngIf="permissions.includes('CAN_MANAGE_USERS')" scope="col">
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -190,7 +195,7 @@
             Inactive
           </td>
 
-          <td>
+          <td *ngIf="permissions.includes('CAN_MANAGE_USERS')">
             <button
               class="btn table_button"
               data-toggle="modal"

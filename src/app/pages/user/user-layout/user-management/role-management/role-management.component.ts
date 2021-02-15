@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { error } from 'protractor';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { IRole } from 'src/app/pages/shared/interfaces/Role';
 import { ErrorHandler } from 'src/app/pages/shared/services/error-handler.service';
@@ -31,13 +32,15 @@ export class RoleManagementComponent implements OnInit {
   permissionsToUpdate: any = [];
   validationMessage: any;
   deletingRole: boolean;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private roleMgtService: RoleManagementService,
     private validationMessages: ValidationService,
     private errorHandler: ErrorHandler,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {
     this.validationMessage = this.validationMessages;
   }
@@ -47,6 +50,7 @@ export class RoleManagementComponent implements OnInit {
       backdrop: 'static',
       keyboard: false,
     });
+
     // this.selectedRole = {};
     this.isLoading = false;
     this.isPermissionsLoading = false;
@@ -61,8 +65,14 @@ export class RoleManagementComponent implements OnInit {
     this.getAllPermissions();
     this.getRoles();
 
+    this.getPermissions();
+
     this.permissionChecked = false;
     console.log('PErmisssion Array', this.selectedPermissionsToAdd);
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   getRoles() {

@@ -41,6 +41,7 @@ export class AcquirerDetailsComponent implements OnInit {
     this.acquirerService.getSingleAcquirer(acquirerId).subscribe((response) => {
       console.log('SINGLE ACQUIRER', response);
       this.acquirer = response['data'];
+
       console.log('SINGLE OVER', this.acquirer);
     });
   }
