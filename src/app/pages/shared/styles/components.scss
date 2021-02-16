@@ -1,0 +1,61 @@
+
+// no arrows on number inputs
+/* Chrome, Safari, Edge, Opera */
+
+input.no-arrows {
+
+  &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+}
+/* Firefox */
+.no-arrows {
+  -moz-appearance: textfield;
+}
+
+// .modal {
+//   display: block;
+// }
+
+// file input
+
+.file-input {
+
+  background-color: #F0F0F0;
+  border-radius: 8px;
+  position: relative;
+  padding: 20px;
+
+  span {
+    color: #1A1A1A8A;
+    font-size: .8rem;
+    font-weight: bold;
+  }
+
+  button {
+    color: black;
+    position: absolute;
+    background-color: white;
+    border: none;
+    padding: 0 15px;
+    border-radius: 8px;
+    right: 10px;
+    top: 10px;
+    bottom: 10px;
+  }
+
+}
+
+// empty state text
+.empty-state {
+  min-width: 100%;
+  text-align: center;
+  color: #5d5d5d;
+  display: flex;
+  font-size: 0.9rem;
+  justify-content: center;
+  font-weight: 600;
+  font-family: "Roboto", serif;
+}

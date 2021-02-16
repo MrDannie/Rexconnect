@@ -1,0 +1,204 @@
+.has-float-label input,
+.has-float-label select {
+  min-height: 2.8rem;
+  background-color: none;
+}
+
+@mixin float-label-container {
+  display: block !important;
+  position: relative !important;
+}
+
+@mixin float-label {
+  label,
+  > span {
+    position: absolute !important;
+    left: 14px !important;
+    top: 3px !important;
+    cursor: text !important;
+    font-size: 59% !important;
+    font-family: "Montserrat Bold", serif;
+    opacity: 0.5 !important;
+    transition: all 0.2s !important;
+
+    @content;
+  }
+}
+
+@mixin float-label-input {
+  &::placeholder {
+    opacity: 1 !important;
+    transition: all 0.2s !important;
+  }
+  &:placeholder-shown:not(:focus)::placeholder {
+    opacity: 0 !important;
+  }
+}
+
+@mixin float-label-scaled {
+  &:placeholder-shown:not(:focus) + * {
+    font-size: 70% !important;
+    // opacity: 0.5 !important;
+    color: #0504048a;
+    opacity: 1 !important;
+    font-weight: 600;
+
+    @content;
+  }
+}
+
+.has-float-label {
+  @include float-label-container;
+
+  @include float-label;
+
+  input,
+  select {
+    @include float-label-input;
+    font-size: 80% !important;
+    margin-bottom: 5px !important;
+    border: 1px solid #f0f0f0 !important;
+    border-radius: 5px !important;
+    width: 100% !important;
+    background-color: #f0f0f0;
+    padding-bottom: 0;
+    //color: #04D960;
+    //border-bottom: 1px solid #cdcdcd !important;
+    @include float-label-scaled {
+      top: 1.2em !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      border: 0;
+      // border-bottom: 1px solid #3382ff !important;
+    }
+  }
+}
+.form_actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 1.5rem;
+}
+.form_area {
+  width: 34rem;
+  margin-left: 0rem;
+  margin-top: 2.5rem;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 1.8rem 1.4rem;
+}
+
+.form_header {
+  font-size: 1.2rem;
+  font-weight: bolder;
+  margin-bottom: 0.2rem;
+}
+
+.form_sub_header {
+  font-size: 0.8rem;
+  margin-bottom: 1.6rem;
+
+}
+
+.action_button {
+  background-color: #ffd1ce;
+  color: #950007;
+  padding: 0.6rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  font-weight: bold;
+  border: 0.5px solid #ffd1ce;
+  font-size: 0.8125rem;
+  min-width: 100%;
+}
+
+.action_button:hover {
+  background-color: #950007;
+  border: 0.5px solid #950007;
+  //transition: all 0.3s ease-in-out;
+
+  color: #f0f0f0;
+}
+
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 37px;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.container span {
+  font-size: 0.85rem;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 2px;
+  left: 16px;
+  height: 16px;
+  width: 15px;
+  background-color: #ffffff;
+  border-radius: 0px;
+  border: 1px solid #585858;
+  transition: all ease-in-out 0.5s;
+}
+
+/* On mouse-over, add a grey background color */
+// .container:hover input ~ .checkmark {
+//   background-color: #ccc;
+// }
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 4px;
+  top: 1px;
+  width: 6px;
+  height: 10px;
+  border: solid red;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #ffffff;
+  border-radius: 0px;
+  border: 1px solid #950007;
+}

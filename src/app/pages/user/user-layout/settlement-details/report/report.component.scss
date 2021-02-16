@@ -1,0 +1,100 @@
+@import "~src/app/pages/shared/styles/header";
+.header_buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.date,
+.status {
+  border: 1px solid #0000001f;
+  border-radius: 5px;
+  margin-left: 1.5rem;
+  padding: 0.1rem;
+}
+
+.action_button_disable {
+  background-color: #ffd1ce;
+  color: #950007;
+  padding: 0.6rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  font-weight: bold;
+  border: 0.5px solid #ffd1ce;
+  font-size: 0.8125rem;
+  margin-top: 2rem;
+}
+
+.action_button_disable:hover {
+  background-color: #950007;
+  border: 0.5px solid #950007;
+  //transition: all 0.3s ease-in-out;
+
+  color: #f0f0f0;
+}
+
+// REPORT STYLE
+.main_dashboard_flow {
+  min-width: 95%;
+  display: flex;
+  flex-direction: row;
+  min-height: 20rem;
+  //border: 1px solid red;
+  // margin: 0 2.5rem;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  // padding-bottom: 5rem;
+}
+
+.details_section {
+  display: flex;
+  flex-direction: column;
+  //justify-content: space-between;
+  margin-right: 2.5rem;
+  flex: 1;
+  transition: all ease-in-out 2s;
+}
+
+.form_area {
+  width: 30rem;
+  // margin-left: 2rem;
+  //margin-top: 2.5rem;
+  // background: #ffffff;
+  border-radius: 10px;
+  padding: 1.9rem 1rem;
+  // margin-top: 1rem;
+}
+
+div > span {
+  // color: #1a1a1a;
+  font-family: Roboto, Regular;
+}
+
+p > strong {
+  font-family: Montserrat, Bold;
+  color: #1a1a1a;
+  font-weight: bold;
+}
+
+.form_area h4 {
+  font-family: Montserrat, Bold;
+  color: #afafaf;
+  letter-spacing: 1px;
+  opacity: 1;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 1.3rem;
+}
+
+.form_area span {
+  color: #1a1a1a;
+  font-family: Roboto, Bold;
+  opacity: 1;
+  font-weight: lighter;
+  font-size: 12px;
+}

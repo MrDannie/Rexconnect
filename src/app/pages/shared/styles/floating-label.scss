@@ -1,0 +1,186 @@
+@mixin float-label-container {
+  display: block !important;
+  position: relative !important;
+}
+
+@mixin float-label {
+  // when input is in focus , you can adjust the label with this mixin
+  label,
+  > span {
+    position: absolute !important;
+    left: 14px !important;
+    top: 4px !important;
+    cursor: text !important;
+    font-size: 60% !important;
+    font-family: "Montserrat Bold", serif;
+    opacity: 0.5 !important;
+    transition: all 0.2s !important;
+
+    @content;
+  }
+}
+
+@mixin float-label-input {
+  // this mixin helps with placeholders if any has been set but our design systems doesn't make use of placeholdersZZ
+
+  &::placeholder {
+    opacity: 1 !important;
+    transition: all 0.2s !important;
+  }
+  &:placeholder-shown:not(:focus)::placeholder {
+    opacity: 0 !important;
+  }
+}
+
+@mixin float-label-scaled {
+  // when input field is not in focus , you can adjust the label with this mixin
+  &:placeholder-shown:not(:focus) + * {
+    font-size: 80% !important;
+    color: #0504048a;
+    opacity: 1 !important;
+    font-weight: 600;
+    top: 1.2em !important;
+
+    @content;
+  }
+}
+
+.has-float-label {
+  @include float-label-container;
+
+  @include float-label;
+
+  input,
+  select {
+    //  you can adjust the input fields attributes(Both select dropdown and input field)
+
+    @include float-label-input;
+    font-size: 90% !important;
+    margin-bottom: 5px !important;
+    //border: 0!important;
+    border-radius: 5px !important;
+    width: 100% !important;
+    background-color: #f0f0f0;
+    min-height: 3.1rem;
+    font-family: "Montserrat", serif !important;
+
+    @include float-label-scaled;
+
+    &:focus {
+      outline: none !important;
+      border: 0;
+    }
+  }
+}
+
+input.ng-valid.ng-touched.ng-dirty,
+input.ng-valid:focus,
+select.ng-valid.ng-touched.ng-dirty,
+select.ng-valid:focus {
+  // when the input field is valid and has been modified
+
+  border: 0px solid #3382ff !important;
+}
+input.ng-invalid.ng-touched.ng-dirty,
+input.ng-invalid:focus,
+select.ng-invalid.ng-touched.ng-dirty,
+select.ng-invalid:focus {
+  // when the input field is invalid and has been modified
+
+  border: 1px solid #df5d13 !important;
+}
+select,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"] {
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-clip: padding-box !important;
+  box-shadow: none !important;
+}
+
+span.has-float-label
+  > input.form-control.ng-invalid.ng-touched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan2,
+span.has-float-label
+  > input.form-control.ng-invalid.ng-untouched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan2 {
+  //this is the show and hide password directive to switch between the icons
+  display: none !important;
+}
+
+span.has-float-label
+  > input.form-control.ng-invalid.ng-touched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan1,
+span.has-float-label
+  > input.form-control.ng-invalid.ng-untouched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan1 {
+  //this is the show and hide password directive to switch between the colors of the icons
+
+  display: block !important;
+  background: #c9ae1c;
+  font-size: 0.9rem;
+  color: #c9ae1c;
+  cursor: default;
+}
+
+span.has-float-label
+  > input.form-control.ng-valid.ng-touched.ng-pristine
+  ~ label
+  ~ a#conpasswordSpan1,
+span.has-float-label
+  > input.form-control.ng-valid.ng-untouched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan1,
+span.has-float-label
+  > input.form-control.ng-valid.ng-touched.ng-dirty
+  ~ label
+  ~ a#conpasswordSpan1,
+span.has-float-label
+  > input.form-control.ng-invalid.ng-untouched.ng-pristine
+  ~ label
+  ~ a#conpasswordSpan1,
+span.has-float-label
+  > input.form-control.ng-invalid.ng-touched.ng-pristine
+  ~ label
+  ~ a#conpasswordSpan1 {
+  display: none !important;
+}
+
+/** end of show and hide danger sign **/
+
+span.has-float-label > input.form-control.ng-invalid.ng-touched:focus ~ label,
+span.has-float-label
+  > input.form-control.ng-invalid.ng-untouched:focus
+  ~ label {
+  color: #df5d13;
+  opacity: 1 !important;
+}
+span.has-float-label > input.form-control.ng-valid.ng-touched:focus ~ label,
+span.has-float-label > input.form-control.ng-valid.ng-untouched:focus ~ label {
+  color: #0504048a;
+  opacity: 1 !important;
+}
+
+.input.ng-valid.ng-touched.ng-dirty {
+  border: #9c9c9c 1px solid !important;
+}
+.input.ng-valid.ng-touched.ng-dirty,
+input.ng-valid:focus {
+  border: #9c9c9c 1px solid !important;
+}
+
+.select.ng-valid.ng-touched.ng-dirty {
+  border: #9c9c9c 1px solid !important;
+}
+.select.ng-valid.ng-touched.ng-dirty,
+select.ng-valid:focus {
+  border: #9c9c9c 1px solid !important;
+}

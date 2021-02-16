@@ -1,0 +1,344 @@
+<div class="header animated fadeIn">
+  <div class="top_buttons">
+    <span class="back_button" routerLink="../../../stations">
+      <i class="fa fa-long-arrow-left"></i> Return to Stations
+    </span>
+  </div>
+  <div class="header_buttons" >
+    <div class="top-info">
+      <span class="name">
+        Update Station</span
+      >
+      <span class="sub_name">Edit the details of the station you wish to update.</span>
+     
+
+    </div>
+ 
+  </div>
+
+  <div
+  class="spinner-border spinner-border-sm ml-6"
+  role="status"
+  *ngIf="isLoading "
+>
+  <span class="sr-only">Loading...</span>
+</div>
+</div>
+
+<div class="main_dashboard_flow">
+  <div class="details_section">
+  
+
+
+
+    <form [formGroup]="editStationForm" *ngIf="!isLoading">
+      <!-- RELEVANT CODE HERE  -->
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="name"
+                type="text"
+                placeholder=" "
+                formControlName="name"
+              />
+              <label for="name">Name</label>
+            </span>
+            <div
+              *ngIf="
+                editStationForm.get('name').errors &&
+                (editStationForm.get('name').dirty ||
+                  editStationForm.get('name').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editStationForm.get('name').hasError('required')
+                "
+              >
+                Name is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="zmk"
+                type="text"
+                placeholder=" "
+                formControlName="zmk"
+              />
+              <label for="zmk">ZMK (Master Key)</label>
+            </span>
+            <div
+              *ngIf="
+                editStationForm.get('zmk').errors &&
+                (editStationForm.get('zmk').dirty ||
+                  editStationForm.get('zmk').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editStationForm.get('zmk').hasError('required')
+                "
+              >
+                Master key is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="zpk"
+                type="text"
+                placeholder=" "
+                formControlName="zpk"
+              />
+              <label for="zpk">ZPK (Primary Key)</label>
+            </span>
+            <div
+              *ngIf="
+                editStationForm.get('zpk').errors &&
+                (editStationForm.get('zpk').dirty ||
+                  editStationForm.get('zpk').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editStationForm.get('zpk').hasError('required')
+                "
+              >
+                Primary Key is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="baseUrl"
+                type="text"
+                placeholder=" "
+                formControlName="baseUrl"
+              />
+              <label for="baseUrl">Base Url</label>
+            </span>
+            <div
+              *ngIf="
+                editStationForm.get('baseUrl').errors &&
+                (editStationForm.get('baseUrl').dirty ||
+                  editStationForm.get('baseUrl').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editStationForm.get('baseUrl').hasError('required')
+                "
+              >
+                Base Url is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="channelPort"
+                type="text"
+                placeholder=" "
+                formControlName="channelPort"
+              />
+              <label for="channelPort">Channel Port</label>
+            </span>
+            <div
+              *ngIf="
+                editStationForm.get('channelPort').errors &&
+                (editStationForm.get('channelPort').dirty ||
+                  editStationForm.get('channelPort').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editStationForm.get('channelPort').hasError('required')
+                "
+              >
+                Channel Port is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+     
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="channelHost"
+                type="text"
+                placeholder=" "
+                formControlName="channelHost"
+              />
+              <label for="channelHost">Channel Host</label>
+            </span>
+            <div
+              *ngIf="
+                editStationForm.get('channelHost').errors &&
+                (editStationForm.get('channelHost').dirty ||
+                  editStationForm.get('channelHost').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editStationForm.get('channelHost').hasError('required')
+                "
+              >
+                Channel Host is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+     
+
+
+
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="authUsername"
+                type="text"
+                placeholder=" "
+                formControlName="authUsername"
+              />
+              <label for="authUsername">Auth Username</label>
+            </span>
+            <div
+              *ngIf="
+                editStationForm.get('authUsername').errors &&
+                (editStationForm.get('authUsername').dirty ||
+                  editStationForm.get('authUsername').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editStationForm.get('authUsername').hasError('required')
+                "
+              >
+                Auth Username is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+     
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="authPassword"
+                type="text"
+                placeholder=" "
+                formControlName="authPassword"
+              />
+              <label for="authPassword">Auth Password</label>
+            </span>
+            <div
+              *ngIf="
+                editStationForm.get('authPassword').errors &&
+                (editStationForm.get('authPassword').dirty ||
+                  editStationForm.get('authPassword').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editStationForm.get('authPassword').hasError('required')
+                "
+              >
+                Auth Password is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- RELEVANT CODE HERE  -->
+
+      <div class="form_actions">
+    
+        <button
+          class="btn action_button col-md-6"
+          (click)="updateStation()"
+          *ngIf="!isUpdating"
+          [disabled]="!editStationForm.valid"
+        >
+          <i class="fa fa-plus animated slideIn"></i>
+          Update Station
+        </button>
+
+        <div
+          class="spinner-border spinner-border-sm ml-3"
+          role="status"
+          *ngIf="isUpdating"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </form>
+
+
+
+  </div>
+</div>
+
+
+
+

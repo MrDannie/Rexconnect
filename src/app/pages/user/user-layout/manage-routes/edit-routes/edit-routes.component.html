@@ -1,0 +1,285 @@
+<div class="top_buttons">
+  <span class="back_button" [routerLink]="['../../route-details', routeId]">
+    <i class="fa fa-long-arrow-left"></i> Return to Route List
+  </span>
+</div>
+<div class="main_dashboard_flow">
+  <div class="details_section">
+    <div class="form_area">
+      <h4>Edit Route</h4>
+      <p class="sub_header">
+        Please provide details of the route you wish to add.
+      </p>
+      <form [formGroup]="editRouteForm" (ngSubmit)="editRoute()">
+        <div class="form-group">
+          <div style="margin-bottom: 1rem" class="row">
+            <div class="col">
+              <span class="has-float-label">
+                <select
+                  formControlName="default_ds"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  id="default_ds"
+                >
+                  <option
+                    *ngFor="let station of destinationStations"
+                    [ngValue]="station.name"
+                    [selected]="station.name === defaultDestinationStation"
+                  >
+                    {{ station.name }}
+                  </option>
+                </select>
+                <label for="default_ds">Default Destination Station</label>
+              </span>
+              <div
+                *ngIf="
+                  editRouteForm.get('default_ds').errors &&
+                  (editRouteForm.get('default_ds').dirty ||
+                    editRouteForm.get('default_ds').touched)
+                "
+                class="validation-message"
+              >
+                <span
+                  class="validation-message"
+                  [hidden]="
+                    !editRouteForm.get('default_ds').hasError('required')
+                  "
+                >
+                  Default Destination Station is required
+                  <br />
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <span class="has-float-label">
+                <select
+                  formControlName="rule"
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  id="ruleType"
+                >
+                  <option *ngFor="let rule of ruletypes" [ngValue]="rule">
+                    {{ rule }}
+                  </option>
+                </select>
+                <label for="ruleType">Rule Type</label>
+              </span>
+              <div
+                *ngIf="
+                  editRouteForm.get('rule').errors &&
+                  (editRouteForm.get('rule').dirty ||
+                    editRouteForm.get('rule').touched)
+                "
+                class="validation-message"
+              >
+                <span
+                  class="validation-message"
+                  [hidden]="!editRouteForm.get('rule').hasError('required')"
+                >
+                  Rule Type is required
+                  <br />
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p
+          style="color: #585858; font-size: 13px; font-weight: bold"
+          class="form-group"
+        >
+          Rule Configuration
+        </p>
+        <div
+          class="rule-config"
+          formArrayName="rule_config"
+          *ngFor="
+            let ruleConfig of editRouteForm.get('rule_config')['controls'];
+            let i = index
+          "
+        >
+          <p
+            style="
+              text-align: right;
+              color: red;
+              font-size: 12px;
+              cursor: pointer;
+            "
+            class="remove"
+            *ngIf="i > 0"
+            (click)="removeConfig(i)"
+          >
+            Remove
+          </p>
+          <hr *ngIf="i > 0" />
+
+          <div [formGroupName]="i">
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="rule"
+                      type="hidden"
+                      class="form-control"
+                      placeholder=""
+                      [value]="editRouteForm.get('rule').value"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="value"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Value</label>
+                  </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('value').errors &&
+                      (ruleConfig.get('value').dirty ||
+                        ruleConfig.get('value').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('value').hasError('required')"
+                    >
+                      Value is required
+                      <br />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="min"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Min</label>
+                  </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('min').errors &&
+                      (ruleConfig.get('min').dirty ||
+                        ruleConfig.get('min').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('min').hasError('required')"
+                    >
+                      Min is required
+                      <br />
+                    </span>
+                  </div>
+                </div>
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="max"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Max</label>
+                  </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('max').errors &&
+                      (ruleConfig.get('max').dirty ||
+                        ruleConfig.get('max').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('max').hasError('required')"
+                    >
+                      Max is required
+                      <br />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <span class="has-float-label">
+                    <input
+                      formControlName="ds"
+                      type="text"
+                      class="form-control"
+                      placeholder=""
+                    />
+                    <label for="terminal">Destination Station</label>
+                  </span>
+                  <div
+                    *ngIf="
+                      ruleConfig.get('ds').errors &&
+                      (ruleConfig.get('ds').dirty ||
+                        ruleConfig.get('ds').touched)
+                    "
+                    class="validation-message"
+                  >
+                    <span
+                      class="validation-message"
+                      [hidden]="!ruleConfig.get('ds').hasError('required')"
+                    >
+                      Destination Station is required
+                      <br />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          class="add-more"
+          [disabled]="editRouteForm.get('rule_config').status == 'INVALID'"
+          (click)="duplicateForm()"
+          style="color: green; font-size: 13px; border: 0; font-weight: bold"
+        >
+          Add More Configurations
+        </button>
+        <hr />
+        <input
+          formControlName="use_default"
+          style="color: #2c9220"
+          [checked]="routeToBeEditted?.use_default === 0 ? false : true"
+          type="checkbox"
+        />
+        Use Default
+        <button
+          class="btn action_button_update"
+          type="submit"
+          data-toggle="modal"
+          data-target="#editAcquirer"
+          [disabled]="editRouteForm.invalid"
+        >
+          Edit Route
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

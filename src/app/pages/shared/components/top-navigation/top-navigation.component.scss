@@ -1,0 +1,136 @@
+.topbar {
+  min-height: 1.7rem;
+  min-width: 20rem;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  display: flex;
+  overflow-x: hidden;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 24px #0000003d;
+  border-radius: 0px 0px 0px 32px;
+  opacity: 1;
+  padding: 1rem 1rem 1rem 1rem;
+  flex-direction: row;
+  font-size: 0.7rem;
+}
+
+#logout {
+  background: url("../../../../../assets/icons/logout.svg") left bottom
+    no-repeat;
+  background-size: 1rem;
+  padding-left: 20px;
+  transition: all ease-in-out 0.2s;
+  height: 2.4rem;
+}
+#profile {
+  // background: url("../../../../../assets/icons/pencil-icon.svg") left bottom no-repeat;
+  background-size: 1rem;
+  padding-left: 20px;
+  transition: all ease-in-out 0.2s;
+  height: 2.4rem;
+}
+
+#profile {
+  background: url("../../../../../assets/icons/edit.svg") left bottom no-repeat;
+  background-size: 1rem;
+  padding-left: 20px;
+  transition: all ease-in-out 1s;
+  height: 2.4rem;
+}
+.topbar #profile.active,
+.topbar #profile:hover {
+  background: url("../../../../../assets/icons/edit-active.svg") left bottom
+    no-repeat;
+  background-size: 1rem;
+  color: #d50000;
+}
+a {
+  color: #1a1a1a;
+}
+a.active {
+  color: #d50000;
+}
+
+.profile:hover,
+.profile:focus {
+}
+.logout:hover {
+  color: #d50000;
+}
+.topbar .profile {
+  align-items: flex-end;
+  display: flex;
+  justify-content: flex-start;
+  padding-right: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.topbar .logout {
+  border-right: 1px solid #0000001f;
+  align-items: flex-end;
+  display: flex;
+  justify-content: flex-start;
+  padding-right: 0.6rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.topbar .user_name {
+  display: flex;
+  flex-direction: column;
+  font-family: "Roboto", serif;
+  letter-spacing: 0.28px;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  /* flex: 1; */
+}
+.user_name .name {
+  color: #1a1a1a;
+  justify-content: flex-end;
+  font-size: 0.9rem;
+  align-items: flex-end;
+  flex: 1;
+  font-weight: normal;
+  display: flex;
+}
+.user_name .role {
+  font-weight: bold;
+  flex: 1;
+  justify-content: flex-start;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: flex-start;
+}
+:focus {
+  outline: none;
+}
+
+.topbar .profile_picture {
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  border-radius: 100%;
+  border: 2px solid #afafaf;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.profile_picture img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#forward {
+  display: none;
+}
+
+@media screen and (max-width: 750px) {
+  .topbar {
+    display: none;
+  }
+}

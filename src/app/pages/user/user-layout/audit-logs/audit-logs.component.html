@@ -1,0 +1,192 @@
+<div class="header">
+  <div class="main-header">
+    <div class="header__text animated fadeIn">
+      <div>
+        <span>Audit Logs</span>
+      </div>
+    </div>
+    <!-- <span>View details of every station on this platform</span> -->
+  </div>
+
+  <!-- FILTER BY CODE  -->
+  <div class="header__search">
+    <span class="filter_click" (click)="showFilter = !showFilter">
+      <img
+        src="../../../../../assets/icons/Filter-Icon.svg"
+        alt="search"
+        class="img-fluid"
+      />
+      <span
+        class="filter_text"
+        id="dropdownMenuButton"
+        onselectstart="return false"
+        unselectable="on"
+      >
+        Filter Table By
+      </span>
+    </span>
+    <div
+      class="card search-dropdown"
+      *ngIf="showFilter"
+      id="filter__dropdown"
+      style="height: 200px"
+    >
+      <form [formGroup]="searchForm">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="email" class="search_label">Start Date</label>
+              <input
+                type="date"
+                class="form-control search_input"
+                formControlName="startDate"
+                id="startDate"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="ip" class="search_label">End Date</label>
+
+              <input
+                type="date"
+                class="form-control search_input"
+                formControlName="endDate"
+                id="endDate"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="button-section text-right">
+          <button class="btn button-white" (click)="showFilter = !showFilter">
+            Close
+          </button>
+
+          <button
+            class="btn button-pink"
+            (click)="pageIndex = 0; getAuditLogs(); isSearching = true"
+          >
+            Apply Filters
+
+            <span class="fa fa-spinner fa-spin" *ngIf="isSearching === true">
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reset button -->
+  <button class="btn btn-secondary reset-filter" (click)="reset()">
+    <i class="fa fa-refresh fa-fast-spin" *ngIf="isRefreshing"></i>
+    <i class="fa fa-refresh" *ngIf="!isRefreshing"></i>
+    Refresh
+  </button>
+
+  <!-- FILTER BY CODE ENDS HERE  -->
+</div>
+
+<div class="table-container custom-table animated fadeIn">
+  <div class="card-body">
+    <app-rex-loader
+      [isPushed]="true"
+      *ngIf="!allLogs || isLoading"
+    ></app-rex-loader>
+
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <th scope="col">Action Performed</th>
+        <th scope="col">Date Performed</th>
+      </thead>
+
+      <div class="center-body" *ngIf="dataCount === 0 && !isLoading">
+        <div class="no-data">No logs found</div>
+      </div>
+
+      <tbody *ngIf="!isLoading">
+        <tr *ngFor="let item of allLogs">
+          <td>{{ item.description | titlecase }}</td>
+          <td>
+            {{ item?.when | date: "medium" }}
+            <span class="null-value" *ngIf="item.when === null">Nil</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PAGE SIZE  -->
+<div class="text-right mt-4 page_size_section animated fadeIn">
+  <span>Number of Items:&nbsp;&nbsp;</span>
+  <span> {{ dataCount }}</span>
+
+  <span class="ml-3">Page size:</span>
+  <form class="inline_select">
+    <select
+      class="form-control form-control-sm"
+      (change)="setPageSize($event.target.value)"
+      #setPageSizeId
+    >
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>
+    </select>
+  </form>
+</div>
+
+<!-- PAGINATION  -->
+<div class="paginate mt-2 animated fadeIn" *ngIf="!isLoading">
+  <nav aria-label="...">
+    <ul class="pagination" *ngIf="!isLoading && allLogs">
+      <li
+        class="page-item"
+        (click)="previousPage()"
+        *ngIf="pager.startPage !== pager.currentPage"
+      >
+        <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      <li
+        class="page-item"
+        aria-current="page"
+        *ngFor="let page of pager.pages"
+        [ngClass]="{ active: pager.currentPage === page }"
+        (click)="getPage(page)"
+      >
+        <a class="page-link">
+          {{ page }} <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li
+        class="page-item"
+        (click)="nextPage()"
+        *ngIf="pager.endPage !== pager.currentPage"
+      >
+        <a class="page-link">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Export button -->
+  <div class="export-button animated fadeIn" *ngIf="!isLoading && allLogs">
+    <button
+      type="button"
+      class="btn btn-light button-plain-icon"
+      (click)="generateCSV()"
+    >
+      <i class="fa fa-download"></i>
+      Download As CSV
+    </button>
+    <div
+      class="spinner-border spinner-border-sm ml-3"
+      role="status"
+      *ngIf="isCSVLoading"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>

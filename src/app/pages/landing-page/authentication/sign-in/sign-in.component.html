@@ -1,0 +1,102 @@
+<div class="login__container animated fadeIn">
+  <div class="login_panel">
+    <span class="logo">
+      <img src="../../../../../assets/images/logo.svg" alt="" />
+    </span>
+
+    <!-- <div class="form_header">Welcome Back</div> -->
+
+    <div class="form_sub_header">Please, sign in here</div>
+
+    <form [formGroup]="loginForm">
+      <div class="row">
+        <div class="col-md-12 no-padding">
+          <div class="form-group">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="username"
+                type="text"
+                password
+                placeholder=" "
+                formControlName="username"
+              />
+              <label for="username">Username</label>
+            </span>
+            <div
+              *ngIf="
+                loginForm.get('username').errors &&
+                (loginForm.get('username').dirty ||
+                  loginForm.get('username').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="!loginForm.get('username').hasError('required')"
+              >
+                {{ validationMessage.email.required }}
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row password">
+        <div class="col-md-12 no-padding">
+          <div class="form-group">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="password"
+                type="password"
+                password
+                placeholder=" "
+                formControlName="password"
+              />
+              <label for="password">Password</label>
+              <a id="conpasswordSpan1">
+                <span
+                  id="conpasswordSpan"
+                  class="fa fa-exclamation-triangle in_form_icon"
+                ></span
+              ></a>
+            </span>
+            <div
+              class="validation-message"
+              *ngIf="
+                loginForm.get('password').errors &&
+                (loginForm.get('password').touched ||
+                  loginForm.get('password').dirty)
+              "
+            >
+              <span
+                class="validation-message"
+                [hidden]="!loginForm.get('password').hasError('required')"
+              >
+                {{ validationMessage.password.required }}
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div routerLink="../recover-password" class="bottom_text">
+        <a> Forgot password </a>
+      </div>
+      <button class="form_button" *ngIf="!isLoading" (click)="login()">
+        <img src="../../../../assets/icons/icon-log-out.svg" alt="" />
+
+        <span>Sign In</span>
+      </button>
+
+      <div *ngIf="isLoading" class="sbl-circ-path text-center"></div>
+
+      <div class="lower_text">
+        Don't have an account?
+        <a><span class="highlight">Create Account</span></a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,427 @@
+<div class="header">
+  <!-- <div class="top-header my-5">
+  <div class="header">
+    <h2 class="header__text">Terminals</h2>
+    <span class="sub-head mb-3"
+      >View details of every terminal on the platform</span
+    >
+  </div>
+  <div class="action-btns">
+    <button class="terminal-upload-btn">Bulk Terminal Upload</button>
+    <button class="terminal-add-btn">Add Terminal</button>
+  </div>
+</div> -->
+
+  <!-- Here is the first here  -->
+  <div class="main-header">
+    <div class="header__text animated fadeIn">
+      <div>
+        <span>Terminals</span>
+      </div>
+
+      <div class="button_header_section">
+        <button
+          class="btn plain_button"
+          data-toggle="modal"
+          data-target="#bulkTerminalUpload"
+          *ngIf="permissions.includes('CAN_CREATE_TERMINAL')"
+        >
+          Bulk Terminal Upload
+        </button>
+        <button
+          *ngIf="permissions.includes('CAN_CREATE_TERMINAL')"
+          class="btn action_button"
+          data-toggle="modal"
+          data-target="#createTerminal"
+        >
+          <i class="fa fa-plus animated slideIn"></i>
+          Add Terminal
+        </button>
+      </div>
+    </div>
+    <span>View details of every terminal on the platform</span>
+  </div>
+
+  <!-- FILTER BY CODE  -->
+  <div class="header__search">
+    <span class="filter_click" (click)="showFilter = !showFilter">
+      <img
+        src="../../../../../assets/icons/Filter-Icon.svg"
+        alt="search"
+        class="img-fluid"
+      />
+      <span
+        class="filter_text"
+        id="dropdownMenuButton"
+        onselectstart="return false"
+        unselectable="on"
+        >Filter Table By</span
+      >
+    </span>
+    <div
+      class="card search-dropdown"
+      *ngIf="showFilter"
+      id="filter__dropdown"
+      style="height: 200px"
+    >
+      <form [formGroup]="searchForm" (ngSubmit)="searchBy(searchForm.value)">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="terminalId" class="search_label">Terminal ID</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="terminalId"
+                id="terminalId"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="status" class="search_label">Status</label>
+              <select
+                type="text"
+                class="form-control search_input"
+                formControlName="status"
+                id="status"
+              >
+                <option value="">Select terminal status</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-section text-right">
+          <button
+            type="button"
+            class="btn button-white"
+            (click)="showFilter = false"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn button-pink">Apply Filters</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reset button -->
+  <button
+    class="btn btn-secondary reset-filter"
+    (click)="clearFilters()"
+    [disabled]="isLoading"
+  >
+    <i
+      class="fa fa-refresh"
+      [class.isLoading]="isLoading && allTerminals.length != 0"
+    ></i>
+    {{ isLoading && allTerminals.length != 0 ? "Loading" : "Refresh" }}
+  </button>
+
+  <!-- FILTER BY CODE ENDS HERE  -->
+</div>
+
+<div class="table-container custom-table animated fadeIn">
+  <div class="card-body">
+    <app-rex-loader
+      [isPushed]="true"
+      *ngIf="isLoading && allTerminals.length == 0"
+    ></app-rex-loader>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Terminal ID</th>
+          <th scope="col">Merchant ID</th>
+          <th scope="col">Transaction Time Out</th>
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let terminal of allTerminals">
+          <td>{{ terminal.terminalId }}</td>
+          <td>{{ terminal.merchantId }}</td>
+          <td>{{ terminal.transactionTimeout }}</td>
+          <td
+            [ngClass]="{ Inactive: terminal.isActive === false }"
+            class="active"
+          >
+            {{ terminal.isActive ? "Active" : "Inactive" }}
+          </td>
+          <td>
+            <button
+              [routerLink]="[terminal.terminalId]"
+              class="btn table_button"
+            >
+              Open
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-rex-pagination
+  [data]="allTerminals"
+  [totalElements]="dataCount"
+  (pageCountSelected)="requestPageSize($event)"
+  (refreshData)="onRefreshData($event)"
+  (onDownloadAsCSV)="beginDownload()"
+  *ngIf="isLoaded"
+></app-rex-pagination>
+
+<!-- //Add Terminal  -->
+
+<div
+  class="modal"
+  id="createTerminal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createTerminalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createTerminalLabel">Add Terminal</h5>
+        <form [formGroup]="createTerminalForm" (ngSubmit)="addTerminal()">
+          <!-- RELEVANT CODE HERE  -->
+          <div class="row">
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="merchantName"
+                    class="form-control"
+                    type="text"
+                    placeholder=" "
+                    formControlName="merchantName"
+                  >
+                    <option
+                      [value]="merchant.merchantId"
+                      *ngFor="let merchant of allMerchants"
+                    >
+                      {{ merchant.merchantName }}
+                    </option>
+                  </select>
+                  <label for="merchantName">Merchant Name</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createTerminalForm.get('merchantName').errors &&
+                  createTerminalForm.get('merchantName').touched
+                "
+                >Merchant Name is required.</span
+              >
+            </div>
+
+            <div *ngIf="autoTidState != true" class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="terminalId"
+                    type="text"
+                    maxlength="8"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="terminalId"
+                  />
+                  <label for="terminalId">Terminal ID</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createTerminalForm.get('terminalId').hasError('required') &&
+                  createTerminalForm.get('terminalId').touched
+                "
+                >Terminal ID is required.</span
+              >
+              <span
+                class="validation-message"
+                *ngIf="
+                  !createTerminalForm.get('terminalId').hasError('required') &&
+                  createTerminalForm.get('terminalId').hasError('minlength')
+                "
+              >
+                {{ messages.terminalId.length }}
+              </span>
+            </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="transactionTimeOut"
+                    type="number"
+                    class="form-control no-arrows"
+                    placeholder=" "
+                    formControlName="transactionTimeOut"
+                  />
+                  <label for="transactionTimeOut"
+                    >Transaction Timeout (In Seconds)</label
+                  >
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createTerminalForm.get('transactionTimeOut').errors &&
+                  createTerminalForm.get('transactionTimeOut').touched
+                "
+                >Transaction Timeout is required.</span
+              >
+            </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="callHomeTime"
+                    type="number"
+                    class="form-control no-arrows"
+                    placeholder=" "
+                    formControlName="callHomeTime"
+                  />
+                  <label for="callHomeTime">Call Home Time (In Seconds)</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createTerminalForm.get('callHomeTime').errors &&
+                  createTerminalForm.get('callHomeTime').touched
+                "
+                >Call Home Time is required.</span
+              >
+            </div>
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="ptspId"
+                    class="form-control"
+                    type="text"
+                    placeholder=" "
+                    formControlName="ptspId"
+                  >
+                    <option [value]="ptsp.id" *ngFor="let ptsp of ptspsList">
+                      {{ ptsp.ptspName }}
+                    </option>
+                  </select>
+                  <label for="ptspId">Ptsps</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createTerminalForm.get('ptspId').errors &&
+                  createTerminalForm.get('ptspId').touched
+                "
+                >Ptsps is required.</span
+              >
+            </div>
+          </div>
+
+          <div class="form_actions">
+            <button
+              class="cancel_button"
+              id="cancel_button_add_terminal"
+              type="button"
+              data-dismiss="modal"
+              (click)="createTerminalForm.reset()"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              [disabled]="createTerminalForm.invalid || isAddingTerminal"
+              class="btn button-primary"
+            >
+              Add Terminal
+            </button>
+
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+              *ngIf="isAddingTerminal"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BULK TERMINAL UPLOAD  -->
+
+<div
+  class="modal animated zoomIn"
+  id="bulkTerminalUpload"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="bulkUploadLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="bulkUploadLabel">Upload Terminal</h5>
+        <p>Upload the Terminal/merchant registration file</p>
+        <section>
+          <div class="file-input">
+            <span>{{
+              selectedFile
+                ? "File Selected: " + selectedFile.name
+                : "Browse Excel/CSV file..."
+            }}</span>
+            <button (click)="uploadFile()">Browse</button>
+          </div>
+
+          <a
+            download
+            href="./../../../../../../assets/files/bulk_terminal.csv"
+            class="download-template"
+            >Download Template</a
+          >
+
+          <div class="form_actions">
+            <div
+              class="cancel_button"
+              id="cancel_button_upload_file"
+              (click)="selectedFile = null"
+              data-dismiss="modal"
+            >
+              Cancel
+            </div>
+            <button
+              class="btn button-primary"
+              *ngIf="!isUserCreating"
+              (click)="uploadTerminals()"
+              [disabled]="!selectedFile"
+            >
+              Upload Terminals
+            </button>
+
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+              *ngIf="isUploading"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

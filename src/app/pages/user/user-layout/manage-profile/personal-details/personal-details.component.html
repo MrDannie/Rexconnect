@@ -1,0 +1,161 @@
+<!-- <span class="name_and_role"> Profile </span>
+<span class="menu_section">
+  <span class="menu active animated" routerLink="../personal-details"
+    >Personal Details</span
+  >
+  <span class="menu" routerLink="../manage-password">Change Password</span>
+</span> -->
+
+<div class="form_area">
+  <div class="form_header">Personal Details</div>
+  <div class="form_sub_header">Update your personal user information</div>
+  <form [formGroup]="updateUserForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="firstName"
+              type="text"
+              placeholder=" "
+              formControlName="firstName"
+            />
+            <label for="firstName">First Name</label>
+          </span>
+          <div
+            *ngIf="
+              updateUserForm.get('firstName').errors &&
+              (updateUserForm.get('firstName').dirty ||
+                updateUserForm.get('firstName').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateUserForm.get('firstName').hasError('required')"
+            >
+              {{ validationMessage.firstname.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="surname"
+              type="text"
+              placeholder=" "
+              formControlName="surname"
+            />
+            <label for="surname">Surname</label>
+          </span>
+          <div
+            *ngIf="
+              updateUserForm.get('surname').errors &&
+              (updateUserForm.get('surname').dirty ||
+                updateUserForm.get('surname').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateUserForm.get('surname').hasError('required')"
+            >
+              {{ validationMessage.surname.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+    
+      <div class="form-group col-md-12">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="username"
+              type="text"
+              placeholder=" "
+              formControlName="username"
+            />
+            <label for="username">Username</label>
+          </span>
+          <div
+            *ngIf="
+              updateUserForm.get('username').errors &&
+              (updateUserForm.get('username').dirty ||
+                updateUserForm.get('username').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateUserForm.get('username').hasError('required')"
+            >
+              {{ validationMessage.username.required }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="form-row">
+      <div class="form-group col-md-12">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="email"
+              type="text"
+              placeholder=" "
+              formControlName="email"
+            />
+            <label for="email">Email Address</label>
+          </span>
+          <div
+            *ngIf="
+              updateUserForm.get('email').errors &&
+              (updateUserForm.get('email').dirty ||
+                updateUserForm.get('email').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateUserForm.get('email').hasError('invalid')"
+            >
+              {{ validationMessage.email.invalid }}
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="form_actions">
+      <button
+        class="btn action_button"
+        *ngIf="!isUpdating"
+        (click)="updateUser(updateUserForm.value)"
+        [disabled]="!updateUserForm.valid"
+      >
+        Save Changes
+      </button>
+
+      <div
+        class="spinner-border spinner-border-sm ml-3"
+        role="status"
+        *ngIf="isUpdating"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </form>
+</div>

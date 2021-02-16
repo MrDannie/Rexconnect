@@ -1,0 +1,158 @@
+<div class="header animated fadeIn">
+  <div class="top_buttons">
+    <span class="back_button" routerLink="../../../ptsp">
+      <i class="fa fa-long-arrow-left"></i> Return to PTSPs
+    </span>
+  </div>
+  <div class="header_buttons" *ngIf="!isLoading">
+    <div class="top-info">
+      <span class="name"> {{ ptspDetails.Ptspname | titlecase }}</span>
+      <span class="date"
+        >Created: {{ ptspDetails.Datecreated | date: "medium" }}</span
+      >
+      <span
+        class="status animated fadeIn"
+        *ngIf="ptspDetails.isActive === true"
+      >
+        Status: Active</span
+      >
+      <span
+        class="status animated fadeIn"
+        *ngIf="ptspDetails.isActive === false"
+      >
+        Status: Inactive</span
+      >
+    </div>
+    <div *ngIf="permissions.includes('CAN_MANAGE_PTSPS')">
+      <span
+        class="action_button_disable animated fadeIn"
+        data-toggle="modal"
+        data-target="#confirmationModal"
+        *ngIf="ptspDetails.isActive === true"
+        >Disable PTSP</span
+      >
+
+      <span
+        class="action_button_enable animated fadeIn"
+        (click)="enablePTSP()"
+        *ngIf="ptspDetails.isActive === false && !isEnabling"
+        >Enable PTSP</span
+      >
+    </div>
+    <div
+      class="spinner-border spinner-border-sm"
+      role="status"
+      *ngIf="isEnabling"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div class="spinner-border spinner-border-sm" role="status" *ngIf="isLoading">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div class="main_dashboard_flow">
+  <div class="details_section">
+    <div class="form_area" *ngIf="!isLoading">
+      <div class="row">
+        <div class="col-md-6">
+          <span class="card_header">PTSP Name</span>
+          <p class="card_value">{{ ptspDetails.Ptspname | titlecase }}</p>
+        </div>
+        <div class="col-md-6" style="word-wrap: break-word">
+          <span class="card_header">PTSP Code</span>
+          <p class="card_value">{{ ptspDetails.PtspCode }}</p>
+          <p class="null-value" *ngIf="ptspDetails.PtspCode === null || ''">
+            Nil
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6" style="word-wrap: break-word">
+          <span class="card_header">PTSP CTMK (Master Key)</span>
+          <p class="card_value">{{ ptspDetails.Ptspctmk }}</p>
+        </div>
+        <div class="col-md-6">
+          <span class="card_header">PTSP CTMK BLOCK</span>
+          <p class="card_value" *ngIf="ptspDetails.Ptspctmkblock !== null">
+            {{ ptspDetails.Ptspctmkblock }}
+          </p>
+          <p class="null-value" *ngIf="ptspDetails.Ptspctmkblock === null">
+            Nil
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <span class="card_header">PTSP CTMK BLOCK</span>
+          <p class="card_value" *ngIf="ptspDetails.Ptspctmkblock !== null">
+            {{ ptspDetails.Ptspctmkblock }}
+          </p>
+          <p class="null-value" *ngIf="ptspDetails.Ptspctmkblock === null">
+            Nil
+          </p>
+        </div>
+        <div class="col-md-6">
+          <span class="card_header">PTSP CTMK BLOCK KCV</span>
+          <p class="card_value" *ngIf="ptspDetails.Ptspctmkblockkcv !== null">
+            {{ ptspDetails.Ptspctmkblockkcv }}
+          </p>
+          <p class="null-value" *ngIf="ptspDetails.Ptspctmkblockkcv === null">
+            Nil
+          </p>
+        </div>
+      </div>
+
+      <button
+        *ngIf="permissions.includes('CAN_MANAGE_PTSPS')"
+        class="btn action_button_update"
+        [routerLink]="['../../update-ptsp', ptspDetails.id]"
+      >
+        Edit PTSP
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal animated zoomIn"
+  id="confirmationModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmationModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 13rem !important">
+      <div class="modal-body">
+        <h5 class="modal-title" id="confirmationModal">
+          <span>Disable PTSP</span>
+        </h5>
+        <span class="modal_subtitle">
+          You are about to disable
+          <b *ngIf="!isLoading"> {{ ptspDetails.Ptspname }} </b>
+        </span>
+
+        <div class="form_actions">
+          <div class="cancel_button" data-dismiss="modal">Cancel</div>
+
+          <div
+            class="spinner-border spinner-border-sm ml-3"
+            role="status"
+            *ngIf="isDisabling"
+          ></div>
+
+          <button
+            class="btn action_button"
+            (click)="disablePTSP()"
+            *ngIf="!isDisabling"
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

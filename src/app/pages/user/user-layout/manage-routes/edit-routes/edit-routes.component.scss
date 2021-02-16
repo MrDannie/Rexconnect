@@ -1,0 +1,135 @@
+@import "~src/app/pages/shared/styles/header"; //Importation for page header
+
+.main_dashboard_flow {
+  min-width: 95%;
+  display: flex;
+  flex-direction: row;
+  min-height: 20rem;
+  //border: 1px solid red;
+  // margin: 0 2.5rem;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding-bottom: 5rem;
+}
+
+.details_section {
+  display: flex;
+  flex-direction: column;
+  //justify-content: space-between;
+  margin-right: 2.5rem;
+  flex: 1;
+  transition: all ease-in-out 2s;
+}
+
+.form_area {
+  width: 26rem;
+  // margin-left: 2rem;
+  //margin-top: 2.5rem;
+  border-radius: 10px;
+  padding: 1.9rem 1rem;
+  margin-top: 1rem;
+}
+
+div > span {
+  color: #1a1a1a;
+  font-family: Roboto, Regular;
+}
+
+p > strong {
+  font-family: Montserrat, Bold;
+  color: #1a1a1a;
+  font-weight: bold;
+}
+
+// UPDATE TERMINAL BUTTON
+.action_button_update {
+  background-color: #ffd1ce;
+  color: #950007;
+  padding: 0.6rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  font-weight: bold;
+  border: 0.5px solid #ffd1ce;
+  font-size: 0.8125rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.action_button_update:hover {
+  background-color: #950007;
+  border: 0.5px solid #950007;
+  //transition: all 0.3s ease-in-out;
+
+  color: #f0f0f0;
+}
+
+.form-group .row input {
+  background-color: #f0f0f0;
+  border: none;
+}
+
+h4 {
+  font-weight: bold;
+  font-family: Montserrat Bold;
+}
+
+h4,
+.h4 {
+  font-size: 1rem !important;
+}
+
+p.sub_header {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.form_actions .action_button:hover {
+  background-color: #950007;
+  border: 0.5px solid #950007;
+  //transition: all 0.3s ease-in-out;
+
+  color: #f0f0f0;
+}
+.form_actions .action_button i {
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+.form_actions .action_button:hover i {
+  // padding-left: 1rem;
+  opacity: 1;
+  margin-right: 0.5rem;
+}
+
+.rule-config {
+  margin-bottom: 1rem;
+}
+
+.add-more {
+  cursor: pointer;
+}
+
+.add-more:hover {
+  text-decoration: underline;
+}
+
+.add-more[disabled],
+.action_button_update[disabled] {
+  cursor: not-allowed;
+}
+
+.add-more:not(:disabled):hover {
+  text-decoration: underline;
+}
+
+.form-control {
+  height: calc(1.5em + 0.75rem + 10px) !important;
+}
+
+.remove:hover {
+  text-decoration: underline;
+}

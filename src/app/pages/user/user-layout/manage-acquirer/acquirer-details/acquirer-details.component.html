@@ -1,0 +1,75 @@
+<div class="main_dashboard_flow">
+  <div class="details_section">
+    <div class="form_area">
+      <div class="row">
+        <div class="col-md-6">
+          <span>Acquirer Name</span>
+          <p>
+            <strong>{{ acquirer?.clientName }}</strong>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <span>Acquirer Short Name</span>
+          <p>
+            <strong>{{ acquirer?.clientAddress }}</strong>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <span>Acquirer Code</span>
+          <p>
+            <strong>{{ acquirer?.bankCode }}</strong>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <span>Acquirer's Address</span>
+          <p>
+            <strong>{{ acquirer?.clientLocation }}</strong>
+          </p>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-md-6">
+          <span>Acquirer's Location</span>
+          <p>
+            <strong>{{ acquirer?.clientLocation }}</strong>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <span></span>
+          <p><strong>Sample Acquiring BIN</strong></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <span>Acquirer's Processor (VISA)</span>
+          <p><strong>Sample Processor</strong></p>
+        </div>
+        <div class="col-md-6">
+          <span>VISA's Acquiring BIN</span>
+          <p><strong>Sample Acquiring BIN</strong></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <span>Acquirer's Processor (VERVE)</span>
+          <p><strong>Sample Processor</strong></p>
+        </div>
+        <div class="col-md-6">
+          <span>VERVE's Acquiring BIN</span>
+          <p><strong>Sample Acquiring BIN</strong></p>
+        </div>
+      </div> -->
+      <button
+        *ngIf="permissions.includes('CAN_MANAGE_CLIENTS')"
+        class="btn action_button_update"
+        data-toggle="modal"
+        data-target="#editAcquirer"
+        [routerLink]="['../../edit-acquirer', acquirerId]"
+      >
+        Edit Acquirer
+      </button>
+    </div>
+  </div>
+</div>

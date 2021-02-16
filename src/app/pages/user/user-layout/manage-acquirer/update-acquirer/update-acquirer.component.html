@@ -1,0 +1,413 @@
+<div class="top_buttons">
+  <span
+    class="back_button"
+    routerLink="../../{{ acquirerId }}/acquirer-details"
+  >
+    <i class="fa fa-long-arrow-left"></i> Return to Acquirer List
+  </span>
+</div>
+<div class="main_dashboard_flow">
+  <h1 class="page_header">Edit Acquirer</h1>
+  <p class="page_subtitle">
+    Please provide details of your acquirer and the fee sharing format
+  </p>
+  <hr />
+
+  <h5 class="page_subheader">Acquirer Information</h5>
+  <p class="page_subtitle">Enter the details of your aquirer</p>
+</div>
+
+<!-- ADD AQUIRER  -->
+<div id="createAcquirer" tabindex="-1" role="dialog">
+  <form [formGroup]="editAcquirerForm">
+    <!-- RELEVANT CODE HERE  -->
+
+    <!-- ACQUIRER NAME  -->
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="acquirerName"
+              type="text"
+              placeholder=" "
+              formControlName="clientName"
+            />
+            <label for="acquirerName">Acquirer's Name</label>
+          </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('clientName').errors &&
+              (editAcquirerForm.get('clientName').dirty ||
+                editAcquirerForm.get('clientName').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !editAcquirerForm.get('clientName').hasError('required')
+              "
+            >
+              Acquirer name is required
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="acquirerShortName"
+              type="text"
+              placeholder=" "
+              formControlName="shortName"
+            />
+            <label for="acquirerShortName">Acquirer's Short Name</label>
+          </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('shortName').errors &&
+              (editAcquirerForm.get('shortName').dirty ||
+                editAcquirerForm.get('shortName').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!editAcquirerForm.get('shortName').hasError('required')"
+            >
+              Acquirer short name is required
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANK CODE  -->
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="bankCode"
+              type="text"
+              placeholder=" "
+              formControlName="bankCode"
+            />
+            <label for="bankCode">Acquirer's Code</label>
+          </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('bankCode').errors &&
+              (editAcquirerForm.get('bankCode').dirty ||
+                editAcquirerForm.get('bankCode').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!editAcquirerForm.get('bankCode').hasError('required')"
+            >
+              Acquirer CBN code is required
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="terminalPrefix"
+              type="text"
+              placeholder="e.g. 2423, 2223, 3455 "
+              formControlName="terminalPrefix"
+            />
+            <label for="terminalPrefix">Aquirer's Terminal Prefix</label>
+          </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('terminalPrefix').errors &&
+              (editAcquirerForm.get('terminalPrefix').dirty ||
+                editAcquirerForm.get('terminalPrefix').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !editAcquirerForm.get('terminalPrefix').hasError('required')
+              "
+            >
+              Terminal prefix is required
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="clientLocation"
+              type="text"
+              placeholder=" "
+              formControlName="clientLocation"
+            />
+            <label for="clientLocation">Acquirer's Location</label>
+          </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('clientLocation').errors &&
+              (editAcquirerForm.get('clientLocation').dirty ||
+                editAcquirerForm.get('clientLocation').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !editAcquirerForm.get('clientLocation').hasError('required')
+              "
+            >
+              Acquirer location is required
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="clientAddress"
+              type="text"
+              placeholder=" "
+              formControlName="clientAddress"
+            />
+            <label for="clientAddress">Aquirer's Address</label>
+          </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('clientAddress').errors &&
+              (editAcquirerForm.get('clientAddress').dirty ||
+                editAcquirerForm.get('clientAddress').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !editAcquirerForm.get('clientAddress').hasError('required')
+              "
+            >
+              Acqurier address is required
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="currencyCode"
+              type="text"
+              placeholder=" "
+              formControlName="currencyCode"
+            />
+            <label for="currencyCode">Currency Code</label>
+          </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('currencyCode').errors &&
+              (editAcquirerForm.get('currencyCode').dirty ||
+                editAcquirerForm.get('currencyCode').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="
+                !editAcquirerForm.get('currencyCode').hasError('required')
+              "
+            >
+              Acquirer currency code is required
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+
+    <!-- SELECT BUTTONS  -->
+    <div class="form-row">
+      <!-- <div
+        style="overflow-x: auto; height: 200px"
+        class="routes-column col-md-4"
+      >
+        <p class="select_title">Select Routes</p>
+        <input
+          id="select-all-for-routes"
+          type="checkbox"
+          (click)="toggleAllRoutesCheckbox()"
+        />
+        <label id="select-all" class="select-label" for="">Select All</label>
+        <div *ngFor="let rule of routingRules" class="form-check">
+          <input
+            class="form-check-input routeCheckBoxName"
+            type="checkbox"
+            [value]="rule.id"
+            id="flexCheckDefault"
+            (change)="addRouteRule(rule.)"
+            (click)="selectAllRoutes()"
+            name="routingRules"
+          />
+          <label
+            class="select-all"
+            class="form-check-label"
+            for="flexCheckDefault"
+            class="select-label"
+          >
+            {{ rule.rule }}
+          </label>
+        </div>
+      </div> -->
+
+      <div class="col-md-4">
+        <div class="">
+          <button
+            (click)="showDropdown = !showDropdown"
+            class="drop-button"
+            type="button"
+            id=""
+          >
+            Select Routes
+          </button>
+          <ul
+            class="card dropdown-men search-dropdown"
+            id=""
+            style="position: absolute; z-index: 1234"
+            *ngIf="showDropdown"
+            class=""
+            (click)="showDropdown = !showDropdown"
+          >
+            <li *ngFor="let rule of routingRules">
+              <div style="font-family: Roboto Bold" class="general">
+                <span>{{ rule.rule }}</span>
+                <span
+                  (click)="addRuleType(rule.id, rule.rule)"
+                  class="dropdown-item"
+                  *ngIf="!routingRulesToBeAdded?.includes(+rule.id)"
+                  style="color: green; cursor: pointer"
+                  >Add Route</span
+                >
+                <span
+                  (click)="removeRuleType(+rule.id, rule.rule)"
+                  *ngIf="routingRulesToBeAdded?.includes(+rule.id)"
+                  style="color: red; cursor: pointer"
+                  class="dropdown-item"
+                  >Remove Route</span
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div
+          style="height: 153px; background-color: #fff; padding: 0.5rem"
+          class="dropdown"
+        >
+          <span class="select_title">Rule Order</span>
+          <span class="sub_select_title"
+            >Note: This represents the order of preference for selected
+            routes</span
+          >
+
+          <div class="badges">
+            <span class="badge slideInDown" *ngFor="let rule of ruleOrder">
+              {{ rule }}
+
+              <i
+                style="cursor: pointer"
+                class="fa fa-remove"
+                (click)="removeRuleFromRuleOrder(rule)"
+              >
+              </i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        style="overflow-x: auto; height: 200px"
+        class="ptsps-column col-md-4"
+      >
+        <p class="select_title">Select Ptsps</p>
+        <input
+          type="checkbox"
+          id="select-all-for-ptsps"
+          (click)="toggleAllPtspsCheckbox()"
+        />
+        <label style="margin-left: 9px" class="select-label" for="select-all"
+          >Select all</label
+        >
+        <div *ngFor="let ptsp of ptspsList" class="form-check">
+          <input
+            class="form-check-input ptspsCheckBoxName"
+            type="checkbox"
+            value=""
+            id="flexCheckDefault"
+            (change)="addPtsps(ptsp.id)"
+            [checked]="ptspsListOfAcquirer?.includes(+ptsp.id)"
+          />
+          <label
+            class="select-all"
+            class="form-check-label"
+            for="flexCheckDefault"
+            class="select-label"
+            style="font-family: Roboto"
+          >
+            {{ ptsp.ptspName }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEE SHARING FORM -->
+    <!-- <div>
+      <h1>Fee Sharing</h1>
+      <p>Enter the fee sharing format for this acquirer.</p>
+    </div> -->
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="form_actions">
+          <button
+            class="btn action_button_update"
+            [disabled]="!editAcquirerForm.valid"
+            (click)="addAcquirer(editAcquirerForm.value)"
+          >
+            Update Acquirer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELEVANT CODE HERE  -->
+  </form>
+</div>

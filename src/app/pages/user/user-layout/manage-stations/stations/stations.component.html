@@ -1,0 +1,605 @@
+<div class="header">
+  <div class="main-header">
+    <div class="header__text animated fadeIn">
+      <div>
+        <span>Stations</span>
+      </div>
+
+      <div
+        *ngIf="permissions.includes('CAN_MANAGE_STATIONS')"
+        class="button_header_section"
+      >
+        <button
+          class="btn action_button"
+          data-toggle="modal"
+          data-target="#createModal"
+        >
+          <i class="fa fa-plus animated slideIn"></i>
+          Add Station
+        </button>
+      </div>
+    </div>
+    <span>View details of every station on this platform</span>
+  </div>
+
+  <!-- FILTER BY CODE  -->
+  <div class="header__search">
+    <span class="filter_click" (click)="showFilter = !showFilter">
+      <img
+        src="../../../../../assets/icons/Filter-Icon.svg"
+        alt="search"
+        class="img-fluid"
+      />
+      <span
+        class="filter_text"
+        id="dropdownMenuButton"
+        onselectstart="return false"
+        unselectable="on"
+      >
+        Filter Table By
+      </span>
+    </span>
+    <div
+      class="card search-dropdown"
+      *ngIf="showFilter"
+      id="filter__dropdown"
+      style="height: 200px"
+    >
+      <form [formGroup]="searchForm">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="name" class="search_label">Station Name</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="name"
+                id="name"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="status" class="search_label">Status</label>
+              <select
+                class="form-control search_input"
+                formControlName="status"
+                id="status"
+              >
+                <option value="">Select station status</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-section text-right">
+          <button class="btn button-white" (click)="showFilter = !showFilter">
+            Close
+          </button>
+
+          <button
+            class="btn button-pink"
+            (click)="pageIndex = 0; getAllStations(); isSearching = true"
+          >
+            Apply Filters
+
+            <span class="fa fa-spinner fa-spin" *ngIf="isSearching === true">
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reset button -->
+  <button class="btn btn-secondary reset-filter" (click)="reset()">
+    <i class="fa fa-refresh fa-fast-spin" *ngIf="isRefreshing"></i>
+    <i class="fa fa-refresh" *ngIf="!isRefreshing"></i>
+    Refresh
+  </button>
+
+  <!-- FILTER BY CODE ENDS HERE  -->
+</div>
+
+<div class="table-container custom-table animated fadeIn">
+  <div class="card-body">
+    <app-rex-loader [isPushed]="true" *ngIf="!allStations"></app-rex-loader>
+
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <th scope="col">Station Name</th>
+        <th scope="col">Last Echo Date</th>
+        <th scope="col">Last Zpk Change</th>
+        <th scope="col">Auth Username</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </thead>
+
+      <div
+        class="center-body"
+        *ngIf="(!allStations || allStations.length === 0) && !isLoading"
+      >
+        <div class="no-data">No station found</div>
+      </div>
+      <!-- 
+      <div class="center-body" *ngIf="isLoading">
+        <div class="sbl-circ-path text-center"></div>
+      </div> -->
+
+      <tbody *ngIf="!isLoading">
+        <tr *ngFor="let item of allStations">
+          <td>{{ item.name | titlecase }}</td>
+          <td>
+            {{ item.lastEcho | date: "medium" }}
+            <span class="null-value" *ngIf="item.lastEcho === null">Nil</span>
+          </td>
+          <td>
+            {{ item.lastZpkChange | date: "medium" }}
+            <span class="null-value" *ngIf="item.lastZpkChange === null"
+              >Nil</span
+            >
+          </td>
+          <td>
+            {{ item.authUsername }}
+            <span class="null-value" *ngIf="item.authUsername === null"
+              >Nil</span
+            >
+          </td>
+          <td class="active" *ngIf="item.isActive === 1">Active</td>
+          <td class="inactive" *ngIf="item.isActive === 0">Inactive</td>
+
+          <td>
+            <button
+              [routerLink]="[item.id, 'station-details']"
+              class="btn table_button"
+            >
+              Open
+            </button>
+
+            <button
+              *ngIf="permissions.includes('CAN_MANAGE_STATIONS')"
+              (click)="warnUser(item)"
+              class="btn table_button"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PAGE SIZE  -->
+<div class="text-right mt-4 page_size_section animated fadeIn">
+  <span>Number of Items:&nbsp;&nbsp;</span>
+  <span> {{ dataCount }}</span>
+
+  <span class="ml-3">Page size:</span>
+  <form class="inline_select">
+    <select
+      class="form-control form-control-sm"
+      (change)="setPageSize($event.target.value)"
+      #setPageSizeId
+    >
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>
+    </select>
+  </form>
+</div>
+
+<!-- PAGINATION  -->
+<div class="paginate mt-2 animated fadeIn" *ngIf="!isLoading">
+  <nav aria-label="...">
+    <ul class="pagination" *ngIf="!isLoading && allStations">
+      <li
+        class="page-item"
+        (click)="previousPage()"
+        *ngIf="pager.startPage !== pager.currentPage"
+      >
+        <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      <li
+        class="page-item"
+        aria-current="page"
+        *ngFor="let page of pager.pages"
+        [ngClass]="{ active: pager.currentPage === page }"
+        (click)="getPage(page)"
+      >
+        <a class="page-link">
+          {{ page }} <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li
+        class="page-item"
+        (click)="nextPage()"
+        *ngIf="pager.endPage !== pager.currentPage"
+      >
+        <a class="page-link">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Export button -->
+  <div class="export-button animated fadeIn" *ngIf="!isLoading && allStations">
+    <button
+      type="button"
+      class="btn btn-light button-plain-icon"
+      (click)="generateCSV()"
+    >
+      <i class="fa fa-download"></i>
+      Download As CSV
+    </button>
+    <div
+      class="spinner-border spinner-border-sm ml-3"
+      role="status"
+      *ngIf="isCSVLoading"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<!-- ADD STATION  -->
+<div
+  class="modal animated zoomIn"
+  id="createModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createModalLabel">Add Station</h5>
+        <form [formGroup]="createStationForm" *ngIf="!isLoading">
+          <!-- RELEVANT CODE HERE  -->
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="name"
+                    type="text"
+                    placeholder=" "
+                    formControlName="name"
+                  />
+                  <label for="name">Name</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('name').errors &&
+                    (createStationForm.get('name').dirty ||
+                      createStationForm.get('name').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm.get('name').hasError('required')
+                    "
+                  >
+                    Name is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="zmk"
+                    type="text"
+                    placeholder=" "
+                    formControlName="zmk"
+                  />
+                  <label for="zmk">ZMK (Master Key)</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('zmk').errors &&
+                    (createStationForm.get('zmk').dirty ||
+                      createStationForm.get('zmk').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm.get('zmk').hasError('required')
+                    "
+                  >
+                    Master key is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="zpk"
+                    type="text"
+                    placeholder=" "
+                    formControlName="zpk"
+                  />
+                  <label for="zpk">ZPK (Primary Key)</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('zpk').errors &&
+                    (createStationForm.get('zpk').dirty ||
+                      createStationForm.get('zpk').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm.get('zpk').hasError('required')
+                    "
+                  >
+                    Primary Key is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="baseUrl"
+                    type="text"
+                    placeholder=" "
+                    formControlName="baseUrl"
+                  />
+                  <label for="baseUrl">Base Url</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('baseUrl').errors &&
+                    (createStationForm.get('baseUrl').dirty ||
+                      createStationForm.get('baseUrl').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm.get('baseUrl').hasError('required')
+                    "
+                  >
+                    Base Url is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="channelPort"
+                    type="text"
+                    placeholder=" "
+                    formControlName="channelPort"
+                  />
+                  <label for="channelPort">Channel Port</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('channelPort').errors &&
+                    (createStationForm.get('channelPort').dirty ||
+                      createStationForm.get('channelPort').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm.get('channelPort').hasError('required')
+                    "
+                  >
+                    Channel Port is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="channelHost"
+                    type="text"
+                    placeholder=" "
+                    formControlName="channelHost"
+                  />
+                  <label for="channelHost">Channel Host</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('channelHost').errors &&
+                    (createStationForm.get('channelHost').dirty ||
+                      createStationForm.get('channelHost').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm.get('channelHost').hasError('required')
+                    "
+                  >
+                    Channel Host is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="authUsername"
+                    type="text"
+                    placeholder=" "
+                    formControlName="authUsername"
+                  />
+                  <label for="authUsername">Auth Username</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('authUsername').errors &&
+                    (createStationForm.get('authUsername').dirty ||
+                      createStationForm.get('authUsername').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm
+                        .get('authUsername')
+                        .hasError('required')
+                    "
+                  >
+                    Auth Username is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="authPassword"
+                    type="text"
+                    placeholder=" "
+                    formControlName="authPassword"
+                  />
+                  <label for="authPassword">Auth Password</label>
+                </span>
+                <div
+                  *ngIf="
+                    createStationForm.get('authPassword').errors &&
+                    (createStationForm.get('authPassword').dirty ||
+                      createStationForm.get('authPassword').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createStationForm
+                        .get('authPassword')
+                        .hasError('required')
+                    "
+                  >
+                    Auth Password is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- RELEVANT CODE HERE  -->
+
+          <div class="form_actions">
+            <button
+              class="btn action_button col-md-6"
+              (click)="createStation()"
+              *ngIf="!isCreating"
+              [disabled]="!createStationForm.valid"
+            >
+              <i class="fa fa-plus animated slideIn"></i>
+              Create Station
+            </button>
+
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+              *ngIf="isCreating"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Warn User -->
+
+<div
+  class="modal animated zoomIn"
+  id="confirmationModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmationModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 13rem !important">
+      <div class="modal-body">
+        <h5 class="modal-title" id="confirmationModal">
+          <span>Delete Station</span>
+        </h5>
+        <span class="modal_subtitle">
+          You are about to delete
+          <b *ngIf="selectedValue"> {{ selectedValue.name }} </b>
+        </span>
+
+        <div class="form_actions">
+          <div class="cancel_button" data-dismiss="modal">Cancel</div>
+
+          <div
+            class="spinner-border spinner-border-sm ml-3"
+            role="status"
+            *ngIf="isDeleting"
+          ></div>
+
+          <button
+            class="btn action_button"
+            (click)="deleteStation()"
+            *ngIf="!isDeleting"
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

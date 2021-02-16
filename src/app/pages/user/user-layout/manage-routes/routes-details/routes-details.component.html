@@ -1,0 +1,145 @@
+<div class="header animated fadeIn">
+  <div class="top_buttons">
+    <span class="back_button" routerLink="../../../routes">
+      <i class="fa fa-long-arrow-left"></i> Return to Route List
+    </span>
+  </div>
+  <div class="header_buttons">
+    <div>
+      <span class="name"> Default DS</span>
+      <span class="date">{{ createdAt | date: "medium" }}</span>
+      <span class="status">Active</span>
+    </div>
+    <div>
+      <!-- <span
+        style="cursor: pointer; margin-right: 10px"
+        class="action_button_disable"
+        data-toggle="modal"
+        data-target="#disableRouteModal"
+        >Disable Routes</span
+      >
+      <span
+        class="action_button_enable animated fadeIn"
+        (click)="enableRoute()"
+        *ngIf="routeStatus === 'INACTIVE'"
+        >Enable Routes</span
+      > -->
+
+      <span
+        *ngIf="permissions.includes('CAN_MANAGE_ROUTING_RULES')"
+        style="cursor: pointer"
+        class="action_button_update"
+        data-toggle="modal"
+        data-target="#disableAcquirertModal"
+        [routerLink]="['../../edit-routes', routeId]"
+        >Edit Route</span
+      >
+    </div>
+  </div>
+</div>
+
+<div class="main_dashboard_flow">
+  <div class="details_section">
+    <div class="row">
+      <div
+        *ngFor="let routeConfig of routeConfigs; let i = index"
+        class="form_area"
+      >
+        <div class="row">
+          <div class="col-sm-6">
+            <span class="title">Default Destination Station</span>
+            <p>
+              <strong>{{ defaultDestinationStaion }}</strong>
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <span class="title">Rule Type</span>
+            <p>
+              <strong>{{ routeConfig.rule }}</strong>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <span class="title">Value</span>
+            <p>
+              <strong>{{ routeConfig.value }}</strong>
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <span class="title">Destination Station</span>
+            <p>
+              <strong>{{ routeConfig.ds }}</strong>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <span class="title">Max</span>
+            <p>
+              <strong>{{ routeConfig.max }}</strong>
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <span class="title">Min</span>
+            <p>
+              <strong>{{ routeConfig.min }}</strong>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <input
+              [checked]="useDefaultValue === 0 ? false : true"
+              type="checkbox"
+            />
+            Use Default
+          </div>
+        </div>
+        <!-- <button
+          [routerLink]="['../../edit-routes', routeId]"
+          class="btn action_button_update"
+        >
+          Edit Station
+        </button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal animated zoomIn"
+  id="disableRouteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="DisableUserLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createUserLabel">Disable Acquirer</h5>
+        <br />
+        <p>
+          You are about to disable Route "{{ routeName }}". Please confirm this
+          action to continue.
+        </p>
+        <br />
+        <div class="form_actions">
+          <div class="cancel_button" data-dismiss="modal">Cancel</div>
+          <button class="btn action_button" (click)="disableRoute(routeId)">
+            Disable Acquirer
+          </button>
+
+          <div
+            *ngIf="disablingRoute"
+            class="spinner-border spinner-border-sm ml-3"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

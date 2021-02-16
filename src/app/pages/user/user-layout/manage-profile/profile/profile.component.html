@@ -1,0 +1,26 @@
+<span class="name_and_role"> Profile </span>
+<span class="menu_section">
+  <span
+    class="menu"
+    routerLink="personal-details"
+    [routerLinkActive]="['active']"
+    >Personal Details</span
+  >
+  <span
+    *ngIf="permissions.includes('CAN_CHANGE_SYSTEM_SETTINGS')"
+    class="menu animated"
+    routerLink="admin-settings"
+    [routerLinkActive]="['active']"
+    >Admin Settings</span
+  >
+
+  <span
+    *ngIf="permissions.includes('CAN_CHANGE_PASSWORD')"
+    class="menu animated"
+    routerLink="manage-password"
+    [routerLinkActive]="['active']"
+    >Change Password</span
+  >
+</span>
+
+<router-outlet></router-outlet>

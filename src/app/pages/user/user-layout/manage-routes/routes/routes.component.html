@@ -1,0 +1,187 @@
+<div class="header">
+  <!-- FILTER BY CODE  -->
+
+  <!-- Here is the first here  -->
+  <div class="main-header">
+    <div class="header__text animated fadeIn">
+      <div>
+        <span>Routes</span>
+      </div>
+
+      <div
+        *ngIf="permissions.includes('CAN_MANAGE_ROUTING_RULES')"
+        class="button_header_section"
+      >
+        <button [routerLink]="['add-routes']" class="btn action_button">
+          <i class="fa fa-plus animated slideIn"></i>
+          Add Routes
+        </button>
+      </div>
+    </div>
+    <span>View details of every routes on this platform</span>
+  </div>
+
+  <div class="header__search">
+    <span class="filter_click" (click)="showFilter = !showFilter">
+      <img
+        src="../../../../../assets/icons/Filter-Icon.svg"
+        alt="search"
+        class="img-fluid"
+      />
+      <span
+        class="filter_text"
+        id="dropdownMenuButton"
+        onselectstart="return false"
+        unselectable="on"
+      >
+        Filter Table By
+      </span>
+    </span>
+    <div
+      class="card search-dropdown"
+      *ngIf="showFilter"
+      id="filter__dropdown"
+      style="height: 200px"
+    >
+      <form [formGroup]="searchForm" (ngSubmit)="performFiltering()">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="defaultDs" class="search_label">Default DS</label>
+              <input
+                name="defaultDs"
+                id="defaultDs"
+                type="text"
+                class="form-control search_input"
+                formControlName="default_ds"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="ruletype" class="search_label">Rule</label>
+              <select
+                class="form-control search_input"
+                formControlName="rule"
+                id="ruletype"
+                name="ruletype"
+              >
+                <option value="">Select Rule Type</option>
+                <option [value]="rule" *ngFor="let rule of rules">
+                  {{ rule }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-section text-right">
+          <button
+            (click)="showFilter = false; searchForm.reset()"
+            type="button"
+            class="btn button-white"
+          >
+            Close
+          </button>
+
+          <button class="btn button-pink" type="submit">
+            Apply Filters
+
+            <div
+              *ngIf="isFiltering"
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reset button -->
+  <button
+    class="btn btn-secondary reset-filter"
+    (click)="clearFilters()"
+    [disabled]="isLoading"
+  >
+    <i
+      class="fa fa-refresh"
+      [class.isLoading]="isLoading && allRoutes.length != 0"
+    ></i>
+    {{ isLoading && allRoutes.length != 0 ? "Loading" : "Refresh" }}
+  </button>
+  <!-- FILTER BY CODE ENDS HERE  -->
+
+  <!-- New Header Ends HEre  -->
+</div>
+
+<div class="table-container custom-table animated fadeIn">
+  <div class="card-body">
+    <app-rex-loader
+      [isPushed]="true"
+      *ngIf="isLoading && allRoutes.length == 0"
+    ></app-rex-loader>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Default DS</th>
+          <th scope="col">Rule Type</th>
+          <!-- <th scope="col">Value</th> -->
+          <th scope="col">Use Default</th>
+          <th
+            *ngIf="permissions.includes('CAN_VIEW_ROUTING_RULES')"
+            scope="col"
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let route of routingRules">
+          <td>{{ route.default_ds }}</td>
+          <td>{{ route.rule }}</td>
+          <!-- <td>{{route.rule_config.ruleconfig.rule}}</td> -->
+          <td [ngClass]="{ Inactive: route.use_default === 0 }" class="active">
+            {{ route.use_default == "1" ? "True" : "False" }}
+          </td>
+          <td>
+            <button
+              [routerLink]="['route-details', route.id]"
+              class="btn table_button"
+              *ngIf="permissions.includes('CAN_VIEW_ROUTING_RULES')"
+            >
+              Open
+            </button>
+          </td>
+        </tr>
+        <!-- <tr *ngFor="let item of ngForArray">
+          <td>Sample DS</td>
+          <td>Sample DS</td>
+          <td>Sample DS</td>
+          <td class="active">Sample DS</td>
+          <td>
+            <button [routerLink]="['route-details', 2]" class="btn table_button">
+              Open
+            </button>
+          </td>
+        </tr> -->
+      </tbody>
+    </table>
+    <span class="empty-state" *ngIf="allRoutes.length === 0 && !isLoading">
+      No Records Found
+    </span>
+  </div>
+</div>
+
+<!-- PAGINATION  -->
+<app-rex-pagination
+  [data]="allRoutes"
+  [totalElements]="dataCount"
+  (pageCountSelected)="requestPageSize($event)"
+  (onDownloadAsCSV)="beginDownload()"
+  (refreshData)="onRefreshData($event)"
+  *ngIf="isLoaded"
+></app-rex-pagination>

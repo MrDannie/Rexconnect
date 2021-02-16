@@ -1,0 +1,115 @@
+<div class="header">
+  <!-- FILTER BY CODE  -->
+  <div class="header__search">
+    <span class="filter_click" (click)="showFilter = !showFilter">
+      <img
+        src="../../../../../assets/icons/Filter-Icon.svg"
+        alt="search"
+        class="img-fluid"
+      />
+      <span
+        class="filter_text"
+        id="dropdownMenuButton"
+        onselectstart="return false"
+        unselectable="on"
+      >
+        Filter Table By
+      </span>
+    </span>
+    <div
+      class="card search-dropdown"
+      *ngIf="showFilter"
+      id="filter__dropdown"
+      style="height: 200px"
+    >
+      <form [formGroup]="searchForm">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="acquirerName" class="search_label"
+                >Acquirer Name</label
+              >
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="acquirerName"
+                id="acquirerName"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="cbnCode" class="search_label">CBN Code</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="cbnCode"
+                id="cbnCode"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="button-section text-right">
+          <button class="btn button-white">Close</button>
+
+          <button class="btn button-pink">
+            Apply Filters
+
+            <div class="spinner-border spinner-border-sm ml-3" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reset button -->
+  <button class="btn btn-secondary reset-filter" (click)="reset()">
+    <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
+    <i class="fa fa-refresh"></i>
+    Refresh
+  </button>
+
+  <!-- FILTER BY CODE ENDS HERE  -->
+
+  <!-- New Header Ends HEre  -->
+</div>
+
+<div class="table-container custom-table animated fadeIn">
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">name</th>
+          <th scope="col">Code</th>
+
+          <th scope="col">ctmk</th>
+          <th scope="col">Ptsp ctmk kcv</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ptsps of acquirerPtsps">
+          <td>{{ ptsps.Ptspname }}</td>
+          <td>{{ ptsps.PtspCode }}</td>
+          <td>{{ ptsps.Ptspctmk }}</td>
+          <td>{{ ptsps.Ptspctmkkcv }}</td>
+          <td class="active" *ngIf="ptsps.isActive === true">Active</td>
+          <td class="inactive" *ngIf="ptsps.isActive === false">Inactive</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-rex-pagination
+  [data]="acquirerPtsps"
+  [totalElements]="dataCount"
+  (pageCountSelected)="requestPageSize($event)"
+  (onDownloadAsCSV)="beginDownload()"
+  (refreshData)="onRefreshData($event)"
+  *ngIf="isLoaded"
+></app-rex-pagination>

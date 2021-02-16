@@ -1,0 +1,553 @@
+<div class="header">
+  <div class="main-header">
+    <div class="header__text animated fadeIn">
+      <div>
+        <span>PTSP</span>
+      </div>
+
+      <div
+        *ngIf="permissions.includes('CAN_MANAGE_PTSPS')"
+        class="button_header_section"
+      >
+        <button
+          class="btn action_button"
+          data-toggle="modal"
+          data-target="#createModal"
+        >
+          <i class="fa fa-plus animated slideIn"></i>
+          Create PTSP
+        </button>
+      </div>
+    </div>
+    <span>View details of every PTSP on this platform</span>
+  </div>
+
+  <!-- FILTER BY CODE  -->
+  <div class="header__search">
+    <span class="filter_click" (click)="showFilter = !showFilter">
+      <img
+        src="../../../../../assets/icons/Filter-Icon.svg"
+        alt="search"
+        class="img-fluid"
+      />
+      <span
+        class="filter_text"
+        id="dropdownMenuButton"
+        onselectstart="return false"
+        unselectable="on"
+      >
+        Filter Table By
+      </span>
+    </span>
+    <div
+      class="card search-dropdown"
+      *ngIf="showFilter"
+      id="filter__dropdown"
+      style="height: 200px"
+    >
+      <form [formGroup]="searchForm">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="Ptspname" class="search_label">PTSP Name</label>
+              <input
+                type="text"
+                class="form-control search_input"
+                formControlName="Ptspname"
+                id="Ptspname"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="status" class="search_label">Status</label>
+              <select
+                class="form-control search_input"
+                formControlName="status"
+                id="status"
+              >
+                <option value="">Select ptsp status</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-section text-right">
+          <button
+            class="btn button-white"
+            (click)="showFilter = !showFilter; searchForm.reset()"
+          >
+            Close
+          </button>
+
+          <button
+            class="btn button-pink"
+            (click)="pageIndex = 0; getAllPtsps(); isSearching = true"
+          >
+            Apply Filters
+
+            <span class="fa fa-spinner fa-spin" *ngIf="isSearching === true">
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reset button -->
+  <button class="btn btn-secondary reset-filter" (click)="reset()">
+    <i class="fa fa-refresh fa-fast-spin" *ngIf="isRefreshing"></i>
+    <i class="fa fa-refresh" *ngIf="!isRefreshing"></i>
+    Refresh
+  </button>
+
+  <!-- FILTER BY CODE ENDS HERE  -->
+</div>
+
+<div class="table-container custom-table animated fadeIn">
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <th scope="col">Name</th>
+        <th scope="col">Code</th>
+        <th scope="col">CTMK</th>
+        <th scope="col">CTMK KCV(Key Check Value)</th>
+        <!-- <th scope="col">CTMK BLOCK</th> -->
+        <!-- <th scope="col">CTMK BLOCK KCV(Key Check Value)</th> -->
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </thead>
+
+      <div
+        class="center-body"
+        *ngIf="(!allPtsps || allPtsps.length === 0) && !isLoading"
+      >
+        <div class="no-data">No ptsp found</div>
+      </div>
+
+      <div class="center-body" *ngIf="isLoading">
+        <div class="sbl-circ-path text-center"></div>
+      </div>
+
+      <tbody *ngIf="!isLoading">
+        <tr *ngFor="let item of allPtsps">
+          <td>{{ item.Ptspname | titlecase }}</td>
+          <td>
+            {{ item.PtspCode }}
+            <span class="null-value" *ngIf="item.PtspCode === null">Nil</span>
+          </td>
+          <td>
+            {{ item.Ptspctmk }}
+            <span class="null-value" *ngIf="item.Ptspctmk === null">Nil</span>
+          </td>
+          <td>
+            {{ item.Ptspctmkkcv }}
+            <span class="null-value" *ngIf="item.Ptspctmkkcv === null"
+              >Nil</span
+            >
+          </td>
+          <!-- <td>{{item.Ptspctmkblock}} <span class="null-value" *ngIf="item.Ptspctmkblock === null">Nil</span></td> -->
+          <!-- <td>{{item.Ptspctmkblockkcv}} <span class="null-value" *ngIf="item.Ptspctmkblockkcv === null">Nil</span></td> -->
+          <td class="active" *ngIf="item.isActive === true">Active</td>
+          <td class="inactive" *ngIf="item.isActive === false">Inactive</td>
+
+          <td>
+            <button
+              [routerLink]="[item.id, 'ptsp-details']"
+              class="btn table_button"
+            >
+              Open
+            </button>
+
+            <button
+              *ngIf="permissions.includes('CAN_MANAGE_PTSPS')"
+              (click)="warnUser(item)"
+              class="btn table_button"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PAGE SIZE  -->
+<div class="text-right mt-4 page_size_section animated fadeIn">
+  <span>Number of Items:&nbsp;&nbsp;</span>
+  <span> {{ dataCount }}</span>
+
+  <span class="ml-3">Page size:</span>
+  <form class="inline_select">
+    <select
+      class="form-control form-control-sm"
+      (change)="setPageSize($event.target.value)"
+      #setPageSizeId
+    >
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>
+    </select>
+  </form>
+</div>
+
+<!-- PAGINATION  -->
+<div class="paginate mt-2 animated fadeIn" *ngIf="!isLoading">
+  <nav aria-label="...">
+    <ul class="pagination" *ngIf="!isLoading && allPtsps">
+      <li
+        class="page-item"
+        (click)="previousPage()"
+        *ngIf="pager.startPage !== pager.currentPage"
+      >
+        <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      <li
+        class="page-item"
+        aria-current="page"
+        *ngFor="let page of pager.pages"
+        [ngClass]="{ active: pager.currentPage === page }"
+        (click)="getPage(page)"
+      >
+        <a class="page-link">
+          {{ page }} <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li
+        class="page-item"
+        (click)="nextPage()"
+        *ngIf="pager.endPage !== pager.currentPage"
+      >
+        <a class="page-link">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Export button -->
+  <div class="export-button animated fadeIn" *ngIf="!isLoading && allPtsps">
+    <button
+      type="button"
+      class="btn btn-light button-plain-icon"
+      (click)="generateCSV()"
+    >
+      <i class="fa fa-download"></i>
+      Download As CSV
+    </button>
+    <div
+      class="spinner-border spinner-border-sm ml-3"
+      role="status"
+      *ngIf="isCSVLoading"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<!-- ADD STATION  -->
+<div
+  class="modal animated zoomIn"
+  id="createModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createModalLabel">Create PTSP</h5>
+        <form [formGroup]="createPtspForm">
+          <!-- RELEVANT CODE HERE  -->
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="Ptspname"
+                    type="text"
+                    placeholder=" "
+                    formControlName="Ptspname"
+                  />
+                  <label for="Ptspname">PTSP Name</label>
+                </span>
+                <div
+                  *ngIf="
+                    createPtspForm.get('Ptspname').errors &&
+                    (createPtspForm.get('Ptspname').dirty ||
+                      createPtspForm.get('Ptspname').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createPtspForm.get('Ptspname').hasError('required')
+                    "
+                  >
+                    PTSP Name is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="PtspCode"
+                    type="text"
+                    placeholder=" "
+                    formControlName="PtspCode"
+                  />
+                  <label for="PtspCode">PTSP Code</label>
+                </span>
+                <div
+                  *ngIf="
+                    createPtspForm.get('PtspCode').errors &&
+                    (createPtspForm.get('PtspCode').dirty ||
+                      createPtspForm.get('PtspCode').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createPtspForm.get('PtspCode').hasError('required')
+                    "
+                  >
+                    PTSP code is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="Ptspctmk"
+                    type="text"
+                    placeholder=" "
+                    formControlName="Ptspctmk"
+                  />
+                  <label for="Ptspctmk">PTSP CTMK (Master Key)</label>
+                </span>
+                <div
+                  *ngIf="
+                    createPtspForm.get('Ptspctmk').errors &&
+                    (createPtspForm.get('Ptspctmk').dirty ||
+                      createPtspForm.get('Ptspctmk').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createPtspForm.get('Ptspctmk').hasError('required')
+                    "
+                  >
+                    Master key is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="Ptspctmkkcv"
+                    type="text"
+                    placeholder=" "
+                    formControlName="Ptspctmkkcv"
+                  />
+                  <label for="Ptspctmkkcv"
+                    >PTSPCTMK KCV (Key Check Value)
+                  </label>
+                </span>
+                <div
+                  *ngIf="
+                    createPtspForm.get('Ptspctmkkcv').errors &&
+                    (createPtspForm.get('Ptspctmkkcv').dirty ||
+                      createPtspForm.get('Ptspctmkkcv').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createPtspForm.get('Ptspctmkkcv').hasError('required')
+                    "
+                  >
+                    Key Check Value is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="Ptspctmkblock"
+                    type="text"
+                    placeholder=" "
+                    formControlName="Ptspctmkblock"
+                  />
+                  <label for="Ptspctmkblock">PTSPCTMK BLOCK</label>
+                </span>
+                <div
+                  *ngIf="
+                    createPtspForm.get('Ptspctmkblock').errors &&
+                    (createPtspForm.get('Ptspctmkblock').dirty ||
+                      createPtspForm.get('Ptspctmkblock').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createPtspForm.get('Ptspctmkblock').hasError('required')
+                    "
+                  >
+                    CTMK BLOCK is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="Ptspctmkblockkcv"
+                    type="text"
+                    placeholder=" "
+                    formControlName="Ptspctmkblockkcv"
+                  />
+                  <label for="Ptspctmkblockkcv">PTSPCTMK BLOCK KCV</label>
+                </span>
+                <div
+                  *ngIf="
+                    createPtspForm.get('Ptspctmkblockkcv').errors &&
+                    (createPtspForm.get('Ptspctmkblockkcv').dirty ||
+                      createPtspForm.get('Ptspctmkblockkcv').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createPtspForm
+                        .get('Ptspctmkblockkcv')
+                        .hasError('required')
+                    "
+                  >
+                    Key Value Check is required
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RELEVANT CODE HERE  -->
+
+          <div class="form_actions">
+            <div
+              class="cancel_button"
+              data-dismiss="modal"
+              (click)="createPtspForm.reset()"
+            >
+              Cancel
+            </div>
+            <button
+              class="btn action_button"
+              (click)="createPTSP()"
+              *ngIf="!isCreating"
+              [disabled]="!createPtspForm.valid"
+            >
+              <i class="fa fa-plus animated slideIn"></i>
+              Add PTSP
+            </button>
+
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+              *ngIf="isCreating"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Warn User -->
+
+<div
+  class="modal animated zoomIn"
+  id="confirmationModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmationModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 13rem !important">
+      <div class="modal-body">
+        <h5 class="modal-title" id="confirmationModal">
+          <span>Delete PTSP</span>
+        </h5>
+        <span class="modal_subtitle">
+          You are about to delete
+          <b *ngIf="selectedValue"> {{ selectedValue.Ptspname }} </b>
+        </span>
+
+        <div class="form_actions">
+          <div class="cancel_button" data-dismiss="modal">Cancel</div>
+
+          <div
+            class="spinner-border spinner-border-sm ml-3"
+            role="status"
+            *ngIf="isDeleting"
+          ></div>
+
+          <button
+            class="btn action_button"
+            (click)="deletePTSP()"
+            *ngIf="!isDeleting"
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

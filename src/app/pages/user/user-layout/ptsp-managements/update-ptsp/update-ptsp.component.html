@@ -1,0 +1,272 @@
+<div class="header animated fadeIn">
+  <div class="top_buttons">
+    <span class="back_button" routerLink="../../../stations">
+      <i class="fa fa-long-arrow-left"></i> Return to PTSPs
+    </span>
+  </div>
+  <div class="header_buttons" >
+    <div class="top-info">
+      <span class="name">
+        Update PTSP</span
+      >
+      <span class="sub_name">Edit the details of the PTSP you wish to update.</span>
+     
+
+    </div>
+ 
+  </div>
+
+  <div
+  class="spinner-border spinner-border-sm ml-6"
+  role="status"
+  *ngIf="isLoading "
+>
+  <span class="sr-only">Loading...</span>
+</div>
+</div>
+
+<div class="main_dashboard_flow">
+  <div class="details_section">
+  
+
+
+
+    <form [formGroup]="editPTSPForm">
+      <!-- RELEVANT CODE HERE  -->
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="Ptspname"
+                type="text"
+                placeholder=" "
+                formControlName="Ptspname"
+              />
+              <label for="Ptspname">PTSP Name</label>
+            </span>
+            <div
+              *ngIf="
+                editPTSPForm.get('Ptspname').errors &&
+                (editPTSPForm.get('Ptspname').dirty ||
+                  editPTSPForm.get('Ptspname').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editPTSPForm.get('Ptspname').hasError('required')
+                "
+              >
+                PTSP Name is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="PtspCode"
+                type="text"
+                placeholder=" "
+                formControlName="PtspCode"
+              />
+              <label for="PtspCode">PTSP Code</label>
+            </span>
+            <div
+              *ngIf="
+                editPTSPForm.get('PtspCode').errors &&
+                (editPTSPForm.get('PtspCode').dirty ||
+                  editPTSPForm.get('PtspCode').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editPTSPForm.get('PtspCode').hasError('required')
+                "
+              >
+                PTSP code is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="Ptspctmk"
+                type="text"
+                placeholder=" "
+                formControlName="Ptspctmk"
+              />
+              <label for="Ptspctmk">PTSP CTMK (Master Key)</label>
+            </span>
+            <div
+              *ngIf="
+                editPTSPForm.get('Ptspctmk').errors &&
+                (editPTSPForm.get('Ptspctmk').dirty ||
+                  editPTSPForm.get('Ptspctmk').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editPTSPForm.get('Ptspctmk').hasError('required')
+                "
+              >
+                Master key is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="Ptspctmkkcv"
+                type="text"
+                placeholder=" "
+                formControlName="Ptspctmkkcv"
+              />
+              <label for="Ptspctmkkcv">PTSPCTMK KCV (Key Check Value) </label>
+            </span>
+            <div
+              *ngIf="
+                editPTSPForm.get('Ptspctmkkcv').errors &&
+                (editPTSPForm.get('Ptspctmkkcv').dirty ||
+                  editPTSPForm.get('Ptspctmkkcv').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editPTSPForm.get('Ptspctmkkcv').hasError('required')
+                "
+              >
+                Key Check Value is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+   
+   
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="Ptspctmkblock"
+                type="text"
+                placeholder=" "
+                formControlName="Ptspctmkblock"
+              />
+              <label for="Ptspctmkblock">PTSPCTMK BLOCK</label>
+            </span>
+            <div
+              *ngIf="
+                editPTSPForm.get('Ptspctmkblock').errors &&
+                (editPTSPForm.get('Ptspctmkblock').dirty ||
+                  editPTSPForm.get('Ptspctmkblock').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editPTSPForm.get('Ptspctmkblock').hasError('required')
+                "
+              >
+                CTMK BLOCK is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <div class="">
+            <span class="has-float-label">
+              <input
+                class="form-control"
+                id="Ptspctmkblockkcv"
+                type="text"
+                placeholder=" "
+                formControlName="Ptspctmkblockkcv"
+              />
+              <label for="Ptspctmkblockkcv">PTSPCTMK BLOCK KCV</label>
+            </span>
+            <div
+              *ngIf="
+                editPTSPForm.get('Ptspctmkblockkcv').errors &&
+                (editPTSPForm.get('Ptspctmkblockkcv').dirty ||
+                  editPTSPForm.get('Ptspctmkblockkcv').touched)
+              "
+              class="validation-message"
+            >
+              <span
+                class="validation-message"
+                [hidden]="
+                  !editPTSPForm.get('Ptspctmkblockkcv').hasError('required')
+                "
+              >
+                Key Value Check is required
+                <br />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+   
+   
+      <!-- RELEVANT CODE HERE  -->
+
+      <div class="form_actions ">
+      
+        <button
+          class="btn action_button col-md-6"
+          (click)="updatePTSP()"
+          *ngIf="!isUpdating"
+          [disabled]="!editPTSPForm.valid"
+        >
+          <i class="fa fa-plus animated slideIn"></i>
+          Update PTSP
+        </button>
+
+        <div
+          class="spinner-border spinner-border-sm ml-3"
+          role="status"
+          *ngIf="isUpdating"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </form>
+
+
+
+  </div>
+</div>
+
+
+
+
