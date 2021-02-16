@@ -7,12 +7,15 @@
     >Personal Details</span
   >
   <span
-class="menu animated"
-routerLink="admin-settings"
-[routerLinkActive]="['active']">Admin Settings</span>
-
+    *ngIf="permissions.includes('CAN_CHANGE_SYSTEM_SETTINGS')"
+    class="menu animated"
+    routerLink="admin-settings"
+    [routerLinkActive]="['active']"
+    >Admin Settings</span
+  >
 
   <span
+    *ngIf="permissions.includes('CAN_CHANGE_PASSWORD')"
     class="menu animated"
     routerLink="manage-password"
     [routerLinkActive]="['active']"

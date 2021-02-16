@@ -19,8 +19,6 @@ import { FaqsComponent } from './pages/landing-page/faqs/faqs.component';
 import { FooterComponent } from './pages/landing-page/footer/footer.component';
 import { HomeComponent } from './pages/landing-page/home/home.component';
 import { LandingNavComponent } from './pages/landing-page/landing-nav/landing-nav.component';
-import { PrivacyPolicyComponent } from './pages/landing-page/privacy-policy/privacy-policy.component';
-import { TermsOfUseComponent } from './pages/landing-page/terms-of-use/terms-of-use.component';
 import { AdminSideNavComponent } from './pages/shared/components/admin-side-nav/admin-side-nav.component';
 import { AdminTopNavComponent } from './pages/shared/components/admin-top-nav/admin-top-nav.component';
 import { SharedModule } from './pages/shared/modules/shared.module';
@@ -52,8 +50,7 @@ import { ResolveTimeDifferncePipe } from './pages/shared/pipes/resolve-time-diff
     FooterComponent,
     HomeComponent,
     LandingNavComponent,
-    PrivacyPolicyComponent,
-    TermsOfUseComponent,
+
     AdminSideNavComponent,
     AdminTopNavComponent,
     // SanitizePermissionsPipe,

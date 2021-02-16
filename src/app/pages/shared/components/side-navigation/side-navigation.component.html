@@ -22,7 +22,12 @@
           <span class="link_text"> Dashboard </span>
         </span>
       </a>
-      <a [routerLinkActive]="['active']" routerLink="all-users" id="users">
+      <a
+        *ngIf="permissions.includes('CAN_MANAGE_USERS')"
+        [routerLinkActive]="['active']"
+        routerLink="all-users"
+        id="users"
+      >
         <span class="link">
           <span class="link_icon"
             ><img
@@ -34,7 +39,7 @@
         </span>
       </a>
       <a
-        *ngIf="permissions.includes('CAN_VIEW_TERMINAL')"
+        *ngIf="permissions.includes('CAN_VIEW_ALL_TERMINALS')"
         [routerLinkActive]="['active']"
         routerLink="terminals"
         id="terminals"
@@ -60,7 +65,12 @@
           <span class="link_text"> Merchants </span>
         </span>
       </a>
-      <a [routerLinkActive]="['active']" routerLink="acquirers" id="acquirer">
+      <a
+        *ngIf="permissions.includes('CAN_VIEW_CLIENTS')"
+        [routerLinkActive]="['active']"
+        routerLink="acquirers"
+        id="acquirer"
+      >
         <span class="link">
           <span class="link_icon"
             ><img
@@ -88,7 +98,7 @@
         </span>
       </a>
       <a
-        *ngIf="permissions.includes('CAN_VIEW_TRANSACTIONS')"
+        *ngIf="permissions.includes('CAN_VIEW_ALL_TRANSACTIONS')"
         [routerLinkActive]="['active']"
         routerLink="transactions"
         id="transactions"
@@ -107,6 +117,7 @@
         [routerLinkActive]="['active']"
         routerLink="settlements"
         id="settlememts"
+        *ngIf="permissions.includes('CAN_VIEW_ALL_REPORTS')"
       >
         <span class="link">
           <span class="link_icon"
@@ -119,7 +130,7 @@
         </span>
       </a>
       <a
-        *ngIf="permissions.includes('CAN_VIEW_ROUTING')"
+        *ngIf="permissions.includes('CAN_VIEW_ROUTING_RULES')"
         [routerLinkActive]="['active']"
         routerLink="routes"
         id="routes"

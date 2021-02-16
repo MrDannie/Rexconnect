@@ -26,6 +26,7 @@
       > -->
 
       <span
+        *ngIf="permissions.includes('CAN_MANAGE_ROUTING_RULES')"
         style="cursor: pointer"
         class="action_button_update"
         data-toggle="modal"

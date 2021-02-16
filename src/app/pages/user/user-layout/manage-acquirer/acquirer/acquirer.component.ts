@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
@@ -32,6 +33,7 @@ export class AcquirerComponent implements OnInit {
   isRefreshing: boolean;
   isFiltering: boolean;
   acquirerRecordsToDownload: any;
+  permissions: any;
   // allAcquirer: any;
 
   constructor(
@@ -40,7 +42,8 @@ export class AcquirerComponent implements OnInit {
     private alertService: AlertService,
     private paginationService: PaginationService,
     private userManagementService: UserManagementService,
-    private fileGenerationService: FileGenerationService
+    private fileGenerationService: FileGenerationService,
+    private storageService: StorageService
   ) {
     this.showFilter = false;
     this.showFilter = false;
@@ -59,6 +62,8 @@ export class AcquirerComponent implements OnInit {
 
     // GET PTSPS
     this.getPtsts();
+
+    this.getPermissions();
   }
 
   initializeForm() {
@@ -76,6 +81,10 @@ export class AcquirerComponent implements OnInit {
       ptsps: ['', Validators.compose([Validators.required])],
       routingRules: ['', Validators.compose([Validators.required])],
     });
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   // GET ALL ACQUIRER

@@ -20,7 +20,7 @@ export class ViewAllTerminalGuard implements CanActivate {
   ): boolean | Observable<boolean> | Promise<boolean> {
     const permissions = this.storageService.getPermissions();
 
-    if (permissions.includes('CAN_VIEW_ALL_TERMINAL')) {
+    if (permissions.includes('CAN_VIEW_ALL_TERMINALS')) {
       console.log('IT REACHED THE AUTH GUARD');
       return true;
     } else {

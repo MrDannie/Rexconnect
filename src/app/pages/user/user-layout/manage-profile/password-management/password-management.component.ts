@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { ProfileManagementService } from 'src/app/pages/shared/services/profile-management.service';
 
@@ -13,20 +14,26 @@ export class PasswordManagementComponent implements OnInit {
   changePasswordForm: FormGroup;
   validationMessage: any;
   isUserCreating = false;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private validationMessages: ValidationService,
     private profileMgt: ProfileManagementService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {
     this.validationMessage = this.validationMessages;
   }
 
   ngOnInit() {
     this.initializeForm();
+    this.getPermissions();
   }
 
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
+  }
   initializeForm() {
     this.changePasswordForm = this.formBuilder.group({
       oldPassword: ['', Validators.compose([Validators.required])],
@@ -42,7 +49,7 @@ export class PasswordManagementComponent implements OnInit {
     const val = {
       oldPassword: formValue.oldPassword,
       newPassword: formValue.newPassword,
-    }
+    };
 
     this.profileMgt.updatePassword(val).subscribe(
       (response) => {

@@ -134,9 +134,13 @@ export class AddAcquirerComponent implements OnInit {
     formValue.routingRules = this.routingRulesToBeAdded;
     formValue.ptsps = this.ptspsToAdd;
     formValue.ruleOrder = this.ruleOrder;
-    formValue.terminalPrefix = [
-      this.createAcquirerForm.get('terminalPrefix').value,
-    ];
+
+    let terminalPrefix = this.createAcquirerForm.get('terminalPrefix').value;
+    terminalPrefix = terminalPrefix.replace(/\s+/g, '');
+    terminalPrefix = terminalPrefix.split(',');
+
+    formValue.terminalPrefix = terminalPrefix;
+
     console.log('FORM VAL,', formValue);
 
     // ADD RULE

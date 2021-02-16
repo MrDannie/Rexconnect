@@ -69,14 +69,16 @@
     <div class="role_details_header">
       {{ selectedRole.name | uppercase }}
 
-      <div style="display: flex; align-items: center; justify-content: center">
+      <div
+        *ngIf="permissions.includes('CAN_MANAGE_ROLES')"
+        style="display: flex; align-items: center; justify-content: center"
+      >
         <span
           class="no_border_button"
           data-toggle="modal"
           data-target="#updateRole"
           data-backdrop="static"
           data-keyboard="false"
-          *ngIf="permissions.includes('CAN_MANAGE_ROLES')"
         >
           <i class="fa fa-pencil"></i>
           <span

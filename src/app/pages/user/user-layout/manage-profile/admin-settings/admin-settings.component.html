@@ -7,9 +7,8 @@
 </span> -->
 
 <div class="form_area">
-
-    <div class="form_header">Admin Settings</div>
-    <div class="form_sub_header">Manage your admin details</div>
+  <div class="form_header">Admin Settings</div>
+  <div class="form_sub_header">Manage your admin details</div>
 
   <form [formGroup]="updateSettingsForm">
     <div class="form-row">
@@ -50,7 +49,7 @@
               class="form-control"
               id="terminalPrefix"
               type="text"
-              placeholder=" "
+              placeholder="e.g. 1234, 2334, 3443"
               formControlName="terminalPrefix"
             />
             <label for="terminalPrefix">Terminal Prefix </label>
@@ -65,7 +64,9 @@
           >
             <span
               class="validation-message"
-              [hidden]="!updateSettingsForm.get('terminalPrefix').hasError('required')"
+              [hidden]="
+                !updateSettingsForm.get('terminalPrefix').hasError('required')
+              "
             >
               {{ validationMessage.terminalPrefix.required }}
               <br />
@@ -96,7 +97,9 @@
           >
             <span
               class="validation-message"
-              [hidden]="!updateSettingsForm.get('shortName').hasError('required')"
+              [hidden]="
+                !updateSettingsForm.get('shortName').hasError('required')
+              "
             >
               {{ validationMessage.shortName.required }}
               <br />
@@ -106,7 +109,6 @@
       </div>
     </div>
     <div class="form-row">
-    
       <div class="form-group col-md-4">
         <div class="form-group">
           <span class="has-float-label">
@@ -138,7 +140,6 @@
         </div>
       </div>
 
-
       <div class="form-group col-md-4">
         <div class="form-group">
           <span class="has-float-label">
@@ -162,7 +163,9 @@
           >
             <span
               class="validation-message"
-              [hidden]="!updateSettingsForm.get('currencyCode').hasError('required')"
+              [hidden]="
+                !updateSettingsForm.get('currencyCode').hasError('required')
+              "
             >
               {{ validationMessage.currencyCode.required }}
               <br />
@@ -170,8 +173,6 @@
           </div>
         </div>
       </div>
-
-
 
       <div class="form-group col-md-4">
         <div class="form-group">
@@ -196,7 +197,9 @@
           >
             <span
               class="validation-message"
-              [hidden]="!updateSettingsForm.get('bankCode').hasError('required')"
+              [hidden]="
+                !updateSettingsForm.get('bankCode').hasError('required')
+              "
             >
               {{ validationMessage.bankCode.required }}
               <br />
@@ -207,9 +210,6 @@
     </div>
 
     <div class="form-row">
-  
-
-
       <div class="form-group col-md-6">
         <div class="form-group">
           <span class="has-float-label">
@@ -232,7 +232,9 @@
           >
             <span
               class="validation-message"
-              [hidden]="!updateSettingsForm.get('location').hasError('required')"
+              [hidden]="
+                !updateSettingsForm.get('location').hasError('required')
+              "
             >
               {{ validationMessage.location.required }}
               <br />
@@ -240,7 +242,6 @@
           </div>
         </div>
       </div>
-
 
       <div class="form-group col-md-6">
         <div class="form-group">
@@ -272,9 +273,6 @@
           </div>
         </div>
       </div>
-
-
-    
     </div>
     <div class="row">
       <div class="form-group col-md-12">
@@ -299,7 +297,9 @@
           >
             <span
               class="validation-message"
-              [hidden]="!updateSettingsForm.get('logo_url').hasError('required')"
+              [hidden]="
+                !updateSettingsForm.get('logo_url').hasError('required')
+              "
             >
               {{ validationMessage.logo_url.required }}
               <br />
@@ -310,38 +310,25 @@
     </div>
 
     <div class="row">
-
       <label class="container"
-      ><span>Auto Generate Merchant ID</span>
-      <input
-        type="checkbox"
-        id="auto_mid"
-        formControlName="auto_mid"
-
-      />
-      <span class="checkmark"></span>
-    </label>
+        ><span>Auto Generate Merchant ID</span>
+        <input type="checkbox" id="auto_mid" formControlName="auto_mid" />
+        <span class="checkmark"></span>
+      </label>
     </div>
-
 
     <div class="row">
       <label class="container"
-      ><span>Auto Generate Terminal ID</span>
-      <input
-        type="checkbox"
-        id="auto_tid"
-        formControlName="auto_tid"
-      />
-      <span class="checkmark"></span>
-    </label>
-
+        ><span>Auto Generate Terminal ID</span>
+        <input type="checkbox" id="auto_tid" formControlName="auto_tid" />
+        <span class="checkmark"></span>
+      </label>
     </div>
     <div class="form_actions">
       <button
         class="btn action_button"
-        *ngIf="!isUpdating"
         (click)="updateSettings(updateSettingsForm.value)"
-        [disabled]="!updateSettingsForm.valid"
+        [disabled]="!updateSettingsForm.valid || isUpdating"
       >
         Save Changes
       </button>

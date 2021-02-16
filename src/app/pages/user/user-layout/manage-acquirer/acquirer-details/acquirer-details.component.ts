@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 
 @Component({
@@ -19,11 +20,13 @@ export class AcquirerDetailsComponent implements OnInit {
   // Component specific data
   acquirerId: any;
   acquirer: any;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private acquirerService: AcquirerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private storageService: StorageService
   ) {
     this.showFilter = false;
     this.expression = false;
@@ -35,6 +38,12 @@ export class AcquirerDetailsComponent implements OnInit {
     this.acquirerId = this.route.snapshot.params.id;
     console.log('ACQUIRER ID', this.acquirerId);
     this.getSingleAcquirer(this.acquirerId);
+
+    this.getPermissions();
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   getSingleAcquirer(acquirerId) {

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { PtspsService } from '../ptsps.service';
 
@@ -40,12 +41,14 @@ export class PtspsComponent implements OnInit {
   allPtsps: any;
   dataCount: any;
   selectedValue: any;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private ptspService: PtspsService,
     private paginationService: PaginationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {
     this.isCSVLoading = false;
     this.showFilter = false;
@@ -62,6 +65,8 @@ export class PtspsComponent implements OnInit {
     this.isCreating = false;
     this.getAllPtsps();
     this.setPageSizeId.nativeElement.value = this.pageSize;
+
+    this.getPermissions();
   }
 
   initializeForm() {
@@ -78,6 +83,10 @@ export class PtspsComponent implements OnInit {
       Ptspctmkblockkcv: ['', Validators.compose([Validators.required])],
       Ptspctmkkcv: ['', Validators.compose([Validators.required])],
     });
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   createPTSP() {

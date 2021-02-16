@@ -20,7 +20,7 @@ export class ViewAllReportsGuard implements CanActivate {
   ): boolean | Observable<boolean> | Promise<boolean> {
     const permissions = this.storageService.getPermissions();
 
-    if (permissions.includes('CAN_VIEW_ALL_REPORT')) {
+    if (permissions.includes('CAN_VIEW_ALL_REPORTS')) {
       console.log('IT REACHED THE AUTH GUARD');
       return true;
     } else {

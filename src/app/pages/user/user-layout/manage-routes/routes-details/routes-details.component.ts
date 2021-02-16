@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 
 declare var $: any;
@@ -22,11 +23,13 @@ export class RoutesDetailsComponent implements OnInit {
   disablingRoute: boolean;
   routeName: string;
   createdAt: any;
+  permissions: any;
 
   constructor(
     private routingCompService: RouteComponentService,
     private route: ActivatedRoute,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
@@ -47,6 +50,12 @@ export class RoutesDetailsComponent implements OnInit {
         console.log(error);
         this.alertService.error(error);
       };
+
+    this.getPermissions();
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   disableRoute(routeId) {

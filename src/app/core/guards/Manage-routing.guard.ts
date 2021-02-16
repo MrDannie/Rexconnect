@@ -20,7 +20,7 @@ export class ManageRoutingGuard implements CanActivate {
   ): boolean | Observable<boolean> | Promise<boolean> {
     const permissions = this.storageService.getPermissions();
 
-    if (permissions.includes('CAN_MANAGE_ROUTING')) {
+    if (permissions.includes('CAN_VIEW_ROUTING_RULES')) {
       console.log('IT REACHED THE AUTH GUARD');
       return true;
     } else {

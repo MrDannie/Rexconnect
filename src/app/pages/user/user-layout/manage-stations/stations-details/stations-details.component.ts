@@ -3,9 +3,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { StationsService } from '../stations.service';
 
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-stations-details',
@@ -16,30 +17,38 @@ export class StationsDetailsComponent implements OnInit {
   showFilter: boolean;
   private route$: Subscription;
 
-
-
   editStationForm: any;
   stationId: any;
   stationDetails: any;
   isLoading = true;
   isDisabling = false;
   isEnabling = false;
+  permissions: any;
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,
-     private router: Router, private stationsService: StationsService, private alertService: AlertService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private stationsService: StationsService,
+    private alertService: AlertService,
+    private storageService: StorageService
+  ) {
     this.showFilter = false;
+  }
 
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   ngOnInit() {
     this.route$ = this.route.params.subscribe((params: Params) => {
-      this.stationId = params["id"];
+      this.stationId = params['id'];
       console.log(this.stationId);
     });
     this.getStationDetails();
+
+    this.getPermissions();
   }
-
-
 
   getStationDetails() {
     this.stationsService.getStation(this.stationId).subscribe(
