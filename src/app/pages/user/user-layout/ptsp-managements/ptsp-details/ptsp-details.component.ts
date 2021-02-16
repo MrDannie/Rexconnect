@@ -3,15 +3,15 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { PtspsService } from '../ptsps.service';
-
 
 declare var $: any;
 
 @Component({
   selector: 'app-ptsp-details',
   templateUrl: './ptsp-details.component.html',
-  styleUrls: ['./ptsp-details.component.scss']
+  styleUrls: ['./ptsp-details.component.scss'],
 })
 export class PtspDetailsComponent implements OnInit {
   showFilter: boolean;
@@ -21,24 +21,33 @@ export class PtspDetailsComponent implements OnInit {
   isLoading = true;
   isDisabling = false;
   isEnabling = false;
+  permissions: any;
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,
-     private router: Router, private ptspService: PtspsService, private alertService: AlertService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private ptspService: PtspsService,
+    private alertService: AlertService,
+    private storageService: StorageService
+  ) {
     this.showFilter = false;
+  }
 
-
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   ngOnInit() {
     this.route$ = this.route.params.subscribe((params: Params) => {
-      this.ptspId = params["id"];
+      this.ptspId = params['id'];
       console.log(this.ptspId);
     });
     this.getPTSPDetails();
+
+    this.getPermissions();
   }
 
-  
-  
   getPTSPDetails() {
     this.ptspService.getPTSP(this.ptspId).subscribe(
       (res) => {
@@ -89,4 +98,3 @@ export class PtspDetailsComponent implements OnInit {
     );
   }
 }
-

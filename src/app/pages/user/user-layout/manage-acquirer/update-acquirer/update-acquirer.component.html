@@ -1,5 +1,8 @@
 <div class="top_buttons">
-  <span class="back_button" routerLink="../../routes">
+  <span
+    class="back_button"
+    routerLink="../../{{ acquirerId }}/acquirer-details"
+  >
     <i class="fa fa-long-arrow-left"></i> Return to Acquirer List
   </span>
 </div>
@@ -124,7 +127,7 @@
               class="form-control"
               id="terminalPrefix"
               type="text"
-              placeholder=" "
+              placeholder="e.g. 2423, 2223, 3455 "
               formControlName="terminalPrefix"
             />
             <label for="terminalPrefix">Aquirer's Terminal Prefix</label>

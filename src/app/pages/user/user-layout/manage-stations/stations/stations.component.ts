@@ -4,6 +4,7 @@ import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { StationsService } from '../stations.service';
 import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 
 declare var $: any;
 @Component({
@@ -39,12 +40,14 @@ export class StationsComponent implements OnInit {
   allStations: any;
   dataCount: any;
   selectedValue: any;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private stationsService: StationsService,
     private paginationService: PaginationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {
     this.isCSVLoading = false;
     this.showFilter = false;
@@ -61,8 +64,13 @@ export class StationsComponent implements OnInit {
     this.isCreating = false;
     this.getAllStations();
     this.setPageSizeId.nativeElement.value = this.pageSize;
+
+    this.getPermissions();
   }
 
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
+  }
   initializeForm() {
     this.searchForm = this.formBuilder.group({
       name: '',

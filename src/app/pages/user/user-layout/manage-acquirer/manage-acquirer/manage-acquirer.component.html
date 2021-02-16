@@ -13,7 +13,7 @@
       <span class="date">{{ createdAt | date: "medium" }}</span>
       <span class="status"> Status: {{ acquirerStatus | titlecase }}</span>
     </div>
-    <div>
+    <div *ngIf="permissions.includes('CAN_MANAGE_CLIENTS')">
       <span
         style="cursor: pointer"
         *ngIf="acquirerStatus === 'ACTIVE'"
@@ -53,6 +53,7 @@
         class="menu animated"
         routerLink="./acquirer-routes"
         [routerLinkActive]="['active']"
+        *ngIf="permissions.includes('CAN_VIEW_CLIENT_ROUTING_RULES')"
       >
         Routes</span
       >
@@ -60,6 +61,7 @@
         class="menu animated"
         routerLink="./acquirer-ptsps"
         [routerLinkActive]="['active']"
+        *ngIf="permissions.includes('CAN_VIEW_CLIENT_PTSPS')"
       >
         Ptsps</span
       >

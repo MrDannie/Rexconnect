@@ -20,7 +20,7 @@ export class ManageUserRoleGuardGuard implements CanActivate {
   ): boolean | Observable<boolean> | Promise<boolean> {
     const permissions = this.storageService.getPermissions();
 
-    if (permissions.includes('CAN_MANAGE_ROLE')) {
+    if (permissions.includes('CAN_MANAGE_ROLES')) {
       console.log('IT REACHED THE AUTH GUARD');
       return true;
     } else {

@@ -6,7 +6,10 @@
         <span>Acquirer</span>
       </div>
 
-      <div class="button_header_section">
+      <div
+        *ngIf="permissions.includes('CAN_MANAGE_CLIENTS')"
+        class="button_header_section"
+      >
         <button class="btn action_button" routerLink="./add-acquirer">
           <i class="fa fa-plus animated slideIn"></i>
           Add Acquirer

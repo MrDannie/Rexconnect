@@ -55,7 +55,7 @@ export class UpdateAcquirerComponent implements OnInit {
       clientLocation: ['', Validators.compose([Validators.required])],
       clientAddress: ['', Validators.compose([Validators.required])],
       currencyCode: ['', Validators.compose([Validators.required])],
-      terminalPrefix: [[''], Validators.compose([Validators.required])],
+      terminalPrefix: ['', Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
       // ruleOrder: ['', Validators.compose([Validators.required])],
       // ptsps: ['', Validators.compose([Validators.required])],
@@ -212,9 +212,13 @@ export class UpdateAcquirerComponent implements OnInit {
     formValue.routingRules = this.routingRulesToBeAdded;
     formValue.ptsps = this.ptspsToAdd;
     formValue.ruleOrder = this.ruleOrder;
-    formValue.terminalPrefix = [
-      this.editAcquirerForm.get('terminalPrefix').value,
-    ];
+
+    let terminalPrefix = this.editAcquirerForm.get('terminalPrefix').value;
+    terminalPrefix = terminalPrefix.replace(/\s+/g, '');
+    terminalPrefix = terminalPrefix.split(',');
+
+    formValue.terminalPrefix = terminalPrefix;
+
     console.log('FORM VAL,', formValue);
 
     // ADD RULE

@@ -20,7 +20,7 @@ export class ManageMerchantGuard implements CanActivate {
   ): boolean | Observable<boolean> | Promise<boolean> {
     const permissions = this.storageService.getPermissions();
 
-    if (permissions.includes('CAN_MANAGE_MERCHANT')) {
+    if (permissions.includes('CAN_MANAGE_MERCHANTS')) {
       console.log('IT REACHED THE AUTH GUARD');
       return true;
     } else {

@@ -20,7 +20,7 @@ export class ViewTransactionsGuard implements CanActivate {
   ): boolean | Observable<boolean> | Promise<boolean> {
     const permissions = this.storageService.getPermissions();
 
-    if (permissions.includes('CAN_VIEW_TRANSACTIONS')) {
+    if (permissions.includes('CAN_VIEW_ALL_TRANSACTIONS')) {
       console.log('IT REACHED THE AUTH GUARD');
       return true;
     } else {

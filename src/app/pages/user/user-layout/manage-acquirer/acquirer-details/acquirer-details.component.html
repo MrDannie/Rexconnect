@@ -62,6 +62,7 @@
         </div>
       </div> -->
       <button
+        *ngIf="permissions.includes('CAN_MANAGE_CLIENTS')"
         class="btn action_button_update"
         data-toggle="modal"
         data-target="#editAcquirer"
