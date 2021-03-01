@@ -29,7 +29,7 @@ phases:
         #- npm run build $BUILD_ENV
         - npm run build -- --prod --aot=false --build-optimizer=false --configuration $BUILD_ENV
         #- npm run build 
-        - cd dist/fp
+        - cd dist
         - ls -al 
         - aws s3 sync . s3://$BUCKET_NAME --delete  
         - aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
