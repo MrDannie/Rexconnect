@@ -1,5 +1,5 @@
 #building angular App
-FROM node:8.12.0 as node
+FROM public.ecr.aws/bitnami/node:8.17.0-prod as node
 WORKDIR /app
 COPY package.json /app/
 RUN npm install
@@ -8,7 +8,7 @@ ARG IMAGE_TAG=dev
 RUN npm run build -- --prod --configuration $IMAGE_TAG
 
 # building nginx
-FROM nginx:1.12.2-alpine
+FROM public.ecr.aws/nginx/nginx:stable-alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=node /app/dist/rexconnect-ui/ /usr/share/nginx/html
