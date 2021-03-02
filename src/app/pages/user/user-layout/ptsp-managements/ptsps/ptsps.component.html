@@ -173,6 +173,10 @@
         </tr>
       </tbody>
     </table>
+
+    <span class="empty-state" *ngIf="!isLoading && allPtsps?.length === 0"
+      >No Records Found</span
+    >
   </div>
 </div>
 

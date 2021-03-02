@@ -12,7 +12,7 @@ import { StorageService } from '../helpers/storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ManageRoutingGuard implements CanActivate {
+export class ViewRoutingGuard implements CanActivate {
   constructor(private storageService: StorageService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,

@@ -20,7 +20,7 @@ export class ViewPtspsGuard implements CanActivate {
   ): boolean | Observable<boolean> | Promise<boolean> {
     const permissions = this.storageService.getPermissions();
 
-    if (permissions.includes('CAN_MANAGE_PTSPS')) {
+    if (permissions.includes('CAN_VIEW_PTSPS')) {
       console.log('IT REACHED THE AUTH GUARD');
       return true;
     } else {

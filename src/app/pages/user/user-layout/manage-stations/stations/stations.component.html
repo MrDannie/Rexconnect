@@ -170,6 +170,9 @@
         </tr>
       </tbody>
     </table>
+    <span class="empty-state" *ngIf="!isLoading && allStations?.length === 0"
+      >No Records Found</span
+    >
   </div>
 </div>
 
