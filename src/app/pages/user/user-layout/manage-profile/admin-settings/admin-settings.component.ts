@@ -66,6 +66,7 @@ export class AdminSettingsComponent implements OnInit {
       address: ['', Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
       bankCode: ['', Validators.compose([Validators.required])],
+      email: ['', Validators.compose([Validators.required])],
     });
   }
 

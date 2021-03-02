@@ -57,6 +57,7 @@ export class UpdateAcquirerComponent implements OnInit {
       currencyCode: ['', Validators.compose([Validators.required])],
       terminalPrefix: ['', Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
+      email: ['', Validators.compose([Validators.required])],
       // ruleOrder: ['', Validators.compose([Validators.required])],
       // ptsps: ['', Validators.compose([Validators.required])],
       // routingRules: ['', Validators.compose([Validators.required])],
@@ -90,11 +91,9 @@ export class UpdateAcquirerComponent implements OnInit {
       clientLocation: this.acquirerToBeUpdated.clientLocation,
       clientAddress: this.acquirerToBeUpdated.clientAddress,
       currencyCode: this.acquirerToBeUpdated.currencyCode,
-      terminalPrefix: [this.acquirerToBeUpdated.terminalPrefix],
+      terminalPrefix: this.acquirerToBeUpdated.terminalPrefix,
       shortName: this.acquirerToBeUpdated.shortName,
-      ruleOrder: '',
-      ptsps: '',
-      routingRules: '',
+      email: this.acquirerToBeUpdated.email,
     });
 
     console.log('HERHE IS EDIT ACQUIRER FORM', this.editAcquirerForm.value);
@@ -214,6 +213,8 @@ export class UpdateAcquirerComponent implements OnInit {
     formValue.ruleOrder = this.ruleOrder;
 
     let terminalPrefix = this.editAcquirerForm.get('terminalPrefix').value;
+    console.log(terminalPrefix);
+
     terminalPrefix = terminalPrefix.replace(/\s+/g, '');
     terminalPrefix = terminalPrefix.split(',');
 

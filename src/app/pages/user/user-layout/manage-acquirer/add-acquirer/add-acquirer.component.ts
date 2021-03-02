@@ -50,6 +50,7 @@ export class AddAcquirerComponent implements OnInit {
 
       terminalPrefix: [[''], Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
+      email: ['', Validators.required],
       // ruleOrder: ['', Validators.compose([Validators.required])],
       // ptsps: ['', Validators.compose([Validators.required])],
       // routingRules: ['', Validators.compose([Validators.required])],
