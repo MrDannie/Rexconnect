@@ -18,15 +18,14 @@ import { UserManagementModule } from './pages/user/user-layout/user-management/u
 import { ManageProfileModule } from './pages/user/user-layout/manage-profile/manage-profile.module';
 import { LoginGuard } from './core/guards/login.guard';
 import { ViewTransactionsGuard } from './core/guards/view-transactions.guard';
-import { ManageUsersGuard } from './core/guards/manage-users.guard';
-import { ManageMerchantGuard } from './core/guards/manage-merchant.guard';
 import { ViewAllTerminalGuard } from './core/guards/view-all-terminal.guard';
 import { ViewPtspsGuard } from './core/guards/view-ptsps.guard';
 import { ViewClientsGuard } from './core/guards/view-clients.guard';
-import { ManageStationsGuard } from './core/guards/Manage-stations.guard';
-import { ManageRoutingGuard } from './core/guards/Manage-routing.guard';
-import { ManageClientsGuard } from './core/guards/Manage-clients.guard';
+import { ViewStationsGuard } from './core/guards/Manage-stations.guard';
+import { ViewRoutingGuard } from './core/guards/Manage-routing.guard';
 import { RecoverPasswordComponent } from './pages/landing-page/authentication/recover-password/recover-password.component';
+import { ViewUsersGuard } from './core/guards/manage-users.guard';
+import { ViewMerchantGuard } from './core/guards/manage-merchant.guard';
 
 const routes: Routes = [
   {
@@ -67,7 +66,7 @@ const routes: Routes = [
       },
       {
         path: 'all-users',
-        canActivate: [ManageUsersGuard],
+        canActivate: [ViewUsersGuard],
         loadChildren:
           './pages/user/user-layout/user-management/user-management.module#UserManagementModule',
       },
@@ -85,13 +84,13 @@ const routes: Routes = [
       },
       {
         path: 'merchants',
-        canActivate: [ManageMerchantGuard],
+        canActivate: [ViewMerchantGuard],
         loadChildren:
           './pages/user/user-layout/manage-merchant/manage-merchant.module#ManageMerchantModule',
       },
       {
         path: 'acquirers',
-        canActivate: [ManageClientsGuard],
+        canActivate: [ViewClientsGuard],
         loadChildren:
           './pages/user/user-layout/manage-acquirer/manage-acquirer.module#ManageAcquirerModule',
       },
@@ -103,13 +102,13 @@ const routes: Routes = [
       },
       {
         path: 'stations',
-        canActivate: [ManageStationsGuard],
+        canActivate: [ViewStationsGuard],
         loadChildren:
           './pages/user/user-layout/manage-stations/manage-stations.module#ManageStationsModule',
       },
       {
         path: 'routes',
-        canActivate: [ManageRoutingGuard],
+        canActivate: [ViewRoutingGuard],
         loadChildren:
           './pages/user/user-layout/manage-routes/manage-routes.module#ManageRoutesModule',
       },

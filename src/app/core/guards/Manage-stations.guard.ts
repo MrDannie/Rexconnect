@@ -12,7 +12,7 @@ import { StorageService } from '../helpers/storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ManageStationsGuard implements CanActivate {
+export class ViewStationsGuard implements CanActivate {
   constructor(private storageService: StorageService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -20,7 +20,7 @@ export class ManageStationsGuard implements CanActivate {
   ): boolean | Observable<boolean> | Promise<boolean> {
     const permissions = this.storageService.getPermissions();
 
-    if (permissions.includes('CAN_MANAGE_STATIONS')) {
+    if (permissions.includes('CAN_VIEW_STATIONS')) {
       console.log('IT REACHED THE AUTH GUARD');
       return true;
     } else {

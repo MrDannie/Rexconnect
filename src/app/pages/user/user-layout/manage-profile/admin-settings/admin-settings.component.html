@@ -273,6 +273,36 @@
           </div>
         </div>
       </div>
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="email"
+              type="text"
+              placeholder=" "
+              formControlName="email"
+            />
+            <label for="email">Email</label>
+          </span>
+          <div
+            *ngIf="
+              updateSettingsForm.get('email').errors &&
+              (updateSettingsForm.get('email').dirty ||
+                updateSettingsForm.get('email').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!updateSettingsForm.get('email').hasError('required')"
+            >
+              Email is required
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="form-group col-md-12">

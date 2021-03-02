@@ -252,6 +252,36 @@
           </div>
         </div>
       </div>
+      <div class="form-group col-md-4">
+        <div class="">
+          <span class="has-float-label">
+            <input
+              class="form-control"
+              id="email"
+              type="text"
+              placeholder=" "
+              formControlName="email"
+            />
+            <label for="email">Email</label>
+          </span>
+          <div
+            *ngIf="
+              editAcquirerForm.get('email').errors &&
+              (editAcquirerForm.get('email').dirty ||
+                editAcquirerForm.get('email').touched)
+            "
+            class="validation-message"
+          >
+            <span
+              class="validation-message"
+              [hidden]="!editAcquirerForm.get('email').hasError('required')"
+            >
+              Acquirer email is required
+              <br />
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
     <hr />
 

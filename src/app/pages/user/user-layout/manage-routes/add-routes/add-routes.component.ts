@@ -25,7 +25,8 @@ export class AddRoutesComponent implements OnInit {
     private routingCompService: RouteComponentService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -86,6 +87,7 @@ export class AddRoutesComponent implements OnInit {
       .subscribe(
         (response) => {
           this.isAddingRoute = false;
+          this.router.navigate(['../../../user/routes']);
           this.alertService.success(response.message, true);
         },
         (error) => {
