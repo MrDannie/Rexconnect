@@ -54,7 +54,12 @@
           <span class="link_text"> Terminals </span>
         </span>
       </a>
-      <a [routerLinkActive]="['active']" routerLink="merchants" id="merchants">
+      <a
+        *ngIf="permissions.includes('CAN_MANAGE_MERCHANTS')"
+        [routerLinkActive]="['active']"
+        routerLink="merchants"
+        id="merchants"
+      >
         <span class="link">
           <span class="link_icon"
             ><img

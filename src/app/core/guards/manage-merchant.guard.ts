@@ -12,7 +12,7 @@ import { StorageService } from '../helpers/storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ManageMerchantGuard implements CanActivate {
+export class ViewMerchantGuard implements CanActivate {
   constructor(private storageService: StorageService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
