@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -23,7 +24,8 @@ export class AddAcquirerComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private acquirerService: AcquirerService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) {
     this.showDropdown = false;
   }
@@ -149,6 +151,7 @@ export class AddAcquirerComponent implements OnInit {
       (response) => {
         this.isAddingAcquirer = false;
         this.alertService.success('Acquirer Created Successfully ', true);
+        this.router.navigate(['../user/acquirers/']);
         console.log('SUCEESS', response);
       },
       (error) => {
