@@ -125,11 +125,15 @@
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white" type="button" (click)="showFilter = false">
+          <button
+            class="btn button-white"
+            type="button"
+            (click)="showFilter = false"
+          >
             Close
           </button>
 
-          <button class="btn button-pink" type="submit" >
+          <button class="btn button-pink" type="submit">
             Apply Filters
 
             <div
@@ -193,7 +197,7 @@
           <td>{{ txn.rrn }}</td>
           <td>{{ txn.stan }}</td>
           <td>{{ txn.pan }}</td>
-          <td>&#8358;{{ txn.amount }}</td>
+          <td>{{ txn.amount }}</td>
           <td>{{ txn.currencyCode }} ({{ txn.currencyAlpha }})</td>
 
           <td>{{ txn.type }}</td>
@@ -216,10 +220,11 @@
   </div>
 </div>
 
-<span
-      class="show-results-span"
-      *ngIf="!hasError"
-    >Showing results between <span class="color-red">{{ dateValues.startDate }}</span> and <span class="color-red">{{ dateValues.endDate }}</span></span>
+<span class="show-results-span" *ngIf="!hasError"
+  >Showing results between
+  <span class="color-red">{{ dateValues.startDate }}</span> and
+  <span class="color-red">{{ dateValues.endDate }}</span></span
+>
 
 <app-rex-pagination
   [data]="transactions"
