@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -30,7 +31,8 @@ export class UpdateAcquirerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private acquirerService: AcquirerService,
     private route: ActivatedRoute,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) {
     this.showDropdown = false;
   }
@@ -227,6 +229,10 @@ export class UpdateAcquirerComponent implements OnInit {
       (response) => {
         this.isAddingAcquirer = false;
         this.alertService.success('Acquirer updated sucessfully', true);
+        this.router.navigate([
+          '../../../../user/acquirers/' + this.acquirerId + '/acquirer-details',
+        ]);
+
         console.log('SUCEESS', response);
       },
       (error) => {

@@ -44,6 +44,7 @@
         Details</span
       >
       <span
+        *ngIf="permissions.includes('CAN_VIEW_CLIT_PTSPS')"
         class="menu"
         routerLink="acquirer-fee-sharing"
         [routerLinkActive]="['active']"

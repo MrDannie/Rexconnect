@@ -142,6 +142,10 @@ export class EditRoutesComponent implements OnInit {
           console.log('RESponse AFER EDITTED', response);
           this.isUpdatingRoute = false;
           this.alertService.success('Routing Rule Updated Successfully', true);
+          this.router.navigate([
+            '../../../../user/routes/route-details/' + this.routeId,
+          ]);
+
           // this.router.navigate(['../../route-details', this.routeId]);
         },
         (error) => {
