@@ -130,11 +130,8 @@ export class ManageUserComponent implements OnInit {
         console.log('list', this.listOfMerchantRoles);
       },
       (e) => {
-        this.errorHandler.customClientErrors(
-          'Unable to get users',
-          e.error.error.code,
-          e.error.error.responseMessage
-        );
+        this.alertService.error(e);
+
         this.paginationService.pagerState.next(null);
       }
     );
@@ -153,11 +150,8 @@ export class ManageUserComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
-        this.errorHandler.customClientErrors(
-          'Unable to create user',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+
+        this.alertService.error(error);
         console.log('Error Occured in Adding user', error);
       }
     );
@@ -232,11 +226,8 @@ export class ManageUserComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
-        this.errorHandler.customClientErrors(
-          'Unable to delete user',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+        this.alertService.error(error);
+
         console.log('Error Occured in Deleting user', error);
       }
     );
@@ -298,11 +289,8 @@ export class ManageUserComponent implements OnInit {
         },
         (error) => {
           this.isLoading = false;
-          this.errorHandler.customClientErrors(
-            'Unable to create user',
-            error.error.error.code,
-            error.error.error.responseMessage
-          );
+          this.alertService.error(error);
+
           console.log('ERROR IN UPDATING USER', error);
         }
       );

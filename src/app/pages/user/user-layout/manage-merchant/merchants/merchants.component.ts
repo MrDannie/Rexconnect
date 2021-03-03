@@ -97,11 +97,8 @@ export class MerchantsComponent implements OnInit {
           this.isLoading = false;
           this.isFiltering = false;
           this.paginationService.pagerState.next(null);
-          this.errorHandler.customClientErrors(
-            'Error occurred while getting merchants',
-            error.error.error.code,
-            error.error.error.responseMessage
-          );
+
+          this.alertService.error(error);
         }
       );
   }
@@ -353,11 +350,7 @@ export class MerchantsComponent implements OnInit {
       },
       (error) => {
         this.isCreatingMerchant = false;
-        this.errorHandler.customClientErrors(
-          'Error occurred while creating merchant',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+        this.alertService.error(error);
       }
     );
   }

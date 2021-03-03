@@ -99,11 +99,7 @@ export class TerminalsComponent implements OnInit {
         (e) => {
           this.isLoaded = true;
           this.isLoading = false;
-          this.errorHandler.customClientErrors(
-            'Failed to get terminals',
-            e.error.error.code,
-            e.error.error.responseMessage
-          );
+          this.alerts.error(e);
           this.paginationService.pagerState.next(null);
         }
       );
@@ -235,12 +231,8 @@ export class TerminalsComponent implements OnInit {
         this.alerts.success('Terminal Created Successfully');
       },
       (e) => {
-        this.errorHandler.customClientErrors(
-          'Failed to create terminal',
-          e.error.error.code,
-          e.error.error.responseMessage
-        );
         this.isAddingTerminal = false;
+        this.alerts.error(e);
       }
     );
   }
