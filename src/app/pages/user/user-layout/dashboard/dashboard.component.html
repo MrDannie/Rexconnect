@@ -1,6 +1,8 @@
 <div class="header my-5">
-  <h2 class="header__text">Hi, {{currentUser.firstName | titlecase}}</h2>
-  <span class="sub-head mb-3">Here is an overview of recent activities within your account</span>
+  <h2 class="header__text">Hi, {{ currentUser.firstName | titlecase }}</h2>
+  <span class="sub-head mb-3"
+    >Here is an overview of recent activities within your account</span
+  >
 </div>
 
 <section>
@@ -9,8 +11,12 @@
       <div class="terminals card">
         <div class="card-body">
           <div class="flex">
-            <span>Terminals</span><span class="img-span" style="background-color: #cee1ff"><img
-                src="../../../../../assets/images/pos-terminal (1).svg" alt="" /></span>
+            <span>Terminals</span
+            ><span class="img-span" style="background-color: #cee1ff"
+              ><img
+                src="../../../../../assets/images/pos-terminal (1).svg"
+                alt=""
+            /></span>
           </div>
           <h2 *ngIf="dashboardCount" class="header__text_number">
             {{ dashboardCount.terminalCounts }}
@@ -23,8 +29,9 @@
         <div class="card-body">
           <div class="flex">
             <span>Merchants</span>
-            <span class="img-span" style="background-color: #ffc1c4"><img
-                src="../../../../../assets/images/users (2).svg" alt="go" /></span>
+            <span class="img-span" style="background-color: #ffc1c4"
+              ><img src="../../../../../assets/images/users (2).svg" alt="go"
+            /></span>
           </div>
           <h2 *ngIf="dashboardCount" class="header__text_number">
             {{ dashboardCount.merchantCounts }}
@@ -37,10 +44,13 @@
         <div class="card-body">
           <div class="flex">
             <span>Total Transactions</span>
-            <span class="img-span" style="background-color: #c2fff3"><img
-                src="../../../../../assets/images/credit-card (7).svg" alt="go" /></span>
+            <span class="img-span" style="background-color: #c2fff3"
+              ><img
+                src="../../../../../assets/images/credit-card (7).svg"
+                alt="go"
+            /></span>
           </div>
-          <h2 *ngIf="dashboardCount" class=" header__text_number">
+          <h2 *ngIf="dashboardCount" class="header__text_number">
             {{ dashboardCount.transactionCounts }}
           </h2>
         </div>
@@ -51,10 +61,13 @@
         <div class="card-body">
           <div class="flex">
             <span>Mobile Transactions</span>
-            <span class="img-span" style="background-color: #ffe6c5"><img
-                src="../../../../../assets/images/smartphone (3).svg" alt="go" /></span>
+            <span class="img-span" style="background-color: #ffe6c5"
+              ><img
+                src="../../../../../assets/images/smartphone (3).svg"
+                alt="go"
+            /></span>
           </div>
-          <h2 *ngIf="dashboardCount" class=" header__text_number">
+          <h2 *ngIf="dashboardCount" class="header__text_number">
             {{ dashboardCount.mobileMoneyCounts }}
           </h2>
         </div>
@@ -69,7 +82,9 @@
       <div class="top-terminal-table card">
         <div class="card-body">
           <h6 class="header__text">Top Terminals</h6>
-          <span class="sub-head mb-3">These are the top transacting terminals in the past 24 hours</span>
+          <span class="sub-head mb-3"
+            >These are the top transacting terminals in the past 24 hours</span
+          >
           <table class="table table-sm">
             <thead class="thead-light">
               <tr>
@@ -82,9 +97,8 @@
               <tr *ngFor="let terminals of topTerminalStatistics">
                 <td>{{ terminals.name }}</td>
                 <td>{{ terminals.count }}</td>
-                <td>₦{{ terminals.sum }}</td>
+                <td>{{ terminals.sum }}</td>
               </tr>
-
             </tbody>
           </table>
         </div>
@@ -94,7 +108,9 @@
       <div class="top-terminal-table card">
         <div class="card-body">
           <h6 class="header__text">Top Merchants</h6>
-          <span class="sub-head mb-3">These are the top transacting merchants in the past 24 hours</span>
+          <span class="sub-head mb-3"
+            >These are the top transacting merchants in the past 24 hours</span
+          >
           <table class="table table-sm">
             <thead class="thead-light">
               <tr>
@@ -107,7 +123,7 @@
               <tr *ngFor="let merchants of topMerchantsStatistics">
                 <td>{{ merchants.mid }}</td>
                 <td>{{ merchants.count }}</td>
-                <td>₦{{ merchants.sum }}</td>
+                <td>{{ merchants.sum }}</td>
               </tr>
             </tbody>
           </table>

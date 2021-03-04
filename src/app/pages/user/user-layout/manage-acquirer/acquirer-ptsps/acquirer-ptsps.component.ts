@@ -48,7 +48,7 @@ export class AcquirerPtspsComponent implements OnInit {
   getAcquirerPtsps() {
     this.acquirerId = this.route.snapshot.params.id;
     this.routingCompService
-      .getAcquirerPtsps(this.pageSize, this.pageSize, this.acquirerId)
+      .getAcquirerPtsps(this.pageIndex, this.pageSize, this.acquirerId)
       .subscribe(
         (response) => {
           console.log('fsda', response);

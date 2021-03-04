@@ -55,7 +55,7 @@ export class AcquirerRoutesComponent implements OnInit {
   getAcquirerRoutes() {
     this.acquirerId = this.route.snapshot.params.id;
     this.routingCompService
-      .getAcquirerRoutes(this.pageSize, this.pageSize, this.acquirerId)
+      .getAcquirerRoutes(this.pageIndex, this.pageSize, this.acquirerId)
       .subscribe(
         (response) => {
           this.acquirerRoute = response['data']['routingRules'];
