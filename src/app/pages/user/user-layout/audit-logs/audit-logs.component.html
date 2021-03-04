@@ -97,6 +97,7 @@
 
     <table class="table table-striped">
       <thead class="thead-dark">
+        <th scope="col">Identity</th>
         <th scope="col">Action Performed</th>
         <th scope="col">Date Performed</th>
       </thead>
@@ -107,6 +108,8 @@
 
       <tbody *ngIf="!isLoading">
         <tr *ngFor="let item of allLogs">
+          <td>{{ item.identity | titlecase }}</td>
+
           <td>{{ item.description | titlecase }}</td>
           <td>
             {{ item?.when | date: "medium" }}
