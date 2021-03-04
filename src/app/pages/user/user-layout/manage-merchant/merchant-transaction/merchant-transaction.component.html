@@ -1,6 +1,6 @@
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
-    <app-rex-loader *ngIf="isLoading"  ></app-rex-loader>
+    <app-rex-loader [isPushed]="true" *ngIf="isLoading"></app-rex-loader>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -23,12 +23,10 @@
           <td>{{ txn.rrn }}</td>
           <td>{{ txn.stan }}</td>
           <td>{{ txn.pan }}</td>
-          <td>&#8358;{{ txn.amount }}</td>
+          <td>{{ txn.amount }}</td>
           <td>{{ txn.currencyCode }} ({{ txn.currencyAlpha }})</td>
           <td>{{ txn.type }}</td>
-          <td
-
-          >
+          <td>
             <span
               class="status"
               [class.approved]="txn.status === 'APPROVED'"
@@ -37,7 +35,7 @@
               {{ txn.status }}
             </span>
           </td>
-          <td>{{ txn.creationDate | date:"medium" }}</td>
+          <td>{{ txn.creationDate | date: "medium" }}</td>
         </tr>
       </tbody>
     </table>
