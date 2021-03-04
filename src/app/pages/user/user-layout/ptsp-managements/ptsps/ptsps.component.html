@@ -109,6 +109,8 @@
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
+    <app-rex-loader [isPushed]="true" *ngIf="isLoading"></app-rex-loader>
+
     <table class="table table-striped">
       <thead class="thead-dark">
         <th scope="col">Name</th>
@@ -126,10 +128,6 @@
         *ngIf="(!allPtsps || allPtsps.length === 0) && !isLoading"
       >
         <div class="no-data">No ptsp found</div>
-      </div>
-
-      <div class="center-body" *ngIf="isLoading">
-        <div class="sbl-circ-path text-center"></div>
       </div>
 
       <tbody *ngIf="!isLoading">
