@@ -211,7 +211,7 @@
               {{ txn.status }}
             </span>
           </td>
-          <td>{{ txn.creationDate | date: "medium" }}</td>
+          <td>{{ txn.creationDate | date: "medium":"UTC" }}</td>
         </tr>
       </tbody>
     </table>
