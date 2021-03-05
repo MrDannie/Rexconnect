@@ -389,12 +389,32 @@
             <button (click)="uploadFile()">Browse</button>
           </div>
 
-          <a
-            download
-            href="./../../../../../../assets/files/bulk_terminal.csv"
-            class="download-template"
-            >Download Template</a
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 3rem;
+            "
           >
+            <a
+              style="font-size: 12px"
+              download
+              href="./../../../../../../assets/files/bulk_terminal_upload_template.csv"
+              class="download-template"
+              >Download Template</a
+            >
+            <div
+              style="margin-top: 0.5rem"
+              class="export-button animated fadeIn"
+            >
+              <a
+                style="font-size: 12px"
+                (click)="downloadAcquirerPtsp()"
+                class="download-template"
+                >See Available Ptsps</a
+              >
+            </div>
+          </div>
 
           <div class="form_actions">
             <div
