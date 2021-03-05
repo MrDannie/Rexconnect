@@ -63,6 +63,8 @@ export class TerminalsComponent implements OnInit {
   terminalRecordsToDownload: any;
   permissions: any;
   acquirerId: any;
+  status: any;
+  terminalIdToFilter: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -123,7 +125,7 @@ export class TerminalsComponent implements OnInit {
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 
-    this.getTerminals();
+    this.getTerminals(this.terminalIdToFilter, this.status);
   }
 
   initializeForm() {
@@ -259,9 +261,9 @@ export class TerminalsComponent implements OnInit {
       formData.append('file', this.selectedFile);
       this.terminals.uploadTerminals(formData).subscribe(
         (response) => {
-          if (response['message'] === 'Terminals Uploaded Successfully') {
+          if (response['message'].includes('Terminals Uploaded Successfully')) {
             this.closeModal('cancel_button_upload_file');
-            this.alerts.success('Terminals uploaded sucessfully!', true);
+            this.alerts.success(response['message'], true);
             this.isUploading = false;
           } else if (event instanceof HttpResponse) {
             this.isUploading = false;
@@ -328,6 +330,8 @@ export class TerminalsComponent implements OnInit {
       status = value.status;
     }
 
+    this.status = status;
+    this.terminalIdToFilter = terminalId;
     this.getTerminals(terminalId, status);
   }
 

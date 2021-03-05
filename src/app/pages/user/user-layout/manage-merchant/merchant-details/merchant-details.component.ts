@@ -276,7 +276,7 @@ export class MerchantDetailsComponent implements OnInit {
   initializeForm() {
     this.updateMerchantForm = this.formBuilder.group({
       merchantName: ['', Validators.required],
-      merchantKey: ['', Validators.required],
+      merchantKey: [''],
       merchantId: [
         '',
         Validators.compose([
@@ -288,7 +288,7 @@ export class MerchantDetailsComponent implements OnInit {
       categoryCode: ['', Validators.required],
       countryCode: ['', Validators.required],
       city: ['', Validators.required],
-      merchantToken: ['', Validators.required],
+      merchantToken: [''],
       timezoneId: ['', Validators.required],
     });
   }
