@@ -172,20 +172,11 @@ export class AuditLogsComponent implements OnInit {
           console.log(res);
           res['logs'];
           const exportData = JSON.parse(
-            JSON.stringify(
-              this.allLogs,
-              ['when', 'owner', 'description', 'what'],
-              2
-            )
+            JSON.stringify(this.allLogs, ['when', 'identity', 'description'], 2)
           );
           console.log(exportData);
           const options = {
-            headers: [
-              'Date Performed',
-              'Performed By',
-              'Action Performed',
-              'Endpoint called',
-            ],
+            headers: ['Date Performed', 'Performed By', 'Action Performed'],
             decimalseparator: '.',
             showTitle: false,
             nullToEmptyString: true,

@@ -52,8 +52,8 @@ export class AcquirerPtspsComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('fsda', response);
-          this.acquirerPtsps = response['data']['ptsps'];
-          this.dataCount = response['data']['count'];
+          this.acquirerPtsps = response['data']['content'];
+          this.dataCount = response['data']['totalElements'];
           this.isLoaded = true;
           this.isLoading = false;
           this.paginationService.pagerState.next({
