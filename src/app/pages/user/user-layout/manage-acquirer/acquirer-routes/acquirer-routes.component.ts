@@ -58,8 +58,8 @@ export class AcquirerRoutesComponent implements OnInit {
       .getAcquirerRoutes(this.pageIndex, this.pageSize, this.acquirerId)
       .subscribe(
         (response) => {
-          this.acquirerRoute = response['data']['routingRules'];
-          this.dataCount = response['data']['count'];
+          this.acquirerRoute = response['data']['content'];
+          this.dataCount = response['data']['totalElements'];
 
           console.log('affdsa', this.acquirerRoute);
 
