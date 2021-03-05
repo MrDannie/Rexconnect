@@ -56,6 +56,8 @@ export class MerchantsComponent implements OnInit {
   userRecordsToDownload: any;
   merchantRecordsToDownload: any;
   permissions: any;
+  merchantIdToFilter: any;
+  statusToFilter: any;
   // allMerchants: any;
 
   constructor(
@@ -185,7 +187,7 @@ export class MerchantsComponent implements OnInit {
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 
-    this.getAllMerchants();
+    this.getAllMerchants(this.merchantIdToFilter, this.statusToFilter);
   }
 
   clearFilters() {
@@ -264,7 +266,9 @@ export class MerchantsComponent implements OnInit {
       status = value.status;
     }
 
-    this.getAllMerchants(merchantId, status);
+    this.merchantIdToFilter = merchantId;
+    this.statusToFilter = status;
+    this.getAllMerchants(this.merchantIdToFilter, this.statusToFilter);
   }
 
   // utils
@@ -366,7 +370,7 @@ export class MerchantsComponent implements OnInit {
     });
     this.createMerchantForm = this.fb.group({
       merchantName: ['', Validators.required],
-      merchantKey: ['', Validators.required],
+      merchantKey: [''],
       merchantId: [
         '',
         Validators.compose([
@@ -378,7 +382,7 @@ export class MerchantsComponent implements OnInit {
       categoryCode: ['', Validators.required],
       countryCode: ['', Validators.required],
       city: ['', Validators.required],
-      merchantToken: ['', Validators.required],
+      merchantToken: [''],
       timezoneId: ['', Validators.required],
     });
   }

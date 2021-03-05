@@ -24,8 +24,8 @@ export class RouteComponentService {
     this.config = new Config();
   }
 
-  getAllRoutingRules(pageIndex, pageSize, options): Observable<any> {
-    console.log('OPTIONS IN ROUTE SERVICE', options);
+  getAllRoutingRules(pageIndex, pageSize, defaultDs?, rule?): Observable<any> {
+    console.log('OPTIONS IN ROUTE SERVICE');
 
     let params = new HttpParams();
 
@@ -35,13 +35,12 @@ export class RouteComponentService {
     if (pageSize) {
       params = params.append('size', pageSize.toString());
     }
-    if (options) {
-      if (options.default_ds) {
-        params = params.append('default_ds', options.default_ds);
-      }
-      if (options.rule) {
-        params = params.append('rule', options.rule);
-      }
+
+    if (defaultDs) {
+      params = params.append('default_ds', defaultDs);
+    }
+    if (rule) {
+      params = params.append('rule', rule);
     }
 
     return this.http
