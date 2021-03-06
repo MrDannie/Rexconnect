@@ -152,7 +152,8 @@ export class RoutesComponent implements OnInit {
       .getAllRoutingRules(
         this.pageIndex,
         downloadPageSize,
-        this.searchForm.value
+        this.searchForm.value.default_ds,
+        this.searchForm.value.rule
       )
       .subscribe(
         (data: any) => {
@@ -170,7 +171,9 @@ export class RoutesComponent implements OnInit {
             );
             dataToDownload[index]['Rule Type'] = this.clean('rule', index);
             dataToDownload[index]['Use Default'] =
-              this.allRoutes[index]['use_default'] === 1 ? 'True' : 'False';
+              this.routesRecordsToDownload[index]['use_default'] === 1
+                ? 'True'
+                : 'False';
           }
           console.log('dataToDownload In Exxport Users', dataToDownload);
           this.exportRecords(dataToDownload);

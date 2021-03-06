@@ -226,7 +226,10 @@ export class AcquirerComponent implements OnInit {
               'clientName',
               index
             );
-            dataToDownload[index]['CBN Code'] = this.clean('bankCode', index);
+            dataToDownload[index]['Acquirer Code'] = this.clean(
+              'bankCode',
+              index
+            );
             dataToDownload[index]['Status'] =
               this.acquirerRecordsToDownload[index]['status'] === 'ACTIVE'
                 ? 'Active'
