@@ -19,6 +19,7 @@ import { PtspsService } from '../../ptsp-managements/ptsps.service';
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { StorageService } from 'src/app/core/helpers/storage.service';
+import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 
 declare var $: any;
 
@@ -61,6 +62,9 @@ export class TerminalsComponent implements OnInit {
   autoTidState: any;
   terminalRecordsToDownload: any;
   permissions: any;
+  acquirerId: any;
+  status: any;
+  terminalIdToFilter: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,7 +76,9 @@ export class TerminalsComponent implements OnInit {
     public validationMessages: ValidationService,
     private fileGenerationService: FileGenerationService,
     private acquirerService: AcquirerService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private routingCompService: RouteComponentService,
+    private alertService: AlertService
   ) {
     this.messages = this.validationMessages;
   }
@@ -107,6 +113,7 @@ export class TerminalsComponent implements OnInit {
 
   getPermissions() {
     this.permissions = this.storageService.getPermissions();
+    this.acquirerId = this.storageService.getCurrentUser().user.clientId;
   }
 
   requestPageSize(value: number) {
@@ -118,7 +125,7 @@ export class TerminalsComponent implements OnInit {
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 
-    this.getTerminals();
+    this.getTerminals(this.terminalIdToFilter, this.status);
   }
 
   initializeForm() {
@@ -254,9 +261,9 @@ export class TerminalsComponent implements OnInit {
       formData.append('file', this.selectedFile);
       this.terminals.uploadTerminals(formData).subscribe(
         (response) => {
-          if (response['message'] === 'Terminals Uploaded Successfully') {
+          if (response['message'].includes('Terminals Uploaded Successfully')) {
             this.closeModal('cancel_button_upload_file');
-            this.alerts.success('Terminals uploaded sucessfully!', true);
+            this.alerts.success(response['message'], true);
             this.isUploading = false;
           } else if (event instanceof HttpResponse) {
             this.isUploading = false;
@@ -323,6 +330,8 @@ export class TerminalsComponent implements OnInit {
       status = value.status;
     }
 
+    this.status = status;
+    this.terminalIdToFilter = terminalId;
     this.getTerminals(terminalId, status);
   }
 
@@ -364,5 +373,43 @@ export class TerminalsComponent implements OnInit {
 
   resetForm() {
     this.createTerminalForm.reset();
+  }
+
+  downloadAcquirerPtsp() {
+    this.isCSVLoading = true;
+    const downloadPageSize = this.dataCount;
+
+    this.routingCompService
+      .getAcquirerPtsps(0, 1000, this.acquirerId)
+      .subscribe(
+        (res) => {
+          console.log('LOVE IS HERR', res);
+          const exportData = JSON.parse(
+            JSON.stringify(
+              // this.allPtsps,
+              res['data']['content'],
+              ['Ptspname', 'PtspCode'],
+              2
+            )
+          );
+          console.log(exportData);
+          const options = {
+            headers: ['Name', 'PTSP CODE'],
+            decimalseparator: '.',
+            showTitle: false,
+            nullToEmptyString: true,
+          };
+          this.isCSVLoading = false;
+          return new Angular5Csv(
+            exportData,
+            'Available Ptsps For This Client',
+            options
+          );
+        },
+        (err) => {
+          this.isCSVLoading = false;
+          this.alertService.error(err, false);
+        }
+      );
   }
 }

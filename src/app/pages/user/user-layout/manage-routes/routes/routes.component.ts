@@ -40,6 +40,8 @@ export class RoutesComponent implements OnInit {
   filter;
   routesRecordsToDownload: any;
   permissions: any;
+  defaultDsToBeFiltered: any;
+  rulteToBeFiltered: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -70,10 +72,10 @@ export class RoutesComponent implements OnInit {
   }
 
   // GET ALL ROUTING RULES
-  getAllRoutingRules(options?: any) {
+  getAllRoutingRules(defaultDs?, rule?) {
     this.isLoading = true;
     this.routingCompService
-      .getAllRoutingRules(this.pageIndex, this.pageSize, options)
+      .getAllRoutingRules(this.pageIndex, this.pageSize, defaultDs, rule)
       .subscribe(
         (response) => {
           this.isLoading = false;
@@ -118,13 +120,9 @@ export class RoutesComponent implements OnInit {
     this.showFilter = false;
     console.log('asdfadfadf', this.searchForm.value);
 
-    const filterProperties = {
-      default_ds: this.searchForm.value.default_ds || '',
-      rule: this.searchForm.value.rule || '',
-    };
-
-    console.log(filterProperties);
-    this.getAllRoutingRules(filterProperties);
+    this.defaultDsToBeFiltered = this.searchForm.value.default_ds;
+    this.rulteToBeFiltered = this.searchForm.value.rule;
+    this.getAllRoutingRules(this.defaultDsToBeFiltered, this.rulteToBeFiltered);
   }
 
   initializeForm() {
@@ -154,7 +152,8 @@ export class RoutesComponent implements OnInit {
       .getAllRoutingRules(
         this.pageIndex,
         downloadPageSize,
-        this.searchForm.value
+        this.searchForm.value.default_ds,
+        this.searchForm.value.rule
       )
       .subscribe(
         (data: any) => {
@@ -172,7 +171,9 @@ export class RoutesComponent implements OnInit {
             );
             dataToDownload[index]['Rule Type'] = this.clean('rule', index);
             dataToDownload[index]['Use Default'] =
-              this.allRoutes[index]['use_default'] === 1 ? 'True' : 'False';
+              this.routesRecordsToDownload[index]['use_default'] === 1
+                ? 'True'
+                : 'False';
           }
           console.log('dataToDownload In Exxport Users', dataToDownload);
           this.exportRecords(dataToDownload);
@@ -203,7 +204,7 @@ export class RoutesComponent implements OnInit {
     this.pageIndex = pageParams.pageIndex;
     this.pageSize = pageParams.pageSize;
 
-    this.getAllRoutingRules();
+    this.getAllRoutingRules(this.defaultDsToBeFiltered, this.rulteToBeFiltered);
   }
 
   clearFilters() {

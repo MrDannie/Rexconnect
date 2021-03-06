@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { StorageService } from 'src/app/core/helpers/storage.service';
 import { PaginationService } from 'src/app/core/pagination.service';
+import { states } from 'src/app/pages/shared/constants';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 import { UserManagementService } from 'src/app/pages/shared/services/user-management.service';
@@ -34,6 +35,9 @@ export class AcquirerComponent implements OnInit {
   isFiltering: boolean;
   acquirerRecordsToDownload: any;
   permissions: any;
+  clientNameToFilter: any;
+  bankCodeToFilter: any;
+  statusToFilter: any;
   // allAcquirer: any;
 
   constructor(
@@ -166,7 +170,15 @@ export class AcquirerComponent implements OnInit {
       status = value.status;
     }
 
-    this.getAllAcquirers(clientName, bankCode, status);
+    this.clientNameToFilter = clientName;
+    this.bankCodeToFilter = bankCode;
+    this.statusToFilter = status;
+
+    this.getAllAcquirers(
+      this.clientNameToFilter,
+      this.bankCodeToFilter,
+      this.statusToFilter
+    );
   }
 
   clearFilters() {
@@ -214,7 +226,10 @@ export class AcquirerComponent implements OnInit {
               'clientName',
               index
             );
-            dataToDownload[index]['CBN Code'] = this.clean('bankCode', index);
+            dataToDownload[index]['Acquirer Code'] = this.clean(
+              'bankCode',
+              index
+            );
             dataToDownload[index]['Status'] =
               this.acquirerRecordsToDownload[index]['status'] === 'ACTIVE'
                 ? 'Active'
@@ -257,7 +272,11 @@ export class AcquirerComponent implements OnInit {
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 
-    this.getAllAcquirers();
+    this.getAllAcquirers(
+      this.clientNameToFilter,
+      this.bankCodeToFilter,
+      this.statusToFilter
+    );
   }
 
   refreshTableData() {

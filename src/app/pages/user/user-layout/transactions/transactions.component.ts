@@ -84,7 +84,11 @@ export class TransactionsComponent implements OnInit {
         this.pageIndex,
         this.pageSize,
         this.searchForm.value.startDate,
-        this.searchForm.value.endDate
+        this.searchForm.value.endDate,
+        this.searchForm.value.merchantId,
+        this.searchForm.value.terminalId,
+        this.searchForm.value.transactionType,
+        this.searchForm.value.rrn
       )
       .subscribe(
         (response) => {
@@ -129,6 +133,13 @@ export class TransactionsComponent implements OnInit {
     this.pageSize = pageParams.pageSize;
 
     this.getTransactions();
+
+    // merchantId: this.searchForm.value.merchantId,
+    // terminalId: this.searchForm.value.terminalId,
+    // type: this.searchForm.value.transactionType,
+    // referenceNumber: this.searchForm.value.rrn,
+    // startDate: this.startDate.toISOString().substring(0, 10),
+    // endDate: this.endDate.toISOString().substring(0, 10),
   }
 
   getDateString(dateObj: Date): string {
@@ -194,10 +205,9 @@ export class TransactionsComponent implements OnInit {
           });
         },
         (error) => {
-          this.alerts.error(
-            'Error occurred while getting transactions: ',
-            error.error.message
-          );
+          this.alerts.error(error);
+          console.log('THIS IS ERROR', error);
+
           this.isFiltering = false;
           this.isLoaded = true;
           this.isLoading = false;
@@ -205,41 +215,6 @@ export class TransactionsComponent implements OnInit {
           this.paginationService.pagerState.next(null);
         }
       );
-
-    //Compare Start Date and End Date
-    // const {
-    //   transactionId,
-    //   rrn,
-    //   transactionType,
-    //   startDate,
-    //   endDate,
-    // } = filterValues;
-    // if (
-    //   !this.compareStartEndDate(filterValues.startDate, filterValues.endDate)
-    // ) {
-    //   console.log('Start Date Is Grater than End Date');
-    // } else {
-    //   this.transactionsService
-    //     .getFilteredTransactions(
-    //       this.pageIndex,
-    //       this.pageSize,
-    //       transactionId,
-    //       rrn,
-    //       transactionType,
-    //       startDate,
-    //       endDate
-    //     )
-    //     .subscribe(
-    //       (response) => {
-    //         this.isFiltering = false;
-    //         console.log('response after the filter tra');
-    //       },
-    //       (error) => {
-    //         console.log(error);
-    //         this.isFiltering = false;
-    //       }
-    //     );
-    // }
   }
 
   compareStartEndDate(startDate, endDate): boolean {
@@ -299,7 +274,7 @@ export class TransactionsComponent implements OnInit {
             'creationDate',
             index
           );
-          dataToDownload[index]['Transaction ID'] = this.clean('tid', index);
+          dataToDownload[index]['Terminal ID'] = this.clean('tid', index);
           dataToDownload[index]['Merchant ID'] = this.clean('mid', index);
           dataToDownload[index]['RRN'] = this.clean('mid', index);
           dataToDownload[index]['Stan'] = this.clean('stan', index);

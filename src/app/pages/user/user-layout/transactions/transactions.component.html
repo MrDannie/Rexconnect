@@ -95,9 +95,9 @@
                 id="transactionType"
               >
                 <option value="">Select Trx type</option>
-                <option value="purchase">PURCHASE</option>
-                <option value="reversal">REVERSAL</option>
-                <option value="momo">MOMO</option>
+                <option value="PURCHASE">PURCHASE</option>
+                <option value="REVERSAL">REVERSAL</option>
+                <option value="MOMO">MOMO</option>
               </select>
             </div>
           </div>
@@ -129,7 +129,7 @@
           <button
             class="btn button-white"
             type="button"
-            (click)="showFilter = false"
+            (click)="showFilter = false; searchForm.reset()"
           >
             Close
           </button>
@@ -211,7 +211,7 @@
               {{ txn.status }}
             </span>
           </td>
-          <td>{{ txn.creationDate | date: "medium" }}</td>
+          <td>{{ txn.creationDate | date: "medium":"UTC" }}</td>
         </tr>
       </tbody>
     </table>

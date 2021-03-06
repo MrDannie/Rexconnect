@@ -16,16 +16,45 @@ const BASE_URL = environment.BASE_URL;
 export class TransactionsService {
   constructor(private httpClient: HttpClient) {}
 
-  getTransactions(pageIndex, pageSize, startDate, endDate): Observable<IWrapper<ITransactions>> {
-    const params = new HttpParams();
-    const requestParams = params
-      .append('page', pageIndex.toString())
-      .append('size', pageSize.toString())
-      .append('startDate', startDate)
-      .append('endDate', endDate);
+  getTransactions(
+    pageIndex,
+    pageSize,
+    startDate,
+    endDate,
+    merchantId?,
+    terminalId?,
+    type?,
+    referenceNumber?
+  ): Observable<IWrapper<ITransactions>> {
+    let params = new HttpParams();
+
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (terminalId) {
+      params = params.append('terminalId', terminalId);
+    }
+    if (referenceNumber) {
+      params = params.append('referenceNumber', referenceNumber);
+    }
+    if (type) {
+      params = params.append('type', type);
+    }
+    if (startDate) {
+      params = params.append('startDate', startDate);
+    }
+    if (merchantId) {
+      params = params.append('merchantId', merchantId);
+    }
+    if (endDate) {
+      params = params.append('endDate', endDate);
+    }
     return this.httpClient
       .get<IWrapper<ITransactions>>(BASE_URL + '/v1/transactions', {
-        params: requestParams,
+        params: params,
       })
       .pipe(
         map((response) => {
@@ -34,24 +63,37 @@ export class TransactionsService {
       );
   }
 
-  getFilteredTransactions(
-    pageIndex,
-    pageSize,
-    options?: SearchTransactions
-  ) {
-    const params = new HttpParams();
-    const requestParams = params
-      .append('page', pageIndex.toString())
-      .append('size', pageSize.toString())
-      .append('terminalId', options.terminalId)
-      .append('referenceNumber', options.referenceNumber)
-      .append('transactionType', options.type)
-      .append('startDate', options.startDate)
-      .append('merchantId', options.merchantId)
-      .append('endDate', options.endDate);
+  getFilteredTransactions(pageIndex, pageSize, options?: SearchTransactions) {
+    let params = new HttpParams();
+
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (options.terminalId) {
+      params = params.append('terminalId', options.terminalId);
+    }
+    if (options.referenceNumber) {
+      params = params.append('referenceNumber', options.referenceNumber);
+    }
+    if (options.type) {
+      params = params.append('type', options.type);
+    }
+    if (options.startDate) {
+      params = params.append('startDate', options.startDate);
+    }
+    if (options.merchantId) {
+      params = params.append('merchantId', options.merchantId);
+    }
+    if (options.endDate) {
+      params = params.append('endDate', options.endDate);
+    }
+
     return this.httpClient
       .get<IWrapper<ITransactions>>(BASE_URL + '/v1/transactions', {
-        params: requestParams,
+        params: params,
       })
       .pipe(
         map((response) => {

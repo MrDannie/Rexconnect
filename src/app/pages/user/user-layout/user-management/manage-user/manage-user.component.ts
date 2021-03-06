@@ -52,6 +52,9 @@ export class ManageUserComponent implements OnInit {
 
   isFiltering: any = false;
   permissions: any;
+  usernameToFilter: any;
+  emailToFilter: any;
+  statusToFilter: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -118,7 +121,11 @@ export class ManageUserComponent implements OnInit {
     this.pageIndex = pageParams.pageIndex;
     this.pageSize = pageParams.pageSize;
 
-    this.getAllUsers();
+    this.getAllUsers(
+      this.usernameToFilter,
+      this.emailToFilter,
+      this.statusToFilter
+    );
   }
 
   getUsersRoles(category) {
@@ -352,7 +359,14 @@ export class ManageUserComponent implements OnInit {
 
     // this.pageIndex = 0;
     // this.currentPage = 1;
-    this.getAllUsers(username, email, enabled);
+    this.usernameToFilter = username;
+    this.emailToFilter = email;
+    this.statusToFilter = enabled;
+    this.getAllUsers(
+      this.usernameToFilter,
+      this.emailToFilter,
+      this.statusToFilter
+    );
   }
 
   // request by page size
