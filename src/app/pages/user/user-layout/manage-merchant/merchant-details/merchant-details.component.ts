@@ -65,11 +65,7 @@ export class MerchantDetailsComponent implements OnInit {
       },
       (error) => {
         this.isLoadingTerminals = false;
-        this.errorHandler.customClientErrors(
-          'Error occurred when getting merchant details',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+        this.alerts.error(error);
       }
     );
   }
@@ -105,11 +101,7 @@ export class MerchantDetailsComponent implements OnInit {
       },
       (error) => {
         this.isUpdatingMerchant = false;
-        this.errorHandler.customClientErrors(
-          'Error occurred while creating merchant',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+        this.alerts.error(error);
       }
     );
   }
@@ -145,11 +137,7 @@ export class MerchantDetailsComponent implements OnInit {
         },
         (error) => {
           this.isLoadingTerminals = false;
-          this.errorHandler.customClientErrors(
-            'Error occurred while getting merchant terminals',
-            error.error.error.code,
-            error.error.error.responseMessage
-          );
+          this.alerts.error(error);
         }
       );
   }

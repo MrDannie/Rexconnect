@@ -245,7 +245,7 @@ export class AcquirerComponent implements OnInit {
   }
 
   exportRecords(dataToDownload: any[]) {
-    const headers = ['Acquirer Name', 'Cbn Code', 'Status'];
+    const headers = ['Acquirer Name', 'Acquirer Code', 'Status'];
     this.fileGenerationService.generateCSV(
       dataToDownload,
       headers,
