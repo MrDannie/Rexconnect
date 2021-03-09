@@ -92,18 +92,20 @@ export class MerchantDetailsComponent implements OnInit {
       timezoneId: +this.updateMerchantForm.value.timezoneId,
     };
     console.log(updatedMerchant);
-    this.merchants.updateMerchant(this.merchantId, updatedMerchant).subscribe(
-      (response) => {
-        this.isUpdatingMerchant = false;
-        this.closeModal('cancel_button_edit_merchant');
-        this.alerts.success('Merchant updated successfully!');
-        this.getMerchantDetails();
-      },
-      (error) => {
-        this.isUpdatingMerchant = false;
-        this.alerts.error(error);
-      }
-    );
+    this.merchants
+      .updateMerchant(this.merchantDetails.id, updatedMerchant)
+      .subscribe(
+        (response) => {
+          this.isUpdatingMerchant = false;
+          this.closeModal('cancel_button_edit_merchant');
+          this.alerts.success('Merchant updated successfully!');
+          this.getMerchantDetails();
+        },
+        (error) => {
+          this.isUpdatingMerchant = false;
+          this.alerts.error(error);
+        }
+      );
   }
 
   getMerchantTimezones() {
