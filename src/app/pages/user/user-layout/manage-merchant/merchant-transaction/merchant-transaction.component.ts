@@ -51,9 +51,10 @@ export class MerchantTransactionComponent implements OnInit {
   getMerchantTransactions(merchantId: string) {
     this.isLoading = true;
     this.allTransactions = [];
-    this.merchants.getMerchantTransactions(merchantId, this.pageIndex, this.pageSize)
+    this.merchants
+      .getMerchantTransactions(merchantId, this.pageIndex, this.pageSize)
       .subscribe(
-        data => {
+        (data) => {
           this.transactionsWrapper = data;
           this.allTransactions = data.content;
           this.dataCount = data.totalElements;
@@ -63,18 +64,15 @@ export class MerchantTransactionComponent implements OnInit {
           this.paginationService.pagerState.next({
             totalElements: this.dataCount,
             pageIndex: this.pageIndex,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
           });
         },
-        error => {
+        (error) => {
           console.error(error);
           this.isLoading = false;
           this.loadPagination = true;
           this.paginationService.pagerState.next(null);
-          this.errorHandler.customClientErrors('Error occurred while getting this terminal\'s transactions',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+          this.alerts.error(error);
         }
       );
   }
@@ -90,46 +88,72 @@ export class MerchantTransactionComponent implements OnInit {
     this.pageSize = this.transactionsWrapper.totalElements;
     this.pageIndex = 0;
 
-    this.merchants.getMerchantTransactions(this.merchantId, this.pageIndex, this.pageSize).subscribe(
-      (data: any) => {
-        this.exportedTransactionRecords = data.content;
-        this.pageSize = pageSize;
-        for (let idx = 0; idx < this.exportedTransactionRecords.length; idx++) {
-          temp.push([]);
-          temp[idx]['Merchant Name'] = this.clean('mid', idx);
-          temp[idx]['Terminal ID'] = this.clean('tid', idx);
-          temp[idx]['RRN'] = this.clean('rrn', idx);
-          temp[idx]['STAN'] = this.clean('stan', idx);
-          temp[idx]['Pan/Account'] = this.clean('pan', idx);
-          temp[idx]['Amount'] = this.clean('amount', idx);
-          temp[idx]['Type'] = this.clean('type', idx);
-          temp[idx]['Currency'] = this.clean('currencyCode', idx) + '(' + this.clean('currencyAlpha', idx) + ')';
-          temp[idx]['Status'] = this.clean('status', idx);
-          temp[idx]['Date/Time'] = this.clean('creationDate', idx);
-
+    this.merchants
+      .getMerchantTransactions(this.merchantId, this.pageIndex, this.pageSize)
+      .subscribe(
+        (data: any) => {
+          this.exportedTransactionRecords = data.content;
+          this.pageSize = pageSize;
+          for (
+            let idx = 0;
+            idx < this.exportedTransactionRecords.length;
+            idx++
+          ) {
+            temp.push([]);
+            temp[idx]['Merchant Name'] = this.clean('mid', idx);
+            temp[idx]['Terminal ID'] = this.clean('tid', idx);
+            temp[idx]['RRN'] = this.clean('rrn', idx);
+            temp[idx]['STAN'] = this.clean('stan', idx);
+            temp[idx]['Pan/Account'] = this.clean('pan', idx);
+            temp[idx]['Amount'] = this.clean('amount', idx);
+            temp[idx]['Type'] = this.clean('type', idx);
+            temp[idx]['Currency'] =
+              this.clean('currencyCode', idx) +
+              '(' +
+              this.clean('currencyAlpha', idx) +
+              ')';
+            temp[idx]['Status'] = this.clean('status', idx);
+            temp[idx]['Date/Time'] = this.clean('creationDate', idx);
+          }
+          this.exportedTransactionRecords = temp;
+          this.exportRecords();
+        },
+        (error) => {
+          this.fileGenerationService.onDownloadCompleted.next(false);
+          this.alerts.error(
+            'Merchants transactions download could not be completed'
+          );
         }
-        this.exportedTransactionRecords = temp;
-        this.exportRecords();
-
-      },
-      error => {
-        this.fileGenerationService.onDownloadCompleted.next(false);
-        this.alerts.error('Merchants transactions download could not be completed');
-      }
-    );
-
+      );
   }
   exportRecords() {
-    const headers = ['Merchant', 'Terminal ID', 'RRN', 'STAN', 'PAN/Account', 'Amount', 'Currency', 'Type', 'Status', 'Date/Time'];
-    this.fileGenerationService.generateCSV(this.exportedTransactionRecords, headers, `${ this.merchantId } Transactions`);
+    const headers = [
+      'Merchant',
+      'Terminal ID',
+      'RRN',
+      'STAN',
+      'PAN/Account',
+      'Amount',
+      'Currency',
+      'Type',
+      'Status',
+      'Date/Time',
+    ];
+    this.fileGenerationService.generateCSV(
+      this.exportedTransactionRecords,
+      headers,
+      `${this.merchantId} Transactions`
+    );
     this.fileGenerationService.onDownloadCompleted.next(true);
   }
 
   clean(key: string, index: number) {
-    return this.exportedTransactionRecords[index][key] ? this.exportedTransactionRecords[index][key] : '';
+    return this.exportedTransactionRecords[index][key]
+      ? this.exportedTransactionRecords[index][key]
+      : '';
   }
 
-  onRefreshData(payload: { pageSize: number, pageIndex: number }) {
+  onRefreshData(payload: { pageSize: number; pageIndex: number }) {
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 
@@ -147,7 +171,7 @@ export class MerchantTransactionComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.merchantId = params.id;
       this.getMerchantTransactions(this.merchantId);
-    })
+    });
   }
 
   initializeForm() {
@@ -160,5 +184,4 @@ export class MerchantTransactionComponent implements OnInit {
       endDate: '',
     });
   }
-
 }

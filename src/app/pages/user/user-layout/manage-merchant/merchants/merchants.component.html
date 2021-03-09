@@ -174,7 +174,10 @@
             {{ merchant.isActive ? "Active" : "Inactive" }}
           </td>
           <td>
-            <button [routerLink]="[merchant.id]" class="btn table_button">
+            <button
+              [routerLink]="[merchant.merchantId]"
+              class="btn table_button"
+            >
               Open
             </button>
           </td>
