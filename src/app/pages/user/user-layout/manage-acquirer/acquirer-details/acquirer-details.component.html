@@ -11,7 +11,7 @@
         <div class="col-md-6">
           <span>Acquirer Short Name</span>
           <p>
-            <strong>{{ acquirer?.clientAddress }}</strong>
+            <strong>{{ acquirer?.shortName }}</strong>
           </p>
         </div>
       </div>
@@ -23,13 +23,27 @@
           </p>
         </div>
         <div class="col-md-6">
-          <span>Acquirer's Address</span>
+          <span>Terminal Prefix</span>
+          <p>
+            <strong>{{ acquirer?.terminalPrefix }}</strong>
+          </p>
+        </div>
+
+        <div class="col-md-6">
+          <span>Acquirer Location</span>
           <p>
             <strong>{{ acquirer?.clientLocation }}</strong>
           </p>
         </div>
+
         <div class="col-md-6">
-          <span>Acquirer's Email</span>
+          <span>Acquirer Address</span>
+          <p>
+            <strong>{{ acquirer?.clientAddress }}</strong>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <span>Acquirer Email</span>
           <p>
             <strong>{{ acquirer?.email }}</strong>
           </p>
