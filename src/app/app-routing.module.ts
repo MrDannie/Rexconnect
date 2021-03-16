@@ -26,6 +26,7 @@ import { ViewRoutingGuard } from './core/guards/Manage-routing.guard';
 import { RecoverPasswordComponent } from './pages/landing-page/authentication/recover-password/recover-password.component';
 import { ViewUsersGuard } from './core/guards/manage-users.guard';
 import { ViewMerchantGuard } from './core/guards/manage-merchant.guard';
+import { TransactionDetailsComponent } from './pages/user/user-layout/transactions/transaction-details/transaction-details.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,10 @@ const routes: Routes = [
         path: 'transactions',
         component: TransactionsComponent,
         canActivate: [ViewTransactionsGuard],
+      },
+      {
+        path: 'transactions/:id',
+        component: TransactionDetailsComponent,
       },
       {
         path: 'audit-log',
