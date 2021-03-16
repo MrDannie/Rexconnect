@@ -21,7 +21,7 @@
         <span>Transactions</span>
       </div>
     </div>
-    <span>Here is a list of all you terminal transaction</span>
+    <span>Here is a list of all your terminal transaction</span>
   </div>
 
   <!-- FILTER BY CODE  -->
@@ -187,6 +187,7 @@
           <th scope="col">Type</th>
           <th scope="col">Status</th>
           <th scope="col">Date/Time</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -213,6 +214,11 @@
             </span>
           </td>
           <td>{{ txn.creationDate | date: "medium":"UTC" }}</td>
+          <td>
+            <button [routerLink]="[txn.tid]" class="btn table_button">
+              Open
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
