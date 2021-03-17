@@ -16,6 +16,7 @@ import {
   states,
 } from '../../../../../pages/shared/constants';
 import { StorageService } from 'src/app/core/helpers/storage.service';
+import { ProfileManagementService } from 'src/app/pages/shared/services/profile-management.service';
 
 declare var $: any;
 
@@ -58,6 +59,7 @@ export class MerchantsComponent implements OnInit {
   permissions: any;
   merchantIdToFilter: any;
   statusToFilter: any;
+  userSettings: any;
   // allMerchants: any;
 
   constructor(
@@ -68,7 +70,8 @@ export class MerchantsComponent implements OnInit {
     private errorHandler: ErrorHandler,
     private validationMessages: ValidationService,
     private fileGenerationService: FileGenerationService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private profileMgt: ProfileManagementService
   ) {
     this.messages = this.validationMessages;
   }
@@ -212,16 +215,26 @@ export class MerchantsComponent implements OnInit {
     this.getCountries();
     this.getCurrencyCodes();
     this.getMerchantTimezones();
-    this.getAutoMidState();
 
     this.getPermissions();
 
+    this.getUserSettings();
+
     $('#createMerchant').on('hidden.bs.modal', this.resetForm.bind(this));
   }
-  getAutoMidState() {
-    this.autoMidState = this.storageService.getCurrentUser().user.autoMID;
-    console.log('AUTO MID STATE', this.autoMidState);
+  getUserSettings() {
+    this.profileMgt.getUserSettings().subscribe(
+      (response) => {
+        console.log(response);
+        this.userSettings = response;
+      },
+      (error) => {
+        this.alertService.error(error);
+        console.log(error);
+      }
+    );
   }
+
   getMerchantTimezones() {
     const timeZones = this.storageService.getTimezones();
     if (timeZones) {
