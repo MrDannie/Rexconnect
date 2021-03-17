@@ -8,7 +8,7 @@
     <div class="form_area">
       <h4>Edit Route</h4>
       <p class="sub_header">
-        Please provide details of the route you wish to add.
+        Please provide details of the route you wish to update.
       </p>
       <form [formGroup]="editRouteForm" (ngSubmit)="editRoute()">
         <div class="form-group">
@@ -119,7 +119,7 @@
           <div [formGroupName]="i">
             <div class="form-group">
               <div class="row">
-                <div class="col">
+                <div class="col"> 
                   <span class="has-float-label">
                     <input
                       formControlName="rule"

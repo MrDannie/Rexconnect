@@ -20,6 +20,7 @@ import { RouteComponentService } from 'src/app/pages/shared/services/route-compo
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { StorageService } from 'src/app/core/helpers/storage.service';
 import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
+import { ProfileManagementService } from 'src/app/pages/shared/services/profile-management.service';
 
 declare var $: any;
 
@@ -65,6 +66,7 @@ export class TerminalsComponent implements OnInit {
   acquirerId: any;
   status: any;
   terminalIdToFilter: any;
+  userSettings: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -78,7 +80,8 @@ export class TerminalsComponent implements OnInit {
     private acquirerService: AcquirerService,
     private storageService: StorageService,
     private routingCompService: RouteComponentService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private profileMgt: ProfileManagementService
   ) {
     this.messages = this.validationMessages;
   }
@@ -109,6 +112,19 @@ export class TerminalsComponent implements OnInit {
           this.paginationService.pagerState.next(null);
         }
       );
+  }
+
+  getUserSettings() {
+    this.profileMgt.getUserSettings().subscribe(
+      (response) => {
+        console.log(response);
+        this.userSettings = response;
+      },
+      (error) => {
+        this.alertService.error(error);
+        console.log(error);
+      }
+    );
   }
 
   getPermissions() {
@@ -360,15 +376,11 @@ export class TerminalsComponent implements OnInit {
 
     this.getPtspsList();
 
-    this.getAutoTidState();
-
     $('#createTerminal').on('hidden.bs.modal', this.resetForm.bind(this));
 
     this.getPermissions();
-  }
 
-  getAutoTidState() {
-    this.autoTidState = this.storageService.getCurrentUser().user.autoTID;
+    this.getUserSettings();
   }
 
   resetForm() {
