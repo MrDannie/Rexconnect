@@ -63,6 +63,25 @@ export class TransactionsService {
       );
   }
 
+  getSingleTransaction(transactionId): any {
+    let params = new HttpParams();
+
+    if (transactionId) {
+      params = params.append('transactionId', transactionId.toString());
+    }
+
+    return this.httpClient
+      .get<any>(BASE_URL + '/v1/transactions', {
+        params: params,
+      })
+      .pipe(
+        map((response) => {
+          console.log('Resonse on filterered transactions', response);
+          return response;
+        })
+      );
+  }
+
   getFilteredTransactions(pageIndex, pageSize, options?: SearchTransactions) {
     let params = new HttpParams();
 
