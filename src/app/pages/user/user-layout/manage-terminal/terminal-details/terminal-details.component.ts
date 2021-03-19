@@ -198,8 +198,14 @@ export class TerminalDetailsComponent implements OnInit {
 
     this.updateTerminalForm = this.formBuilder.group({
       merchantId: ['', Validators.required],
-      callHomeTime: ['', Validators.required],
-      transactionTimeout: ['', Validators.required],
+      callHomeTime: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(2)]),
+      ],
+      transactionTimeout: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(2)]),
+      ],
       ptspId: ['', Validators.required],
       isActive: ['', Validators.required],
     });
