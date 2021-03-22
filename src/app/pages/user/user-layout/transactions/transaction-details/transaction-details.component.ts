@@ -10,6 +10,7 @@ import { TransactionsService } from 'src/app/pages/shared/services/transactions.
 export class TransactionDetailsComponent implements OnInit {
   transactionId: any;
   transaction: any = {};
+  isLoading: boolean;
 
   constructor(
     private transactionService: TransactionsService,
@@ -25,14 +26,17 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   getSingleTrans() {
+    this.isLoading = true;
     this.transactionService.getSingleTransaction(this.transactionId).subscribe(
       (response) => {
         console.log('This is the transactions details', response);
         this.transaction = response.content[0];
         console.log('This is the transactions details', this.transaction);
+        this.isLoading = false;
       },
       (error) => {
         console.log('this is the error', error);
+        this.isLoading = false;
       }
     );
   }
