@@ -5,40 +5,6 @@
     </span>
   </div>
   <div class="header_buttons" *ngIf="!isLoading">
-    <div class="top-info">
-      <!-- <span class="name"> {{ stationDetails.name | titlecase }}</span>
-      <span class="date"
-        >Created: {{ stationDetails.createdAt | date: "medium" }}</span
-      >
-      <span class="date"
-        >Last Echo Date: {{ stationDetails.lastEcho | date: "medium" }}
-        <span class="null-value" *ngIf="stationDetails.lastEcho === null"
-          >Nil</span
-        ></span
-      >
-      <span
-        class="status animated fadeIn"
-        *ngIf="stationDetails.isActive === 1"
-      >
-        Status: Active</span
-      >
-      <span
-        class="status animated fadeIn"
-        *ngIf="stationDetails.isActive === 0"
-      >
-        Status: Inactive</span
-      >
-    </div> -->
-
-      <div
-        class="spinner-border spinner-border-sm"
-        role="status"
-        *ngIf="isEnabling"
-      >
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
-
     <div
       class="spinner-border spinner-border-sm"
       role="status"
