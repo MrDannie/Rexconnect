@@ -185,11 +185,13 @@
           <th scope="col">PAN/Account</th>
           <th scope="col">Amount</th>
           <th scope="col">Currency</th>
+
           <th scope="col">Type</th>
+          <th scope="col">Additional Data</th>
+
           <th scope="col">Status</th>
 
           <th scope="col">Date/Time</th>
-          <th scope="col">Additional Data</th>
 
           <!-- <th scope="col">Action</th> -->
         </tr>
@@ -209,6 +211,13 @@
 
           <td>{{ txn.type }}</td>
           <td>
+            {{
+              txn.additionalData?.customerPhoneNo
+                ? txn.additionalData?.customerPhoneNo
+                : "Nil"
+            }}
+          </td>
+          <td>
             <span
               class="status"
               [class.approved]="txn.status === 'APPROVED'"
@@ -220,13 +229,6 @@
           </td>
 
           <td>{{ txn.creationDate | date: "medium":"UTC" }}</td>
-          <td>
-            {{
-              txn.additionalData?.customerPhoneNo
-                ? txn.additionalData?.customerPhoneNo
-                : "Nil"
-            }}
-          </td>
 
           <!-- <td>
             <button [routerLink]="[txn.transactionId]" class="btn table_button">
