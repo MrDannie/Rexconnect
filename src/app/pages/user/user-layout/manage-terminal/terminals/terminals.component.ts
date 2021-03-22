@@ -155,8 +155,14 @@ export class TerminalsComponent implements OnInit {
         '',
         Validators.compose([Validators.maxLength(8), Validators.minLength(8)]),
       ],
-      transactionTimeOut: ['', Validators.compose([Validators.required])],
-      callHomeTime: ['', Validators.compose([Validators.required])],
+      transactionTimeOut: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(2)]),
+      ],
+      callHomeTime: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(2)]),
+      ],
       ptspId: ['', Validators.compose([Validators.required])],
     });
   }
