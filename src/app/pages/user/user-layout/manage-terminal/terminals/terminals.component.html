@@ -224,7 +224,10 @@
               >
             </div>
 
-            <div *ngIf="autoTidState != true" class="col-md-12 no-padding">
+            <div
+              *ngIf="userSettings?.auto_tid != true"
+              class="col-md-12 no-padding"
+            >
               <div class="form-group">
                 <span class="has-float-label">
                   <input
@@ -263,6 +266,7 @@
                   <input
                     id="transactionTimeOut"
                     type="number"
+                    maxlength="2"
                     class="form-control no-arrows"
                     placeholder=" "
                     formControlName="transactionTimeOut"
@@ -288,6 +292,7 @@
                   <input
                     id="callHomeTime"
                     type="number"
+                    maxlength="2"
                     class="form-control no-arrows"
                     placeholder=" "
                     formControlName="callHomeTime"

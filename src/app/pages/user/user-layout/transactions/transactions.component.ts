@@ -270,19 +270,29 @@ export class TransactionsComponent implements OnInit {
           index++
         ) {
           dataToDownload.push([]);
-          dataToDownload[index]['Date/Time'] = this.getDate(
-            'creationDate',
+
+          dataToDownload[index]['Transaction ID'] = this.clean(
+            'transactionId',
             index
           );
+
           dataToDownload[index]['Terminal ID'] = this.clean('tid', index);
           dataToDownload[index]['Merchant ID'] = this.clean('mid', index);
           dataToDownload[index]['RRN'] = this.clean('mid', index);
           dataToDownload[index]['Stan'] = this.clean('stan', index);
           dataToDownload[index]['PAN/Account'] = this.clean('pan', index);
-          dataToDownload[index]['Amount'] = this.clean('username', index);
+          dataToDownload[index]['Amount'] = this.clean('amount', index);
           dataToDownload[index]['Currency'] = this.getCurrencyValue(index);
           dataToDownload[index]['Type'] = this.clean('type', index);
+          dataToDownload[index]['Additional Data'] = this.clean(
+            'additionalData',
+            index
+          )['customerPhoneNo'];
           dataToDownload[index]['Status'] = this.clean('status', index);
+          dataToDownload[index]['Date/Time'] = this.getDate(
+            'creationDate',
+            index
+          );
         }
         console.log('dataToDownload In Exxport Users', dataToDownload);
         this.exportRecords(dataToDownload);
@@ -304,8 +314,8 @@ export class TransactionsComponent implements OnInit {
   }
   exportRecords(dataToDownload: any[]) {
     const headers = [
-      'Date/Time',
       'Transaction ID',
+      'Terminal ID',
       'Merchant ID',
       'RRN',
       'Stan',
@@ -313,7 +323,9 @@ export class TransactionsComponent implements OnInit {
       'Amount',
       'Currency',
       'Type',
+      'Additional Data',
       'Status',
+      'Date/Time',
     ];
     this.fileGenerationService.generateCSV(
       dataToDownload,
