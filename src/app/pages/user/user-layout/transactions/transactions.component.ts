@@ -278,16 +278,16 @@ export class TransactionsComponent implements OnInit {
 
           dataToDownload[index]['Terminal ID'] = this.clean('tid', index);
           dataToDownload[index]['Merchant ID'] = this.clean('mid', index);
-          dataToDownload[index]['RRN'] = this.clean('mid', index);
+          dataToDownload[index]['RRN'] = this.clean('rrn', index);
           dataToDownload[index]['Stan'] = this.clean('stan', index);
           dataToDownload[index]['PAN/Account'] = this.clean('pan', index);
           dataToDownload[index]['Amount'] = this.clean('amount', index);
           dataToDownload[index]['Currency'] = this.getCurrencyValue(index);
           dataToDownload[index]['Type'] = this.clean('type', index);
-          dataToDownload[index]['Additional Data'] = this.clean(
-            'additionalData',
-            index
-          )['customerPhoneNo'];
+          // dataToDownload[index]['Additional Data'] = this.clean(
+          //   'additionalData',
+          //   index
+          // )['customerPhoneNo'];
           dataToDownload[index]['Status'] = this.clean('status', index);
           dataToDownload[index]['Date/Time'] = this.getDate(
             'creationDate',
@@ -323,7 +323,7 @@ export class TransactionsComponent implements OnInit {
       'Amount',
       'Currency',
       'Type',
-      'Additional Data',
+      // 'Additional Data',
       'Status',
       'Date/Time',
     ];
