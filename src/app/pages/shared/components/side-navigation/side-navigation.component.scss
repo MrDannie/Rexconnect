@@ -25,6 +25,8 @@
   -ms-box-shadow: 0px 0px 24px #0000003d;
   border-radius: 0px 32px 0px 0px;
   opacity: 1;
+  overflow-y: scroll;
+  scrollbar-color: white;
 }
 
 .link_icon {
@@ -71,7 +73,6 @@
   align-items: center;
   margin-top: 0px;
   margin-bottom: 0px;
-
 }
 .sidebar_logo img {
   width: 9rem;
@@ -104,7 +105,7 @@
 .sidebar .menu_list a {
   color: #585858;
   margin: -0.1rem 0rem;
- // width: 231px;
+  // width: 231px;
   font-size: 0.78rem;
   font-weight: 600;
   min-height: 3rem;
@@ -123,10 +124,10 @@
   margin: 0.6rem 0.5rem;
   width: 230px;
 }
- .sidebar .menu_list a:hover {
+.sidebar .menu_list a:hover {
   transition: all ease-in-out 0.3s !important;
   background: #f0f0f0 !important;
-} 
+}
 .sidebar .menu_list a.active {
   /* color: #950007 !important; */
   transition: all ease-in-out 0.3s !important;
@@ -368,4 +369,16 @@
   #main {
     margin-left: 4rem !important;
   }
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+*::-webkit-scrollbar-track {
+  background: white;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 20px;
+  border: 3px solid white;
 }

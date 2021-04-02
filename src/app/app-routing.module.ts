@@ -17,6 +17,16 @@ import { ManageTerminalModule } from './pages/user/user-layout/manage-terminal/m
 import { UserManagementModule } from './pages/user/user-layout/user-management/user-management.module';
 import { ManageProfileModule } from './pages/user/user-layout/manage-profile/manage-profile.module';
 import { LoginGuard } from './core/guards/login.guard';
+import { ViewTransactionsGuard } from './core/guards/view-transactions.guard';
+import { ViewAllTerminalGuard } from './core/guards/view-all-terminal.guard';
+import { ViewPtspsGuard } from './core/guards/view-ptsps.guard';
+import { ViewClientsGuard } from './core/guards/view-clients.guard';
+import { ViewStationsGuard } from './core/guards/Manage-stations.guard';
+import { ViewRoutingGuard } from './core/guards/Manage-routing.guard';
+import { RecoverPasswordComponent } from './pages/landing-page/authentication/recover-password/recover-password.component';
+import { ViewUsersGuard } from './core/guards/manage-users.guard';
+import { ViewMerchantGuard } from './core/guards/manage-merchant.guard';
+import { TransactionDetailsComponent } from './pages/user/user-layout/transactions/transaction-details/transaction-details.component';
 
 const routes: Routes = [
   {
@@ -27,6 +37,10 @@ const routes: Routes = [
   {
     path: 'sign-in',
     component: SignInComponent,
+  },
+  {
+    path: 'recover-password',
+    component: RecoverPasswordComponent,
   },
   {
     path: 'user',
@@ -45,6 +59,11 @@ const routes: Routes = [
       {
         path: 'transactions',
         component: TransactionsComponent,
+        canActivate: [ViewTransactionsGuard],
+      },
+      {
+        path: 'transactions/:id',
+        component: TransactionDetailsComponent,
       },
       {
         path: 'audit-log',
@@ -52,41 +71,49 @@ const routes: Routes = [
       },
       {
         path: 'all-users',
+        canActivate: [ViewUsersGuard],
         loadChildren:
           './pages/user/user-layout/user-management/user-management.module#UserManagementModule',
       },
       {
         path: 'ptsp',
+        canActivate: [ViewPtspsGuard],
         loadChildren:
           './pages/user/user-layout/ptsp-managements/ptsp-management.module#PtspManagementModule',
       },
       {
         path: 'terminals',
+        canActivate: [ViewAllTerminalGuard],
         loadChildren:
           './pages/user/user-layout/manage-terminal/manage-terminal.module#ManageTerminalModule',
       },
       {
         path: 'merchants',
+        canActivate: [ViewMerchantGuard],
         loadChildren:
           './pages/user/user-layout/manage-merchant/manage-merchant.module#ManageMerchantModule',
       },
       {
         path: 'acquirers',
+        canActivate: [ViewClientsGuard],
         loadChildren:
           './pages/user/user-layout/manage-acquirer/manage-acquirer.module#ManageAcquirerModule',
       },
       {
         path: 'settlements',
+
         loadChildren:
           './pages/user/user-layout/settlement-details/settlements-details.module#SettlementDetailsModule',
       },
       {
         path: 'stations',
+        canActivate: [ViewStationsGuard],
         loadChildren:
           './pages/user/user-layout/manage-stations/manage-stations.module#ManageStationsModule',
       },
       {
         path: 'routes',
+        canActivate: [ViewRoutingGuard],
         loadChildren:
           './pages/user/user-layout/manage-routes/manage-routes.module#ManageRoutesModule',
       },
@@ -113,4 +140,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

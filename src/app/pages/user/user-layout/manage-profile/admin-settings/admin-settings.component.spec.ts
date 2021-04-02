@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TermsOfUseComponent } from './terms-of-use.component';
+import { AdminSettingsComponent } from './admin-settings.component';
 
-describe('TermsOfUseComponent', () => {
-  let component: TermsOfUseComponent;
-  let fixture: ComponentFixture<TermsOfUseComponent>;
+describe('AdminSettingsComponent', () => {
+  let component: AdminSettingsComponent;
+  let fixture: ComponentFixture<AdminSettingsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TermsOfUseComponent ]
+      declarations: [ AdminSettingsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TermsOfUseComponent);
+    fixture = TestBed.createComponent(AdminSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -15,6 +15,8 @@ import {
   currencies,
   states,
 } from '../../../../../pages/shared/constants';
+import { StorageService } from 'src/app/core/helpers/storage.service';
+import { ProfileManagementService } from 'src/app/pages/shared/services/profile-management.service';
 
 declare var $: any;
 
@@ -49,7 +51,16 @@ export class MerchantsComponent implements OnInit {
   merchantsWrapper: IWrapper<IMerchant>;
 
   messages: any;
-  exportedMerchantRecords: any;
+  allTimeZones: any;
+  isCSVLoading: boolean;
+  autoMidState: any;
+  userRecordsToDownload: any;
+  merchantRecordsToDownload: any;
+  permissions: any;
+  merchantIdToFilter: any;
+  statusToFilter: any;
+  userSettings: any;
+  // allMerchants: any;
 
   constructor(
     private paginationService: PaginationService,
@@ -58,21 +69,17 @@ export class MerchantsComponent implements OnInit {
     private fb: FormBuilder,
     private errorHandler: ErrorHandler,
     private validationMessages: ValidationService,
-    private fileGenerationService: FileGenerationService
+    private fileGenerationService: FileGenerationService,
+    private storageService: StorageService,
+    private profileMgt: ProfileManagementService
   ) {
     this.messages = this.validationMessages;
   }
 
-  getAllMerchants(merchantId?, merchantName?, status?) {
+  getAllMerchants(merchantId?, status?) {
     this.isLoading = true;
     this.merchants
-      .getAllMerchants(
-        this.pageIndex,
-        this.pageSize,
-        merchantId,
-        merchantName,
-        status
-      )
+      .getAllMerchants(this.pageIndex, this.pageSize, merchantId, status)
       .subscribe(
         (data) => {
           this.merchantsWrapper = data;
@@ -95,34 +102,45 @@ export class MerchantsComponent implements OnInit {
           this.isLoading = false;
           this.isFiltering = false;
           this.paginationService.pagerState.next(null);
-          this.errorHandler.customClientErrors(
-            'Error occurred while getting merchants',
-            error.error.error.code,
-            error.error.error.responseMessage
-          );
+
+          this.alertService.error(error);
         }
       );
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   beginDownload() {
     const merchantId = this.searchForm.value.merchantId || '';
     this.exportMerchants(merchantId);
+    this.isCSVLoading = true;
   }
 
   exportMerchants(merchantId: string = '') {
     const temp: any[] = [];
     const pageSize = this.pageSize;
 
-    this.pageSize = this.merchantsWrapper.totalElements;
-    this.pageIndex = 0;
+    const downloadPageSize = this.dataCount;
+    // this.pageIndex = 0;
 
     this.merchants
-      .getAllMerchants(this.pageIndex, this.pageSize, merchantId)
+      .getAllMerchants(
+        0,
+        downloadPageSize,
+        this.searchForm.value.merchantId,
+        this.searchForm.value.status
+      )
       .subscribe(
         (data: any) => {
-          this.exportedMerchantRecords = data.content;
-          this.pageSize = pageSize;
-          for (let idx = 0; idx < this.exportedMerchantRecords.length; idx++) {
+          this.merchantRecordsToDownload = data.content;
+
+          for (
+            let idx = 0;
+            idx < this.merchantRecordsToDownload.length;
+            idx++
+          ) {
             temp.push([]);
             temp[idx]['Merchant Name'] = this.clean('merchantName', idx);
             temp[idx]['Merchant ID'] = this.clean('merchantId', idx);
@@ -130,29 +148,36 @@ export class MerchantsComponent implements OnInit {
               'merchantCategoryCode',
               idx
             );
+            temp[idx]['Status'] = this.merchantRecordsToDownload[idx][
+              'isActive'
+            ]
+              ? 'Active'
+              : 'Inactive';
           }
-          this.exportedMerchantRecords = temp;
-          this.exportRecords();
+          // this.allMerchants = temp;
+          this.exportRecords(temp);
         },
-        (error) => {
-          this.fileGenerationService.onDownloadCompleted.next(false);
-          this.alertService.error('Merchants download could not be completed');
+        (err) => {
+          this.alertService.error(err);
         }
       );
   }
-  exportRecords() {
-    const headers = ['Merchant Name', 'Merchant ID', 'Merchant Category Code'];
-    this.fileGenerationService.generateCSV(
-      this.exportedMerchantRecords,
-      headers,
-      'Merchants'
-    );
+
+  exportRecords(temp) {
+    const headers = [
+      'Merchant Name',
+      'Merchant ID',
+      'Merchant Category Code',
+      'Status',
+    ];
+    this.fileGenerationService.generateCSV(temp, headers, 'Merchants');
     this.fileGenerationService.onDownloadCompleted.next(true);
+    this.isCSVLoading = false;
   }
 
   clean(key: string, index: number) {
-    return this.exportedMerchantRecords[index][key]
-      ? this.exportedMerchantRecords[index][key]
+    return this.merchantRecordsToDownload[index][key]
+      ? this.merchantRecordsToDownload[index][key]
       : '';
   }
 
@@ -165,7 +190,7 @@ export class MerchantsComponent implements OnInit {
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 
-    this.getAllMerchants();
+    this.getAllMerchants(this.merchantIdToFilter, this.statusToFilter);
   }
 
   clearFilters() {
@@ -189,8 +214,41 @@ export class MerchantsComponent implements OnInit {
     this.getCategoryCodes();
     this.getCountries();
     this.getCurrencyCodes();
+    this.getMerchantTimezones();
+
+    this.getPermissions();
+
+    this.getUserSettings();
 
     $('#createMerchant').on('hidden.bs.modal', this.resetForm.bind(this));
+  }
+  getUserSettings() {
+    this.profileMgt.getUserSettings().subscribe(
+      (response) => {
+        console.log(response);
+        this.userSettings = response;
+      },
+      (error) => {
+        this.alertService.error(error);
+        console.log(error);
+      }
+    );
+  }
+
+  getMerchantTimezones() {
+    const timeZones = this.storageService.getTimezones();
+    if (timeZones) {
+      // dont fetch data
+      console.log('RECSDEFDJFFHFHHFHFHFH');
+
+      this.allTimeZones = timeZones;
+    } else {
+      this.merchants.getTimezones().subscribe((response) => {
+        console.log('THese are the time zones', response);
+        this.allTimeZones = response['data'];
+        this.storageService.storeTimeZones(response.data);
+      });
+    }
   }
 
   resetForm() {
@@ -201,9 +259,11 @@ export class MerchantsComponent implements OnInit {
   }
 
   searchBy(value) {
+    this.pageIndex = 0;
+
     console.log('FILTER', value);
     this.isFiltering = true;
-    let { merchantId, merchantName, status } = value;
+    let { merchantId, status } = value;
 
     if (!value.merchantId) {
       delete value.merchantId;
@@ -211,12 +271,7 @@ export class MerchantsComponent implements OnInit {
     } else {
       merchantId = value.merchantId;
     }
-    if (!value.merchantName) {
-      delete value.merchantName;
-      merchantName = '';
-    } else {
-      merchantName = value.merchantName;
-    }
+
     if (!value.status) {
       delete value.status;
       status = '';
@@ -224,7 +279,9 @@ export class MerchantsComponent implements OnInit {
       status = value.status;
     }
 
-    this.getAllMerchants(merchantId, merchantName, status);
+    this.merchantIdToFilter = merchantId;
+    this.statusToFilter = status;
+    this.getAllMerchants(this.merchantIdToFilter, this.statusToFilter);
   }
 
   // utils
@@ -299,6 +356,7 @@ export class MerchantsComponent implements OnInit {
       currencyCode: String(this.createMerchantForm.value.currency),
       countryCode: Number(this.createMerchantForm.value.countryCode),
       city: this.createMerchantForm.value.city,
+      timezoneId: +this.createMerchantForm.value.timezoneId,
     };
     this.merchants.addNewMerchant(newMerchant).subscribe(
       (response) => {
@@ -309,11 +367,7 @@ export class MerchantsComponent implements OnInit {
       },
       (error) => {
         this.isCreatingMerchant = false;
-        this.errorHandler.customClientErrors(
-          'Error occurred while creating merchant',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+        this.alertService.error(error);
       }
     );
   }
@@ -325,16 +379,14 @@ export class MerchantsComponent implements OnInit {
   initializeForm() {
     this.searchForm = this.fb.group({
       merchantId: '',
-      merchantName: '',
       status: '',
     });
     this.createMerchantForm = this.fb.group({
       merchantName: ['', Validators.required],
-      merchantKey: ['', Validators.required],
+      merchantKey: [''],
       merchantId: [
         '',
         Validators.compose([
-          Validators.required,
           Validators.maxLength(15),
           Validators.minLength(15),
         ]),
@@ -343,7 +395,8 @@ export class MerchantsComponent implements OnInit {
       categoryCode: ['', Validators.required],
       countryCode: ['', Validators.required],
       city: ['', Validators.required],
-      merchantToken: ['', Validators.required],
+      merchantToken: [''],
+      timezoneId: ['', Validators.required],
     });
   }
 }

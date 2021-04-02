@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { DashboardService } from 'src/app/pages/shared/services/dashboard.service';
 import { SharedService } from 'src/app/pages/shared/services/shared.service';
 
@@ -8,33 +9,33 @@ import { SharedService } from 'src/app/pages/shared/services/shared.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  dashboardCount: any;
-  stillLoading: boolean;
-  errorMessage: string;
-  errorExists: boolean;
-  currency: any;
-  authService: any;
-  topTerminalStatistics: any;
-  topMerchantsStatistics: any;
-  currentUser: any;
-  constructor(private dashboardService: DashboardService, private sharedService: SharedService) {}
+  public dashboardCount: any;
+  public stillLoading: boolean;
+  public errorMessage: string;
+  public errorExists: boolean;
+  public currency: any;
+  public topTerminalStatistics: any;
+  public topMerchantsStatistics: any;
+  public currentUser: any;
+  constructor(private dashboardService: DashboardService, private sharedService: SharedService, private authService: AuthService) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getDashboardCount();
     this.getTopTerminalStat();
     this.getTopMerchants();
     this.getUserData();
+    this.authService.useXToken();
   }
 
-  getUserData() {
+  public getUserData() {
     // throw new Error('Method not implemented.');
-    this.sharedService.userDataObservable$.subscribe((response) => {
+    this.sharedService.userData$.subscribe((response) => {
       this.currentUser = response.user;
       console.log('User', this.currentUser);
     });
   }
 
-  getDashboardCount() {
+  public getDashboardCount() {
     this.dashboardService.getDashboardCount().subscribe(
       (response) => {
         // console.log('Resp ', response);
@@ -47,10 +48,10 @@ export class DashboardComponent implements OnInit {
         this.errorExists = true;
         window.scrollTo(0, 0);
         // this.removeError();
-      }
+      },
     );
   }
-  getTopTerminalStat() {
+  public getTopTerminalStat() {
     this.dashboardService.getTopTerminalStat().subscribe(
       (response) => {
         console.log('TOP TERMINAL STAT', response);
@@ -58,15 +59,15 @@ export class DashboardComponent implements OnInit {
         window.scrollTo(0, 0);
       },
       (error) => {
-        console.log('Error Encountered ', error); //TODO:
+        console.log('Error Encountered ', error); // TODO:
         this.errorMessage = 'Error : ' + error.error.message;
         this.errorExists = true;
         window.scrollTo(0, 0);
         // this.removeError();TODO:
-      }
+      },
     );
   }
-  getTopMerchants() {
+  public getTopMerchants() {
     this.dashboardService.getTopMerchantsStat().subscribe(
       (response) => {
         console.log('TOP MERCHNATS STAT', response);
@@ -79,7 +80,7 @@ export class DashboardComponent implements OnInit {
         this.errorExists = true;
         window.scrollTo(0, 0);
         // this.removeError(); TODO:
-      }
+      },
     );
   }
 }

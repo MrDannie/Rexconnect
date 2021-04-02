@@ -8,11 +8,20 @@
 }
 
 .approved {
-  color: #13A500;
+  color: #13a500;
   padding: 3px 6px;
   border-radius: 4px;
-  background-color: #E2F5E0;
+  background-color: #e2f5e0;
   font-weight: bold;
+}
+
+.show-results-span {
+  color: black;
+  // font-family: $mont-bold;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
 }
 
 .declined {
@@ -21,7 +30,14 @@
   border-radius: 4px;
   background-color: #f5b892;
   font-weight: bold;
+}
 
+.pending {
+  color: rgb(158, 158, 73);
+  padding: 3px 6px;
+  border-radius: 4px;
+  background-color: rgb(240, 240, 11);
+  font-weight: bold;
 }
 
 .footer * {

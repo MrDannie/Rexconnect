@@ -7,9 +7,10 @@ import { PasswordManagementComponent } from './password-management/password-mana
 import { SharedModule } from 'src/app/pages/shared/modules/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './profile/profile.component';
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 
 @NgModule({
-  declarations: [PersonalDetailsComponent, PasswordManagementComponent, ProfileComponent],
+  declarations: [PersonalDetailsComponent, PasswordManagementComponent, ProfileComponent, AdminSettingsComponent],
   imports: [
     CommonModule,
     ManageProfileRoutingModule,

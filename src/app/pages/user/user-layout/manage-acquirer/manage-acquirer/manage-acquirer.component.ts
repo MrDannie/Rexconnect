@@ -3,6 +3,7 @@ import { Router, Event, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 
 declare var $: any;
 
@@ -17,13 +18,16 @@ export class ManageAcquirerComponent implements OnInit {
   acquirerName: any;
   disablingAcquirer: boolean = false;
   acquirerStatus: string = 'Active';
+  createdAt: any;
+  permissions: any;
 
   constructor(
     private router: Router,
     private location: Location,
     private route: ActivatedRoute,
     private acquirerService: AcquirerService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {
     this.router.events.subscribe((val) => {
       const currentUrl = location.path();
@@ -38,6 +42,12 @@ export class ManageAcquirerComponent implements OnInit {
     console.log('this is acquirer ID', this.acquirerId);
 
     this.getAcquirer();
+
+    this.getPermissions();
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
   getAcquirer() {
     this.acquirerService
@@ -46,6 +56,7 @@ export class ManageAcquirerComponent implements OnInit {
         console.log('acquirer Gotten', response);
         this.acquirerName = response['data']['clientName'];
         this.acquirerStatus = response['data']['status'];
+        this.createdAt = response['data']['createdAt'];
       });
   }
 

@@ -1,4 +1,5 @@
 @import "~src/app/pages/shared/styles/header"; //Importation for page header
+@import "~src/app/pages/shared/styles/custom-table";
 
 .main_dashboard_flow {
   min-width: 95%;
@@ -128,4 +129,12 @@ p.sub_header {
 .add-more[disabled],
 .action_button_update[disabled] {
   cursor: not-allowed;
+}
+
+.form-control {
+  height: calc(1.5em + 0.75rem + 10px) !important;
+}
+
+.remove:hover {
+  text-decoration: underline;
 }

@@ -13,3 +13,12 @@ export interface ITransactions {
   responseDescription: string;
   creationDate: string;
 }
+
+export interface SearchTransactions {
+  referenceNumber: string;
+  type: string;
+  endDate: string;
+  startDate: string;
+  terminalId: string;
+  merchantId: string;
+}

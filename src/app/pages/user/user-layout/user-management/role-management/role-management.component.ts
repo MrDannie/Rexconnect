@@ -1,7 +1,9 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { error } from 'protractor';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { IRole } from 'src/app/pages/shared/interfaces/Role';
 import { ErrorHandler } from 'src/app/pages/shared/services/error-handler.service';
@@ -29,18 +31,26 @@ export class RoleManagementComponent implements OnInit {
   selectedPermissionsToAdd: any = [];
   permissionsToUpdate: any = [];
   validationMessage: any;
+  deletingRole: boolean;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private roleMgtService: RoleManagementService,
     private validationMessages: ValidationService,
     private errorHandler: ErrorHandler,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {
     this.validationMessage = this.validationMessages;
   }
 
   ngOnInit() {
+    $('#updateModal').modal({
+      backdrop: 'static',
+      keyboard: false,
+    });
+
     // this.selectedRole = {};
     this.isLoading = false;
     this.isPermissionsLoading = false;
@@ -55,8 +65,14 @@ export class RoleManagementComponent implements OnInit {
     this.getAllPermissions();
     this.getRoles();
 
+    this.getPermissions();
+
     this.permissionChecked = false;
     console.log('PErmisssion Array', this.selectedPermissionsToAdd);
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   getRoles() {
@@ -247,6 +263,25 @@ export class RoleManagementComponent implements OnInit {
         });
       });
     }
+  }
+
+  deleteRole(roleId) {
+    this.deletingRole = true;
+    console.log('ROLE TO DELTE', roleId);
+    this.roleMgtService.deleteRole(roleId).subscribe(
+      (response) => {
+        console.log('ROLE DELETED', response);
+        this.alertService.success('Role Deleted Successfully', true);
+        this.getRoles();
+        this.deletingRole = false;
+        $('#deleteRoleModal').modal('hide');
+        console.log('LOVE');
+      },
+      (error) => {
+        this.alertService.error(error);
+        this.deletingRole = false;
+      }
+    );
   }
 
   initializeForm() {

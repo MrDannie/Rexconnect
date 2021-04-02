@@ -1,0 +1,143 @@
+<div class="header animated fadeIn">
+  <div class="top_buttons">
+    <span class="back_button" routerLink="../">
+      <i class="fa fa-long-arrow-left"></i> Return to Transaction List
+    </span>
+  </div>
+  <div class="header_buttons" *ngIf="!isLoading">
+    <div
+      class="spinner-border spinner-border-sm"
+      role="status"
+      *ngIf="isLoading"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div class="main-header">
+    <div class="header__text animated fadeIn">
+      <div>
+        <span>Transactions Details</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main_dashboard_flow">
+    <div class="details_section">
+      <div class="form_area" *ngIf="!isLoading">
+        <div class="row">
+          <div class="col-md-6">
+            <span class="card_header">Terminal ID</span>
+            <p style="word-wrap: break-word" class="card_value">
+              {{ transaction.tid }}
+            </p>
+          </div>
+          <div class="col-md-6" style="word-wrap: break-word">
+            <span class="card_header">Merchant</span>
+            <p class="card_value">{{ transaction.mid }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6" style="word-wrap: break-word">
+            <span class="card_header">RRN</span>
+            <p class="card_value">{{ transaction.rrn }}</p>
+          </div>
+          <div class="col-md-6">
+            <span class="card_header">STAN</span>
+            <p class="card_value" *ngIf="transaction?.stan !== null">
+              {{ transaction?.stan }}
+            </p>
+            <p class="null-value" *ngIf="transaction?.stan === null">Nil</p>
+          </div>
+        </div>
+        <div class="row">
+          <div style="word-wrap: break-word" class="col-md-6">
+            <span class="card_header">Amount</span>
+            <p class="card_value" *ngIf="transaction.amount !== null">
+              {{ transaction.amount }}
+            </p>
+            <p class="null-value" *ngIf="transaction.amount === null">Nil</p>
+          </div>
+          <div style="word-wrap: break-word" class="col-md-6">
+            <span class="card_header">Currency</span>
+            <p class="card_value" *ngIf="transaction.currencyCode !== null">
+              {{ transaction.currencyCode }} ({{ transaction.currencyAlpha }})
+            </p>
+            <p class="null-value" *ngIf="transaction.currencyCode === null">
+              Nil
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div style="word-wrap: break-word" class="col-md-6">
+            <span class="card_header">Type</span>
+            <p
+              style="word-wrap: break-word"
+              class="card_value"
+              *ngIf="transaction.type !== null"
+            >
+              {{ transaction.type }}
+            </p>
+            <p class="null-value" *ngIf="transaction.type === null">Nil</p>
+          </div>
+
+          <div style="word-wrap: break-word" class="col-md-6">
+            <span class="card_header">Status</span>
+            <p class="card_value" *ngIf="transaction.status !== null">
+              {{ transaction.status }}
+            </p>
+            <p class="null-value" *ngIf="transaction.status === null">Nil</p>
+          </div>
+        </div>
+        <div style="word-wrap: break-word" class="row">
+          <div class="col-md-6">
+            <span class="card_header">Date/Time</span>
+            <p class="card_value" *ngIf="transaction.creationDate !== null">
+              {{ transaction.creationDate | date: "medium":"UTC" }}
+            </p>
+            <p class="null-value" *ngIf="transaction.creationDate === null">
+              Nil
+            </p>
+          </div>
+
+          <div class="col-md-6">
+            <span class="card_header">PAN/Account</span>
+            <p class="card_value" *ngIf="transaction.pan !== null">
+              {{ transaction.pan }}
+            </p>
+            <p class="null-value" *ngIf="transaction.pan === null">Nil</p>
+          </div>
+        </div>
+
+        <div style="word-wrap: break-word" class="row">
+          <div class="col-md-6">
+            <span class="card_header">Additional Data</span>
+            <p
+              class="card_value"
+              *ngIf="transaction.additionalData?.customerPhoneNo !== null"
+            >
+              {{ transaction.additionalData?.customerPhoneNo }}
+            </p>
+            <p
+              class="null-value"
+              *ngIf="transaction.additionalData?.customerPhoneNo === null"
+            >
+              Nil
+            </p>
+          </div>
+
+          <div class="col-md-6">
+            <span class="card_header">Transaction ID</span>
+            <p class="card_value" *ngIf="transaction.transactionId !== null">
+              {{ transaction.transactionId }}
+            </p>
+            <p class="null-value" *ngIf="transaction.transactionId === null">
+              Nil
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

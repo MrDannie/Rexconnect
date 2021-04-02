@@ -5,6 +5,7 @@ import { UpdatePtspComponent } from './update-ptsp/update-ptsp.component';
 import { PtspDetailsComponent } from './ptsp-details/ptsp-details.component';
 import { PtspManagementRoutingModule } from './ptsp-management-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/pages/shared/modules/shared.module';
 
 @NgModule({
   declarations: [PtspsComponent, UpdatePtspComponent, PtspDetailsComponent],
@@ -12,7 +13,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     CommonModule,
     PtspManagementRoutingModule,
     ReactiveFormsModule,
-    FormsModule
-  ]
+    FormsModule,
+    SharedModule,
+  ],
 })
-export class PtspManagementModule { }
+export class PtspManagementModule {}

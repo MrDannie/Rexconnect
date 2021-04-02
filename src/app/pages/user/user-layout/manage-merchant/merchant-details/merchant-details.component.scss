@@ -18,11 +18,13 @@
   // padding-bottom: 5rem;
 }
 
-.terminals {
-  height: 20rem;
+// .terminals {
+//   height: 20rem;
+// }
+
+.terminals[_ngcontent-c10] {
+  height: fit-content !important;
 }
-
-
 
 .form_area {
   width: 100%;

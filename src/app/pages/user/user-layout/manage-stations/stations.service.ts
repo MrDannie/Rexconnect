@@ -1,43 +1,35 @@
-import { StorageService } from "src/app/core/helpers/storage.service";
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { map } from "rxjs/operators";
-import { Config } from "../../../../core/Config";
-import { environment } from "src/environments/environment";
+import { StorageService } from 'src/app/core/helpers/storage.service';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Config } from '../../../../core/Config';
+import { environment } from 'src/environments/environment';
 
 const BASE_URL = environment.BASE_URL;
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StationsService {
+  constructor(private httpClient: HttpClient, private config: Config) {}
 
-  constructor(
-    private httpClient: HttpClient,
-    private router: Router,
-    private storageService: StorageService,
-    private config: Config
-  ) { }
-
-  
   getAllStations(pageIndex, pageSize, searchFormValue?) {
     let params = new HttpParams();
 
     if (pageIndex) {
-      params = params.append("offset", pageIndex);
+      params = params.append('page', pageIndex);
     }
     if (pageSize) {
-      params = params.append("limit", pageSize);
+      params = params.append('size', pageSize);
     }
     if (searchFormValue) {
       if (searchFormValue.name) {
-        params = params.append("name", searchFormValue.name);
+        params = params.append('name', searchFormValue.name);
       }
       if (searchFormValue.status) {
-        params = params.append("isActive", searchFormValue.status);
+        params = params.append('isActive', searchFormValue.status);
       }
     }
-   
 
     return this.httpClient
       .get(BASE_URL + this.config.stations, { params })
@@ -55,12 +47,18 @@ export class StationsService {
 
   updateStation(id, details) {
     console.log(id);
-    return this.httpClient.put(BASE_URL + this.config.stations + '/' + id, details);
+    return this.httpClient.put(
+      BASE_URL + this.config.stations + '/' + id,
+      details
+    );
   }
 
   createStation(stationDetails) {
     console.log(stationDetails);
-    return this.httpClient.post(BASE_URL + this.config.stations, stationDetails);
+    return this.httpClient.post(
+      BASE_URL + this.config.stations,
+      stationDetails
+    );
   }
   deleteStation(id) {
     console.log(id);
@@ -68,11 +66,17 @@ export class StationsService {
   }
   disableStation(id) {
     console.log(id);
-    return this.httpClient.post(BASE_URL + this.config.stations + '/' + id + '/disable', '');
+    return this.httpClient.post(
+      BASE_URL + this.config.stations + '/' + id + '/disable',
+      ''
+    );
   }
   enableStation(id) {
     console.log(id);
-    return this.httpClient.post(BASE_URL + this.config.stations + '/' + id + '/enable', '');
+    return this.httpClient.post(
+      BASE_URL + this.config.stations + '/' + id + '/enable',
+      ''
+    );
   }
   // updateMerchant(merchantDetails) {
   //   console.log(merchantDetails);

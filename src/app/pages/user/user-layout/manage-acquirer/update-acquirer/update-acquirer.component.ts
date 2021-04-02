@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -24,13 +25,17 @@ export class UpdateAcquirerComponent implements OnInit {
   routesToAdd: any = [];
   ptspsListOfAcquirer: number[];
   isAddingAcquirer: boolean;
+  showDropdown: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private acquirerService: AcquirerService,
     private route: ActivatedRoute,
-    private alertService: AlertService
-  ) {}
+    private alertService: AlertService,
+    private router: Router
+  ) {
+    this.showDropdown = false;
+  }
 
   ngOnInit() {
     this.initializeForm();
@@ -52,8 +57,9 @@ export class UpdateAcquirerComponent implements OnInit {
       clientLocation: ['', Validators.compose([Validators.required])],
       clientAddress: ['', Validators.compose([Validators.required])],
       currencyCode: ['', Validators.compose([Validators.required])],
-      terminalPrefix: [[''], Validators.compose([Validators.required])],
+      terminalPrefix: ['', Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
+      email: ['', Validators.compose([Validators.required])],
       // ruleOrder: ['', Validators.compose([Validators.required])],
       // ptsps: ['', Validators.compose([Validators.required])],
       // routingRules: ['', Validators.compose([Validators.required])],
@@ -87,11 +93,9 @@ export class UpdateAcquirerComponent implements OnInit {
       clientLocation: this.acquirerToBeUpdated.clientLocation,
       clientAddress: this.acquirerToBeUpdated.clientAddress,
       currencyCode: this.acquirerToBeUpdated.currencyCode,
-      terminalPrefix: [this.acquirerToBeUpdated.terminalPrefix],
+      terminalPrefix: this.acquirerToBeUpdated.terminalPrefix,
       shortName: this.acquirerToBeUpdated.shortName,
-      ruleOrder: '',
-      ptsps: '',
-      routingRules: '',
+      email: this.acquirerToBeUpdated.email,
     });
 
     console.log('HERHE IS EDIT ACQUIRER FORM', this.editAcquirerForm.value);
@@ -209,16 +213,26 @@ export class UpdateAcquirerComponent implements OnInit {
     formValue.routingRules = this.routingRulesToBeAdded;
     formValue.ptsps = this.ptspsToAdd;
     formValue.ruleOrder = this.ruleOrder;
-    formValue.terminalPrefix = [
-      this.editAcquirerForm.get('terminalPrefix').value,
-    ];
+
+    let terminalPrefix = this.editAcquirerForm.get('terminalPrefix').value;
+    console.log(terminalPrefix);
+
+    terminalPrefix = terminalPrefix.replace(/\s+/g, '');
+    terminalPrefix = terminalPrefix.split(',');
+
+    formValue.terminalPrefix = terminalPrefix;
+
     console.log('FORM VAL,', formValue);
 
     // ADD RULE
     this.acquirerService.updateAcquirer(formValue, this.acquirerId).subscribe(
       (response) => {
         this.isAddingAcquirer = false;
-        this.alertService.success('Acquirer Successfully Added', true);
+        this.alertService.success('Acquirer updated sucessfully', true);
+        this.router.navigate([
+          '../../../../user/acquirers/' + this.acquirerId + '/acquirer-details',
+        ]);
+
         console.log('SUCEESS', response);
       },
       (error) => {

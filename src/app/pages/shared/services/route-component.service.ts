@@ -2,26 +2,50 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Config } from 'src/app/core/Config';
 
 import { environment } from 'src/environments/environment';
 import { RoutingRulesInterface } from '../interfaces/routing-rules.model';
 
 const BASE_URL: string = environment.BASE_URL;
 
+export interface SearchRoutingRules {
+  defaultDs: string;
+  ruletype: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class RouteComponentService {
-  constructor(private http: HttpClient) {}
+  config: Config;
 
-  getAllRoutingRules(pageIndex, pageSize): Observable<RoutingRulesInterface> {
-    const params = new HttpParams();
-    const requestParams = params
-      .append('page', pageIndex.toString())
-      .append('size', pageSize.toString());
+  constructor(private http: HttpClient) {
+    this.config = new Config();
+  }
+
+  getAllRoutingRules(pageIndex, pageSize, defaultDs?, rule?): Observable<any> {
+    console.log('OPTIONS IN ROUTE SERVICE');
+
+    let params = new HttpParams();
+
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+
+    if (defaultDs) {
+      params = params.append('default_ds', defaultDs);
+    }
+    if (rule) {
+      params = params.append('rule', rule);
+    }
+
     return this.http
       .get<RoutingRulesInterface>(BASE_URL + '/v1/routing-rules', {
-        params: requestParams,
+        params: params,
       })
       .pipe(
         map((response: RoutingRulesInterface) => {
@@ -94,6 +118,20 @@ export class RouteComponentService {
       {
         params: requestParams,
       }
+    );
+  }
+
+  disableRoute(routeId): Observable<any> {
+    return this.http.post<any>(
+      BASE_URL + this.config.disableRoute.replace('{routeId}', routeId),
+      ''
+    );
+  }
+
+  enableRoute(routeId): Observable<any> {
+    return this.http.post<any>(
+      BASE_URL + this.config.enableRoute.replace('{routeId}', routeId),
+      ''
     );
   }
 }

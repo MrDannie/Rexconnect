@@ -67,6 +67,7 @@ export class EditRoutesComponent implements OnInit {
     this.routeCompService.getSingleRoute(this.routeId).subscribe(
       (response) => {
         console.log('THIS IS THE ROUTE TO EDITTED', response);
+        this.routeToBeEditted = response.data;
 
         // PARSE THE DATA
         let parsedData = JSON.parse(response.data.rule_config);
@@ -74,6 +75,7 @@ export class EditRoutesComponent implements OnInit {
         // SET FORM VALUE
 
         this.defaultDestinationStation = response.data.default_ds;
+
         // this.defaultDestinationStation = 'transware';
 
         console.log('This defaut Ds', this.defaultDestinationStation);
@@ -90,9 +92,11 @@ export class EditRoutesComponent implements OnInit {
         this.duplicateFormField(this.ruleConfigForRouteToBeEditted.length);
 
         console.log('afadsf', this.ruleConfigForRouteToBeEditted);
+        console.log('asfsdasdf', this.ruleConfig);
 
         // SET FORM VALUE
         this.setEditFormValue();
+        console.log(this.editRouteForm);
       },
       (error) => {
         console.log(error);
@@ -118,7 +122,7 @@ export class EditRoutesComponent implements OnInit {
 
   getAllDestinationStations() {
     this.routeCompService.getAllStations().subscribe((response) => {
-      this.destinationStations = response.data.stations;
+      this.destinationStations = response.data.content;
       // this.setEditFormValue();
     });
   }
@@ -127,6 +131,10 @@ export class EditRoutesComponent implements OnInit {
     this.isUpdatingRoute = true;
     console.log(this.editRouteForm.value);
 
+    this.editRouteForm.get('rule_config').value.map((config) => {
+      config.rule = this.editRouteForm.get('rule').value;
+    });
+
     this.routeCompService
       .editRoute(this.editRouteForm.value, this.routeId)
       .subscribe(
@@ -134,6 +142,10 @@ export class EditRoutesComponent implements OnInit {
           console.log('RESponse AFER EDITTED', response);
           this.isUpdatingRoute = false;
           this.alertService.success('Routing Rule Updated Successfully', true);
+          this.router.navigate([
+            '../../../../user/routes/route-details/' + this.routeId,
+          ]);
+
           // this.router.navigate(['../../route-details', this.routeId]);
         },
         (error) => {
@@ -145,21 +157,23 @@ export class EditRoutesComponent implements OnInit {
       );
   }
 
-  removeConfig() {
-    this.ruleConfig = this.editRouteForm.get('rule_config') as FormArray;
-    this.ruleConfig.controls.pop();
-    // this.ruleConfig['status'] = 'VALID';
-    // this.createRouteForm['status'] = 'VALID'
+  removeConfig(skillGroupIndex: number): void {
+    (<FormArray>this.editRouteForm.get('rule_config')).removeAt(
+      skillGroupIndex
+    );
   }
 
   duplicateForm(): void {
     console.log('here');
+    console.log(this.ruleConfig);
 
     this.ruleConfig = this.editRouteForm.get('rule_config') as FormArray;
     this.ruleConfig.push(this.createRuleConfigForm());
+    console.log(this.ruleConfig);
   }
 }
 // {
 //     "username": "admin",
-//     "password": "RmcWuVrO"
+//     "password": "RmcWuVrO",
+// fdsf
 // }

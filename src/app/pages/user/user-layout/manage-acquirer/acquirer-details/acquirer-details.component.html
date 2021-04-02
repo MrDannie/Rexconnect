@@ -11,21 +11,41 @@
         <div class="col-md-6">
           <span>Acquirer Short Name</span>
           <p>
-            <strong>{{ acquirer?.clientAddress }}</strong>
+            <strong>{{ acquirer?.shortName }}</strong>
           </p>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <span>CBN Code</span>
+          <span>Acquirer Code</span>
           <p>
             <strong>{{ acquirer?.bankCode }}</strong>
           </p>
         </div>
         <div class="col-md-6">
-          <span>Acquirer's Address</span>
+          <span>Terminal Prefix</span>
+          <p>
+            <strong>{{ acquirer?.terminalPrefix }}</strong>
+          </p>
+        </div>
+
+        <div class="col-md-6">
+          <span>Acquirer Location</span>
           <p>
             <strong>{{ acquirer?.clientLocation }}</strong>
+          </p>
+        </div>
+
+        <div class="col-md-6">
+          <span>Acquirer Address</span>
+          <p>
+            <strong>{{ acquirer?.clientAddress }}</strong>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <span>Acquirer Email</span>
+          <p>
+            <strong>{{ acquirer?.email }}</strong>
           </p>
         </div>
       </div>
@@ -62,6 +82,7 @@
         </div>
       </div> -->
       <button
+        *ngIf="permissions.includes('CAN_MANAGE_CLIENTS')"
         class="btn action_button_update"
         data-toggle="modal"
         data-target="#editAcquirer"

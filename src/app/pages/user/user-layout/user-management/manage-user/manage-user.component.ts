@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { PaginationService } from 'src/app/core/pagination.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { AllRoles } from 'src/app/pages/shared/interfaces/AllRoles';
@@ -50,6 +51,10 @@ export class ManageUserComponent implements OnInit {
   userRecordsToDownload: any;
 
   isFiltering: any = false;
+  permissions: any;
+  usernameToFilter: any;
+  emailToFilter: any;
+  statusToFilter: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,7 +63,8 @@ export class ManageUserComponent implements OnInit {
     private alertService: AlertService,
     private validationMessages: ValidationService,
     private fileGenerationService: FileGenerationService,
-    private errorHandler: ErrorHandler
+    private errorHandler: ErrorHandler,
+    private storageService: StorageService
   ) {
     this.validationMessage = validationMessages;
   }
@@ -94,6 +100,9 @@ export class ManageUserComponent implements OnInit {
       );
   }
 
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
+  }
   ngOnInit() {
     this.showFilter = false;
     this.isCSVLoading = false;
@@ -105,13 +114,18 @@ export class ManageUserComponent implements OnInit {
     this.initializeForm();
     this.getAllUsers();
     this.getUsersRoles('MERCHANT');
+    this.getPermissions();
   }
 
   onRefreshData(pageParams: { pageIndex: number; pageSize: number }) {
     this.pageIndex = pageParams.pageIndex;
     this.pageSize = pageParams.pageSize;
 
-    this.getAllUsers();
+    this.getAllUsers(
+      this.usernameToFilter,
+      this.emailToFilter,
+      this.statusToFilter
+    );
   }
 
   getUsersRoles(category) {
@@ -123,11 +137,8 @@ export class ManageUserComponent implements OnInit {
         console.log('list', this.listOfMerchantRoles);
       },
       (e) => {
-        this.errorHandler.customClientErrors(
-          'Unable to get users',
-          e.error.error.code,
-          e.error.error.responseMessage
-        );
+        this.alertService.error(e);
+
         this.paginationService.pagerState.next(null);
       }
     );
@@ -141,15 +152,13 @@ export class ManageUserComponent implements OnInit {
         $('#createUser').modal('hide');
         this.isLoading = false;
         console.log('User Gotten IN component', response);
+        this.createUserForm.reset();
         this.alertService.success('User Created Successfully', true);
       },
       (error) => {
         this.isLoading = false;
-        this.errorHandler.customClientErrors(
-          'Unable to create user',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+
+        this.alertService.error(error);
         console.log('Error Occured in Adding user', error);
       }
     );
@@ -163,29 +172,41 @@ export class ManageUserComponent implements OnInit {
     // const currentPageSize = this.pageSize;
 
     const downloadPageSize = this.dataCount;
-    this.pageIndex = 0;
 
+    // this.pageIndex = 0;
     this.userManagementService
-      .getAllUsers(this.pageIndex, downloadPageSize)
-      .subscribe((data: any) => {
-        this.userRecordsToDownload = data['content'];
-        for (
-          let index = 0;
-          index < this.userRecordsToDownload.length;
-          index++
-        ) {
-          dataToDownload.push([]);
-          dataToDownload[index]['Username'] = this.clean('username', index);
-          dataToDownload[index]['Email'] = this.clean('email', index);
-          dataToDownload[index]['Status'] = this.userRecordsToDownload[index][
-            'enabled'
-          ]
-            ? 'Active'
-            : 'Inactive';
+      .getAllUsers(
+        0,
+        downloadPageSize,
+        this.searchForm.value.username,
+        this.searchForm.value.email,
+        this.searchForm.value.enabled
+      )
+      .subscribe(
+        (data: any) => {
+          this.userRecordsToDownload = data['content'];
+
+          for (
+            let index = 0;
+            index < this.userRecordsToDownload.length;
+            index++
+          ) {
+            dataToDownload.push([]);
+            dataToDownload[index]['Username'] = this.clean('username', index);
+            dataToDownload[index]['Email'] = this.clean('email', index);
+            dataToDownload[index]['Status'] = this.userRecordsToDownload[index][
+              'enabled'
+            ]
+              ? 'Active'
+              : 'Inactive';
+          }
+          console.log('dataToDownload In Exxport Users', dataToDownload);
+          this.exportRecords(dataToDownload);
+        },
+        (error) => {
+          this.alertService.error(error);
         }
-        console.log('dataToDownload In Exxport Users', dataToDownload);
-        this.exportRecords(dataToDownload);
-      });
+      );
   }
 
   exportRecords(dataToDownload: any[]) {
@@ -212,11 +233,8 @@ export class ManageUserComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
-        this.errorHandler.customClientErrors(
-          'Unable to delete user',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+        this.alertService.error(error);
+
         console.log('Error Occured in Deleting user', error);
       }
     );
@@ -278,11 +296,8 @@ export class ManageUserComponent implements OnInit {
         },
         (error) => {
           this.isLoading = false;
-          this.errorHandler.customClientErrors(
-            'Unable to create user',
-            error.error.error.code,
-            error.error.error.responseMessage
-          );
+          this.alertService.error(error);
+
           console.log('ERROR IN UPDATING USER', error);
         }
       );
@@ -316,6 +331,8 @@ export class ManageUserComponent implements OnInit {
   }
 
   searchBy(value) {
+    this.pageIndex = 0;
+
     console.log(value);
     this.isFiltering = true;
 
@@ -342,7 +359,14 @@ export class ManageUserComponent implements OnInit {
 
     // this.pageIndex = 0;
     // this.currentPage = 1;
-    this.getAllUsers(username, email, enabled);
+    this.usernameToFilter = username;
+    this.emailToFilter = email;
+    this.statusToFilter = enabled;
+    this.getAllUsers(
+      this.usernameToFilter,
+      this.emailToFilter,
+      this.statusToFilter
+    );
   }
 
   // request by page size

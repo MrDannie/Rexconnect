@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { PaginationService } from 'src/app/core/pagination.service';
+import { states } from 'src/app/pages/shared/constants';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 import { UserManagementService } from 'src/app/pages/shared/services/user-management.service';
@@ -32,6 +34,11 @@ export class AcquirerComponent implements OnInit {
   isRefreshing: boolean;
   isFiltering: boolean;
   acquirerRecordsToDownload: any;
+  permissions: any;
+  clientNameToFilter: any;
+  bankCodeToFilter: any;
+  statusToFilter: any;
+  // allAcquirer: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,7 +46,8 @@ export class AcquirerComponent implements OnInit {
     private alertService: AlertService,
     private paginationService: PaginationService,
     private userManagementService: UserManagementService,
-    private fileGenerationService: FileGenerationService
+    private fileGenerationService: FileGenerationService,
+    private storageService: StorageService
   ) {
     this.showFilter = false;
     this.showFilter = false;
@@ -58,6 +66,8 @@ export class AcquirerComponent implements OnInit {
 
     // GET PTSPS
     this.getPtsts();
+
+    this.getPermissions();
   }
 
   initializeForm() {
@@ -77,6 +87,10 @@ export class AcquirerComponent implements OnInit {
     });
   }
 
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
+  }
+
   // GET ALL ACQUIRER
   getAllAcquirers(clientName?, bankCode?, status?) {
     this.acquirerService
@@ -90,8 +104,8 @@ export class AcquirerComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('Acquirers Data', response);
-          this.allAcquirer = response['data']['clients'];
-          this.dataCount = response['data']['count'];
+          this.allAcquirer = response['data']['content'];
+          this.dataCount = response['data']['totalElements'];
           this.isLoaded = true;
           this.isLoading = false;
           this.isRefreshing = false;
@@ -129,6 +143,8 @@ export class AcquirerComponent implements OnInit {
   }
 
   filterBy(value) {
+    this.pageIndex = 0;
+
     console.log('FILTER', this.searchForm.value);
     console.log(value);
     this.isFiltering = true;
@@ -154,7 +170,15 @@ export class AcquirerComponent implements OnInit {
       status = value.status;
     }
 
-    this.getAllAcquirers(clientName, bankCode, status);
+    this.clientNameToFilter = clientName;
+    this.bankCodeToFilter = bankCode;
+    this.statusToFilter = status;
+
+    this.getAllAcquirers(
+      this.clientNameToFilter,
+      this.bankCodeToFilter,
+      this.statusToFilter
+    );
   }
 
   clearFilters() {
@@ -178,41 +202,57 @@ export class AcquirerComponent implements OnInit {
     // const currentPageSize = this.pageSize;
 
     const downloadPageSize = this.dataCount;
-    this.pageIndex = 0;
+    this.isCSVLoading = true;
 
-    this.userManagementService
-      .getAllUsers(this.pageIndex, downloadPageSize)
-      .subscribe((data: any) => {
-        this.acquirerRecordsToDownload = data['content'];
-        for (
-          let index = 0;
-          index < this.acquirerRecordsToDownload.length;
-          index++
-        ) {
-          dataToDownload.push([]);
-          dataToDownload[index]['Acquirer Name'] = this.clean(
-            'clientName',
-            index
-          );
-          dataToDownload[index]['CBN Code'] = this.clean('bankCode', index);
-          dataToDownload[index]['Status'] = this.acquirerRecordsToDownload[
-            index
-          ]['enabled']
-            ? 'Active'
-            : 'Inactive';
+    // this.pageIndex = 0;
+    this.acquirerService
+      .getAllAcquirer(
+        0,
+        downloadPageSize,
+        this.searchForm.value.clientName,
+        this.searchForm.value.bankCode,
+        this.searchForm.value.status
+      )
+      .subscribe(
+        (data) => {
+          this.acquirerRecordsToDownload = data.data['content'];
+          for (
+            let index = 0;
+            index < this.acquirerRecordsToDownload.length;
+            index++
+          ) {
+            dataToDownload.push([]);
+            dataToDownload[index]['Acquirer Name'] = this.clean(
+              'clientName',
+              index
+            );
+            dataToDownload[index]['Acquirer Code'] = this.clean(
+              'bankCode',
+              index
+            );
+            dataToDownload[index]['Status'] =
+              this.acquirerRecordsToDownload[index]['status'] === 'ACTIVE'
+                ? 'Active'
+                : 'Inactive';
+          }
+          console.log('dataToDownload In Exxport Users', dataToDownload);
+          this.exportRecords(dataToDownload);
+        },
+        (error) => {
+          this.alertService.error(error);
         }
-        console.log('dataToDownload In Exxport Users', dataToDownload);
-        this.exportRecords(dataToDownload);
-      });
+      );
   }
+
   exportRecords(dataToDownload: any[]) {
-    const headers = ['Acquirer Name', 'Cbn Code', 'Status'];
+    const headers = ['Acquirer Name', 'Acquirer Code', 'Status'];
     this.fileGenerationService.generateCSV(
       dataToDownload,
       headers,
       'Acquirers'
     );
     this.fileGenerationService.onDownloadCompleted.next(true);
+    this.isCSVLoading = false;
   }
   clean(key: string, index: number): any {
     return this.acquirerRecordsToDownload[index][key]
@@ -221,15 +261,22 @@ export class AcquirerComponent implements OnInit {
   }
 
   requestPageSize(value: number) {
+    console.log('afdasdfasdf');
     this.pageSize = value;
     this.getAllAcquirers();
   }
 
   onRefreshData(payload: { pageIndex: number; pageSize: number }) {
+    console.log('adfadsf', payload);
+
     this.pageIndex = payload.pageIndex;
     this.pageSize = payload.pageSize;
 
-    this.getAllAcquirers();
+    this.getAllAcquirers(
+      this.clientNameToFilter,
+      this.bankCodeToFilter,
+      this.statusToFilter
+    );
   }
 
   refreshTableData() {

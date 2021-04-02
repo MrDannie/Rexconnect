@@ -10,20 +10,31 @@ const BASE_URL = environment.BASE_URL;
 })
 export class SharedService {
   private userData: BehaviorSubject<any>;
-  public userDataObservable$: Observable<any>
-
-  private roleData: BehaviorSubject<any>;
+  public userData$: Observable<any>;
 
   constructor(private storageService: StorageService) {
-    this.userData = new BehaviorSubject<any>(this.storageService.getCurrentUser())
-        this.userDataObservable$ = this.userData.asObservable();
+    this.userData = new BehaviorSubject<any>(this.storageService.getCurrentUser());
+    this.userData$ = this.userData.asObservable();
 
   }
 
-    updateUserData() {
+    public updateUserData() {
       this.userData.next(this.storageService.getCurrentUser());
     }
 
+    public nextUserData(userData) {
+      this.userData.next(userData);
+    }
+
+    public get currentUserValue() {
+      return this.userData.value;
+    }
+
+    public updateComponents() {
+      console.log("updated");
+      this.userData.next(this.storageService.getCurrentUser());
+    }
+   
   //   updateRoleData() {
   //     this.roleData.next(this.storageService.getCurrentRole());
   //   }

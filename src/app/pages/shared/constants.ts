@@ -20,7 +20,7 @@ export const countries = {
   ],
 };
 
-export const RULETYPES = ['bin_series', 'scheme', 'proc_code'];
+export const RULETYPES = ['BIN_SERIES', 'SCHEME', 'PROC_CODE', 'AMOUNT'];
 
 export const currencies = {
   CURRENCY_CODES: [

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 
 @Component({
   selector: 'app-side-navigation',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./side-navigation.component.scss'],
 })
 export class SideNavigationComponent implements OnInit {
-  constructor() {}
+  permissions: any;
+  constructor(private storageService: StorageService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getPermissions();
+  }
 
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
+  }
   openNav() {
     // document.getElementById('toggler').style.transition = 'left ease-in 0.4s';
     document.getElementById('mySidebar').style.width = '250px';

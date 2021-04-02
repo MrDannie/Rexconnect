@@ -8,14 +8,14 @@
     <div>
       <span class="name">
         <img src="../../../../../../assets/images/girl.svg" alt="avater" />
-        {{ merchant?.merchantName }}</span
+        {{ merchantName }}</span
       >
-      <span class="date">Created: DEC 9, 2019, 12:04:56 AM</span>
+      <span class="date">{{ createdAt | date: "medium" }}</span>
       <span class="status"
         >Status: {{ merchantStatus === true ? "Active" : "Inactive" }}</span
       >
     </div>
-    <div>
+    <div *ngIf="permissions.includes('CAN_MANAGE_MERCHANTS')">
       <span
         style="cursor: pointer"
         class="action_button_disable"
@@ -71,7 +71,7 @@
         <h5 class="modal-title" id="createUserLabel">Disable Merchant</h5>
         <br />
         <p>
-          You are about to disable acquirer "{{ merchantName }}". Please confirm
+          You are about to disable merchant "{{ merchantName }}". Please confirm
           this action to continue.
         </p>
         <br />

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 import { ValidationService } from 'src/app/core/validation.service';
 import { ProfileManagementService } from 'src/app/pages/shared/services/profile-management.service';
 
@@ -13,23 +14,29 @@ export class PasswordManagementComponent implements OnInit {
   changePasswordForm: FormGroup;
   validationMessage: any;
   isUserCreating = false;
+  permissions: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private validationMessages: ValidationService,
     private profileMgt: ProfileManagementService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {
     this.validationMessage = this.validationMessages;
   }
 
   ngOnInit() {
     this.initializeForm();
+    this.getPermissions();
   }
 
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
+  }
   initializeForm() {
     this.changePasswordForm = this.formBuilder.group({
-      currentPassword: ['', Validators.compose([Validators.required])],
+      oldPassword: ['', Validators.compose([Validators.required])],
       newPassword: ['', Validators.compose([Validators.required])],
       verifyPassword: ['', Validators.compose([Validators.required])],
     });
@@ -38,9 +45,13 @@ export class PasswordManagementComponent implements OnInit {
   updatePassword(formValue) {
     this.isUserCreating = true;
 
-    // console.log(value);
+    console.log(formValue);
+    const val = {
+      oldPassword: formValue.oldPassword,
+      newPassword: formValue.newPassword,
+    };
 
-    this.profileMgt.updatePassword(formValue).subscribe(
+    this.profileMgt.updatePassword(val).subscribe(
       (response) => {
         console.log('response', response);
         this.isUserCreating = false;
@@ -50,8 +61,7 @@ export class PasswordManagementComponent implements OnInit {
       (error) => {
         console.log(error);
         this.isUserCreating = false;
-
-        this.alertService.error(error.error.message, false);
+        this.alertService.error(error, false);
       }
     );
   }

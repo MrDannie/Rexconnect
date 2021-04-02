@@ -56,6 +56,7 @@
         data-keyboard="false"
         data-target="#createRole"
         (click)="clearSelection()"
+        *ngIf="permissions.includes('CAN_MANAGE_ROLES')"
       >
         <i class="fa fa-plus animated slideInLeft"></i>
         <span class="animated">Create Custom Role</span>
@@ -68,16 +69,33 @@
     <div class="role_details_header">
       {{ selectedRole.name | uppercase }}
 
-      <span
-        class="no_border_button"
-        data-toggle="modal"
-        data-target="#updateRole"
-        data-backdrop="static"
-        data-keyboard="false"
+      <div
+        *ngIf="permissions.includes('CAN_MANAGE_ROLES')"
+        style="display: flex; align-items: center; justify-content: center"
       >
-        <i class="fa fa-pencil"></i>
-        <span (click)="editHandler()">Edit Role</span>
-      </span>
+        <span
+          class="no_border_button"
+          data-toggle="modal"
+          data-target="#updateRole"
+          data-backdrop="static"
+          data-keyboard="false"
+        >
+          <i class="fa fa-pencil"></i>
+          <span
+            style="color: #13a500; margin-right: 10px"
+            (click)="editHandler()"
+            >Edit Role</span
+          >
+        </span>
+        <span
+          data-target="#deleteRoleModal"
+          data-toggle="modal"
+          data-backdrop="static"
+          data-keyboard="false"
+          style="color: #950007; font-size: 11px; cursor: pointer"
+          >Delete Role</span
+        >
+      </div>
     </div>
 
     <div class="footnote_text">
@@ -343,6 +361,46 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal animated zoomIn"
+  id="deleteRoleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="DeleteRoleLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="DeleteRoleLabel">Delete Role</h5>
+        <br />
+        <p>
+          You are about to delete Role "{{ selectedRole.name }}". Please confirm
+          this action to continue.
+        </p>
+        <br />
+        <div class="form_actions">
+          <div class="cancel_button" data-dismiss="modal">Cancel</div>
+          <button
+            class="btn action_button"
+            (click)="deleteRole(selectedRole.id)"
+          >
+            Delete Role
+          </button>
+
+          <div
+            *ngIf="deletingRole"
+            class="spinner-border spinner-border-sm ml-3"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

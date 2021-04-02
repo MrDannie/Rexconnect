@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { isNullOrUndefined } from 'util';
 import { environment } from '../../../../environments/environment';
-import { ITransactions } from '../interfaces/Transactions';
+import { ITransactions, SearchTransactions } from '../interfaces/Transactions';
 import { IWrapper } from '../interfaces/wrapper.model';
 
 const BASE_URL = environment.BASE_URL;
@@ -16,14 +16,45 @@ const BASE_URL = environment.BASE_URL;
 export class TransactionsService {
   constructor(private httpClient: HttpClient) {}
 
-  getTransactions(pageIndex, pageSize): Observable<IWrapper<ITransactions>> {
-    const params = new HttpParams();
-    const requestParams = params
-      .append('page', pageIndex.toString())
-      .append('size', pageSize.toString());
+  getTransactions(
+    pageIndex,
+    pageSize,
+    startDate,
+    endDate,
+    merchantId?,
+    terminalId?,
+    type?,
+    referenceNumber?
+  ): Observable<IWrapper<ITransactions>> {
+    let params = new HttpParams();
+
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (terminalId) {
+      params = params.append('terminalId', terminalId);
+    }
+    if (referenceNumber) {
+      params = params.append('referenceNumber', referenceNumber);
+    }
+    if (type) {
+      params = params.append('type', type);
+    }
+    if (startDate) {
+      params = params.append('startDate', startDate);
+    }
+    if (merchantId) {
+      params = params.append('merchantId', merchantId);
+    }
+    if (endDate) {
+      params = params.append('endDate', endDate);
+    }
     return this.httpClient
       .get<IWrapper<ITransactions>>(BASE_URL + '/v1/transactions', {
-        params: requestParams,
+        params: params,
       })
       .pipe(
         map((response) => {
@@ -32,35 +63,56 @@ export class TransactionsService {
       );
   }
 
-  getFilteredTransactions(
-    pageIndex,
-    pageSize,
-    transactionId,
-    rrn,
-    transactionType,
-    startDate,
-    endDate
-  ) {
-    // terminalId = terminalId || '';
-    transactionId = transactionId || '';
+  getSingleTransaction(transactionId): any {
+    let params = new HttpParams();
 
-    rrn = rrn || '';
-    transactionType = transactionType || '';
-    startDate = startDate || '';
-    endDate = endDate || '';
-    const params = new HttpParams();
-    const requestParams = params
-      .append('page', pageIndex.toString())
-      .append('size', pageSize.toString())
-      // .append('terminalId', terminalId.toString())
-      .append('transactionId', transactionId.toString())
-      .append('rrn', rrn.toString())
-      .append('transactionType', transactionType.toString())
-      .append('startDate', startDate.toString())
-      .append('endDate', endDate.toString());
+    if (transactionId) {
+      params = params.append('transactionId', transactionId.toString());
+    }
+
+    return this.httpClient
+      .get<any>(BASE_URL + '/v1/transactions', {
+        params: params,
+      })
+      .pipe(
+        map((response) => {
+          console.log('Resonse on filterered transactions', response);
+          return response;
+        })
+      );
+  }
+
+  getFilteredTransactions(pageIndex, pageSize, options?: SearchTransactions) {
+    let params = new HttpParams();
+
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (options.terminalId) {
+      params = params.append('terminalId', options.terminalId);
+    }
+    if (options.referenceNumber) {
+      params = params.append('referenceNumber', options.referenceNumber);
+    }
+    if (options.type) {
+      params = params.append('type', options.type);
+    }
+    if (options.startDate) {
+      params = params.append('startDate', options.startDate);
+    }
+    if (options.merchantId) {
+      params = params.append('merchantId', options.merchantId);
+    }
+    if (options.endDate) {
+      params = params.append('endDate', options.endDate);
+    }
+
     return this.httpClient
       .get<IWrapper<ITransactions>>(BASE_URL + '/v1/transactions', {
-        params: requestParams,
+        params: params,
       })
       .pipe(
         map((response) => {

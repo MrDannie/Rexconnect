@@ -1,24 +1,11 @@
 <div class="header">
-  <!-- <div class="top-header my-5">
-  <div class="header">
-    <h2 class="header__text">Terminals</h2>
-    <span class="sub-head mb-3"
-      >View details of every terminal on the platform</span
-    >
-  </div>
-  <div class="action-btns">
-    <button class="terminal-upload-btn">Bulk Terminal Upload</button>
-    <button class="terminal-add-btn">Add Terminal</button>
-  </div>
-</div> -->
-
-  <!-- Here is the first here  -->
   <div class="main-header">
     <div class="header__text animated fadeIn">
       <div>
-        <span>Audit Logs </span>
+        <span>Audit Logs</span>
       </div>
     </div>
+    <!-- <span>View details of every station on this platform</span> -->
   </div>
 
   <!-- FILTER BY CODE  -->
@@ -42,52 +29,13 @@
       class="card search-dropdown"
       *ngIf="showFilter"
       id="filter__dropdown"
-      style="height: 250px"
+      style="height: 200px"
     >
       <form [formGroup]="searchForm">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="emailAddress" class="search_label"
-                >Email Address</label
-              >
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="emailAddress"
-                id="emailAddress"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="ipAddress" class="search_label">IP Address</label>
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="ipAddress"
-                id="ipAddress"
-              />
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="actionPerformed" class="search_label"
-                >Action Performed</label
-              >
-              <input
-                type="text"
-                class="form-control search_input"
-                formControlName="actionPerformed"
-                id="actionPerformed"
-              />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="startDate" class="search_label">Start Date</label>
+              <label for="email" class="search_label">Start Date</label>
               <input
                 type="date"
                 class="form-control search_input"
@@ -96,9 +44,11 @@
               />
             </div>
           </div>
+
           <div class="col-md-4">
             <div class="form-group">
-              <label for="endDate" class="search_label">End Date</label>
+              <label for="ip" class="search_label">End Date</label>
+
               <input
                 type="date"
                 class="form-control search_input"
@@ -110,14 +60,18 @@
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white">Close</button>
+          <button class="btn button-white" (click)="showFilter = !showFilter">
+            Close
+          </button>
 
-          <button class="btn button-pink">
+          <button
+            class="btn button-pink"
+            (click)="pageIndex = 0; getAuditLogs(); isSearching = true"
+          >
             Apply Filters
 
-            <div class="spinner-border spinner-border-sm ml-3" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
+            <span class="fa fa-spinner fa-spin" *ngIf="isSearching === true">
+            </span>
           </button>
         </div>
       </form>
@@ -126,63 +80,41 @@
 
   <!-- Reset button -->
   <button class="btn btn-secondary reset-filter" (click)="reset()">
-    <!-- <i class="fa fa-refresh fa-fast-spin"></i> -->
-    <i class="fa fa-refresh"></i>
+    <i class="fa fa-refresh fa-fast-spin" *ngIf="isRefreshing"></i>
+    <i class="fa fa-refresh" *ngIf="!isRefreshing"></i>
     Refresh
   </button>
 
   <!-- FILTER BY CODE ENDS HERE  -->
-
-  <!-- New Header Ends HEre  -->
 </div>
 
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
+    <app-rex-loader
+      [isPushed]="true"
+      *ngIf="!allLogs || isLoading"
+    ></app-rex-loader>
+
     <table class="table table-striped">
       <thead class="thead-dark">
-        <tr>
-          <th scope="col">IP address</th>
-          <th scope="col">EMAIL ADDRESS</th>
-          <th scope="col">ACTION PERFORMED</th>
-          <th scope="col">TIME</th>
-        </tr>
+        <th scope="col">Identity</th>
+        <th scope="col">Action Performed</th>
+        <th scope="col">Date Performed</th>
       </thead>
-      <tbody>
-        <tr>
-          <td>749279238987492221</td>
-          <td>TOMIBAJOO+OOTD@GMAIL.COM</td>
-          <td>Created user “wale@bb.com”</td>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-        </tr>
-        <tr>
-          <td>749279238987492221</td>
-          <td>TOMIBAJOO+OOTD@GMAIL.COM</td>
-          <td>Created user “wale@bb.com”</td>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-        </tr>
-        <tr>
-          <td>749279238987492221</td>
-          <td>TOMIBAJOO+OOTD@GMAIL.COM</td>
-          <td>Created user “wale@bb.com”</td>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-        </tr>
-        <tr>
-          <td>749279238987492221</td>
-          <td>TOMIBAJOO+OOTD@GMAIL.COM</td>
-          <td>Created user “wale@bb.com”</td>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-        </tr>
-        <tr>
-          <td>749279238987492221</td>
-          <td>TOMIBAJOO+OOTD@GMAIL.COM</td>
-          <td>Created user “wale@bb.com”</td>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
-        </tr>
-        <tr>
-          <td>749279238987492221</td>
-          <td>TOMIBAJOO+OOTD@GMAIL.COM</td>
-          <td>Created user “wale@bb.com”</td>
-          <td>DEC 9, 2019, 12:04:56 AM</td>
+
+      <div class="center-body" *ngIf="dataCount === 0 && !isLoading">
+        <div class="no-data">No logs found</div>
+      </div>
+
+      <tbody *ngIf="!isLoading">
+        <tr *ngFor="let item of allLogs">
+          <td>{{ item.identity | titlecase }}</td>
+
+          <td>{{ item.description | titlecase }}</td>
+          <td>
+            {{ item?.when | date: "medium" }}
+            <span class="null-value" *ngIf="item.when === null">Nil</span>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -192,11 +124,15 @@
 <!-- PAGE SIZE  -->
 <div class="text-right mt-4 page_size_section animated fadeIn">
   <span>Number of Items:&nbsp;&nbsp;</span>
-  <span> Num Here </span>
+  <span> {{ dataCount }}</span>
 
   <span class="ml-3">Page size:</span>
   <form class="inline_select">
-    <select class="form-control form-control-sm" #setPageSizeId>
+    <select
+      class="form-control form-control-sm"
+      (change)="setPageSize($event.target.value)"
+      #setPageSizeId
+    >
       <option value="10">10</option>
       <option value="20">20</option>
       <option value="30">30</option>
@@ -207,29 +143,39 @@
 </div>
 
 <!-- PAGINATION  -->
-<div class="paginate mt-2 animated fadeIn">
+<div class="paginate mt-2 animated fadeIn" *ngIf="!isLoading">
   <nav aria-label="...">
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
+    <ul class="pagination" *ngIf="!isLoading && allLogs">
+      <li
+        class="page-item"
+        (click)="previousPage()"
+        *ngIf="pager.startPage !== pager.currentPage"
+      >
+        <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
       </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">
-          2
-          <span class="sr-only">(current)</span>
-        </span>
+      <li
+        class="page-item"
+        aria-current="page"
+        *ngFor="let page of pager.pages"
+        [ngClass]="{ active: pager.currentPage === page }"
+        (click)="getPage(page)"
+      >
+        <a class="page-link">
+          {{ page }} <span class="sr-only">(current)</span></a
+        >
       </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
+      <li
+        class="page-item"
+        (click)="nextPage()"
+        *ngIf="pager.endPage !== pager.currentPage"
+      >
+        <a class="page-link">Next</a>
       </li>
     </ul>
   </nav>
 
-  <!-- EXPORT BUTTON  -->
-
-  <div class="export-button animated fadeIn">
+  <!-- Export button -->
+  <div class="export-button animated fadeIn" *ngIf="!isLoading && allLogs">
     <button
       type="button"
       class="btn btn-light button-plain-icon"

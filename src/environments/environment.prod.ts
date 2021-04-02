@@ -1,7 +1,9 @@
 export const environment = {
   production: true,
-  BASE_URL: 'https://accesstams.globalaccelerex.com/api/tams',
-  // BASE_URL: "http://52.48.82.114:8089/api/tams",
-
-  ALLOW_CAPTCHA: true,
+  BASE_URL: 'https://rexconnect-backend.globalaccelerex.com/api/rexconnect',
+  EXTERNAL_BASE_URL: 'https://pgs.globalaccelerex.com',
+  APP_REF: 'REXCONNECT-',
+  ACCESS_CONTROL_BTOA: btoa("rexconnect-ui-prod" + ":" + "Ze5bJ2sQ6KYdsWAM"),
+  NONCE: "TESTME",
+  TIMESTAMP: "1670080359",
 };

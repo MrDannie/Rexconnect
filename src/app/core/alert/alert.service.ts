@@ -44,16 +44,19 @@ export class AlertService {
 
   error(error: any, keepAfterRouteChange = false) {
     console.log(error);
-    
+    console.log(error.error);
+
     let errorMessage = '';
     this.alertId++;
     if (typeof error === 'string') {
       errorMessage = error;
     } else {
-      if (error.error.code === 401) {
+      if (error.error.error.code === 401) {
+        console.log('logging put');
+
         this.authService.logout();
       }
-      
+
       if (error.error instanceof ErrorEvent) {
         errorMessage = 'An Error Occured, Pls Try Again';
       } else if (error.error instanceof ProgressEvent) {
@@ -63,7 +66,7 @@ export class AlertService {
       } else if (error.error.error) {
         errorMessage = error.error.error.responseMessage;
       } else {
-        errorMessage = 'Error connecting, please try again'
+        errorMessage = 'Error connecting, please try again';
       }
 
       if (typeof error === 'string') {
@@ -71,11 +74,14 @@ export class AlertService {
         if (errorMessage === 'User Unauthorized') {
           this.authService.logout();
         }
+        if (errorMessage === 'jwt expired') {
+          this.authService.logout();
+        }
       }
     }
 
     console.log(errorMessage);
-    
+
     window.scrollTo(0, 0);
     this.alert(
       AlertType.Error,

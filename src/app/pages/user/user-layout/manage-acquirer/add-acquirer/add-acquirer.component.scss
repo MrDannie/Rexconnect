@@ -88,24 +88,24 @@
   font-weight: bold;
 }
 
-.dropdown-menu {
+.dropdown-men {
   width: 100%;
 }
 
-.dropdown-menu {
+.dropdown-men {
   font-size: 10px;
 }
 
-.dropdown-menu li {
+.dropdown-men li {
   display: flex;
 }
 
-.dropdown-menu li span {
-  text-align: center;
-  padding-right: 4px;
+.dropdown-men li span {
+  text-align: right;
+  padding: 0.5rem;
 }
 
-.dropdown-menu li > * {
+.dropdown-men li > * {
   flex: 1;
 }
 
@@ -117,4 +117,65 @@
   font-family: Roboto, Bold;
   font-weight: bold;
   display: block;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 15px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.badge {
+  border: none;
+  padding: 0.4rem;
+  border-radius: 20%;
+  margin: 3px;
+  background-color: #f0f0f0;
+}
+
+.general {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown-item {
+  display: inline;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  width: fit-content;
+}
+
+ul {
+  list-style-type: none;
+  font-size: 10px;
+  width: 100%;
+  background-color: white;
+  margin: 0;
+  padding: 7px;
+}
+
+ul li {
+  margin: 10px;
+}
+
+.drop-button {
+  width: 100%;
+  border: none;
+  font-size: 12px;
+  height: 40px;
+  margin-bottom: 6px;
+}
+
+button:focus {
+  outline: none;
+  outline: none;
 }

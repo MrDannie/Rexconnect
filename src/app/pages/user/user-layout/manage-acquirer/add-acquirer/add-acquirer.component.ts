@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -12,18 +13,22 @@ declare var $: any;
 })
 export class AddAcquirerComponent implements OnInit {
   createAcquirerForm: any;
-  routingRules: string[];
+  routingRules: any;
   ptspsList: [];
   routesToAdd: any = [];
   ptspsToAdd: any = [];
   routingRulesToBeAdded: any = [];
   ruleOrder: string[] = [];
   isAddingAcquirer: boolean;
+  showDropdown: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private acquirerService: AcquirerService,
-    private alertService: AlertService
-  ) {}
+    private alertService: AlertService,
+    private router: Router
+  ) {
+    this.showDropdown = false;
+  }
 
   ngOnInit() {
     // GET PTSPS
@@ -47,6 +52,7 @@ export class AddAcquirerComponent implements OnInit {
 
       terminalPrefix: [[''], Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
+      email: ['', Validators.required],
       // ruleOrder: ['', Validators.compose([Validators.required])],
       // ptsps: ['', Validators.compose([Validators.required])],
       // routingRules: ['', Validators.compose([Validators.required])],
@@ -106,21 +112,46 @@ export class AddAcquirerComponent implements OnInit {
     }
   }
 
+  removeRuleFromRuleOrder(ruleType: string) {
+    this.ruleOrder = this.ruleOrder.filter((rule) => rule != ruleType);
+    const ruleToBeRemoved = this.routingRules.find(
+      (rule) => rule.rule === ruleType
+    );
+    this.routingRulesToBeAdded = this.routingRulesToBeAdded.filter(
+      (item) => item != +ruleToBeRemoved.id
+    );
+    console.log('RUlE TO BE REMOVED FROM RULE TO BE ADDED', ruleToBeRemoved);
+  }
+
   addAcquirer(formValue) {
+    if (this.routingRulesToBeAdded.length < 1) {
+      this.alertService.info('Please Routes must be selected.', true);
+      return;
+    }
+
+    if (this.ptspsToAdd.length < 1) {
+      this.alertService.info('Please Ptsps must be selected.', true);
+      return;
+    }
     this.isAddingAcquirer = true;
     formValue.routingRules = this.routingRulesToBeAdded;
     formValue.ptsps = this.ptspsToAdd;
     formValue.ruleOrder = this.ruleOrder;
-    formValue.terminalPrefix = [
-      this.createAcquirerForm.get('terminalPrefix').value,
-    ];
+
+    let terminalPrefix = this.createAcquirerForm.get('terminalPrefix').value;
+    terminalPrefix = terminalPrefix.replace(/\s+/g, '');
+    terminalPrefix = terminalPrefix.split(',');
+
+    formValue.terminalPrefix = terminalPrefix;
+
     console.log('FORM VAL,', formValue);
 
     // ADD RULE
     this.acquirerService.addAcquirer(formValue).subscribe(
       (response) => {
         this.isAddingAcquirer = false;
-        this.alertService.success('Acquirer Successfully Added', true);
+        this.alertService.success('Acquirer Created Successfully ', true);
+        this.router.navigate(['../user/acquirers/']);
         console.log('SUCEESS', response);
       },
       (error) => {

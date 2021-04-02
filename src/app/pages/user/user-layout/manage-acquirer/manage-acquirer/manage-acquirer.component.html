@@ -8,12 +8,12 @@
     <div>
       <span class="name">
         <img src="../../../../../../assets/images/girl.svg" alt="avater" />
-        Laolu Lawani</span
+        {{ acquirerName }}</span
       >
-      <span class="date">Created: DEC 9, 2019, 12:04:56 AM</span>
+      <span class="date">{{ createdAt | date: "medium" }}</span>
       <span class="status"> Status: {{ acquirerStatus | titlecase }}</span>
     </div>
-    <div>
+    <div *ngIf="permissions.includes('CAN_MANAGE_CLIENTS')">
       <span
         style="cursor: pointer"
         *ngIf="acquirerStatus === 'ACTIVE'"
@@ -44,6 +44,7 @@
         Details</span
       >
       <span
+        *ngIf="permissions.includes('CAN_VIEW_CLIT_PTSPS')"
         class="menu"
         routerLink="acquirer-fee-sharing"
         [routerLinkActive]="['active']"
@@ -53,6 +54,7 @@
         class="menu animated"
         routerLink="./acquirer-routes"
         [routerLinkActive]="['active']"
+        *ngIf="permissions.includes('CAN_VIEW_CLIENT_ROUTING_RULES')"
       >
         Routes</span
       >
@@ -60,6 +62,7 @@
         class="menu animated"
         routerLink="./acquirer-ptsps"
         [routerLinkActive]="['active']"
+        *ngIf="permissions.includes('CAN_VIEW_CLIENT_PTSPS')"
       >
         Ptsps</span
       >

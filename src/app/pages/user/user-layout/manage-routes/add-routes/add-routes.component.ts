@@ -25,7 +25,8 @@ export class AddRoutesComponent implements OnInit {
     private routingCompService: RouteComponentService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -33,48 +34,32 @@ export class AddRoutesComponent implements OnInit {
     this.ruletypes = RULETYPES;
     console.log(this.ruletypes);
 
-    // Call to get default destination Stations
-    // const idOfRouteToBeFetched = this.route.snapshot.params.id;
-    // if (idOfRouteToBeFetched != 0) {
-    //   this.routingCompService
-    //     .getSingleRoute(idOfRouteToBeFetched)
-    //     .subscribe((response) => {
-    //       console.log('this is route to be edited', response);
-    //       let parsedData = JSON.parse(response.data.rule_config);
-    //       response.data.rule_config = parsedData;
-    //       this.routing = parsedData;
-    //       this.routeConfigs = this.routing.ruleconfig;
-    //       this.setFormValue(response);
-    //     });
-    // } else {
-    //   this.getDestinationStations();
-    // }
     this.getDestinationStations();
   }
-  setFormValue(route) {
-    console.log('Router in set form value', route);
-    let ore = 'asfd';
-    this.createRouteForm.patchValue({
-      default_ds: ore,
-      rule: 'adsf',
-      rule_config: [
-        {
-          rule: 'asfd',
-          value: 'adsf',
-          max: 'afds',
-          min: 'asfdads',
-          ds: 'asdfasf',
-        },
-      ],
-      use_default: true,
-    });
-  }
+  // setFormValue(route) {
+  //   console.log('Router in set form value', route);
+  //   let ore = 'asfd';
+  //   this.createRouteForm.patchValue({
+  //     default_ds: ore,
+  //     rule: 'adsf',
+  //     rule_config: [
+  //       {
+  //         rule: 'asfd',
+  //         value: 'adsf',
+  //         max: 'afds',
+  //         min: 'asfdads',
+  //         ds: 'asdfasf',
+  //       },
+  //     ],
+  //     use_default: true,
+  //   });
+  // }
   // setRuleConfigForm(): any {
   //   this.createRuleConfigForm.set;
   // }
   getDestinationStations(): void {
     this.routingCompService.getAllStations().subscribe((response) => {
-      this.stations = response.data.stations;
+      this.stations = response.data.content;
     }),
       (error) => {
         console.log('Error in COmp', error);
@@ -92,12 +77,17 @@ export class AddRoutesComponent implements OnInit {
 
   createRoute(): void {
     this.isAddingRoute = true;
+    console.log('ERERERER', this.createRouteForm.value);
+    this.createRouteForm.get('rule_config').value.map((config) => {
+      config.rule = this.createRouteForm.get('rule').value;
+    });
     console.log(this.createRouteForm.value);
     this.routingCompService
       .createRoutingRule(this.createRouteForm.value)
       .subscribe(
         (response) => {
           this.isAddingRoute = false;
+          this.router.navigate(['../../../user/routes']);
           this.alertService.success(response.message, true);
         },
         (error) => {

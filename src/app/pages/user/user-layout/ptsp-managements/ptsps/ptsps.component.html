@@ -5,7 +5,10 @@
         <span>PTSP</span>
       </div>
 
-      <div class="button_header_section">
+      <div
+        *ngIf="permissions.includes('CAN_MANAGE_PTSPS')"
+        class="button_header_section"
+      >
         <button
           class="btn action_button"
           data-toggle="modal"
@@ -58,31 +61,36 @@
 
           <div class="col-md-4">
             <div class="form-group">
-              <label for="status" class="search_label"
-                >Status</label
-              >
+              <label for="status" class="search_label">Status</label>
               <select
                 class="form-control search_input"
                 formControlName="status"
                 id="status"
               >
-
-              <option value="true">Active</option>
-              <option value="false">Inactive</option>
+                <option value="">Select ptsp status</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
               </select>
             </div>
           </div>
-
-        
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white" (click)="showFilter = !showFilter">Close</button>
+          <button
+            class="btn button-white"
+            (click)="showFilter = !showFilter; searchForm.reset()"
+          >
+            Close
+          </button>
 
-          <button class="btn button-pink" (click)="pageIndex = 0; getAllPtsps();isSearching = true">
+          <button
+            class="btn button-pink"
+            (click)="pageIndex = 0; getAllPtsps(); isSearching = true"
+          >
             Apply Filters
 
-            <span class="fa fa-spinner fa-spin" *ngIf="isSearching === true"> </span>
+            <span class="fa fa-spinner fa-spin" *ngIf="isSearching === true">
+            </span>
           </button>
         </div>
       </form>
@@ -99,42 +107,50 @@
   <!-- FILTER BY CODE ENDS HERE  -->
 </div>
 
-
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
+    <app-rex-loader [isPushed]="true" *ngIf="isLoading"></app-rex-loader>
+
     <table class="table table-striped">
       <thead class="thead-dark">
-          <th scope="col">Name</th>
-          <th scope="col">Code</th>
-          <th scope="col">CTMK</th>
-          <th scope="col">CTMK KCV(Key Check Value)</th>
-          <!-- <th scope="col">CTMK BLOCK</th> -->
-          <!-- <th scope="col">CTMK BLOCK KCV(Key Check Value)</th> -->
-          <th scope="col">Status</th> 
-          <th scope="col">Actions</th>
+        <th scope="col">Name</th>
+        <th scope="col">Code</th>
+        <!-- <th scope="col">CTMK</th> -->
+        <th scope="col">CTMK KCV(Key Check Value)</th>
+        <!-- <th scope="col">CTMK BLOCK</th> -->
+        <!-- <th scope="col">CTMK BLOCK KCV(Key Check Value)</th> -->
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
       </thead>
 
-      <div class="center-body" *ngIf="(!allPtsps || allPtsps.length === 0) && !isLoading"> 
-        <div class="no-data" >No ptsp found</div>
+      <div
+        class="center-body"
+        *ngIf="(!allPtsps || allPtsps.length === 0) && !isLoading"
+      >
+        <div class="no-data">No ptsp found</div>
       </div>
 
-
-        <div class="center-body" *ngIf="isLoading"> 
-          <div class="sbl-circ-path text-center" ></div>
-
-        </div>
-
-      <tbody  *ngIf="!isLoading">
-
+      <tbody *ngIf="!isLoading">
         <tr *ngFor="let item of allPtsps">
-          <td>{{item.Ptspname | titlecase}}</td>
-          <td>{{item.PtspCode}} <span class="null-value" *ngIf="item.PtspCode === null">Nil</span></td>
-          <td>{{item.Ptspctmk}} <span class="null-value" *ngIf="item.Ptspctmk === null">Nil</span></td>
-          <td>{{item.Ptspctmkkcv}} <span class="null-value" *ngIf="item.Ptspctmkkcv === null">Nil</span></td>
-         <!-- <td>{{item.Ptspctmkblock}} <span class="null-value" *ngIf="item.Ptspctmkblock === null">Nil</span></td> -->
+          <td>{{ item.Ptspname | titlecase }}</td>
+          <td>
+            {{ item.PtspCode }}
+            <span class="null-value" *ngIf="item.PtspCode === null">Nil</span>
+          </td>
+          <!-- <td>
+            {{ item.Ptspctmk }}
+            <span class="null-value" *ngIf="item.Ptspctmk === null">Nil</span>
+          </td> -->
+          <td>
+            {{ item.Ptspctmkkcv }}
+            <span class="null-value" *ngIf="item.Ptspctmkkcv === null"
+              >Nil</span
+            >
+          </td>
+          <!-- <td>{{item.Ptspctmkblock}} <span class="null-value" *ngIf="item.Ptspctmkblock === null">Nil</span></td> -->
           <!-- <td>{{item.Ptspctmkblockkcv}} <span class="null-value" *ngIf="item.Ptspctmkblockkcv === null">Nil</span></td> -->
           <td class="active" *ngIf="item.isActive === true">Active</td>
-          <td class="inactive" *ngIf="item.isActive === false" >Inactive</td>
+          <td class="inactive" *ngIf="item.isActive === false">Inactive</td>
 
           <td>
             <button
@@ -144,28 +160,36 @@
               Open
             </button>
 
-
             <button
-            (click)= "warnUser(item)"
-            class="btn table_button"
-          >
-            Delete
-          </button>
+              *ngIf="permissions.includes('CAN_MANAGE_PTSPS')"
+              (click)="warnUser(item)"
+              class="btn table_button"
+            >
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <span class="empty-state" *ngIf="!isLoading && allPtsps?.length === 0"
+      >No Records Found</span
+    >
   </div>
 </div>
 
 <!-- PAGE SIZE  -->
 <div class="text-right mt-4 page_size_section animated fadeIn">
   <span>Number of Items:&nbsp;&nbsp;</span>
-  <span> {{dataCount}}</span>
+  <span> {{ dataCount }}</span>
 
   <span class="ml-3">Page size:</span>
   <form class="inline_select">
-    <select class="form-control form-control-sm" (change)="setPageSize($event.target.value)" #setPageSizeId>
+    <select
+      class="form-control form-control-sm"
+      (change)="setPageSize($event.target.value)"
+      #setPageSizeId
+    >
       <option value="10">10</option>
       <option value="20">20</option>
       <option value="30">30</option>
@@ -355,7 +379,9 @@
                     placeholder=" "
                     formControlName="Ptspctmkkcv"
                   />
-                  <label for="Ptspctmkkcv">PTSPCTMK KCV (Key Check Value) </label>
+                  <label for="Ptspctmkkcv"
+                    >PTSPCTMK KCV (Key Check Value)
+                  </label>
                 </span>
                 <div
                   *ngIf="
@@ -378,7 +404,7 @@
               </div>
             </div>
           </div>
-       
+
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="">
@@ -414,7 +440,6 @@
             </div>
           </div>
 
-
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="">
@@ -439,7 +464,9 @@
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createPtspForm.get('Ptspctmkblockkcv').hasError('required')
+                      !createPtspForm
+                        .get('Ptspctmkblockkcv')
+                        .hasError('required')
                     "
                   >
                     Key Value Check is required
@@ -449,7 +476,7 @@
               </div>
             </div>
           </div>
-       
+
           <!-- RELEVANT CODE HERE  -->
 
           <div class="form_actions">
@@ -484,9 +511,6 @@
   </div>
 </div>
 
-
-
-
 <!-- Warn User -->
 
 <div
@@ -498,7 +522,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content" style="min-height: 13rem !important;">
+    <div class="modal-content" style="min-height: 13rem !important">
       <div class="modal-body">
         <h5 class="modal-title" id="confirmationModal">
           <span>Delete PTSP</span>
@@ -509,9 +533,7 @@
         </span>
 
         <div class="form_actions">
-          <div class="cancel_button" data-dismiss="modal">
-            Cancel
-          </div>
+          <div class="cancel_button" data-dismiss="modal">Cancel</div>
 
           <div
             class="spinner-border spinner-border-sm ml-3"

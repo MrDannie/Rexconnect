@@ -5,7 +5,10 @@
         <span>Stations</span>
       </div>
 
-      <div class="button_header_section">
+      <div
+        *ngIf="permissions.includes('CAN_MANAGE_STATIONS')"
+        class="button_header_section"
+      >
         <button
           class="btn action_button"
           data-toggle="modal"
@@ -58,31 +61,33 @@
 
           <div class="col-md-4">
             <div class="form-group">
-              <label for="status" class="search_label"
-                >Status</label
-              >
+              <label for="status" class="search_label">Status</label>
               <select
                 class="form-control search_input"
                 formControlName="status"
                 id="status"
               >
-
-              <option value="true">Active</option>
-              <option value="false">Inactive</option>
+                <option value="">Select station status</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
               </select>
             </div>
           </div>
-
-        
         </div>
 
         <div class="button-section text-right">
-          <button class="btn button-white" (click)="showFilter = !showFilter">Close</button>
+          <button class="btn button-white" (click)="showFilter = !showFilter">
+            Close
+          </button>
 
-          <button class="btn button-pink" (click)="pageIndex = 0; getAllStations();isSearching = true">
+          <button
+            class="btn button-pink"
+            (click)="pageIndex = 0; getAllStations(); isSearching = true"
+          >
             Apply Filters
 
-            <span class="fa fa-spinner fa-spin" *ngIf="isSearching === true"> </span>
+            <span class="fa fa-spinner fa-spin" *ngIf="isSearching === true">
+            </span>
           </button>
         </div>
       </form>
@@ -99,38 +104,52 @@
   <!-- FILTER BY CODE ENDS HERE  -->
 </div>
 
-
 <div class="table-container custom-table animated fadeIn">
   <div class="card-body">
+    <app-rex-loader [isPushed]="true" *ngIf="!allStations"></app-rex-loader>
+
     <table class="table table-striped">
       <thead class="thead-dark">
-          <th scope="col">Station Name</th>
-          <th scope="col">Last Echo Date</th>
-          <th scope="col">Last Zpk Change</th>
-          <th scope="col">Auth Username</th>
-          <th scope="col">Status</th> 
-          <th scope="col">Actions</th>
+        <th scope="col">Station Name</th>
+        <th scope="col">Last Echo Date</th>
+        <th scope="col">Last Zpk Change</th>
+        <th scope="col">Auth Username</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
       </thead>
 
-      <div class="center-body" *ngIf="(!allStations || allStations.length === 0) && !isLoading"> 
-        <div class="no-data" >No station found</div>
+      <div
+        class="center-body"
+        *ngIf="(!allStations || allStations.length === 0) && !isLoading"
+      >
+        <div class="no-data">No station found</div>
       </div>
+      <!-- 
+      <div class="center-body" *ngIf="isLoading">
+        <div class="sbl-circ-path text-center"></div>
+      </div> -->
 
-
-        <div class="center-body" *ngIf="isLoading"> 
-          <div class="sbl-circ-path text-center" ></div>
-
-        </div>
-
-      <tbody  *ngIf="!isLoading">
-
+      <tbody *ngIf="!isLoading">
         <tr *ngFor="let item of allStations">
-          <td>{{item.name | titlecase}}</td>
-          <td>{{item.lastEcho | date : 'medium'}} <span class="null-value" *ngIf="item.lastEcho === null">Nil</span></td>
-          <td>{{item.lastZpkChange | date: 'medium'}} <span class="null-value" *ngIf="item.lastZpkChange === null">Nil</span></td>
-          <td>{{item.authUsername}} <span class="null-value" *ngIf="item.authUsername === null">Nil</span></td>
+          <td>{{ item.name | titlecase }}</td>
+          <td>
+            {{ item.lastEcho | date: "medium" }}
+            <span class="null-value" *ngIf="item.lastEcho === null">Nil</span>
+          </td>
+          <td>
+            {{ item.lastZpkChange | date: "medium" }}
+            <span class="null-value" *ngIf="item.lastZpkChange === null"
+              >Nil</span
+            >
+          </td>
+          <td>
+            {{ item.authUsername }}
+            <span class="null-value" *ngIf="item.authUsername === null"
+              >Nil</span
+            >
+          </td>
           <td class="active" *ngIf="item.isActive === 1">Active</td>
-          <td class="inactive" *ngIf="item.isActive === 0" >Inactive</td>
+          <td class="inactive" *ngIf="item.isActive === 0">Inactive</td>
 
           <td>
             <button
@@ -140,28 +159,35 @@
               Open
             </button>
 
-
             <button
-            (click)= "warnUser(item)"
-            class="btn table_button"
-          >
-            Delete
-          </button>
+              *ngIf="permissions.includes('CAN_MANAGE_STATIONS')"
+              (click)="warnUser(item)"
+              class="btn table_button"
+            >
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
+    <span class="empty-state" *ngIf="!isLoading && allStations?.length === 0"
+      >No Records Found</span
+    >
   </div>
 </div>
 
 <!-- PAGE SIZE  -->
 <div class="text-right mt-4 page_size_section animated fadeIn">
   <span>Number of Items:&nbsp;&nbsp;</span>
-  <span> {{dataCount}}</span>
+  <span> {{ dataCount }}</span>
 
   <span class="ml-3">Page size:</span>
   <form class="inline_select">
-    <select class="form-control form-control-sm" (change)="setPageSize($event.target.value)" #setPageSizeId>
+    <select
+      class="form-control form-control-sm"
+      (change)="setPageSize($event.target.value)"
+      #setPageSizeId
+    >
       <option value="10">10</option>
       <option value="20">20</option>
       <option value="30">30</option>
@@ -304,8 +330,7 @@
               </div>
             </div>
           </div>
-    
-         
+
           <div class="form-row">
             <div class="form-group col-md-6">
               <div class="">
@@ -372,7 +397,7 @@
               </div>
             </div>
           </div>
-        
+
           <div class="form-row">
             <div class="form-group col-md-6">
               <div class="">
@@ -406,7 +431,7 @@
                 </div>
               </div>
             </div>
-         
+
             <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
@@ -440,14 +465,7 @@
               </div>
             </div>
           </div>
-    
-    
-    
-         
-    
-    
-    
-    
+
           <div class="form-row">
             <div class="form-group col-md-6">
               <div class="">
@@ -472,7 +490,9 @@
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('authUsername').hasError('required')
+                      !createStationForm
+                        .get('authUsername')
+                        .hasError('required')
                     "
                   >
                     Auth Username is required
@@ -481,7 +501,7 @@
                 </div>
               </div>
             </div>
-         
+
             <div class="form-group col-md-6">
               <div class="">
                 <span class="has-float-label">
@@ -505,7 +525,9 @@
                   <span
                     class="validation-message"
                     [hidden]="
-                      !createStationForm.get('authPassword').hasError('required')
+                      !createStationForm
+                        .get('authPassword')
+                        .hasError('required')
                     "
                   >
                     Auth Password is required
@@ -516,9 +538,8 @@
             </div>
           </div>
           <!-- RELEVANT CODE HERE  -->
-    
+
           <div class="form_actions">
-        
             <button
               class="btn action_button col-md-6"
               (click)="createStation()"
@@ -528,7 +549,7 @@
               <i class="fa fa-plus animated slideIn"></i>
               Create Station
             </button>
-    
+
             <div
               class="spinner-border spinner-border-sm ml-3"
               role="status"
@@ -543,9 +564,6 @@
   </div>
 </div>
 
-
-
-
 <!-- Warn User -->
 
 <div
@@ -557,7 +575,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content" style="min-height: 13rem !important;">
+    <div class="modal-content" style="min-height: 13rem !important">
       <div class="modal-body">
         <h5 class="modal-title" id="confirmationModal">
           <span>Delete Station</span>
@@ -568,9 +586,7 @@
         </span>
 
         <div class="form_actions">
-          <div class="cancel_button" data-dismiss="modal">
-            Cancel
-          </div>
+          <div class="cancel_button" data-dismiss="modal">Cancel</div>
 
           <div
             class="spinner-border spinner-border-sm ml-3"

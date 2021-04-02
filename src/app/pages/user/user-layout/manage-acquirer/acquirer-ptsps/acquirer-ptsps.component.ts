@@ -48,12 +48,12 @@ export class AcquirerPtspsComponent implements OnInit {
   getAcquirerPtsps() {
     this.acquirerId = this.route.snapshot.params.id;
     this.routingCompService
-      .getAcquirerPtsps(this.pageSize, this.pageSize, this.acquirerId)
+      .getAcquirerPtsps(this.pageIndex, this.pageSize, this.acquirerId)
       .subscribe(
         (response) => {
           console.log('fsda', response);
-          this.acquirerPtsps = response['data']['ptsps'];
-          this.dataCount = response['data']['count'];
+          this.acquirerPtsps = response['data']['content'];
+          this.dataCount = response['data']['totalElements'];
           this.isLoaded = true;
           this.isLoading = false;
           this.paginationService.pagerState.next({

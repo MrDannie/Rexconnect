@@ -5,6 +5,7 @@ import { MerchantsService } from 'src/app/pages/shared/services/merchants.servic
 import { PaginationService } from 'src/app/core/pagination.service';
 // tslint:disable
 import { Component, OnInit } from '@angular/core';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 
 declare var $: any;
 
@@ -19,11 +20,14 @@ export class ManageMerchantComponent implements OnInit {
   merchantName;
   disablingMerchant: boolean = false;
   merchantStatus: boolean = null;
+  createdAt: any;
+  permissions: any;
 
   constructor(
     private merchants: MerchantsService,
     private route: ActivatedRoute,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
@@ -31,13 +35,20 @@ export class ManageMerchantComponent implements OnInit {
     console.log('this is merchant ID', this.merchantId);
 
     this.getMerchant();
+
+    this.getPermissions();
   }
   getMerchant() {
     this.merchants.getMerchant(this.merchantId).subscribe((response) => {
       console.log('Merchant Gotten', response);
       this.merchantName = response['merchantName'];
+      this.createdAt = response['createdAt'];
       this.merchantStatus = response.isActive;
     });
+  }
+
+  getPermissions() {
+    this.permissions = this.storageService.getPermissions();
   }
 
   disableMerchant(merchantId) {
@@ -60,7 +71,7 @@ export class ManageMerchantComponent implements OnInit {
   enableMerchant() {
     this.merchants.enableMerchant(this.merchantId).subscribe(
       (response) => {
-        this.alertService.success('Acquirer Enabled Successfully');
+        this.alertService.success('Merchant Enabled Successfully');
         this.merchantStatus = true;
       },
       (error) => {

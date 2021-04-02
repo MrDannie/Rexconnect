@@ -6,7 +6,10 @@
         <span>Acquirer</span>
       </div>
 
-      <div class="button_header_section">
+      <div
+        *ngIf="permissions.includes('CAN_MANAGE_CLIENTS')"
+        class="button_header_section"
+      >
         <button class="btn action_button" routerLink="./add-acquirer">
           <i class="fa fa-plus animated slideIn"></i>
           Add Acquirer
@@ -55,7 +58,7 @@
 
           <div class="col-md-4">
             <div class="form-group">
-              <label for="bankCode" class="search_label">CBN Code</label>
+              <label for="bankCode" class="search_label">Acquirer Code</label>
               <input
                 type="text"
                 class="form-control search_input"
@@ -73,6 +76,7 @@
                 formControlName="status"
                 id="status"
               >
+                <option value="">Select acquirer status</option>
                 <option value="ACTIVE">Active</option>
                 <option value="INACTIVE">Inactive</option>
               </select>
@@ -124,7 +128,7 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">Acquirer Name</th>
-          <th scope="col">CBN Code</th>
+          <th scope="col">Acquirer Code</th>
           <th scope="col">Status</th>
           <th scope="col">Action</th>
         </tr>
@@ -147,6 +151,9 @@
         </tr>
       </tbody>
     </table>
+    <span class="empty-state" *ngIf="allAcquirer?.length === 0 && !isLoading">
+      No Records Found
+    </span>
   </div>
 </div>
 

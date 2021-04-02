@@ -24,10 +24,12 @@
           class="btn plain_button"
           data-toggle="modal"
           data-target="#bulkTerminalUpload"
+          *ngIf="permissions.includes('CAN_CREATE_TERMINAL')"
         >
           Bulk Terminal Upload
         </button>
         <button
+          *ngIf="permissions.includes('CAN_CREATE_TERMINAL')"
           class="btn action_button"
           data-toggle="modal"
           data-target="#createTerminal"
@@ -62,7 +64,7 @@
       id="filter__dropdown"
       style="height: 200px"
     >
-      <form [formGroup]="searchForm" (ngSubmit)="searchBy()">
+      <form [formGroup]="searchForm" (ngSubmit)="searchBy(searchForm.value)">
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
@@ -73,6 +75,21 @@
                 formControlName="terminalId"
                 id="terminalId"
               />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="status" class="search_label">Status</label>
+              <select
+                type="text"
+                class="form-control search_input"
+                formControlName="status"
+                id="status"
+              >
+                <option value="">Select terminal status</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
             </div>
           </div>
         </div>
@@ -119,6 +136,7 @@
           <th scope="col">Terminal ID</th>
           <th scope="col">Merchant ID</th>
           <th scope="col">Transaction Time Out</th>
+          <th scope="col">Status</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -127,6 +145,12 @@
           <td>{{ terminal.terminalId }}</td>
           <td>{{ terminal.merchantId }}</td>
           <td>{{ terminal.transactionTimeout }}</td>
+          <td
+            [ngClass]="{ Inactive: terminal.isActive === false }"
+            class="active"
+          >
+            {{ terminal.isActive ? "Active" : "Inactive" }}
+          </td>
           <td>
             <button
               [routerLink]="[terminal.terminalId]"
@@ -138,6 +162,9 @@
         </tr>
       </tbody>
     </table>
+    <span class="empty-state" *ngIf="!isLoading && allTerminals?.length === 0"
+      >No Records Found</span
+    >
   </div>
 </div>
 
@@ -197,7 +224,10 @@
               >
             </div>
 
-            <div class="col-md-12 no-padding">
+            <div
+              *ngIf="userSettings?.auto_tid != true"
+              class="col-md-12 no-padding"
+            >
               <div class="form-group">
                 <span class="has-float-label">
                   <input
@@ -236,6 +266,7 @@
                   <input
                     id="transactionTimeOut"
                     type="number"
+                    maxlength="2"
                     class="form-control no-arrows"
                     placeholder=" "
                     formControlName="transactionTimeOut"
@@ -261,6 +292,7 @@
                   <input
                     id="callHomeTime"
                     type="number"
+                    maxlength="2"
                     class="form-control no-arrows"
                     placeholder=" "
                     formControlName="callHomeTime"
@@ -351,7 +383,7 @@
     <div class="modal-content">
       <div class="modal-body">
         <h5 class="modal-title" id="bulkUploadLabel">Upload Terminal</h5>
-        <p>Upload the NIBSS Terminal/merchant registeration file</p>
+        <p>Upload the Terminal/merchant registration file</p>
         <section>
           <div class="file-input">
             <span>{{
@@ -362,12 +394,32 @@
             <button (click)="uploadFile()">Browse</button>
           </div>
 
-          <a
-            download
-            href="./../../../../../../assets/files/bulk_terminal.csv"
-            class="download-template"
-            >Download Template</a
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 3rem;
+            "
           >
+            <a
+              style="font-size: 12px"
+              download
+              href="./../../../../../../assets/files/bulk_terminal_upload_template.csv"
+              class="download-template"
+              >Download Template</a
+            >
+            <div
+              style="margin-top: 0.5rem"
+              class="export-button animated fadeIn"
+            >
+              <a
+                style="font-size: 12px"
+                (click)="downloadAcquirerPtsp()"
+                class="download-template"
+                >See Available Ptsps</a
+              >
+            </div>
+          </div>
 
           <div class="form_actions">
             <div
