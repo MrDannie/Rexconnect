@@ -22,6 +22,7 @@ export class ManageMerchantComponent implements OnInit {
   merchantStatus: boolean = null;
   createdAt: any;
   permissions: any;
+  primaryId: number;
 
   constructor(
     private merchants: MerchantsService,
@@ -44,6 +45,7 @@ export class ManageMerchantComponent implements OnInit {
       this.merchantName = response['merchantName'];
       this.createdAt = response['createdAt'];
       this.merchantStatus = response.isActive;
+      this.primaryId = response.id;
     });
   }
 
@@ -51,9 +53,9 @@ export class ManageMerchantComponent implements OnInit {
     this.permissions = this.storageService.getPermissions();
   }
 
-  disableMerchant(merchantId) {
+  disableMerchant() {
     this.disablingMerchant = true;
-    this.merchants.disableMerchant(merchantId).subscribe(
+    this.merchants.disableMerchant(this.primaryId).subscribe(
       (response) => {
         console.log('DISABLED RESPONSE', response);
         this.alertService.success('Merchant Disabled Successfully');
@@ -69,7 +71,7 @@ export class ManageMerchantComponent implements OnInit {
   }
 
   enableMerchant() {
-    this.merchants.enableMerchant(this.merchantId).subscribe(
+    this.merchants.enableMerchant(this.primaryId).subscribe(
       (response) => {
         this.alertService.success('Merchant Enabled Successfully');
         this.merchantStatus = true;
