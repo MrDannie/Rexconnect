@@ -21,10 +21,10 @@ export class TransactionsService {
     pageSize,
     startDate,
     endDate,
-    merchantId?,
     terminalId?,
-    type?,
-    referenceNumber?
+    merchantId?,
+    referenceNumber?,
+    type?
   ): Observable<IWrapper<ITransactions>> {
     let params = new HttpParams();
 
