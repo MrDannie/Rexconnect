@@ -260,7 +260,11 @@ export class TransactionsComponent implements OnInit {
         0,
         downloadPageSize,
         this.searchForm.value.startDate,
-        this.searchForm.value.endDate
+        this.searchForm.value.endDate,
+        this.searchForm.value.terminalId,
+        this.searchForm.value.merchantId,
+        this.searchForm.value.rrn,
+        this.searchForm.value.transactionType
       )
       .subscribe((data: any) => {
         this.transactionRecordsToDownload = data['content'];
