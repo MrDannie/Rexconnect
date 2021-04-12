@@ -76,10 +76,12 @@ export class Config {
   public changePassword: string;
   public updateProfile: string;
 
-
   //auditlogs
 
   public auditLogs: string;
+
+  // Endpoints For Admin Purposes
+  public getAllMerchantsForAcquirer: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -156,20 +158,20 @@ export class Config {
 
     this.getAquirerPtspList = '/v1/clients/ptsps/list';
 
-      // settings
+    // settings
     this.changePassword = '/v1/auth/password/change';
     this.settings = '/v1/settings';
-
 
     //auditLogs
     this.auditLogs = '/api/audit-log/logs/v3/search/';
 
     //xtoken
-    this.getXToken = "/api/access-control/v2/getToken";
-
+    this.getXToken = '/api/access-control/v2/getToken';
 
     // profile
-    this.updateProfile = '/v1/users/profile/me'
-  }
+    this.updateProfile = '/v1/users/profile/me';
 
+    // End Points For Admin Purposes
+    this.getAllMerchantsForAcquirer = '/v1/clients/{clientId}/merchants';
+  }
 }

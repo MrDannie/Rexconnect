@@ -9,6 +9,11 @@ import { ManageAcquirerComponent } from './manage-acquirer/manage-acquirer.compo
 import { AddAcquirerComponent } from './add-acquirer/add-acquirer.component';
 import { AcquirerPtspsComponent } from './acquirer-ptsps/acquirer-ptsps.component';
 import { UpdateAcquirerComponent } from './update-acquirer/update-acquirer.component';
+import { AcquirerTerminalsComponent } from './acquirer-terminals/acquirer-terminals.component';
+import { AcquirerUsersComponent } from './acquirer-users/acquirer-users.component';
+import { AcquirerMerchantsComponent } from './acquirer-merchants/acquirer-merchants.component';
+import { AcquirerMerchantDetailsComponent } from './acquirer-merchants/acquirer-merchant-details/acquirer-merchant-details.component';
+import { AcquirerMerchantTransactionsComponent } from './acquirer-merchants/acquirer-merchant-transactions/acquirer-merchant-transactions.component';
 
 const routes: Routes = [];
 
@@ -51,6 +56,26 @@ const routes: Routes = [];
           {
             path: 'acquirer-ptsps',
             component: AcquirerPtspsComponent,
+          },
+          {
+            path: 'acquirer-users',
+            component: AcquirerUsersComponent,
+          },
+          {
+            path: 'acquirer-terminals',
+            component: AcquirerTerminalsComponent,
+          },
+          {
+            path: 'acquirer-merchants',
+            component: AcquirerMerchantsComponent,
+          },
+          {
+            path: 'acquirer-merchants/merchant-details/:id',
+            component: AcquirerMerchantDetailsComponent,
+          },
+          {
+            path: 'acquirer-merchants/merchant-transactions/:id',
+            component: AcquirerMerchantTransactionsComponent,
           },
         ],
       },
