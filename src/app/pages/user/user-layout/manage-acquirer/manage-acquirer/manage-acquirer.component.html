@@ -16,7 +16,9 @@
     <div *ngIf="permissions.includes('CAN_MANAGE_CLIENTS')">
       <span
         style="cursor: pointer"
-        *ngIf="acquirerStatus === 'ACTIVE'"
+        *ngIf="
+          acquirerStatus === 'ACTIVE' && currentUrl.includes('acquirer-details')
+        "
         class="action_button_disable"
         data-toggle="modal"
         data-target="#disableAcquirertModal"
@@ -25,9 +27,22 @@
       <span
         class="action_button_enable animated fadeIn"
         (click)="enableAcquirer()"
-        *ngIf="acquirerStatus === 'INACTIVE'"
+        *ngIf="
+          acquirerStatus === 'INACTIVE' &&
+          currentUrl.includes('acquirer-details')
+        "
         >Enable Aquirer</span
       >
+
+      <button
+        class="btn action_button"
+        data-toggle="modal"
+        data-target="#createMerchant"
+        *ngIf="currentUrl.includes('acquirer-merchants')"
+      >
+        <!-- <i class="fa fa-plus animated slideIn"></i> -->
+        Add Merchant
+      </button>
     </div>
   </div>
 </div>
@@ -37,7 +52,7 @@
   <span class="left_switcher">
     <span class="menu_section">
       <span
-        class="menu animated"
+        class="menu"
         routerLink="acquirer-details"
         [routerLinkActive]="['active']"
       >
@@ -51,7 +66,7 @@
         >Fee Sharing</span
       >
       <span
-        class="menu animated"
+        class="menu"
         routerLink="./acquirer-routes"
         [routerLinkActive]="['active']"
         *ngIf="permissions.includes('CAN_VIEW_CLIENT_ROUTING_RULES')"
@@ -59,12 +74,33 @@
         Routes</span
       >
       <span
-        class="menu animated"
+        class="menu"
         routerLink="./acquirer-ptsps"
         [routerLinkActive]="['active']"
         *ngIf="permissions.includes('CAN_VIEW_CLIENT_PTSPS')"
       >
         Ptsps</span
+      >
+      <!-- <span
+        class="menu animated"
+        routerLink="./acquirer-users"
+        [routerLinkActive]="['active']"
+      >
+        Users</span
+      > -->
+      <!-- <span
+        class="menu animated"
+        routerLink="./acquirer-terminals"
+        [routerLinkActive]="['active']"
+      >
+        Terminals</span
+      > -->
+      <span
+        class="menu"
+        routerLink="./acquirer-merchants"
+        [routerLinkActive]="['active']"
+      >
+        Merchants</span
       >
     </span>
   </span>

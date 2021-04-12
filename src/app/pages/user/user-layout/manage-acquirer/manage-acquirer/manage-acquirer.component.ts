@@ -20,6 +20,7 @@ export class ManageAcquirerComponent implements OnInit {
   acquirerStatus: string = 'Active';
   createdAt: any;
   permissions: any;
+  currentUrl: string;
 
   constructor(
     private router: Router,
@@ -30,10 +31,7 @@ export class ManageAcquirerComponent implements OnInit {
     private storageService: StorageService
   ) {
     this.router.events.subscribe((val) => {
-      const currentUrl = location.path();
-      this.notRouteComponent = currentUrl.includes('acquirer-routes')
-        ? false
-        : true;
+      this.currentUrl = location.path();
     });
   }
 

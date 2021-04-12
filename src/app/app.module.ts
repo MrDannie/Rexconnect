@@ -34,7 +34,7 @@ import { TransactionsComponent } from './pages/user/user-layout/transactions/tra
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
 import { ResolveTimeDifferncePipe } from './pages/shared/pipes/resolve-time-differnce.pipe';
 import { TransactionDetailsComponent } from './pages/user/user-layout/transactions/transaction-details/transaction-details.component';
-// import { ResolveTimeDifferncePipe } from './pages/shared/pipes/resolve-time-differnce.pipe';
+// // import { ResolveTimeDifferncePipe } from './pages/shared/pipes/resolve-time-differnce.pipe';
 // import { TerminalsComponent } from './pages/user/user-layout/terminals/terminals.component';
 
 @NgModule({
