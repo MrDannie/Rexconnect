@@ -172,10 +172,9 @@
           </td>
           <td>
             <button
-              [routerLink]="[
-                '../acquirer-merchants/merchant-details',
+              routerLink="../acquirer-merchants/{{
                 merchant.merchantId
-              ]"
+              }}/merchant-details"
               class="btn table_button"
             >
               Open

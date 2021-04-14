@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-acquirer-merchant-transactions',
@@ -8,9 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class AcquirerMerchantTransactionsComponent implements OnInit {
   merchantId: string;
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    // this.merchantId = 'FBP204011021989';
+    this.merchantId = this.route.snapshot.params.id;
   }
 }

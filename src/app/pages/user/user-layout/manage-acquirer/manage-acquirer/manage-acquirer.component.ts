@@ -44,6 +44,10 @@ export class ManageAcquirerComponent implements OnInit {
     this.getPermissions();
   }
 
+  backClicked() {
+    this.location.back();
+  }
+
   getPermissions() {
     this.permissions = this.storageService.getPermissions();
   }
