@@ -70,11 +70,11 @@ const routes: Routes = [];
             component: AcquirerMerchantsComponent,
           },
           {
-            path: 'acquirer-merchants/merchant-details/:id',
+            path: 'acquirer-merchants/:id/merchant-details',
             component: AcquirerMerchantDetailsComponent,
           },
           {
-            path: 'acquirer-merchants/merchant-transactions/:id',
+            path: 'acquirer-merchants/:id/merchant-transactions',
             component: AcquirerMerchantTransactionsComponent,
           },
         ],
