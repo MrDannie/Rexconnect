@@ -9,11 +9,13 @@ import {
 import { TransactionsService } from 'src/app/pages/shared/services/transactions.service';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 import { AlertService } from 'src/app/core/alert/alert.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.scss'],
+  providers: [DatePipe],
 })
 export class TransactionsComponent implements OnInit {
   isUserCreating;
@@ -46,7 +48,8 @@ export class TransactionsComponent implements OnInit {
     private paginationService: PaginationService,
     private errorHandler: ErrorHandler,
     private fileGenerationService: FileGenerationService,
-    private alerts: AlertService
+    private alerts: AlertService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit() {
@@ -304,7 +307,8 @@ export class TransactionsComponent implements OnInit {
   }
 
   getDate(creationDate, index) {
-    return new Date(this.transactionRecordsToDownload[index][creationDate]);
+    let date = new Date(this.transactionRecordsToDownload[index][creationDate]);
+    return this.datePipe.transform(date, 'medium', 'UTC');
   }
 
   getCurrencyValue(index) {
