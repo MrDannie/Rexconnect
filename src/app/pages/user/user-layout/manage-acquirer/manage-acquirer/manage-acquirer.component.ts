@@ -1,10 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, Event, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { StorageService } from 'src/app/core/helpers/storage.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import {
+  countries,
+  merchantCodes,
+  currencies,
+  states,
+} from '../../../../../pages/shared/constants';
+import { ProfileManagementService } from 'src/app/pages/shared/services/profile-management.service';
+import { ValidationService } from '../../../../../core/validation.service';
 declare var $: any;
 
 @Component({
@@ -21,6 +30,19 @@ export class ManageAcquirerComponent implements OnInit {
   createdAt: any;
   permissions: any;
   currentUrl: string;
+  searchForm: FormGroup;
+  createMerchantForm: FormGroup;
+  merchantCategoryCodes: any;
+  currencyCodes: any;
+  countryCodes: any;
+  allTimeZones: any;
+  merchants: any;
+  storedCities: any[];
+  userSettings: any;
+  isCreatingMerchant: boolean;
+  allCities: any[];
+  isLoadingCities: boolean;
+  messages: any;
 
   constructor(
     private router: Router,
@@ -28,11 +50,16 @@ export class ManageAcquirerComponent implements OnInit {
     private route: ActivatedRoute,
     private acquirerService: AcquirerService,
     private alertService: AlertService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private fb: FormBuilder,
+    private profileMgt: ProfileManagementService,
+    private validationMessages: ValidationService
   ) {
     this.router.events.subscribe((val) => {
       this.currentUrl = location.path();
     });
+
+    this.messages = this.validationMessages;
   }
 
   ngOnInit() {
@@ -42,6 +69,112 @@ export class ManageAcquirerComponent implements OnInit {
     this.getAcquirer();
 
     this.getPermissions();
+
+    this.initializeForm();
+
+    this.storedCities = states.STATES;
+
+    this.getCategoryCodes();
+    this.getCountries();
+    this.getCurrencyCodes();
+    this.getMerchantTimezones();
+
+    this.getPermissions();
+
+    this.getUserSettings();
+
+    $('#createMerchant').on('hidden.bs.modal', this.resetForm.bind(this));
+  }
+
+  getUserSettings() {
+    this.profileMgt.getUserSettings().subscribe(
+      (response) => {
+        console.log(response);
+        this.userSettings = response;
+      },
+      (error) => {
+        this.alertService.error(error);
+        console.log(error);
+      }
+    );
+  }
+
+  resetForm() {
+    this.createMerchantForm.reset();
+    this.createMerchantForm.patchValue({
+      categoryCode: '',
+    });
+  }
+
+  getCountries() {
+    this.countryCodes = countries.COUNTRY_CODES;
+    this.countryCodes = this.countryCodes.map(function (country) {
+      country.fullCountryLabel =
+        country['ISO3166-1-Alpha-3'] +
+        ' ' +
+        '(' +
+        country['ISO3166-1-numeric'] +
+        ')';
+      return country;
+    });
+  }
+
+  onSelectCountryCode(countryCode) {
+    const countryObj = countries.COUNTRY_CODES.find((country) => {
+      return country['ISO3166-1-numeric'] == countryCode;
+    });
+    const countryAlpha2 = countryObj['ISO3166-1-Alpha-2'];
+    this.getAllCities(countryAlpha2);
+    console.log('YYYYYYYYYYYYYYYYYYYYYYYYy');
+  }
+
+  getAllCities(code) {
+    this.allCities = [];
+    this.isLoadingCities = true;
+    console.log('HERERERER', this.storedCities);
+
+    this.allCities = this.storedCities.filter(
+      (e) => e.country_code === String(code)
+    );
+    this.isLoadingCities = false;
+  }
+
+  getCategoryCodes() {
+    this.merchantCategoryCodes = merchantCodes.MERCHANT_CODES;
+    this.merchantCategoryCodes = this.merchantCategoryCodes.map(function (cat) {
+      cat.fullCatLabel =
+        cat['Program Type'] + ' ' + '(' + cat['MCC CODE'] + ')';
+      return cat;
+    });
+  }
+
+  getCurrencyCodes() {
+    this.currencyCodes = currencies.CURRENCY_CODES;
+    this.currencyCodes = this.currencyCodes.map(function (curr) {
+      curr.fullCurrencyLabel =
+        curr['ISO4217-currency_name'] +
+        ' ' +
+        '(' +
+        curr['ISO4217-currency_numeric_code'] +
+        ')';
+      return curr;
+    });
+  }
+
+  getMerchantTimezones() {
+    const timeZones = this.storageService.getTimezones();
+    if (timeZones) {
+      // dont fetch data
+      console.log('RECSDEFDJFFHFHHFHFHFH');
+
+      this.allTimeZones = timeZones;
+    } else {
+      this.merchants.getTimezones().subscribe((response) => {
+        console.log('THese are the time zones', response);
+        this.allTimeZones = response['data'];
+        this.storageService.storeTimeZones(response.data);
+      });
+    }
   }
 
   backClicked() {
@@ -89,5 +222,60 @@ export class ManageAcquirerComponent implements OnInit {
         this.alertService.error(error);
       }
     );
+  }
+
+  initializeForm() {
+    this.searchForm = this.fb.group({
+      merchantId: '',
+      status: '',
+    });
+    this.createMerchantForm = this.fb.group({
+      merchantName: ['', Validators.required],
+      merchantKey: [''],
+      merchantId: [
+        '',
+        Validators.compose([
+          Validators.maxLength(15),
+          Validators.minLength(15),
+        ]),
+      ],
+      currency: ['', Validators.required],
+      categoryCode: ['', Validators.required],
+      countryCode: ['', Validators.required],
+      city: ['', Validators.required],
+      merchantToken: [''],
+      timezoneId: ['', Validators.required],
+    });
+  }
+
+  addNewMerchant() {
+    this.isCreatingMerchant = true;
+    const newMerchant = {
+      merchantName: this.createMerchantForm.value.merchantName,
+      merchantId: this.createMerchantForm.value.merchantId,
+      merchantToken: this.createMerchantForm.value.merchantToken,
+      merchantCategoryCode: Number(this.createMerchantForm.value.categoryCode),
+      merchantKey: this.createMerchantForm.value.merchantKey,
+      currencyCode: String(this.createMerchantForm.value.currency),
+      countryCode: Number(this.createMerchantForm.value.countryCode),
+      city: this.createMerchantForm.value.city,
+      timezoneId: +this.createMerchantForm.value.timezoneId,
+    };
+    this.merchants.addNewMerchant(newMerchant).subscribe(
+      (response) => {
+        this.isCreatingMerchant = false;
+        this.closeModal('cancel_button_add_merchant');
+        this.alertService.success('Merchant created successfully!');
+        this.ngOnInit();
+      },
+      (error) => {
+        this.isCreatingMerchant = false;
+        this.alertService.error(error);
+      }
+    );
+  }
+
+  closeModal(id: string) {
+    document.getElementById(id).click();
   }
 }

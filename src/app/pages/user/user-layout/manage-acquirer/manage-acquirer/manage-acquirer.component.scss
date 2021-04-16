@@ -1,4 +1,8 @@
 @import "~src/app/pages/shared/styles/header"; //Importation for page header
+@import "~src/app/pages/shared/styles/custom-table";
+
+@import "./../../../../shared/styles/floating-label";
+@import "./../../../../shared/styles/buttons";
 
 // ******BUTTONS TOGGLER*********
 .top_row {
