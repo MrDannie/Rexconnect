@@ -1,197 +1,146 @@
-<div class="header animated fadeIn">
-  <div class="top_buttons">
-    <span
-      (click)="backClicked()"
-      class="back_button"
-      routerLink="../../acquirers"
-    >
-      <i class="fa fa-long-arrow-left"></i> Return to Acquirer List
-    </span>
-  </div>
-  <div class="header_buttons">
-    <div>
-      <span class="name">
-        <img src="../../../../../../assets/images/girl.svg" alt="avater" />
-        {{ acquirerName }}</span
-      >
-      <span class="date">{{ createdAt | date: "medium" }}</span>
-      <span class="status"> Status: {{ acquirerStatus | titlecase }}</span>
-    </div>
-    <div *ngIf="permissions.includes('CAN_MANAGE_CLIENTS')">
-      <span
-        style="cursor: pointer"
-        *ngIf="
-          acquirerStatus === 'ACTIVE' && currentUrl.includes('acquirer-details')
-        "
-        class="action_button_disable"
-        data-toggle="modal"
-        data-target="#disableAcquirertModal"
-        >Disable Aquirer</span
-      >
-      <span
-        class="action_button_enable animated fadeIn"
-        (click)="enableAcquirer()"
-        *ngIf="
-          acquirerStatus === 'INACTIVE' &&
-          currentUrl.includes('acquirer-details')
-        "
-        >Enable Aquirer</span
-      >
-
-      <button
-        class="btn action_button"
-        data-toggle="modal"
-        data-target="#createMerchant"
-        *ngIf="currentUrl.includes('acquirer-merchants')"
-      >
-        <!-- <i class="fa fa-plus animated slideIn"></i> -->
-        Add Merchant
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-------BUTTONS SWITCH -------->
-<div
-  *ngIf="
-    !currentUrl.includes('acquirer-merchants/') ||
-    !currentUrl.includes('acquirer-merchants/')
-  "
-  class="top_row"
+<!-- <p>
+  acquirer-merchant-details works!dsaffff adfasdfasdfasdf asdfasdfasdfasdf
+  asdfasdfasdf
+</p>
+<button
+  routerLink="../../../acquirer-merchants/{{
+    merchantId
+  }}/merchant-transactions"
+  class="btn table_button"
 >
+  Open
+</button> -->
+
+<div class="top_row">
   <span class="left_switcher">
     <span class="menu_section">
       <span
         class="menu"
-        routerLink="acquirer-details"
-        [routerLinkActive]="['active']"
-      >
-        Details</span
-      >
-      <span
-        *ngIf="permissions.includes('CAN_VIEW_CLIENT_PTSPS')"
-        class="menu"
-        routerLink="acquirer-fee-sharing"
-        [routerLinkActive]="['active']"
-        >Fee Sharing</span
-      >
-      <span
-        class="menu"
-        routerLink="./acquirer-routes"
-        [routerLinkActive]="['active']"
-        *ngIf="permissions.includes('CAN_VIEW_CLIENT_ROUTING_RULES')"
-      >
-        Routes</span
-      >
-      <span
-        class="menu"
-        routerLink="./acquirer-ptsps"
-        [routerLinkActive]="['active']"
-        *ngIf="permissions.includes('CAN_VIEW_CLIENT_PTSPS')"
-      >
-        Ptsps</span
-      >
-      <!-- <span
-        class="menu animated"
-        routerLink="./acquirer-users"
-        [routerLinkActive]="['active']"
-      >
-        Users</span
-      > -->
-      <!-- <span
-        class="menu animated"
-        routerLink="./acquirer-terminals"
-        [routerLinkActive]="['active']"
-      >
-        Terminals</span
-      > -->
-      <span
-        class="menu"
-        routerLink="./acquirer-merchants"
-        [routerLinkActive]="['active']"
-      >
-        Merchants</span
-      >
-    </span>
-  </span>
-</div>
-<!-- 
-<div
-  *ngIf="
-    currentUrl.includes('/merchant-details') ||
-    currentUrl.includes('/merchant-transactions')
-  "
-  class="top_row"
->
-  <span class="left_switcher">
-    <span class="menu_section">
-      <span
-        class="menu"
-        routerLink="../../acquirer-merchants/../merchant-details"
+        routerLink="../../{{ merchantId }}/merchant-details"
         [routerLinkActive]="['active']"
       >
         Details</span
       >
       <span
         class="menu"
-        routerLink="merchant-transactions"
+        routerLink="../../{{ merchantId }}/merchant-transactions"
         [routerLinkActive]="['active']"
         >Transactions</span
       >
     </span>
   </span>
-</div> -->
-
-<!-- ../../../acquirer-merchants/{{
-    merchantId
-  }}/merchant-transactions -->
-
-<!-- DISABLE MERCHNAT MODAL -->
-
-<div
-  class="modal animated zoomIn"
-  id="disableAcquirertModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="DisableUserLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <h5 class="modal-title" id="createUserLabel">Disable Acquirer</h5>
-        <br />
-        <p>
-          You are about to disable acquirer "{{ acquirerName }}". Please confirm
-          this action to continue.
-        </p>
-        <br />
-        <div class="form_actions">
-          <div class="cancel_button" data-dismiss="modal">Cancel</div>
-          <button
-            class="btn action_button"
-            (click)="disableAcquirer(acquirerId)"
-          >
-            Disable Acquirer
-          </button>
-
-          <div
-            *ngIf="disablingAcquirer"
-            class="spinner-border spinner-border-sm ml-3"
-            role="status"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
-<!-- CREATE MERCHANT  -->
+<!-- THE BODY CONTENT  -->
+<div class="main_dashboard_flow row">
+  <div class="col-md-6">
+    <div class="details_section">
+      <div class="form_area">
+        <div class="row">
+          <div class="col-md-6">
+            <b>Merchant Name</b>
+            <p>{{ merchantDetails?.merchantName }}</p>
+          </div>
+          <div class="col-md-6">
+            <b>Merchant ID</b>
+            <p>{{ merchantDetails?.merchantId }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <b>Merchant Key</b>
+            <p>{{ merchantDetails?.merchantKey }}</p>
+          </div>
+          <div class="col-md-6" *ngIf="merchantDetails?.merchantCategoryCode">
+            <b>Merchant Category</b>
+            <p>
+              {{ getMCCodes(merchantDetails?.merchantCategoryCode) }} ({{
+                merchantDetails?.merchantCategoryCode
+              }})
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <b>Merchant Token</b>
+            <p>{{ merchantDetails?.merchantToken }}</p>
+          </div>
+          <div class="col-md-6">
+            <b>Merchant Location</b>
+            <p>{{ merchantDetails?.merchantLocationNameAddress }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <b>Country Code</b>
+            <p>({{ merchantDetails?.countryCode }})</p>
+          </div>
+          <div class="col-md-6" *ngIf="merchantDetails?.currencyCode">
+            <b>Currency</b>
+            <p>
+              {{ getCurrencyName(merchantDetails?.currencyCode) }} ({{
+                merchantDetails?.currencyCode
+              }})
+            </p>
+          </div>
+        </div>
+        <!-- <div class="row">
+        <div class="col-md-6">
+          <span>Call Home TIme</span>
+          <p><strong>60</strong></p>
+        </div>
+        <div class="col-md-6">
+          <span>Transaction Time Out</span>
+          <p><strong>2033ESGQ</strong></p>
+        </div>
+      </div> -->
+        <button
+          class="btn action_button_update"
+          data-toggle="modal"
+          data-target="#editMerchant"
+          *ngIf="permissions.includes('CAN_MANAGE_MERCHANTS')"
+        >
+          Edit Merchant
+        </button>
+      </div>
+    </div>
+
+    <!-- SECOND FORM AREA  -->
+  </div>
+  <!-- <div class="form_area col-md-6 terminals">
+    <div class="card-body">
+      <h6><strong>Terminals</strong></h6>
+      <span>These are terminals assigned to this merchant.</span>
+      <table class="table table-sm">
+        <thead class="thead-light">
+          <tr>
+            <th class="text-center" scope="col">Terminal ID</th>
+            <th class="text-center" class="text-center" scope="col">
+              Call Home Time
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let terminal of merchantTerminals">
+            <td class="text-center">{{ terminal.terminalId }}</td>
+            <td class="text-center">{{ terminal.callHomeTime }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <span
+        class="empty-state"
+        *ngIf="merchantTerminals.length == 0 && !isLoadingTerminals"
+        >No Records Found</span
+      >
+    </div>
+  </div> -->
+</div>
+
+<!-- EDIT FORM  -->
+
 <div
   class="modal animated zoomIn"
-  id="createMerchant"
+  id="editMerchant"
   tabindex="-1"
   role="dialog"
   aria-labelledby="createUserLabel"
@@ -200,8 +149,8 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <h5 class="modal-title" id="createUserLabel">Add Merchant</h5>
-        <form [formGroup]="createMerchantForm" (ngSubmit)="addNewMerchant()">
+        <h5 class="modal-title" id="createUserLabel">Edit Merchant</h5>
+        <form [formGroup]="updateMerchantForm" (ngSubmit)="updateMerchant()">
           <div class="row">
             <div class="col-md-12 no-padding">
               <div class="form-group">
@@ -210,6 +159,7 @@
                     id="merchantName"
                     type="text"
                     class="form-control"
+                    readonly
                     placeholder=" "
                     formControlName="merchantName"
                   />
@@ -219,8 +169,8 @@
               <span
                 class="validation-message"
                 *ngIf="
-                  createMerchantForm.get('merchantName').errors &&
-                  createMerchantForm.get('merchantName').touched
+                  updateMerchantForm?.get('merchantName').errors &&
+                  updateMerchantForm?.get('merchantName').touched
                 "
                 >Merchant Name is required.</span
               >
@@ -242,47 +192,27 @@
               <span
                 class="validation-message"
                 *ngIf="
-                  createMerchantForm.get('merchantKey').errors &&
-                  createMerchantForm.get('merchantKey').touched
+                  updateMerchantForm?.get('merchantKey').errors &&
+                  updateMerchantForm?.get('merchantKey').touched
                 "
                 >Merchant Key is required.</span
               >
             </div>
 
-            <div
-              *ngIf="userSettings?.auto_mid != true"
-              class="col-md-12 no-padding"
-            >
+            <div *ngIf="autoMidState != true" class="col-md-12 no-padding">
               <div class="form-group">
                 <span class="has-float-label">
                   <input
                     id="merchantId"
                     type="text"
                     class="form-control"
-                    maxlength="15"
+                    disabled
                     placeholder=" "
                     formControlName="merchantId"
                   />
                   <label for="merchantId">Merchant ID</label>
                 </span>
               </div>
-              <span
-                class="validation-message"
-                *ngIf="
-                  createMerchantForm.get('merchantId').hasError('required') &&
-                  createMerchantForm.get('merchantId').touched
-                "
-                >Merchant ID is required.</span
-              >
-              <span
-                class="validation-message"
-                *ngIf="
-                  !createMerchantForm.get('merchantId').hasError('required') &&
-                  createMerchantForm.get('merchantId').hasError('minlength')
-                "
-              >
-                {{ messages.merchantId.length }}
-              </span>
             </div>
 
             <div class="col-md-12 no-padding">
@@ -301,8 +231,8 @@
               <span
                 class="validation-message"
                 *ngIf="
-                  createMerchantForm.get('merchantToken').errors &&
-                  createMerchantForm.get('merchantToken').touched
+                  updateMerchantForm?.get('merchantToken').errors &&
+                  updateMerchantForm?.get('merchantToken').touched
                 "
                 >Merchant Token is required.</span
               >
@@ -331,8 +261,8 @@
               <span
                 class="validation-message"
                 *ngIf="
-                  createMerchantForm.get('categoryCode').errors &&
-                  createMerchantForm.get('categoryCode').touched
+                  updateMerchantForm?.get('categoryCode').errors &&
+                  updateMerchantForm?.get('categoryCode').touched
                 "
                 >Merchant Category Code is required.</span
               >
@@ -361,8 +291,8 @@
               <span
                 class="validation-message"
                 *ngIf="
-                  createMerchantForm.get('currency').errors &&
-                  createMerchantForm.get('currency').touched
+                  updateMerchantForm?.get('currency').errors &&
+                  updateMerchantForm?.get('currency').touched
                 "
                 >Currency is required.</span
               >
@@ -377,7 +307,7 @@
                     class="form-control"
                     placeholder=" "
                     (change)="
-                      onSelectCountryCode(createMerchantForm.value.countryCode)
+                      onSelectCountryCode(updateMerchantForm.value.countryCode)
                     "
                     formControlName="countryCode"
                   >
@@ -394,8 +324,8 @@
               <span
                 class="validation-message"
                 *ngIf="
-                  createMerchantForm.get('countryCode').errors &&
-                  createMerchantForm.get('countryCode').touched
+                  updateMerchantForm?.get('countryCode').errors &&
+                  updateMerchantForm?.get('countryCode').touched
                 "
                 >Country Code is required.</span
               >
@@ -424,13 +354,12 @@
               <span
                 class="validation-message"
                 *ngIf="
-                  createMerchantForm.get('city').errors &&
-                  createMerchantForm.get('city').touched
+                  updateMerchantForm?.get('city').errors &&
+                  updateMerchantForm?.get('city').touched
                 "
                 >City is required.</span
               >
             </div>
-
             <div class="col-md-12 no-padding">
               <div class="form-group">
                 <span class="has-float-label">
@@ -454,8 +383,8 @@
               <span
                 class="validation-message"
                 *ngIf="
-                  createMerchantForm.get('timezoneId').errors &&
-                  createMerchantForm.get('timezoneId').touched
+                  updateMerchantForm.get('timezoneId').errors &&
+                  updateMerchantForm.get('timezoneId').touched
                 "
                 >Timezone is required.</span
               >
@@ -466,26 +395,25 @@
               class="cancel_button"
               type="button"
               data-dismiss="modal"
-              id="cancel_button_add_merchant"
-              (click)="createMerchantForm.reset()"
+              id="cancel_button_edit_merchant"
             >
               Cancel
             </button>
             <button
               class="btn button-primary"
               [disabled]="
-                createMerchantForm.invalid ||
+                updateMerchantForm.invalid ||
                 isLoadingCities ||
-                isCreatingMerchant
+                isUpdatingMerchant
               "
               type="submit"
             >
-              Add Merchant
+              Update Merchant
             </button>
 
             <div
               class="spinner-border spinner-border-sm ml-3"
-              *ngIf="isCreatingMerchant || isLoadingCities"
+              *ngIf="isUpdatingMerchant || isLoadingCities"
               role="status"
             >
               <span class="sr-only">Loading...</span>
@@ -496,5 +424,3 @@
     </div>
   </div>
 </div>
-
-<router-outlet></router-outlet>

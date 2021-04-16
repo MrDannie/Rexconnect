@@ -12,7 +12,7 @@ const routes: Routes = [];
     RouterModule.forChild([
       {
         path: '',
-        component: MerchantsComponent
+        component: MerchantsComponent,
       },
       {
         path: ':id',

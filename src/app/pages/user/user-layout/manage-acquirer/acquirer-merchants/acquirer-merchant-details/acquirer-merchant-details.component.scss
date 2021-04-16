@@ -1,0 +1,97 @@
+// ******BUTTONS TOGGLER*********
+@import "./../../../../../shared/styles/components.scss";
+@import "./../../../../../shared/styles/floating-label.scss";
+@import "./../../../../../shared/styles/buttons.scss";
+.top_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left_switcher {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menu_section {
+  // min-width: 100%;
+  background: #ffffff;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 0.4rem;
+  margin: 1rem 0;
+}
+
+.menu {
+  border: 0;
+  padding: 0.3rem 2rem;
+  // background: #ffffff;
+  color: black;
+  text-align: center;
+  margin: 0;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+}
+
+.menu:active,
+.menu.active {
+  border-radius: 0.7rem;
+  background: #c91c24;
+  color: white;
+}
+
+.animated {
+  font-family: "Montserrat";
+  font-weight: 800;
+  border-radius: 12px;
+  padding-top: 2%;
+}
+
+// UPDATE TERMINAL BUTTON
+.action_button_update {
+  background-color: #ffd1ce;
+  color: #950007;
+  padding: 0.6rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  font-weight: bold;
+  border: 0.5px solid #ffd1ce;
+  font-size: 0.8125rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.action_button_update:hover {
+  background-color: #950007;
+  border: 0.5px solid #950007;
+  //transition: all 0.3s ease-in-out;
+
+  color: #f0f0f0;
+}
+
+.form_actions .cancel_button {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  color: #747474;
+  padding: 0.4rem 1.2rem;
+  font-family: "Montserrat Bold", serif;
+  font-weight: bold;
+  margin-top: -5px;
+  font-size: 0.7125rem;
+  transition: all ease-in-out 0.5s;
+  border-radius: 6px;
+  width: fit-content;
+  margin-top: 1rem;
+  cursor: pointer;
+  margin-left: 1rem;
+  border: 0px solid #cbcbcb;
+}

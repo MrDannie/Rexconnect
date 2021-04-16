@@ -10,6 +10,7 @@ import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { isNullOrUndefined } from 'util';
 import * as CryptoJS from 'crypto-js';
 import { Observable } from 'rxjs';
+import { StorageService } from 'src/app/core/helpers/storage.service';
 
 const BASE_URL = environment.BASE_URL;
 
@@ -19,9 +20,15 @@ const BASE_URL = environment.BASE_URL;
 export class MerchantsService {
   bearerToken: string;
   config: Config;
+  typeOfUserLoggedIn: any;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private storageService: StorageService
+  ) {
     this.config = new Config();
+    this.typeOfUserLoggedIn = this.storageService.getCurrentUser().user.userType;
+    console.log('USERTYPE VARIABLE', this.typeOfUserLoggedIn);
   }
 
   createAuthorizationHeader(): HttpHeaders {
@@ -49,7 +56,8 @@ export class MerchantsService {
     pageIndex: number,
     pageSize: number,
     merchantId?: string,
-    status?
+    status?,
+    acquirerId?
   ): Observable<IWrapper<IMerchant>> {
     let params = new HttpParams();
     if (pageIndex) {
@@ -167,6 +175,53 @@ export class MerchantsService {
     return this.http.post<any>(
       BASE_URL + this.config.enableMerchant.replace('{merchantId}', merchantId),
       ''
+    );
+  }
+
+  // GA ADMIN ENDPONTS
+
+  getAllMerchantsForAcquirer(
+    pageIndex: number,
+    pageSize: number,
+    merchantId?: string,
+    status?,
+    acquirerId?
+  ): Observable<IWrapper<IMerchant>> {
+    let params = new HttpParams();
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (merchantId) {
+      params = params.append('merchantId', merchantId);
+    }
+
+    if (status) {
+      params = params.append('isActive', status);
+    }
+
+    return this.http.get<IWrapper<IMerchant>>(
+      BASE_URL +
+        this.config.getAllMerchantsForAcquirer.replace(
+          '{clientId}',
+          acquirerId
+        ),
+      {
+        params,
+      }
+    );
+  }
+
+  getMerchantDetailsForAdmin(merchantId) {
+    const header = this.createAuthorizationHeader();
+    return this.http.get<IMerchant>(
+      BASE_URL +
+        this.config.getSingleMerchant.replace('{merchantId}', merchantId),
+      {
+        headers: header,
+      }
     );
   }
 }
