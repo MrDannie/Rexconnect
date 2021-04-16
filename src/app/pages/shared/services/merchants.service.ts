@@ -180,7 +180,7 @@ export class MerchantsService {
 
   // GA ADMIN ENDPONTS
 
-  getAllMerchantsForAdmin(
+  getAllMerchantsForAcquirer(
     pageIndex: number,
     pageSize: number,
     merchantId?: string,
@@ -203,9 +203,24 @@ export class MerchantsService {
     }
 
     return this.http.get<IWrapper<IMerchant>>(
-      BASE_URL + this.config.getAllMerchants,
+      BASE_URL +
+        this.config.getAllMerchantsForAcquirer.replace(
+          '{clientId}',
+          acquirerId
+        ),
       {
         params,
+      }
+    );
+  }
+
+  getMerchantDetailsForAdmin(merchantId) {
+    const header = this.createAuthorizationHeader();
+    return this.http.get<IMerchant>(
+      BASE_URL +
+        this.config.getSingleMerchant.replace('{merchantId}', merchantId),
+      {
+        headers: header,
       }
     );
   }
