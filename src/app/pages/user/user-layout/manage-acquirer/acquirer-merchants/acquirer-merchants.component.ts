@@ -76,13 +76,13 @@ export class AcquirerMerchantsComponent implements OnInit {
     this.pageIndex = 0;
     this.isFiltering = false;
     this.initializeForm();
-    this.acquirerId = this.route.snapshot.params.id;
+    this.acquirerId = this.route.snapshot.params.acquirerId;
     this.getAllMerchants();
   }
   getAllMerchants(merchantId?, status?) {
     this.isLoading = true;
     this.merchants
-      .getAllMerchants(
+      .adminGetAllMerchantsForAcquirer(
         this.pageIndex,
         this.pageSize,
         merchantId,

@@ -9,11 +9,12 @@ import { ManageAcquirerComponent } from './manage-acquirer/manage-acquirer.compo
 import { AddAcquirerComponent } from './add-acquirer/add-acquirer.component';
 import { AcquirerPtspsComponent } from './acquirer-ptsps/acquirer-ptsps.component';
 import { UpdateAcquirerComponent } from './update-acquirer/update-acquirer.component';
-import { AcquirerTerminalsComponent } from './acquirer-terminals/acquirer-terminals.component';
 import { AcquirerUsersComponent } from './acquirer-users/acquirer-users.component';
 import { AcquirerMerchantsComponent } from './acquirer-merchants/acquirer-merchants.component';
 import { AcquirerMerchantDetailsComponent } from './acquirer-merchants/acquirer-merchant-details/acquirer-merchant-details.component';
 import { AcquirerMerchantTransactionsComponent } from './acquirer-merchants/acquirer-merchant-transactions/acquirer-merchant-transactions.component';
+import { AcquirerMerchantTerminalsComponent } from './acquirer-merchants/acquirer-merchant-terminals/acquirer-merchant-terminals.component';
+import { AcquirerTransactionsComponent } from './acquirer-transactions/acquirer-transactions.component';
 
 const routes: Routes = [];
 
@@ -33,7 +34,7 @@ const routes: Routes = [];
         component: UpdateAcquirerComponent,
       },
       {
-        path: ':id',
+        path: ':acquirerId',
         component: ManageAcquirerComponent,
         children: [
           {
@@ -61,21 +62,26 @@ const routes: Routes = [];
             path: 'acquirer-users',
             component: AcquirerUsersComponent,
           },
-          {
-            path: 'acquirer-terminals',
-            component: AcquirerTerminalsComponent,
-          },
+
           {
             path: 'acquirer-merchants',
             component: AcquirerMerchantsComponent,
           },
           {
-            path: 'acquirer-merchants/:id/merchant-details',
+            path: 'acquirer-transactions',
+            component: AcquirerTransactionsComponent,
+          },
+          {
+            path: 'acquirer-merchants/:merchantId/merchant-details',
             component: AcquirerMerchantDetailsComponent,
           },
           {
-            path: 'acquirer-merchants/:id/merchant-transactions',
+            path: 'acquirer-merchants/:merchantId/merchant-transactions',
             component: AcquirerMerchantTransactionsComponent,
+          },
+          {
+            path: 'acquirer-merchants/:merchantId/merchant-terminals',
+            component: AcquirerMerchantTerminalsComponent,
           },
         ],
       },

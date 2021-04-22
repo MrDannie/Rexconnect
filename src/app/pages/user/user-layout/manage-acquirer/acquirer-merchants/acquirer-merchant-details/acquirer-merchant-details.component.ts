@@ -37,6 +37,7 @@ export class AcquirerMerchantDetailsComponent implements OnInit {
   isLoadingCities: boolean = false;
 
   allTimeZones: any;
+  acquirerId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,7 +48,13 @@ export class AcquirerMerchantDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.merchantId = this.route.snapshot.params.id;
+    // this.merchantId = this.route.snapshot.params.merchant;
+    this.route.paramMap.subscribe((params) => {
+      this.merchantId = params.get('merchantId');
+      this.acquirerId = params.get('acquirerId');
+    });
+
+    console.log('THIS IS THE MERCHANT ID', this.merchantId);
 
     this.storedCities = states.STATES;
 
@@ -68,20 +75,22 @@ export class AcquirerMerchantDetailsComponent implements OnInit {
 
   getMerchantDetails() {
     this.isLoadingTerminals = true;
-    this.merchants.getMerchantDetailsForAdmin(this.merchantId).subscribe(
-      (data) => {
-        this.merchantDetails = data;
-        console.log('THIS IS MERCHNT DETAILS', this.merchantDetails);
+    this.merchants
+      .getMerchantDetailsForAdmin(this.acquirerId, this.merchantId)
+      .subscribe(
+        (data) => {
+          this.merchantDetails = data;
+          console.log('THIS IS MERCHNT DETAILS', this.merchantDetails);
 
-        this.populateEditForm();
-        // forward terminal loading to next method
-        this.getMerchantTerminals();
-      },
-      (error) => {
-        this.isLoadingTerminals = false;
-        this.alerts.error(error);
-      }
-    );
+          this.populateEditForm();
+          // forward terminal loading to next method
+          this.getMerchantTerminals();
+        },
+        (error) => {
+          this.isLoadingTerminals = false;
+          this.alerts.error(error);
+        }
+      );
   }
 
   getMCCodes(code) {

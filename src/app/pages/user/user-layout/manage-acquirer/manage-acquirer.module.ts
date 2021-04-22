@@ -14,10 +14,11 @@ import { SharedModule } from 'src/app/pages/shared/modules/shared.module';
 import { AcquirerPtspsComponent } from './acquirer-ptsps/acquirer-ptsps.component';
 import { UpdateAcquirerComponent } from './update-acquirer/update-acquirer.component';
 import { AcquirerUsersComponent } from './acquirer-users/acquirer-users.component';
-import { AcquirerTerminalsComponent } from './acquirer-terminals/acquirer-terminals.component';
 import { AcquirerMerchantsComponent } from './acquirer-merchants/acquirer-merchants.component';
 import { AcquirerMerchantDetailsComponent } from './acquirer-merchants/acquirer-merchant-details/acquirer-merchant-details.component';
 import { AcquirerMerchantTransactionsComponent } from './acquirer-merchants/acquirer-merchant-transactions/acquirer-merchant-transactions.component';
+import { AcquirerMerchantTerminalsComponent } from './acquirer-merchants/acquirer-merchant-terminals/acquirer-merchant-terminals.component';
+import { AcquirerTransactionsComponent } from './acquirer-transactions/acquirer-transactions.component';
 
 @NgModule({
   declarations: [
@@ -32,13 +33,16 @@ import { AcquirerMerchantTransactionsComponent } from './acquirer-merchants/acqu
     AcquirerPtspsComponent,
     UpdateAcquirerComponent,
     AcquirerUsersComponent,
-    AcquirerTerminalsComponent,
 
     AcquirerMerchantsComponent,
 
     AcquirerMerchantDetailsComponent,
 
     AcquirerMerchantTransactionsComponent,
+
+    AcquirerMerchantTerminalsComponent,
+
+    AcquirerTransactionsComponent,
   ],
   imports: [
     CommonModule,

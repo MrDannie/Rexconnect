@@ -98,4 +98,59 @@ export class UserManagementService {
       })
     );
   }
+
+  // ENDPOINTS FOR ADMIN PURPOSES
+
+  adminGetAllUsersForAcquirer(
+    pageIndex: number,
+    pageSize: number,
+    clientId,
+    username?: string,
+    email?: string,
+    enabled?: string
+  ) {
+    let params = new HttpParams();
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (username) {
+      params = params.append('username', username);
+    }
+    if (email) {
+      params = params.append('email', email);
+    }
+    if (enabled) {
+      params = params.append('enabled', enabled);
+    }
+
+    return this.httpClient.get<AllUsers>(
+      BASE_URL +
+        this.config.adminGetAllUsersForAcquirer.replace('{clientId}', clientId),
+      {
+        params: params,
+      }
+    );
+  }
+
+  // ENDPOINTS WITH CLIENT PURPOSES
+  adminCreateUserForAcquirer(userDetails: IUser, clientId): Observable<IUser> {
+    return this.httpClient
+      .post<IUser>(
+        BASE_URL +
+          this.config.adminCreateUserForAcquirer.replace(
+            '{clientId}',
+            clientId
+          ),
+        userDetails
+      )
+      .pipe(
+        map((response: IUser) => {
+          console.log('User Addedd', response);
+          return response;
+        })
+      );
+  }
 }

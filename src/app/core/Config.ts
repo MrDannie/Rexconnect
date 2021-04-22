@@ -82,6 +82,12 @@ export class Config {
 
   // Endpoints For Admin Purposes
   public getAllMerchantsForAcquirer: string;
+  public adminAddNewMerchant: string;
+  public adminGetAllUsersForAcquirer: string;
+  public adminCreateUserForAcquirer: string;
+  public getSingleMerchantForAdmin: string;
+  getAllTerminalsForAcquirer: string;
+  getTransactionsForAcquirer: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -173,5 +179,19 @@ export class Config {
 
     // End Points For Admin Purposes
     this.getAllMerchantsForAcquirer = '/v1/clients/{clientId}/merchants';
+
+    this.adminAddNewMerchant = '/v1/clients/{clientId}/merchants';
+
+    this.adminGetAllUsersForAcquirer = '/v1/clients/{clientId}/users';
+
+    this.adminCreateUserForAcquirer = '/v1/clients/{clientId}/users';
+
+    this.getSingleMerchantForAdmin =
+      '/v1/clients/{clientId}/merchants/{merchantId}';
+
+    this.getAllTerminalsForAcquirer =
+      '/v1/clients/{clientId}/merchants/{merchantId}/terminals';
+
+    this.getTransactionsForAcquirer = '/v1/clients/{clientId}/transactions';
   }
 }
