@@ -1,0 +1,58 @@
+<div class="table-container custom-table animated fadeIn">
+  <div class="card-body">
+    <app-rex-loader [isPushed]="true" *ngIf="isLoading"></app-rex-loader>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Merchant</th>
+          <th scope="col">Terminal ID</th>
+          <th scope="col">RRN</th>
+          <th scope="col">STAN</th>
+          <th scope="col">PAN/Account</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Currency</th>
+          <th scope="col">Type</th>
+          <th scope="col">Status</th>
+          <th scope="col">Date/Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let txn of allTransactions">
+          <td>{{ txn.mid }}</td>
+          <td>{{ txn.tid }}</td>
+          <td>{{ txn.rrn }}</td>
+          <td>{{ txn.stan }}</td>
+          <td>{{ txn.pan }}</td>
+          <td>{{ txn.amount }}</td>
+          <td>{{ txn.currencyCode }} ({{ txn.currencyAlpha }})</td>
+          <td>{{ txn.type }}</td>
+          <td>
+            <span
+              class="status"
+              [class.approved]="txn.status === 'APPROVED'"
+              [class.declined]="txn.status === 'DECLINED'"
+            >
+              {{ txn.status }}
+            </span>
+          </td>
+          <td>{{ txn.creationDate | date: "medium" }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <span
+      class="empty-state"
+      *ngIf="allTransactions.length === 0 && !this.isLoading"
+    >
+      No Records Found
+    </span>
+  </div>
+</div>
+
+<app-rex-pagination
+  [data]="allTransactions"
+  [totalElements]="dataCount"
+  (pageCountSelected)="requestPageSize($event)"
+  (refreshData)="onRefreshData($event)"
+  (onDownloadAsCSV)="beginDownload()"
+  *ngIf="loadPagination"
+></app-rex-pagination>
