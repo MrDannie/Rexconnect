@@ -46,7 +46,7 @@ export class AcquirerPtspsComponent implements OnInit {
     });
   }
   getAcquirerPtsps() {
-    this.acquirerId = this.route.snapshot.params.id;
+    this.acquirerId = this.route.snapshot.params.acquirerId;
     this.routingCompService
       .getAcquirerPtsps(this.pageIndex, this.pageSize, this.acquirerId)
       .subscribe(

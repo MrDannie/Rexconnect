@@ -14,6 +14,7 @@ import {
 } from '../../../../../pages/shared/constants';
 import { ProfileManagementService } from 'src/app/pages/shared/services/profile-management.service';
 import { ValidationService } from '../../../../../core/validation.service';
+import { MerchantsService } from 'src/app/pages/shared/services/merchants.service';
 declare var $: any;
 
 @Component({
@@ -36,13 +37,13 @@ export class ManageAcquirerComponent implements OnInit {
   currencyCodes: any;
   countryCodes: any;
   allTimeZones: any;
-  merchants: any;
   storedCities: any[];
   userSettings: any;
   isCreatingMerchant: boolean;
   allCities: any[];
   isLoadingCities: boolean;
   messages: any;
+  userType: any;
 
   constructor(
     private router: Router,
@@ -53,7 +54,8 @@ export class ManageAcquirerComponent implements OnInit {
     private storageService: StorageService,
     private fb: FormBuilder,
     private profileMgt: ProfileManagementService,
-    private validationMessages: ValidationService
+    private validationMessages: ValidationService,
+    private merchants: MerchantsService
   ) {
     this.router.events.subscribe((val) => {
       this.currentUrl = location.path();
@@ -63,7 +65,11 @@ export class ManageAcquirerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.acquirerId = this.route.snapshot.params.id;
+    // this.acquirerId = this.route.snapshot.params.id
+    this.route.paramMap.subscribe((params) => {
+      this.acquirerId = params.get('acquirerId');
+    });
+
     console.log('this is acquirer ID', this.acquirerId);
 
     this.getAcquirer();
@@ -83,13 +89,15 @@ export class ManageAcquirerComponent implements OnInit {
 
     this.getUserSettings();
 
+    this.getCurrentUser();
+
     $('#createMerchant').on('hidden.bs.modal', this.resetForm.bind(this));
   }
 
   getUserSettings() {
     this.profileMgt.getUserSettings().subscribe(
       (response) => {
-        console.log(response);
+        console.log('USER SETTINGSSSSSSS', response);
         this.userSettings = response;
       },
       (error) => {
@@ -184,6 +192,11 @@ export class ManageAcquirerComponent implements OnInit {
   getPermissions() {
     this.permissions = this.storageService.getPermissions();
   }
+
+  getCurrentUser() {
+    let user = this.storageService.getCurrentUser();
+    this.userType = user['user']['userType'];
+  }
   getAcquirer() {
     this.acquirerService
       .getSingleAcquirer(this.acquirerId)
@@ -261,12 +274,12 @@ export class ManageAcquirerComponent implements OnInit {
       city: this.createMerchantForm.value.city,
       timezoneId: +this.createMerchantForm.value.timezoneId,
     };
-    this.merchants.addNewMerchant(newMerchant).subscribe(
+    this.merchants.adminAddNewMerchant(newMerchant, this.acquirerId).subscribe(
       (response) => {
         this.isCreatingMerchant = false;
         this.closeModal('cancel_button_add_merchant');
         this.alertService.success('Merchant created successfully!');
-        this.ngOnInit();
+        this.reloadComponent();
       },
       (error) => {
         this.isCreatingMerchant = false;
@@ -277,5 +290,12 @@ export class ManageAcquirerComponent implements OnInit {
 
   closeModal(id: string) {
     document.getElementById(id).click();
+  }
+
+  reloadComponent() {
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
   }
 }
