@@ -25,7 +25,7 @@
         "
         class="action_button_disable"
         data-toggle="modal"
-        data-target="#disableAcquirertModal"
+        data-target="#disableAcquirerModal"
         >Disable Aquirer</span
       >
       <span
@@ -38,11 +38,28 @@
         >Enable Aquirer</span
       >
 
+      <!-- <span
+        style="cursor: pointer"
+        *ngIf="
+          acquirerStatus === 'ACTIVE' &&
+          currentUrl.includes('/merchant-details')
+        "
+        class="action_button_disable"
+        data-toggle="modal"
+        data-target="#disableMerchantModal"
+        >Disable Merchant</span
+      > -->
+
       <button
         class="btn action_button"
         data-toggle="modal"
         data-target="#createMerchant"
-        *ngIf="currentUrl.includes('acquirer-merchants')"
+        *ngIf="
+          !currentUrl.includes('/merchant-details') &&
+          !currentUrl.includes('/merchant-transactions') &&
+          !currentUrl.includes('/merchant-terminals') &&
+          currentUrl.includes('/acquirer-merchants')
+        "
       >
         <!-- <i class="fa fa-plus animated slideIn"></i> -->
         Add Merchant
@@ -69,12 +86,35 @@
         Details</span
       >
       <span
+        class="menu"
+        routerLink="./acquirer-users"
+        [routerLinkActive]="['active']"
+      >
+        Users</span
+      >
+      <span
+        class="menu"
+        routerLink="./acquirer-merchants"
+        [routerLinkActive]="['active']"
+        *ngIf="userType === 'ADMIN'"
+      >
+        Merchants</span
+      >
+      <span
+        class="menu"
+        routerLink="./acquirer-transactions"
+        [routerLinkActive]="['active']"
+        *ngIf="userType === 'ADMIN'"
+      >
+        Transactions</span
+      >
+      <!-- <span
         *ngIf="permissions.includes('CAN_VIEW_CLIENT_PTSPS')"
         class="menu"
         routerLink="acquirer-fee-sharing"
         [routerLinkActive]="['active']"
         >Fee Sharing</span
-      >
+      > -->
       <span
         class="menu"
         routerLink="./acquirer-routes"
@@ -90,27 +130,6 @@
         *ngIf="permissions.includes('CAN_VIEW_CLIENT_PTSPS')"
       >
         Ptsps</span
-      >
-      <!-- <span
-        class="menu animated"
-        routerLink="./acquirer-users"
-        [routerLinkActive]="['active']"
-      >
-        Users</span
-      > -->
-      <!-- <span
-        class="menu animated"
-        routerLink="./acquirer-terminals"
-        [routerLinkActive]="['active']"
-      >
-        Terminals</span
-      > -->
-      <span
-        class="menu"
-        routerLink="./acquirer-merchants"
-        [routerLinkActive]="['active']"
-      >
-        Merchants</span
       >
     </span>
   </span>
@@ -150,7 +169,7 @@
 
 <div
   class="modal animated zoomIn"
-  id="disableAcquirertModal"
+  id="disableAcquirerModal"
   tabindex="-1"
   role="dialog"
   aria-labelledby="DisableUserLabel"
