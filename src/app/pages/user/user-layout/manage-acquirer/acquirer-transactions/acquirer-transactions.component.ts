@@ -94,7 +94,11 @@ export class AcquirerTransactionsComponent implements OnInit {
     this.pageIndex = 0;
 
     this.merchants
-      .getMerchantTransactions(this.merchantId, this.pageIndex, this.pageSize)
+      .adminGetMerchantTransactionsForAcquirers(
+        this.acquirerId,
+        this.pageIndex,
+        this.pageSize
+      )
       .subscribe(
         (data: any) => {
           this.exportedTransactionRecords = data.content;
