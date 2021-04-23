@@ -193,11 +193,12 @@ export class AcquirerMerchantsComponent implements OnInit {
     // this.pageIndex = 0;
 
     this.merchants
-      .getAllMerchants(
+      .adminGetAllMerchantsForAcquirer(
         0,
         downloadPageSize,
         this.searchForm.value.merchantId,
-        this.searchForm.value.status
+        this.searchForm.value.status,
+        this.acquirerId
       )
       .subscribe(
         (data: any) => {

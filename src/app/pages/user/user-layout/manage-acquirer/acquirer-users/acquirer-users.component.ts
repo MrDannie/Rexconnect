@@ -189,16 +189,17 @@ export class AcquirerUsersComponent implements OnInit {
 
     // this.pageIndex = 0;
     this.userManagementService
-      .getAllUsers(
+      .adminGetAllUsersForAcquirer(
         0,
         downloadPageSize,
+        this.acquirerId,
         this.searchForm.value.username,
         this.searchForm.value.email,
         this.searchForm.value.enabled
       )
       .subscribe(
         (data: any) => {
-          this.userRecordsToDownload = data['content'];
+          this.userRecordsToDownload = data['data']['content'];
 
           for (
             let index = 0;
