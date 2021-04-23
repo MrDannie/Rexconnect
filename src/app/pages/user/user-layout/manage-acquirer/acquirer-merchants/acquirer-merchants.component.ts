@@ -1,5 +1,4 @@
 import { Component, ErrorHandler, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { StorageService } from 'src/app/core/helpers/storage.service';
@@ -10,6 +9,8 @@ import { IWrapper } from 'src/app/pages/shared/interfaces/wrapper.model';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 import { MerchantsService } from 'src/app/pages/shared/services/merchants.service';
 import { ProfileManagementService } from 'src/app/pages/shared/services/profile-management.service';
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-acquirer-merchants',
@@ -74,14 +75,14 @@ export class AcquirerMerchantsComponent implements OnInit {
     this.pageSize = 10;
     this.pageIndex = 0;
     this.isFiltering = false;
-    // this.initializeForm();
-    this.acquirerId = this.route.snapshot.params.id;
+    this.initializeForm();
+    this.acquirerId = this.route.snapshot.params.acquirerId;
     this.getAllMerchants();
   }
   getAllMerchants(merchantId?, status?) {
     this.isLoading = true;
     this.merchants
-      .getAllMerchants(
+      .adminGetAllMerchantsForAcquirer(
         this.pageIndex,
         this.pageSize,
         merchantId,
@@ -115,6 +116,30 @@ export class AcquirerMerchantsComponent implements OnInit {
           this.alertService.error(error);
         }
       );
+  }
+
+  initializeForm() {
+    this.searchForm = this.fb.group({
+      merchantId: '',
+      status: '',
+    });
+    this.createMerchantForm = this.fb.group({
+      merchantName: ['', Validators.required],
+      merchantKey: [''],
+      merchantId: [
+        '',
+        Validators.compose([
+          Validators.maxLength(15),
+          Validators.minLength(15),
+        ]),
+      ],
+      currency: ['', Validators.required],
+      categoryCode: ['', Validators.required],
+      countryCode: ['', Validators.required],
+      city: ['', Validators.required],
+      merchantToken: [''],
+      timezoneId: ['', Validators.required],
+    });
   }
 
   searchBy(value) {
@@ -168,11 +193,12 @@ export class AcquirerMerchantsComponent implements OnInit {
     // this.pageIndex = 0;
 
     this.merchants
-      .getAllMerchants(
+      .adminGetAllMerchantsForAcquirer(
         0,
         downloadPageSize,
         this.searchForm.value.merchantId,
-        this.searchForm.value.status
+        this.searchForm.value.status,
+        this.acquirerId
       )
       .subscribe(
         (data: any) => {

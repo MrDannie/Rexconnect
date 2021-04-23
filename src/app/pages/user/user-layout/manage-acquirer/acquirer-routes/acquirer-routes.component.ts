@@ -53,7 +53,7 @@ export class AcquirerRoutesComponent implements OnInit {
   }
 
   getAcquirerRoutes() {
-    this.acquirerId = this.route.snapshot.params.id;
+    this.acquirerId = this.route.snapshot.params.acquirerId;
     this.routingCompService
       .getAcquirerRoutes(this.pageIndex, this.pageSize, this.acquirerId)
       .subscribe(

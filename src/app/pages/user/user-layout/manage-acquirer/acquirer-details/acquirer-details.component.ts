@@ -35,7 +35,10 @@ export class AcquirerDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.acquirerId = this.route.snapshot.params.id;
+    this.route.paramMap.subscribe((params) => {
+      //  this.merchantId = params.get('merchantId');
+      this.acquirerId = params.get('acquirerId');
+    });
     console.log('ACQUIRER ID', this.acquirerId);
     this.getSingleAcquirer(this.acquirerId);
 

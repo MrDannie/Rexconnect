@@ -1,4 +1,8 @@
 @import "~src/app/pages/shared/styles/header"; //Importation for page header
+@import "~src/app/pages/shared/styles/custom-table";
+
+@import "./../../../../shared/styles/floating-label";
+@import "./../../../../shared/styles/buttons";
 
 // ******BUTTONS TOGGLER*********
 .top_row {
@@ -49,7 +53,7 @@
   font-family: "Montserrat";
   font-weight: 800;
   border-radius: 12px;
-  padding-top: 2%;
+  padding-top: 5%;
 }
 
 // HEADER BUTTONS

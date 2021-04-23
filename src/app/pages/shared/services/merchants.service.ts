@@ -180,7 +180,7 @@ export class MerchantsService {
 
   // GA ADMIN ENDPONTS
 
-  getAllMerchantsForAdmin(
+  adminGetAllMerchantsForAcquirer(
     pageIndex: number,
     pageSize: number,
     merchantId?: string,
@@ -203,9 +203,86 @@ export class MerchantsService {
     }
 
     return this.http.get<IWrapper<IMerchant>>(
-      BASE_URL + this.config.getAllMerchants,
+      BASE_URL +
+        this.config.getAllMerchantsForAcquirer.replace(
+          '{clientId}',
+          acquirerId
+        ),
       {
         params,
+      }
+    );
+  }
+
+  getMerchantDetailsForAdmin(clientId, merchantId) {
+    const header = this.createAuthorizationHeader();
+    return this.http.get<IMerchant>(
+      BASE_URL +
+        this.config.getSingleMerchantForAdmin
+          .replace('{merchantId}', merchantId)
+          .replace('{clientId}', clientId),
+      {
+        headers: header,
+      }
+    );
+  }
+
+  adminAddNewMerchant(merchantDetails, clientId): Observable<any> {
+    const header = this.createAuthorizationHeader();
+    return this.http.post(
+      BASE_URL +
+        this.config.adminAddNewMerchant.replace('{clientId}', clientId),
+      JSON.stringify(merchantDetails),
+      {
+        headers: header,
+      }
+    );
+  }
+
+  // adminGetMerchantTransactionsForAcquirer(
+  //   acquirerId: string,
+  //   merchantId: string,
+  //   pageIndex: number,
+  //   pageSize: number
+  // ): Observable<IWrapper<ITransaction>> {
+  //   const header = this.createAuthorizationHeader();
+
+  //   const params = new HttpParams();
+  //   const merchantTransactionsParams = params
+  //     .append('merchantId', merchantId)
+  //     .append('page', pageIndex.toString())
+  //     .append('size', pageSize.toString());
+
+  //   return this.http.get<IWrapper<ITransaction>>(
+  //     BASE_URL +
+  //       this.config.adminGetMerchantTransactionsForAcquirer
+  //         .replace('{clientId}', merchantId)
+  //         .replace('{acquirerId}', acquirerId),
+  //     {
+  //       headers: header,
+  //       params: merchantTransactionsParams,
+  //     }
+  //   );
+  // }
+
+  adminGetMerchantTransactionsForAcquirers(
+    clientId,
+    pageIndex: number,
+    pageSize: number
+  ): Observable<IWrapper<ITransaction>> {
+    const header = this.createAuthorizationHeader();
+
+    const params = new HttpParams();
+    const merchantTransactionsParams = params
+      .append('page', pageIndex.toString())
+      .append('size', pageSize.toString());
+
+    return this.http.get<IWrapper<ITransaction>>(
+      BASE_URL +
+        this.config.getTransactionsForAcquirer.replace('{clientId}', clientId),
+      {
+        headers: header,
+        params: merchantTransactionsParams,
       }
     );
   }

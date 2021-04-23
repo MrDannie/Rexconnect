@@ -1,21 +1,21 @@
-import { FileGenerationService } from './../../../../../shared/services/file-generation.service';
-import { IWrapper } from './../../../../../shared/interfaces/wrapper.model';
-import { ErrorHandler } from './../../../../../shared/services/error-handler.service';
-import { AlertService } from './../../../../../../core/alert/alert.service';
-import { PaginationService } from './../../../../../../core/pagination.service';
-import { ITransaction } from './../../../../../shared/interfaces/transactions.model';
-import { MerchantsService } from './../../../../../shared/services/merchants.service';
+import { FileGenerationService } from './../../../../shared/services/file-generation.service';
+import { IWrapper } from './../../../../shared/interfaces/wrapper.model';
+import { ErrorHandler } from './../../../../shared/services/error-handler.service';
+import { AlertService } from './../../../../../core/alert/alert.service';
+import { PaginationService } from './../../../../../core/pagination.service';
+import { ITransaction } from './../../../../shared/interfaces/transactions.model';
+import { MerchantsService } from './../../../../shared/services/merchants.service';
 import { ActivatedRoute, Params } from '@angular/router';
 // tslint:disable
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-acquirer-merchant-transactions',
-  templateUrl: './acquirer-merchant-transactions.component.html',
-  styleUrls: ['./acquirer-merchant-transactions.component.scss'],
+  selector: 'app-acquirer-transactions',
+  templateUrl: './acquirer-transactions.component.html',
+  styleUrls: ['./acquirer-transactions.component.scss'],
 })
-export class AcquirerMerchantTransactionsComponent implements OnInit {
+export class AcquirerTransactionsComponent implements OnInit {
   showFilter: boolean;
   expression: boolean;
   isCSVLoading;
@@ -53,7 +53,11 @@ export class AcquirerMerchantTransactionsComponent implements OnInit {
     this.isLoading = true;
     this.allTransactions = [];
     this.merchants
-      .getMerchantTransactions(this.merchantId, this.pageIndex, this.pageSize)
+      .adminGetMerchantTransactionsForAcquirers(
+        this.acquirerId,
+        this.pageIndex,
+        this.pageSize
+      )
       .subscribe(
         (data) => {
           this.transactionsWrapper = data;
@@ -90,7 +94,11 @@ export class AcquirerMerchantTransactionsComponent implements OnInit {
     this.pageIndex = 0;
 
     this.merchants
-      .getMerchantTransactions(this.merchantId, this.pageIndex, this.pageSize)
+      .adminGetMerchantTransactionsForAcquirers(
+        this.acquirerId,
+        this.pageIndex,
+        this.pageSize
+      )
       .subscribe(
         (data: any) => {
           this.exportedTransactionRecords = data.content;
@@ -168,7 +176,7 @@ export class AcquirerMerchantTransactionsComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
-      this.merchantId = params.get('merchantId');
+      // this.merchantId = params.get('merchantId');
       this.acquirerId = params.get('acquirerId');
     });
     this.pageIndex = 0;

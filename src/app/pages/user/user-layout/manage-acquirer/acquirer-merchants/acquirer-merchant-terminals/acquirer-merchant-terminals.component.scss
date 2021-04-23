@@ -1,11 +1,76 @@
-@import "./../../../../shared/styles/floating-label";
-@import "~src/app/pages/shared/styles/custom-table";
+@import "./../../../../../shared/styles/custom-table.scss";
+@import "./../../../../../shared/styles/floating-label.scss";
+@import "./../../../../../shared/styles/components.scss";
+@import "./../../../../../shared/styles/buttons.scss";
+
+// Button Toggler
+
+.top_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left_switcher {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menu_section {
+  // min-width: 100%;
+  background: #ffffff;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 0.4rem;
+  margin: 1rem 0;
+}
+
+.menu {
+  border: 0;
+  padding: 0.3rem 2rem;
+  // background: #ffffff;
+  color: black;
+  text-align: center;
+  margin: 0;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+}
+
+.menu:active,
+.menu.active {
+  border-radius: 0.7rem;
+  background: #c91c24;
+  color: white;
+}
+
+.animated {
+  font-family: "Montserrat";
+  font-weight: 800;
+  border-radius: 12px;
+  padding-top: 2%;
+}
+
+// Button Toggler ends
 
 .top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 6rem !important;
+}
+
+.active {
+  color: green;
+}
+
+.Inactive {
+  color: #e26111;
 }
 
 .footer * {
@@ -16,7 +81,7 @@ caption {
 }
 
 .header {
-  margin-top: 0rem;
+  margin-top: 4.5rem;
   padding-bottom: 1.9rem;
   border-bottom: 2px solid #ecebeb;
   margin-bottom: 1rem;
@@ -27,7 +92,7 @@ caption {
   font-size: 1.32rem !important;
   display: flex;
   font-weight: 600;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .header__search {
@@ -106,84 +171,18 @@ caption {
   margin-right: 0.5rem;
 }
 
-.active {
-  color: green;
-}
+.download-template {
+  color: #c91c24;
+  font-family: Montserrat, Bold;
+  font-weight: bold;
+  display: block;
+  padding: 7.5px 0;
 
-.Inactive {
-  color: #e26111;
-}
-
-//POP STYLE
-.popup {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* The actual popup */
-.popup .popuptext {
-  visibility: hidden;
-  width: 160px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 15px 0px;
-  position: absolute;
-  z-index: 1;
-  bottom: 95%;
-  left: 50%;
-  margin-left: 85px;
-  margin-top: -45px;
-}
-
-/* Popup arrow */
-.popup .popuptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-/* Toggle this class - hide and show the popup */
-.popup .show {
-  visibility: visible;
-  -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s;
-}
-
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
   }
 }
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-// .search_input[_ngcontent-c5]:focus,
-// .form-control[_ngcontent-c5]:focus {
-//   border: gray 1px solid !important;
-// }
 
 input.ng-valid.ng-touched.ng-dirty[_ngcontent-c5],
 input.ng-valid[_ngcontent-c5]:focus,
@@ -192,7 +191,17 @@ select.ng-valid[_ngcontent-c5]:focus {
   border: 1px solid gray !important;
 }
 
-// select.ng-valid.ng-touched.ng-dirty[_ngcontent-c10],
-// select.ng-valid[_ngcontent-c10]:focus {
-//   border: 1px solid gray !important;
-// }
+.header__text[_ngcontent-c6] {
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 1.32rem !important;
+  display: flex;
+  font-weight: 600;
+  justify-content: flex-end;
+}
+
+.header[_ngcontent-c6] {
+  margin-top: 0rem;
+  padding-bottom: 1.9rem;
+  border-bottom: 2px solid #ecebeb;
+  margin-bottom: 1rem;
+}

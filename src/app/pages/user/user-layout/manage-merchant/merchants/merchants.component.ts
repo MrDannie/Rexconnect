@@ -337,7 +337,7 @@ export class MerchantsComponent implements OnInit {
   getAllCities(code) {
     this.allCities = [];
     this.isLoadingCities = true;
-    console.log(this.storedCities);
+    console.log('SDafadsfasdfasdf', this.storedCities);
 
     this.allCities = this.storedCities.filter(
       (e) => e.country_code === String(code)

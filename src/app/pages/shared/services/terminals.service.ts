@@ -142,4 +142,38 @@ export class TerminalsService {
       }
     );
   }
+
+  // GA ADMIN ENDPOINT PURPOSES
+  AdmingetAllTerminalsForAcquirer(
+    clientId,
+    merchantId,
+    pageIndex: number,
+    pageSize: number,
+    terminalId?: string,
+    status?
+  ): Observable<IWrapper<ITerminal>> {
+    let params = new HttpParams();
+
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+    if (terminalId) {
+      params = params.append('terminalId', terminalId);
+    }
+    if (status) {
+      params = params.append('isActive', status);
+    }
+    return this.httpClient.get<IWrapper<ITerminal>>(
+      BASE_URL +
+        this.config.getAllTerminalsForAcquirer
+          .replace('{clientId}', clientId)
+          .replace('{merchantId}', merchantId),
+      {
+        params: params,
+      }
+    );
+  }
 }

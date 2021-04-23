@@ -25,7 +25,7 @@
         "
         class="action_button_disable"
         data-toggle="modal"
-        data-target="#disableAcquirertModal"
+        data-target="#disableAcquirerModal"
         >Disable Aquirer</span
       >
       <span
@@ -38,15 +38,32 @@
         >Enable Aquirer</span
       >
 
+      <!-- <span
+        style="cursor: pointer"
+        *ngIf="
+          acquirerStatus === 'ACTIVE' &&
+          currentUrl.includes('/merchant-details')
+        "
+        class="action_button_disable"
+        data-toggle="modal"
+        data-target="#disableMerchantModal"
+        >Disable Merchant</span
+      > -->
+      <!-- 
       <button
         class="btn action_button"
         data-toggle="modal"
         data-target="#createMerchant"
-        *ngIf="currentUrl.includes('acquirer-merchants')"
-      >
-        <!-- <i class="fa fa-plus animated slideIn"></i> -->
-        Add Merchant
-      </button>
+        *ngIf="
+          !currentUrl.includes('/merchant-details') &&
+          !currentUrl.includes('/merchant-transactions') &&
+          !currentUrl.includes('/merchant-terminals') &&
+          currentUrl.includes('/acquirer-merchants')
+        "
+      > -->
+      <!-- <i class="fa fa-plus animated slideIn"></i> -->
+      <!-- Add Merchant
+      </button> -->
     </div>
   </div>
 </div>
@@ -69,12 +86,35 @@
         Details</span
       >
       <span
+        class="menu"
+        routerLink="./acquirer-users"
+        [routerLinkActive]="['active']"
+      >
+        Users</span
+      >
+      <span
+        class="menu"
+        routerLink="./acquirer-merchants"
+        [routerLinkActive]="['active']"
+        *ngIf="userType === 'ADMIN'"
+      >
+        Merchants</span
+      >
+      <span
+        class="menu"
+        routerLink="./acquirer-transactions"
+        [routerLinkActive]="['active']"
+        *ngIf="userType === 'ADMIN'"
+      >
+        Transactions</span
+      >
+      <!-- <span
         *ngIf="permissions.includes('CAN_VIEW_CLIENT_PTSPS')"
         class="menu"
         routerLink="acquirer-fee-sharing"
         [routerLinkActive]="['active']"
         >Fee Sharing</span
-      >
+      > -->
       <span
         class="menu"
         routerLink="./acquirer-routes"
@@ -90,27 +130,6 @@
         *ngIf="permissions.includes('CAN_VIEW_CLIENT_PTSPS')"
       >
         Ptsps</span
-      >
-      <!-- <span
-        class="menu animated"
-        routerLink="./acquirer-users"
-        [routerLinkActive]="['active']"
-      >
-        Users</span
-      > -->
-      <!-- <span
-        class="menu animated"
-        routerLink="./acquirer-terminals"
-        [routerLinkActive]="['active']"
-      >
-        Terminals</span
-      > -->
-      <span
-        class="menu"
-        routerLink="./acquirer-merchants"
-        [routerLinkActive]="['active']"
-      >
-        Merchants</span
       >
     </span>
   </span>
@@ -150,7 +169,7 @@
 
 <div
   class="modal animated zoomIn"
-  id="disableAcquirertModal"
+  id="disableAcquirerModal"
   tabindex="-1"
   role="dialog"
   aria-labelledby="DisableUserLabel"
@@ -187,4 +206,314 @@
     </div>
   </div>
 </div>
+
+<!-- CREATE MERCHANT  -->
+<div
+  class="modal animated zoomIn"
+  id="createMerchant"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createUserLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createUserLabel">Add Merchant</h5>
+        <form [formGroup]="createMerchantForm" (ngSubmit)="addNewMerchant()">
+          <div class="row">
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="merchantName"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="merchantName"
+                  />
+                  <label for="merchantName">Merchant Name</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createMerchantForm.get('merchantName').errors &&
+                  createMerchantForm.get('merchantName').touched
+                "
+                >Merchant Name is required.</span
+              >
+            </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="merchantKey"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="merchantKey"
+                  />
+                  <label for="merchantKey">Merchant Key</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createMerchantForm.get('merchantKey').errors &&
+                  createMerchantForm.get('merchantKey').touched
+                "
+                >Merchant Key is required.</span
+              >
+            </div>
+
+            <div
+              *ngIf="userSettings?.auto_mid != true"
+              class="col-md-12 no-padding"
+            >
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="merchantId"
+                    type="text"
+                    class="form-control"
+                    maxlength="15"
+                    placeholder=" "
+                    formControlName="merchantId"
+                  />
+                  <label for="merchantId">Merchant ID</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createMerchantForm.get('merchantId').hasError('required') &&
+                  createMerchantForm.get('merchantId').touched
+                "
+                >Merchant ID is required.</span
+              >
+              <span
+                class="validation-message"
+                *ngIf="
+                  !createMerchantForm.get('merchantId').hasError('required') &&
+                  createMerchantForm.get('merchantId').hasError('minlength')
+                "
+              >
+                {{ messages.merchantId.length }}
+              </span>
+            </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    id="merchantToken"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="merchantToken"
+                  />
+                  <label for="merchantToken">Merchant Token</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createMerchantForm.get('merchantToken').errors &&
+                  createMerchantForm.get('merchantToken').touched
+                "
+                >Merchant Token is required.</span
+              >
+            </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="categoryCode"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="categoryCode"
+                  >
+                    <option
+                      [value]="categoryCode['MCC CODE']"
+                      *ngFor="let categoryCode of merchantCategoryCodes"
+                    >
+                      {{ categoryCode.fullCatLabel }}
+                    </option>
+                  </select>
+                  <label for="categoryCode">Merchant Category Code</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createMerchantForm.get('categoryCode').errors &&
+                  createMerchantForm.get('categoryCode').touched
+                "
+                >Merchant Category Code is required.</span
+              >
+            </div>
+
+            <div class="col-md-4 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="currency"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="currency"
+                  >
+                    <option
+                      [value]="currency['ISO4217-currency_numeric_code']"
+                      *ngFor="let currency of currencyCodes"
+                    >
+                      {{ currency.fullCurrencyLabel }}
+                    </option>
+                  </select>
+                  <label for="currency">Currency</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createMerchantForm.get('currency').errors &&
+                  createMerchantForm.get('currency').touched
+                "
+                >Currency is required.</span
+              >
+            </div>
+
+            <div class="col-md-4 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="countryCode"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    (change)="
+                      onSelectCountryCode(createMerchantForm.value.countryCode)
+                    "
+                    formControlName="countryCode"
+                  >
+                    <option
+                      [value]="countryCode['ISO3166-1-numeric']"
+                      *ngFor="let countryCode of countryCodes"
+                    >
+                      {{ countryCode.fullCountryLabel }}
+                    </option>
+                  </select>
+                  <label for="countryCode">Country Code</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createMerchantForm.get('countryCode').errors &&
+                  createMerchantForm.get('countryCode').touched
+                "
+                >Country Code is required.</span
+              >
+            </div>
+
+            <div class="col-md-4 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="city"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="city"
+                  >
+                    <option
+                      [value]="city['subdivision_name']"
+                      *ngFor="let city of allCities"
+                    >
+                      {{ city["subdivision_name"] }}
+                    </option>
+                  </select>
+                  <label for="city">City</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createMerchantForm.get('city').errors &&
+                  createMerchantForm.get('city').touched
+                "
+                >City is required.</span
+              >
+            </div>
+
+            <div class="col-md-12 no-padding">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    id="timezoneId"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="timezoneId"
+                  >
+                    <option
+                      [value]="+timezone.id"
+                      *ngFor="let timezone of allTimeZones"
+                    >
+                      {{ timezone.timeZoneName }}
+                    </option>
+                  </select>
+                  <label for="timezoneId">Time Zone</label>
+                </span>
+              </div>
+              <span
+                class="validation-message"
+                *ngIf="
+                  createMerchantForm.get('timezoneId').errors &&
+                  createMerchantForm.get('timezoneId').touched
+                "
+                >Timezone is required.</span
+              >
+            </div>
+          </div>
+          <div class="form_actions">
+            <button
+              class="cancel_button"
+              type="button"
+              data-dismiss="modal"
+              id="cancel_button_add_merchant"
+              (click)="createMerchantForm.reset()"
+            >
+              Cancel
+            </button>
+            <button
+              class="btn button-primary"
+              [disabled]="
+                createMerchantForm.invalid ||
+                isLoadingCities ||
+                isCreatingMerchant
+              "
+              type="submit"
+            >
+              Add Merchant
+            </button>
+
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              *ngIf="isCreatingMerchant || isLoadingCities"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <router-outlet></router-outlet>

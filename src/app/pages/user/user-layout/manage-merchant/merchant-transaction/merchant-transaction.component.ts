@@ -166,6 +166,8 @@ export class MerchantTransactionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.merchantId = this.route.snapshot.params.id;
+
     this.pageIndex = 0;
     this.pageSize = 10;
     this.route.params.subscribe((params: Params) => {
