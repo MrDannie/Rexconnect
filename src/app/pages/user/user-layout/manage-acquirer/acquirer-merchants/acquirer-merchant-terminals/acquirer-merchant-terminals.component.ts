@@ -257,7 +257,7 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
     console.log('HERE IS FORM VALUE', addTerminal);
 
     this.isAddingTerminal = true;
-    this.terminals.addNewTerminal(addTerminal).subscribe(
+    this.terminals.adminAddNewTerminal(this.acquirerId, addTerminal).subscribe(
       (data) => {
         this.isAddingTerminal = false;
         this.closeModal('cancel_button_add_terminal');

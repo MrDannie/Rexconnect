@@ -44,6 +44,8 @@ export class ManageAcquirerComponent implements OnInit {
   isLoadingCities: boolean;
   messages: any;
   userType: any;
+  merchantStatus: boolean = null;
+  merchantName: string;
 
   constructor(
     private router: Router,
@@ -70,7 +72,7 @@ export class ManageAcquirerComponent implements OnInit {
       this.acquirerId = params.get('acquirerId');
     });
 
-    console.log('this is acquirer ID', this.acquirerId);
+    console.log('this is merchant ID', this.acquirerId);
 
     this.getAcquirer();
 
@@ -91,8 +93,20 @@ export class ManageAcquirerComponent implements OnInit {
 
     this.getCurrentUser();
 
+    // this.getMerchant();
+
     $('#createMerchant').on('hidden.bs.modal', this.resetForm.bind(this));
   }
+
+  // getMerchant() {
+  //   this.merchants.getMerchant(this.merchantId).subscribe((response) => {
+  //     console.log('Merchant Gotten', response);
+  //     this.merchantName = response['merchantName'];
+  //     this.createdAt = response['createdAt'];
+  //     this.merchantStatus = response.isActive;
+  //     // this.primaryId = response.id;
+  //   });
+  // }
 
   getUserSettings() {
     this.profileMgt.getUserSettings().subscribe(
