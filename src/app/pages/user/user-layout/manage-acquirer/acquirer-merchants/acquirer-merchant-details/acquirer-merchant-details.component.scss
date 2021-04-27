@@ -95,3 +95,93 @@
   margin-left: 1rem;
   border: 0px solid #cbcbcb;
 }
+
+.action_button_disable {
+  background-color: #f9f6e3;
+  color: #c9ae1c;
+  padding: 0.6rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  font-weight: bold;
+  // border: 0.5px solid #c9ae1c;
+  font-size: 0.8125rem;
+  margin-top: 2rem;
+}
+
+.action_button_disable:hover {
+  background-color: #c9ae1c;
+  border: none;
+  //transition: all 0.3s ease-in-out;
+
+  color: #f0f0f0;
+}
+
+.action_button_enable {
+  background-color: #e0f1d6;
+  color: #4dc91c;
+  padding: 0.8rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  // border: 0.5px solid #c9ae1c;
+  font-size: 0.79rem;
+  margin-top: 2rem;
+  cursor: pointer;
+}
+
+.action_button_enable:hover {
+  background-color: #4dc91c;
+  border: none;
+  //transition: all 0.3s ease-in-out;
+
+  color: #ffffff;
+}
+
+// STYLING FOR DISABLE MODAL
+.form_actions .action_button {
+  background-color: #ffd1ce;
+  color: #950007;
+  padding: 0.6rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  font-weight: bold;
+  border: 0.5px solid #ffd1ce;
+  font-size: 0.8125rem;
+}
+
+.form_actions .action_button:hover {
+  background-color: #950007;
+  border: 0.5px solid #950007;
+  //transition: all 0.3s ease-in-out;
+
+  color: #f0f0f0;
+}
+
+.form_actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: baseline;
+  min-width: 100%;
+}
+
+.modal-body {
+  padding: 2rem;
+  font-family: "Montserrat", serif;
+}
+
+.modal-title {
+  font-family: "Montserrat Bold", serif;
+  margin-bottom: 1rem;
+}
