@@ -13,6 +13,7 @@ import {
 } from './../../../../../shared/constants';
 import { StorageService } from 'src/app/core/helpers/storage.service';
 import { ITerminal } from 'src/app/pages/shared/interfaces/terminals.model';
+declare var $: any;
 
 @Component({
   selector: 'app-acquirer-merchant-details',
@@ -38,6 +39,11 @@ export class AcquirerMerchantDetailsComponent implements OnInit {
 
   allTimeZones: any;
   acquirerId: string;
+  merchantName: string;
+  merchantStatus: boolean;
+  primaryId: number;
+
+  disablingMerchant: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -71,6 +77,8 @@ export class AcquirerMerchantDetailsComponent implements OnInit {
     this.getAutoMidState();
 
     this.getPermissions();
+
+    this.getMerchant();
   }
 
   getMerchantDetails() {
@@ -91,6 +99,47 @@ export class AcquirerMerchantDetailsComponent implements OnInit {
           this.alerts.error(error);
         }
       );
+  }
+
+  getMerchant() {
+    this.merchants
+      .getMerchantDetailsForAdmin(this.acquirerId, this.merchantId)
+      .subscribe((response) => {
+        console.log('Merchant Gotten', response);
+        this.merchantName = response['merchantName'];
+        this.merchantStatus = response.isActive;
+        this.primaryId = response.id;
+        console.log('MERCHANT NAME', this.merchantName);
+      });
+  }
+
+  enableMerchant() {
+    this.merchants.enableMerchant(this.primaryId).subscribe(
+      (response) => {
+        this.alerts.success('Merchant Enabled Successfully');
+        this.merchantStatus = true;
+      },
+      (error) => {
+        this.alerts.error(error);
+      }
+    );
+  }
+
+  disableMerchant() {
+    this.disablingMerchant = true;
+    this.merchants.disableMerchant(this.primaryId).subscribe(
+      (response) => {
+        console.log('DISABLED RESPONSE', response);
+        this.alerts.success('Merchant Disabled Successfully');
+        this.disablingMerchant = false;
+        $('#disableMerchantModal').modal('hide');
+        this.merchantStatus = false;
+      },
+      (error) => {
+        this.alerts.error(error);
+        this.merchantStatus = true;
+      }
+    );
   }
 
   getMCCodes(code) {
@@ -230,7 +279,11 @@ export class AcquirerMerchantDetailsComponent implements OnInit {
     };
     console.log(updatedMerchant);
     this.merchants
-      .updateMerchant(this.merchantDetails.id, updatedMerchant)
+      .adminUpdateMerchantForAcquirer(
+        this.acquirerId,
+        this.merchantDetails.id,
+        updatedMerchant
+      )
       .subscribe(
         (response) => {
           this.isUpdatingMerchant = false;

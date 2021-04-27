@@ -176,4 +176,19 @@ export class TerminalsService {
       }
     );
   }
+
+  adminAddNewTerminal(
+    clientId,
+    terminalDetails: IAddTerminal
+  ): Observable<any> {
+    const header = this.createAuthorizationHeader();
+    return this.httpClient.post<IAddTerminal>(
+      BASE_URL +
+        this.config.adminAddNewTerminal.replace('{clientId}', clientId),
+      terminalDetails,
+      {
+        headers: header,
+      }
+    );
+  }
 }
