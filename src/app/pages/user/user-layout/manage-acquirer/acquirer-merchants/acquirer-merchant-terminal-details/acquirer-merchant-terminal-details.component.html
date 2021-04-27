@@ -1,0 +1,63 @@
+<div class="main_dashboard_flow">
+  <div class="details_section">
+    <div class="form_area">
+      <div class="row">
+        <div class="col-md-6">
+          <b>Terminal ID</b>
+          <p>{{ terminalDetails?.terminalId }}</p>
+        </div>
+        <div class="col-md-6">
+          <b>Merchant ID</b>
+          <p>{{ terminalDetails?.merchantId }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <b>Merchant Token</b>
+          <p>{{ terminalDetails?.merchantToken }}</p>
+        </div>
+        <div class="col-md-6">
+          <b>Merchant Key</b>
+          <p>{{ terminalDetails?.merchantKey }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <b>Merchant Category</b>
+          <p>{{ terminalDetails?.merchantCategoryCode }}</p>
+        </div>
+        <div class="col-md-6">
+          <b>Merchant Location</b>
+          <p>{{ terminalDetails?.merchantLocationNameAddress }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <b>Country Code</b>
+          <p>{{ terminalDetails?.countryCode }}</p>
+        </div>
+        <div class="col-md-6">
+          <b>Currency</b>
+          <p>{{ terminalDetails?.currencyCode }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <b>Call Home TIme</b>
+          <p>{{ terminalDetails?.callHomeTime }}</p>
+        </div>
+        <div class="col-md-6">
+          <b>Transaction Time Out</b>
+          <p>{{ terminalDetails?.transactionTimeout }}</p>
+        </div>
+      </div>
+      <button
+        class="btn action_button_update"
+        data-toggle="modal"
+        data-target="#updateTerminal"
+      >
+        Update Terminal
+      </button>
+    </div>
+  </div>
+</div>
