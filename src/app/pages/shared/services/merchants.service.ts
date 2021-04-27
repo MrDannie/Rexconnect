@@ -141,6 +141,26 @@ export class MerchantsService {
     );
   }
 
+  adminUpdateMerchantForAcquirer(
+    clientId,
+    merchantId,
+    merchantDetails
+  ): Observable<any> {
+    const header = this.createAuthorizationHeader();
+    return this.http.put(
+      BASE_URL +
+        this.config.adminUpdateMerchant
+          .replace('{acquirerId}', clientId)
+          .replace('{merchantId}', merchantId),
+      merchantDetails,
+      {
+        headers: header,
+      }
+    );
+  }
+
+  // v1/clients/:clientId/merchants/:merchantId
+
   getMerchantTransactions(
     merchantId: string,
     pageIndex: number,
