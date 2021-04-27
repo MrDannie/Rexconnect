@@ -205,3 +205,26 @@ select.ng-valid[_ngcontent-c5]:focus {
   border-bottom: 2px solid #ecebeb;
   margin-bottom: 1rem;
 }
+
+.action_button {
+  background-color: #ffd1ce;
+  color: #950007;
+  padding: 0.6rem 1rem;
+  font-family: "Montserrat Bold", serif;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.35s ease-in-out;
+  font-weight: bold;
+  border: 0.5px solid #ffd1ce;
+  font-size: 0.8125rem;
+}
+
+.action_button:hover {
+  background-color: #950007;
+  border: 0.5px solid #950007;
+  //transition: all 0.3s ease-in-out;
+
+  color: #f0f0f0;
+}
