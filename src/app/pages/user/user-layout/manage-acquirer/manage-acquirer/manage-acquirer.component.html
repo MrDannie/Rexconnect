@@ -49,7 +49,7 @@
         data-target="#disableMerchantModal"
         >Disable Merchant</span
       > -->
-      <!-- 
+
       <button
         class="btn action_button"
         data-toggle="modal"
@@ -60,10 +60,24 @@
           !currentUrl.includes('/merchant-terminals') &&
           currentUrl.includes('/acquirer-merchants')
         "
-      > -->
-      <!-- <i class="fa fa-plus animated slideIn"></i> -->
-      <!-- Add Merchant
-      </button> -->
+      >
+        <i class="fa fa-plus animated slideIn"></i>
+        Add Merchant
+      </button>
+      <button
+        class="btn action_button"
+        data-toggle="modal"
+        data-target="#createUser"
+        *ngIf="
+          !currentUrl.includes('/merchant-details') &&
+          !currentUrl.includes('/merchant-transactions') &&
+          !currentUrl.includes('/merchant-terminals') &&
+          currentUrl.includes('/acquirer-users')
+        "
+      >
+        <i class="fa fa-plus animated slideIn"></i>
+        Add User
+      </button>
     </div>
   </div>
 </div>
@@ -506,6 +520,241 @@
               class="spinner-border spinner-border-sm ml-3"
               *ngIf="isCreatingMerchant || isLoadingCities"
               role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE USER FORM  -->
+<div
+  class="modal animated zoomIn"
+  id="createUser"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="createUserLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="createUserLabel">Add User</h5>
+        <form [formGroup]="createUserForm">
+          <!-- RELEVANT CODE HERE  -->
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="username"
+                    type="text"
+                    placeholder=" "
+                    formControlName="username"
+                  />
+                  <label for="terminalId">Username</label>
+                </span>
+                <div
+                  *ngIf="
+                    createUserForm.get('username').errors &&
+                    (createUserForm.get('username').dirty ||
+                      createUserForm.get('username').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createUserForm.get('username').hasError('required')
+                    "
+                  >
+                    {{ messages.username.required }}
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="firstName"
+                    type="text"
+                    placeholder=" "
+                    formControlName="firstName"
+                  />
+                  <label for="firstName">Firstname</label>
+                </span>
+                <div
+                  *ngIf="
+                    createUserForm.get('firstName').errors &&
+                    (createUserForm.get('firstName').dirty ||
+                      createUserForm.get('firstName').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createUserForm.get('firstName').hasError('required')
+                    "
+                  >
+                    {{ messages.firstname.required }} <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="surname"
+                    type="text"
+                    placeholder=" "
+                    formControlName="surname"
+                  />
+                  <label for="surname">Lastname</label>
+                </span>
+                <div
+                  *ngIf="
+                    createUserForm.get('surname').errors &&
+                    (createUserForm.get('surname').dirty ||
+                      createUserForm.get('surname').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createUserForm.get('surname').hasError('required')
+                    "
+                  >
+                    {{ messages.lastname.required }}
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <input
+                    class="form-control"
+                    id="email"
+                    type="text"
+                    placeholder=" "
+                    formControlName="email"
+                  />
+                  <label for="email">Email</label>
+                </span>
+                <div
+                  *ngIf="
+                    createUserForm.get('email').errors &&
+                    (createUserForm.get('email').dirty ||
+                      createUserForm.get('email').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="!createUserForm.get('email').hasError('invalid')"
+                  >
+                    {{ messages.email.invalid }}
+                    <br />
+                  </span>
+                  <span
+                    class="validation-message"
+                    [hidden]="!createUserForm.get('email').hasError('required')"
+                  >
+                    {{ messages.email.required }}
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="form-group">
+                <span class="has-float-label">
+                  <select
+                    class="form-control"
+                    id="roleId"
+                    type="text"
+                    placeholder=" "
+                    formControlName="roleId"
+                  >
+                    <!-- <option value=""></option> -->
+                    <option
+                      *ngFor="let role of listOfMerchantRoles"
+                      value="{{ role?.id }}"
+                    >
+                      {{ role.name }}
+                    </option>
+                  </select>
+                  <label for="roleId">User Role</label>
+                </span>
+                <div
+                  *ngIf="
+                    createUserForm.get('roleId').errors &&
+                    (createUserForm.get('roleId').dirty ||
+                      createUserForm.get('roleId').touched)
+                  "
+                  class="validation-message"
+                >
+                  <span
+                    class="validation-message"
+                    [hidden]="
+                      !createUserForm.get('roleId').hasError('required')
+                    "
+                  >
+                    {{ messages.userRole.required }}
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RELEVANT CODE HERE  -->
+          <div class="form_actions">
+            <div
+              class="cancel_button"
+              data-dismiss="modal"
+              (click)="createUserForm.reset()"
+            >
+              Cancel
+            </div>
+            <button
+              class="btn action_button"
+              (click)="createUser(createUserForm.value)"
+              [disabled]="!createUserForm.valid || isLoading"
+            >
+              <i class="fa fa-plus animated slideIn"></i>
+              Add User
+            </button>
+
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+              *ngIf="isLoading"
             >
               <span class="sr-only">Loading...</span>
             </div>

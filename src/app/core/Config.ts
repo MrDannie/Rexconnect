@@ -86,8 +86,10 @@ export class Config {
   public adminGetAllUsersForAcquirer: string;
   public adminCreateUserForAcquirer: string;
   public getSingleMerchantForAdmin: string;
-  getAllTerminalsForAcquirer: string;
-  getTransactionsForAcquirer: string;
+  public getAllTerminalsForAcquirer: string;
+  public getTransactionsForAcquirer: string;
+  public adminUpdateMerchant: string;
+  public adminAddNewTerminal: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -193,5 +195,9 @@ export class Config {
       '/v1/clients/{clientId}/merchants/{merchantId}/terminals';
 
     this.getTransactionsForAcquirer = '/v1/clients/{clientId}/transactions';
+
+    this.adminUpdateMerchant = '/v1/clients/{clientId}/merchants/{merchantId}';
+
+    this.adminAddNewTerminal = '/v1/clients/{clientId}/terminals';
   }
 }

@@ -15,6 +15,11 @@ import {
 import { ProfileManagementService } from 'src/app/pages/shared/services/profile-management.service';
 import { ValidationService } from '../../../../../core/validation.service';
 import { MerchantsService } from 'src/app/pages/shared/services/merchants.service';
+import { AllRoles } from 'src/app/pages/shared/interfaces/AllRoles';
+import { IRole } from 'src/app/pages/shared/interfaces/Role';
+import { UserManagementService } from 'src/app/pages/shared/services/user-management.service';
+import { PaginationService } from 'src/app/core/pagination.service';
+import { IUser } from 'src/app/pages/shared/interfaces/user';
 declare var $: any;
 
 @Component({
@@ -44,6 +49,14 @@ export class ManageAcquirerComponent implements OnInit {
   isLoadingCities: boolean;
   messages: any;
   userType: any;
+  merchantStatus: boolean = null;
+  merchantName: string;
+  createUserForm: FormGroup;
+  editUserForm: FormGroup;
+  pageSizeForm: FormGroup;
+  listOfMerchantRoles: IRole[];
+  userRoles: AllRoles;
+  isLoading: boolean;
 
   constructor(
     private router: Router,
@@ -55,7 +68,10 @@ export class ManageAcquirerComponent implements OnInit {
     private fb: FormBuilder,
     private profileMgt: ProfileManagementService,
     private validationMessages: ValidationService,
-    private merchants: MerchantsService
+    private merchants: MerchantsService,
+    private formBuilder: FormBuilder,
+    private userManagementService: UserManagementService,
+    private paginationService: PaginationService
   ) {
     this.router.events.subscribe((val) => {
       this.currentUrl = location.path();
@@ -70,7 +86,7 @@ export class ManageAcquirerComponent implements OnInit {
       this.acquirerId = params.get('acquirerId');
     });
 
-    console.log('this is acquirer ID', this.acquirerId);
+    console.log('this is merchant ID', this.acquirerId);
 
     this.getAcquirer();
 
@@ -91,8 +107,22 @@ export class ManageAcquirerComponent implements OnInit {
 
     this.getCurrentUser();
 
+    this.getUsersRoles('MERCHANT');
+
+    // this.getMerchant();
+
     $('#createMerchant').on('hidden.bs.modal', this.resetForm.bind(this));
   }
+
+  // getMerchant() {
+  //   this.merchants.getMerchant(this.merchantId).subscribe((response) => {
+  //     console.log('Merchant Gotten', response);
+  //     this.merchantName = response['merchantName'];
+  //     this.createdAt = response['createdAt'];
+  //     this.merchantStatus = response.isActive;
+  //     // this.primaryId = response.id;
+  //   });
+  // }
 
   getUserSettings() {
     this.profileMgt.getUserSettings().subscribe(
@@ -259,6 +289,32 @@ export class ManageAcquirerComponent implements OnInit {
       merchantToken: [''],
       timezoneId: ['', Validators.required],
     });
+
+    // INITIALIZE FORM FOR USER MODULE
+    this.searchForm = this.formBuilder.group({
+      username: '',
+      email: '',
+      enabled: '',
+    });
+    this.createUserForm = this.formBuilder.group({
+      username: ['', Validators.compose([Validators.required])],
+      firstName: ['', Validators.compose([Validators.required])],
+      surname: ['', Validators.compose([Validators.required])],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      roleId: ['', Validators.compose([Validators.required])],
+    });
+
+    this.editUserForm = this.formBuilder.group({
+      firstName: ['', Validators.compose([Validators.required])],
+      surname: ['', Validators.compose([Validators.required])],
+      username: [Validators.compose([Validators.required])],
+      email: ['', Validators.compose([Validators.required])],
+      roleId: ['', Validators.compose([Validators.required])],
+    });
+
+    this.pageSizeForm = this.formBuilder.group({
+      pageSize: ['10'],
+    });
   }
 
   addNewMerchant() {
@@ -292,6 +348,42 @@ export class ManageAcquirerComponent implements OnInit {
     document.getElementById(id).click();
   }
 
+  getUsersRoles(category) {
+    this.userManagementService.getUsersRoles(category).subscribe(
+      (response: AllRoles) => {
+        console.log('ROLES', response);
+        this.userRoles = response;
+        this.listOfMerchantRoles = response['content'];
+        console.log('list', this.listOfMerchantRoles);
+      },
+      (e) => {
+        this.alertService.error(e);
+
+        this.paginationService.pagerState.next(null);
+      }
+    );
+  }
+  createUser(userDetails) {
+    this.isLoading = true;
+    this.userManagementService
+      .adminCreateUserForAcquirer(userDetails, this.acquirerId)
+      .subscribe(
+        (response: IUser) => {
+          this.reloadComponent();
+          $('#createUser').modal('hide');
+          this.isLoading = false;
+          console.log('User Gotten IN component', response);
+          this.createUserForm.reset();
+          this.alertService.success('User Created Successfully', true);
+        },
+        (error) => {
+          this.isLoading = false;
+
+          this.alertService.error(error);
+          console.log('Error Occured in Adding user', error);
+        }
+      );
+  }
   reloadComponent() {
     let currentUrl = this.router.url;
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
