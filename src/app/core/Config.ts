@@ -86,10 +86,10 @@ export class Config {
   public adminGetAllUsersForAcquirer: string;
   public adminCreateUserForAcquirer: string;
   public getSingleMerchantForAdmin: string;
-  getAllTerminalsForAcquirer: string;
-  getTransactionsForAcquirer: string;
-  adminUpdateMerchant: string;
-  adminAddNewTerminal: string;
+  public getAllTerminalsForAcquirer: string;
+  public getTransactionsForAcquirer: string;
+  public adminUpdateMerchant: string;
+  public adminAddNewTerminal: string;
 
   constructor() {
     this.login = '/v1/auth/login';

@@ -90,8 +90,8 @@ export class TransactionsComponent implements OnInit {
         this.searchForm.value.endDate,
         this.searchForm.value.merchantId,
         this.searchForm.value.terminalId,
-        this.searchForm.value.transactionType,
-        this.searchForm.value.rrn
+        this.searchForm.value.rrn,
+        this.searchForm.value.transactionType
       )
       .subscribe(
         (response) => {
