@@ -19,6 +19,7 @@ import { AcquirerMerchantDetailsComponent } from './acquirer-merchants/acquirer-
 import { AcquirerMerchantTransactionsComponent } from './acquirer-merchants/acquirer-merchant-transactions/acquirer-merchant-transactions.component';
 import { AcquirerMerchantTerminalsComponent } from './acquirer-merchants/acquirer-merchant-terminals/acquirer-merchant-terminals.component';
 import { AcquirerTransactionsComponent } from './acquirer-transactions/acquirer-transactions.component';
+import { AcquirerMerchantTerminalDetailsComponent } from './acquirer-merchants/acquirer-merchant-terminal-details/acquirer-merchant-terminal-details.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,8 @@ import { AcquirerTransactionsComponent } from './acquirer-transactions/acquirer-
     AcquirerMerchantTerminalsComponent,
 
     AcquirerTransactionsComponent,
+
+    AcquirerMerchantTerminalDetailsComponent,
   ],
   imports: [
     CommonModule,
