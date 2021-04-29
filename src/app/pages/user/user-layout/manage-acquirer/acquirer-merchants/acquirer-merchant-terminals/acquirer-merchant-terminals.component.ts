@@ -249,7 +249,7 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
     const addTerminal: IAddTerminal = {
       callHomeTime: this.createTerminalForm.value.callHomeTime,
       transactionTimeout: this.createTerminalForm.value.transactionTimeOut,
-      merchantId: this.createTerminalForm.value.merchantName,
+      merchantId: this.merchantId,
       terminalId: this.createTerminalForm.value.terminalId,
       ptspId: parseInt(this.createTerminalForm.value.ptspId, 10),
     };
