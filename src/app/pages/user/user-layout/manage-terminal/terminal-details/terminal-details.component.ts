@@ -157,11 +157,7 @@ export class TerminalDetailsComponent implements OnInit {
         (error) => {
           this.isUpdating = false;
           console.error(error);
-          this.errorHandler.customClientErrors(
-            'Error occurred while updating terminal',
-            error.error.error.code,
-            error.error.error.responseMessage
-          );
+          this.alertService.error(error);
         }
       );
   }

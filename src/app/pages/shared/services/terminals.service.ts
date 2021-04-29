@@ -177,6 +177,16 @@ export class TerminalsService {
     );
   }
 
+  // adminGetTerminalDetails(id: string): Observable<ITerminal> {
+  //   const headers = this.createAuthorizationHeader();
+  //   return this.httpClient.get<ITerminal>(
+  //     BASE_URL + this.config.getSingleTerminal.replace('{terminalId}', id),
+  //     {
+  //       headers,
+  //     }
+  //   );
+  // }
+
   adminAddNewTerminal(
     clientId,
     terminalDetails: IAddTerminal
@@ -185,6 +195,42 @@ export class TerminalsService {
     return this.httpClient.post<IAddTerminal>(
       BASE_URL +
         this.config.adminAddNewTerminal.replace('{clientId}', clientId),
+      terminalDetails,
+      {
+        headers: header,
+      }
+    );
+  }
+
+  adminGetTerminalForMerchant(
+    terminalId: string,
+    clientId: string,
+    merchantId: string
+  ): Observable<ITerminal> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<ITerminal>(
+      BASE_URL +
+        this.config.adminGetSingleTerminal
+          .replace('{terminalId}', terminalId)
+          .replace('{clientId}', clientId)
+          .replace('{merchantId}', merchantId),
+      {
+        headers,
+      }
+    );
+  }
+
+  adminUpdateTerminal(
+    terminalDetails: ITerminal,
+    terminalId,
+    clientId
+  ): Observable<ITerminal> {
+    const header = this.createAuthorizationHeader();
+    return this.httpClient.put<ITerminal>(
+      BASE_URL +
+        this.config.adminUpdateTerminal
+          .replace('{terminalId}', terminalId)
+          .replace('{clientId}', clientId),
       terminalDetails,
       {
         headers: header,
