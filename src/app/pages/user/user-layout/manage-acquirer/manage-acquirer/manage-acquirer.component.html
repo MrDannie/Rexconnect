@@ -9,7 +9,7 @@
     </span>
   </div>
   <div class="header_buttons">
-    <div>
+    <div [hidden]="currentUrl.includes('/merchant-terminals/')">
       <span class="name">
         <img src="../../../../../../assets/images/girl.svg" alt="avater" />
         {{ acquirerName }}</span

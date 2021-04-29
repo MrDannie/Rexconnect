@@ -15,6 +15,7 @@ import { AcquirerMerchantDetailsComponent } from './acquirer-merchants/acquirer-
 import { AcquirerMerchantTransactionsComponent } from './acquirer-merchants/acquirer-merchant-transactions/acquirer-merchant-transactions.component';
 import { AcquirerMerchantTerminalsComponent } from './acquirer-merchants/acquirer-merchant-terminals/acquirer-merchant-terminals.component';
 import { AcquirerTransactionsComponent } from './acquirer-transactions/acquirer-transactions.component';
+import { AcquirerMerchantTerminalDetailsComponent } from './acquirer-merchants/acquirer-merchant-terminal-details/acquirer-merchant-terminal-details.component';
 
 const routes: Routes = [];
 
@@ -82,6 +83,11 @@ const routes: Routes = [];
           {
             path: 'acquirer-merchants/:merchantId/merchant-terminals',
             component: AcquirerMerchantTerminalsComponent,
+          },
+          {
+            path:
+              'acquirer-merchants/:merchantId/merchant-terminals/:terminalId',
+            component: AcquirerMerchantTerminalDetailsComponent,
           },
         ],
       },
