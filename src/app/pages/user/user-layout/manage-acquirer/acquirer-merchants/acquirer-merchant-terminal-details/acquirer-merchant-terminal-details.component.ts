@@ -32,6 +32,8 @@ export class AcquirerMerchantTerminalDetailsComponent implements OnInit {
   isUpdating: boolean;
   ptspsList: any;
   permissions: any;
+  acquirerId: any;
+  merchantId: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,21 +57,27 @@ export class AcquirerMerchantTerminalDetailsComponent implements OnInit {
   }
 
   getTerminalDetails() {
-    this.terminals.getTerminal(this.terminalId).subscribe(
-      (data) => {
-        this.terminalDetails = data;
-        console.log('HERE IS TERMINAL DETIALS', this.terminalDetails);
+    this.terminals
+      .adminGetTerminalForMerchant(
+        this.terminalId,
+        this.merchantId,
+        this.acquirerId
+      )
+      .subscribe(
+        (data) => {
+          this.terminalDetails = data;
+          console.log('HERE IS TERMINAL DETIALS', this.terminalDetails);
 
-        this.getAllMerchants();
-      },
-      (error) => {
-        this.errorHandler.customClientErrors(
-          'Failed to get terminal details',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
-      }
-    );
+          this.getAllMerchants();
+        },
+        (error) => {
+          this.errorHandler.customClientErrors(
+            'Failed to get terminal details',
+            error.error.error.code,
+            error.error.error.responseMessage
+          );
+        }
+      );
   }
 
   getAllMerchants() {
@@ -141,7 +149,11 @@ export class AcquirerMerchantTerminalDetailsComponent implements OnInit {
 
     this.isUpdating = true;
     this.terminals
-      .updateTerminal(this.terminalDetails, this.terminalId)
+      .adminUpdateTerminal(
+        this.terminalDetails,
+        this.terminalId,
+        this.acquirerId
+      )
       .subscribe(
         (data) => {
           this.terminalDetails = data;
@@ -156,18 +168,16 @@ export class AcquirerMerchantTerminalDetailsComponent implements OnInit {
         (error) => {
           this.isUpdating = false;
           console.error(error);
-          this.errorHandler.customClientErrors(
-            'Error occurred while updating terminal',
-            error.error.error.code,
-            error.error.error.responseMessage
-          );
+          this.alertService.error(error);
         }
       );
   }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.terminalId = params.id;
+      this.terminalId = params.terminalId;
+      this.merchantId = params['merchantId'];
+      this.acquirerId = params['acquirerId'];
       this.getTerminalDetails();
       this.getPtspsList();
 
