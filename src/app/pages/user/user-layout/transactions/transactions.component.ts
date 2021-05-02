@@ -291,10 +291,10 @@ export class TransactionsComponent implements OnInit {
           dataToDownload[index]['Amount'] = this.clean('amount', index);
           dataToDownload[index]['Currency'] = this.getCurrencyValue(index);
           dataToDownload[index]['Type'] = this.clean('type', index);
-          // dataToDownload[index]['Additional Data'] = this.clean(
-          //   'additionalData',
-          //   index
-          // )['customerPhoneNo'];
+          dataToDownload[index]['Additional Data'] = this.cleanAdditonalData(
+            'additionalData',
+            index
+          );
           dataToDownload[index]['Status'] = this.clean('status', index);
           dataToDownload[index]['Date/Time'] = this.getDate(
             'creationDate',
@@ -331,7 +331,7 @@ export class TransactionsComponent implements OnInit {
       'Amount',
       'Currency',
       'Type',
-      // 'Additional Data',
+      'Additional Data',
       'Status',
       'Date/Time',
     ];
@@ -346,6 +346,33 @@ export class TransactionsComponent implements OnInit {
   clean(key: string, index: number) {
     return this.transactionRecordsToDownload[index][key]
       ? this.transactionRecordsToDownload[index][key]
+      : '';
+  }
+
+  cleanAdditonalData(key: string, index: number) {
+    // console.log(
+    //   'VALUE',
+    //   this.transactionRecordsToDownload[index][key]['customerPhoneNo']
+    // );
+
+    console.log('afadfasdf', key, index);
+
+    //   console.log(
+    //     'HERER',
+    //     this.transactionRecordsToDownload[index]['addtionalData']
+    //   );
+
+    return this.transactionRecordsToDownload[index]['additionalData']
+      ? `Phone Number: ${
+          this.transactionRecordsToDownload[index]['additionalData']
+            .customerPhoneNo
+        }; Provider Reference: ${
+          this.transactionRecordsToDownload[index]['additionalData']
+            .providerReference
+            ? this.transactionRecordsToDownload[index]['additionalData']
+                .providerReference
+            : 'NIL'
+        }`
       : '';
   }
 }

@@ -31,6 +31,9 @@ export class TransactionDetailsComponent implements OnInit {
       (response) => {
         console.log('This is the transactions details', response);
         this.transaction = response.content[0];
+        // this.transaction['additionalData'] = [
+        //   response['content'][0]['additionalData'],
+        // ];
         console.log('This is the transactions details', this.transaction);
         this.isLoading = false;
       },
