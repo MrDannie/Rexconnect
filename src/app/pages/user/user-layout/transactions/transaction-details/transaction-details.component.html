@@ -122,16 +122,22 @@
             >
               +{{ transaction.additionalData?.customerPhoneNo }}
             </p>
+            <p
+              class="null-value"
+              *ngIf="transaction.additionalData?.customerPhoneNo === null"
+            >
+              Nil
+            </p>
             <span style="font-size: small">Provider Reference</span>
             <p
               class="card_value"
-              *ngIf="transaction.additionalData?.customerPhoneNo !== null"
+              *ngIf="transaction.additionalData?.providerReference !== null"
             >
               {{ transaction.additionalData?.providerReference }}
             </p>
             <p
               class="null-value"
-              *ngIf="transaction.additionalData?.customerPhoneNo === null"
+              *ngIf="!transaction.additionalData?.providerReference"
             >
               Nil
             </p>
