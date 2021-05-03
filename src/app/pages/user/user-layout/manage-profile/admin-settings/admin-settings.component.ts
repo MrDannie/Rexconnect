@@ -60,13 +60,13 @@ export class AdminSettingsComponent implements OnInit {
       logo_url: ['', Validators.compose([Validators.required])],
       location: ['', Validators.compose([Validators.required])],
       currencyCode: ['', Validators.compose([Validators.required])],
-      color: ['', Validators.compose([Validators.required])],
+      color: [''],
       auto_mid: [''],
       auto_tid: [''],
       address: ['', Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
       bankCode: ['', Validators.compose([Validators.required])],
-      email: ['', Validators.compose([Validators.required])],
+      email: [''],
     });
   }
 
