@@ -84,12 +84,12 @@
           <p class="card_value" *ngIf="stationDetails.lastEcho !== null">{{stationDetails.lastEcho | date :'medium'}}</p>
           <p class="null-value" *ngIf="stationDetails.lastEcho === null">Nil</p>
         </div> -->
-        <div style="word-wrap: break-word" class="col-md-6">
-          <span class="card_header">Base URL</span>
-          <p class="card_value" *ngIf="stationDetails.baseUrl !== null">
-            {{ stationDetails.baseUrl }}
+        <div class="col-md-6">
+          <span class="card_header">zmkKcv </span>
+          <p class="card_value" *ngIf="stationDetails.zmkKcv !== null">
+            {{ stationDetails.zmkKcv }}
           </p>
-          <p class="null-value" *ngIf="stationDetails.baseUrl === null">Nil</p>
+          <p class="null-value" *ngIf="stationDetails.zmkKcv === null">Nil</p>
         </div>
       </div>
       <div class="row">
@@ -159,6 +159,13 @@
           >
             Nil
           </p>
+        </div>
+        <div style="word-wrap: break-word" class="col-md-6">
+          <span class="card_header">Base URL</span>
+          <p class="card_value" *ngIf="stationDetails.baseUrl !== null">
+            {{ stationDetails.baseUrl }}
+          </p>
+          <p class="null-value" *ngIf="stationDetails.baseUrl === null">Nil</p>
         </div>
       </div>
       <button

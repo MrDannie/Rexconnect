@@ -156,7 +156,7 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
       status: [''],
     });
     this.createTerminalForm = this.formBuilder.group({
-      merchantName: ['', Validators.compose([Validators.required])],
+      merchantName: [''],
       terminalId: [
         '',
         Validators.compose([Validators.maxLength(8), Validators.minLength(8)]),
@@ -249,7 +249,7 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
     const addTerminal: IAddTerminal = {
       callHomeTime: this.createTerminalForm.value.callHomeTime,
       transactionTimeout: this.createTerminalForm.value.transactionTimeOut,
-      merchantId: this.createTerminalForm.value.merchantName,
+      merchantId: this.merchantId,
       terminalId: this.createTerminalForm.value.terminalId,
       ptspId: parseInt(this.createTerminalForm.value.ptspId, 10),
     };

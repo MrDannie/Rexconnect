@@ -112,16 +112,32 @@
 
         <div style="word-wrap: break-word" class="row">
           <div class="col-md-6">
-            <span class="card_header">Additional Data</span>
+            <span style="font-weight: bold; font-size: 14px" class="card_header"
+              >Additional Data:</span
+            ><br />
+            <span style="font-size: small">Phone Number</span>
             <p
               class="card_value"
               *ngIf="transaction.additionalData?.customerPhoneNo !== null"
             >
-              {{ transaction.additionalData?.customerPhoneNo }}
+              +{{ transaction.additionalData?.customerPhoneNo }}
             </p>
             <p
               class="null-value"
               *ngIf="transaction.additionalData?.customerPhoneNo === null"
+            >
+              Nil
+            </p>
+            <span style="font-size: small">Provider Reference</span>
+            <p
+              class="card_value"
+              *ngIf="transaction.additionalData?.providerReference !== null"
+            >
+              {{ transaction.additionalData?.providerReference }}
+            </p>
+            <p
+              class="null-value"
+              *ngIf="!transaction.additionalData?.providerReference"
             >
               Nil
             </p>

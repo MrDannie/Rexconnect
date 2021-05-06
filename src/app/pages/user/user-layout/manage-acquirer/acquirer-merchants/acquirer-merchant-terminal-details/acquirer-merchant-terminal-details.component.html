@@ -1,3 +1,13 @@
+<div class="header animated fadeIn">
+  <div class="top_buttons">
+    <span class="back_button" routerLink="../../merchant-terminals">
+      <i class="fa fa-long-arrow-left"></i> Return to Terminals List
+    </span>
+  </div>
+  <div class="header__text">
+    <span>TID: {{ terminalId }}</span>
+  </div>
+</div>
 <div class="main_dashboard_flow">
   <div class="details_section">
     <div class="form_area">
@@ -58,6 +68,190 @@
       >
         Update Terminal
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- UPDATE TERMINAL  -->
+<!-- UPDATE TERMINAL MODAL  -->
+<div
+  class="modal animated zoomIn"
+  id="updateTerminal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="updateTerminalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="modal-title" id="updateTerminalLabel">Update Terminal</h5>
+        <form
+          [formGroup]="updateTerminalForm"
+          (ngSubmit)="updateTerminalDetails()"
+        >
+          <div class="col-md-12 no-padding">
+            <div class="form-group">
+              <span class="has-float-label">
+                <select
+                  id="merchantId"
+                  class="form-control"
+                  type="text"
+                  placeholder=" "
+                  formControlName="merchantId"
+                >
+                  <option
+                    [value]="merchant.merchantId"
+                    *ngFor="let merchant of allMerchants"
+                  >
+                    {{ merchant.merchantName }}
+                  </option>
+                </select>
+                <label for="merchantId">Merchant Name</label>
+              </span>
+            </div>
+            <span
+              class="validation-message"
+              *ngIf="
+                updateTerminalForm.get('merchantId').errors &&
+                updateTerminalForm.get('merchantId').touched
+              "
+              >Merchant Name is required.</span
+            >
+          </div>
+
+          <div class="col-md-12 no-padding">
+            <div class="form-group">
+              <span class="has-float-label">
+                <input
+                  id="transactionTimeout"
+                  type="number"
+                  class="form-control no-arrows"
+                  placeholder=" "
+                  formControlName="transactionTimeout"
+                />
+                <label for="transactionTimeout"
+                  >Transaction Timeout (In Seconds)</label
+                >
+              </span>
+            </div>
+            <span
+              class="validation-message"
+              *ngIf="
+                updateTerminalForm.get('transactionTimeout').errors &&
+                updateTerminalForm.get('transactionTimeout').touched
+              "
+              >Transaction Timeout is required.</span
+            >
+          </div>
+
+          <div class="col-md-12 no-padding">
+            <div class="form-group">
+              <span class="has-float-label">
+                <input
+                  id="callHomeTime"
+                  type="number"
+                  class="form-control no-arrows"
+                  placeholder=" "
+                  formControlName="callHomeTime"
+                />
+                <label for="callHomeTime">Call Home Time (In Seconds)</label>
+              </span>
+            </div>
+            <span
+              class="validation-message"
+              *ngIf="
+                updateTerminalForm.get('callHomeTime').errors &&
+                updateTerminalForm.get('callHomeTime').touched
+              "
+              >Call Home Time is required.</span
+            >
+          </div>
+          <div class="col-md-12 no-padding">
+            <div class="form-group">
+              <span class="has-float-label">
+                <select
+                  id="ptspsId"
+                  class="form-control"
+                  type="text"
+                  placeholder=" "
+                  formControlName="ptspId"
+                >
+                  <option [value]="+ptsp.id" *ngFor="let ptsp of ptspsList">
+                    {{ ptsp.Ptspname }}
+                  </option>
+                </select>
+                <label for="ptspsId">Ptsps Name</label>
+              </span>
+            </div>
+            <span
+              class="validation-message"
+              *ngIf="
+                updateTerminalForm.get('ptspId').errors &&
+                updateTerminalForm.get('ptspId').touched
+              "
+              >Ptsps Name is required.</span
+            >
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="isActive"
+              id="activateTerminal"
+              [value]="true"
+              [checked]="updateTerminalForm.get('isActive').value === true"
+              formControlName="isActive"
+            />
+            <label class="form-check-label" for="activateTerminal">
+              Activate Terminal
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="isActive"
+              id="deactivateTerminal"
+              formControlName="isActive"
+              [value]="false"
+              [checked]="updateTerminalForm.get('isActive').value === false"
+            />
+            <label class="form-check-label" for="deactivateTerminal">
+              Deactivate Terminal
+            </label>
+          </div>
+
+          <!-- RELEVANT CODE HERE  -->
+
+          <div class="form_actions">
+            <div
+              class="cancel_button"
+              data-dismiss="modal"
+              id="cancel_button_update_terminal"
+              (click)="createMerchantForm.reset()"
+            >
+              Cancel
+            </div>
+            <button
+              *ngIf="permissions.includes('CAN_UPDATE_TERMINAL')"
+              class="btn button-primary"
+              type="submit"
+            >
+              Update Terminal
+            </button>
+
+            <div
+              class="spinner-border spinner-border-sm ml-3"
+              role="status"
+              *ngIf="isUpdating"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

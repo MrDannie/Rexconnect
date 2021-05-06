@@ -23,6 +23,14 @@
     color: #816d00;
     background-color: #fff7c7;
   }
+
+  &.pending {
+    color: rgb(158, 158, 73);
+    padding: 3px 6px;
+    border-radius: 4px;
+    background-color: rgb(240, 240, 11);
+    font-weight: bold;
+  }
 }
 
 .active {
