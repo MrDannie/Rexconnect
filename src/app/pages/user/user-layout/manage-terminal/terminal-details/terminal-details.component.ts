@@ -64,11 +64,7 @@ export class TerminalDetailsComponent implements OnInit {
         this.getAllMerchants();
       },
       (error) => {
-        this.errorHandler.customClientErrors(
-          'Failed to get terminal details',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+        this.alertService.error(error);
       }
     );
   }
@@ -80,11 +76,7 @@ export class TerminalDetailsComponent implements OnInit {
         this.updateTerminalDetailsForm();
       },
       (error) => {
-        this.errorHandler.customClientErrors(
-          'Failed to get merchants details',
-          error.error.error.code,
-          error.error.error.responseMessage
-        );
+        this.alertService.error(error);
       }
     );
   }
@@ -126,7 +118,7 @@ export class TerminalDetailsComponent implements OnInit {
     // this.terminalDetails.terminalId = this.updateTerminalForm.value.terminalId;
     this.terminalDetails.transactionTimeout = this.updateTerminalForm.value.transactionTimeout;
     this.terminalDetails.callHomeTime = this.updateTerminalForm.value.callHomeTime;
-    this.terminalDetails.ptspId = this.updateTerminalForm.value.ptspId;
+    this.terminalDetails.ptspId = +this.updateTerminalForm.value.ptspId;
     console.log('LOVE IS HERE', this.updateTerminalForm.value.ptspId);
 
     this.terminalDetails.isActive = this.updateTerminalForm.value.isActive;

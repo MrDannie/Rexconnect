@@ -1,4 +1,7 @@
-<div class="header animated fadeIn">
+<div
+  [hidden]="currentUrl.includes('/merchant-terminals/')"
+  class="header animated fadeIn"
+>
   <div class="top_buttons">
     <span
       (click)="backClicked()"
@@ -75,7 +78,7 @@
           currentUrl.includes('/acquirer-users')
         "
       >
-        <i class="fa fa-plus animated slideIn"></i>
+        <!-- <i class="fa fa-plus animated slideIn"></i> -->
         Add User
       </button>
     </div>
@@ -689,7 +692,7 @@
               </div>
             </div>
           </div>
-
+          <!-- 
           <div class="form-row">
             <div class="form-group col-md-12">
               <div class="form-group">
@@ -701,7 +704,6 @@
                     placeholder=" "
                     formControlName="roleId"
                   >
-                    <!-- <option value=""></option> -->
                     <option
                       *ngFor="let role of listOfMerchantRoles"
                       value="{{ role?.id }}"
@@ -731,7 +733,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- RELEVANT CODE HERE  -->
           <div class="form_actions">
@@ -747,7 +749,7 @@
               (click)="createUser(createUserForm.value)"
               [disabled]="!createUserForm.valid || isLoading"
             >
-              <i class="fa fa-plus animated slideIn"></i>
+              <!-- <i class="fa fa-plus animated slideIn"></i> -->
               Add User
             </button>
 

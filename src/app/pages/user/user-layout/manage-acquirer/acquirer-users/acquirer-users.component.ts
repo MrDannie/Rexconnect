@@ -85,7 +85,7 @@ export class AcquirerUsersComponent implements OnInit {
       .subscribe(
         (response: AllUsers) => {
           this.allUsers = response['data']['content'];
-          this.dataCount = response['totalElements'];
+          this.dataCount = response['data']['totalElements'];
           this.originalResponse = response;
           this.isLoaded = true;
           this.isLoading = false;
@@ -329,7 +329,7 @@ export class AcquirerUsersComponent implements OnInit {
       firstName: ['', Validators.compose([Validators.required])],
       surname: ['', Validators.compose([Validators.required])],
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      roleId: ['', Validators.compose([Validators.required])],
+      roleId: [''],
     });
 
     this.editUserForm = this.formBuilder.group({

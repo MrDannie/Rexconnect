@@ -1,3 +1,13 @@
+<div class="header animated fadeIn">
+  <div class="top_buttons">
+    <span class="back_button" routerLink="../../merchant-terminals">
+      <i class="fa fa-long-arrow-left"></i> Return to Terminals List
+    </span>
+  </div>
+  <div class="header__text">
+    <span>TID: {{ terminalId }}</span>
+  </div>
+</div>
 <div class="main_dashboard_flow">
   <div class="details_section">
     <div class="form_area">
@@ -167,8 +177,8 @@
                   placeholder=" "
                   formControlName="ptspId"
                 >
-                  <option [value]="ptsp.id" *ngFor="let ptsp of ptspsList">
-                    {{ ptsp.ptspName }}
+                  <option [value]="+ptsp.id" *ngFor="let ptsp of ptspsList">
+                    {{ ptsp.Ptspname }}
                   </option>
                 </select>
                 <label for="ptspsId">Ptsps Name</label>
