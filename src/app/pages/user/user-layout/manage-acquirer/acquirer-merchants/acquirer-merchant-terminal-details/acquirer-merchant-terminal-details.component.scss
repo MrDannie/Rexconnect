@@ -1,6 +1,7 @@
 @import "./../../../../../shared/styles/floating-label";
 @import "./../../../../../shared/styles/components";
 @import "./../../../../../shared/styles/buttons";
+@import "~src/app/pages/shared/styles/header"; //Importation for page header
 
 // *******  WHITE BACKGROUND SECTION 8888888888
 .main_dashboard_flow {
@@ -14,6 +15,14 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   padding-bottom: 5rem;
+}
+
+.header__text {
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 1.32rem !important;
+  display: flex;
+  font-weight: 600;
+  justify-content: space-between;
 }
 
 .details_section {

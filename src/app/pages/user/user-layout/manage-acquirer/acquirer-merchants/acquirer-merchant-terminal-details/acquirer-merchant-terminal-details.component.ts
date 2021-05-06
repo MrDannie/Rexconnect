@@ -133,7 +133,7 @@ export class AcquirerMerchantTerminalDetailsComponent implements OnInit {
     // this.terminalDetails.terminalId = this.updateTerminalForm.value.terminalId;
     this.terminalDetails.transactionTimeout = this.updateTerminalForm.value.transactionTimeout;
     this.terminalDetails.callHomeTime = this.updateTerminalForm.value.callHomeTime;
-    this.terminalDetails.ptspId = this.updateTerminalForm.value.ptspId;
+    this.terminalDetails.ptspId = +this.updateTerminalForm.value.ptspId;
     console.log('LOVE IS HERE', this.updateTerminalForm.value.ptspId);
 
     this.terminalDetails.isActive = this.updateTerminalForm.value.isActive;
@@ -185,9 +185,9 @@ export class AcquirerMerchantTerminalDetailsComponent implements OnInit {
     });
   }
   getPtspsList() {
-    this.acquirerService.getAcquirerPtspsList().subscribe(
+    this.acquirerService.adminGetAcquirerPtspsList(this.acquirerId).subscribe(
       (response) => {
-        this.ptspsList = response['data'];
+        this.ptspsList = response['data']['content'];
         console.log(this.ptspsList);
       },
       (error) => {

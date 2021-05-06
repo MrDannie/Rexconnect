@@ -301,7 +301,7 @@ export class ManageAcquirerComponent implements OnInit {
       firstName: ['', Validators.compose([Validators.required])],
       surname: ['', Validators.compose([Validators.required])],
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      roleId: ['', Validators.compose([Validators.required])],
+      roleId: [''],
     });
 
     this.editUserForm = this.formBuilder.group({

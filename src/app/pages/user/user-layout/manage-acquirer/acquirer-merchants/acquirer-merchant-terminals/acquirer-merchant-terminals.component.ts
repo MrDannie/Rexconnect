@@ -156,7 +156,7 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
       status: [''],
     });
     this.createTerminalForm = this.formBuilder.group({
-      merchantName: ['', Validators.compose([Validators.required])],
+      merchantName: [''],
       terminalId: [
         '',
         Validators.compose([Validators.maxLength(8), Validators.minLength(8)]),

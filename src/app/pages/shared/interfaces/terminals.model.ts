@@ -10,7 +10,7 @@ export interface ITerminal {
   merchantToken: string;
   transactionTimeout: string;
   terminalId: string;
-  ptspId: string;
+  ptspId: number;
   isActive: boolean;
 }
 
