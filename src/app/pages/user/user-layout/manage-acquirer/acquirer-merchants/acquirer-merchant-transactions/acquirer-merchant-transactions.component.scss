@@ -74,6 +74,11 @@
   }
 
   &.declined {
+    color: #f5b892;
+    background-color: #fff7c7;
+  }
+
+  &.pending {
     color: #816d00;
     background-color: #fff7c7;
   }

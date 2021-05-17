@@ -57,6 +57,7 @@
               class="status"
               [class.approved]="txn.status === 'APPROVED'"
               [class.declined]="txn.status === 'DECLINED'"
+              [class.pending]="txn.status === 'PENDING'"
             >
               {{ txn.status }}
             </span>
