@@ -191,6 +191,8 @@ export class TerminalsService {
     clientId,
     terminalDetails: IAddTerminal
   ): Observable<any> {
+    console.log('HEER IS THE CLIENT ID', clientId);
+
     const header = this.createAuthorizationHeader();
     return this.httpClient.post<IAddTerminal>(
       BASE_URL +

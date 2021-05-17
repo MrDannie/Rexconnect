@@ -24,7 +24,7 @@
   </span>
 </div>
 
-<div class="table-container custom-table animated fadeIn">
+<div class="table-container custom-table fadeIn">
   <div class="card-body">
     <app-rex-loader [isPushed]="true" *ngIf="isLoading"></app-rex-loader>
     <table class="table table-striped">
@@ -61,7 +61,7 @@
               {{ txn.status }}
             </span>
           </td>
-          <td>{{ txn.creationDate | date: "medium" }}</td>
+          <td>{{ txn.creationDate | date: "medium":"UTC" }}</td>
         </tr>
       </tbody>
     </table>

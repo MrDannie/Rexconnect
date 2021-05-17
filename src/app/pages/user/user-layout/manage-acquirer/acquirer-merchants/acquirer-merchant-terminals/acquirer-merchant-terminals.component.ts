@@ -66,6 +66,8 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
   terminalIdToFilter: any;
   userSettings: any;
   merchantId: any;
+  userDetails: any;
+  acquirerSettings: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -121,10 +123,10 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
   }
 
   getUserSettings() {
-    this.profileMgt.getUserSettings().subscribe(
+    this.profileMgt.adminGetClientDetails(this.acquirerId).subscribe(
       (response) => {
-        console.log(response);
-        this.userSettings = response;
+        console.log('CLUIENT ID HERE YOU GO', response);
+        this.acquirerSettings = response['data'];
       },
       (error) => {
         this.alertService.error(error);
@@ -135,7 +137,7 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
 
   getPermissions() {
     this.permissions = this.storageService.getPermissions();
-    this.acquirerId = this.storageService.getCurrentUser().user.clientId;
+    // this.acquirerId = this.storageService.getCurrentUser().user.clientId;
   }
 
   requestPageSize(value: number) {
@@ -257,6 +259,8 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
     console.log('HERE IS FORM VALUE', addTerminal);
 
     this.isAddingTerminal = true;
+    console.log('HERE IS ACQUIRER ID', this.acquirerId);
+
     this.terminals.adminAddNewTerminal(this.acquirerId, addTerminal).subscribe(
       (data) => {
         this.isAddingTerminal = false;
@@ -328,9 +332,9 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
   // }
 
   getPtspsList() {
-    this.acquirerService.getAcquirerPtspsList().subscribe(
+    this.acquirerService.adminGetAcquirerPtspsList(this.acquirerId).subscribe(
       (response) => {
-        this.ptspsList = response['data'];
+        this.ptspsList = response['data']['content'];
         console.log('HERE YOU GO', this.ptspsList);
       },
       (error) => {
@@ -379,6 +383,9 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
       this.merchantId = params.get('merchantId');
       this.acquirerId = params.get('acquirerId');
     });
+
+    console.log('HERE IS THE ACQUIRER ID', this.acquirerId);
+
     this.showFilter = false;
     this.isCSVLoading = false;
     this.isUserCreating = false;

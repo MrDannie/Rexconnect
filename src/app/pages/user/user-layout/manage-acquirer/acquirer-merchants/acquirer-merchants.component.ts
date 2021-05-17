@@ -231,6 +231,22 @@ export class AcquirerMerchantsComponent implements OnInit {
       );
   }
 
+  refreshTableData() {
+    this.showFilter = false;
+    this.searchForm.reset();
+
+    this.pageIndex = 0;
+    this.pageSize = 10;
+
+    this.merchantIdToFilter = '';
+    this.statusToFilter = '';
+    this.statusToFilter = '';
+
+    console.log('REFRESh');
+
+    this.getAllMerchants();
+  }
+
   exportRecords(temp) {
     const headers = [
       'Merchant Name',
