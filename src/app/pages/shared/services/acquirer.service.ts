@@ -95,4 +95,8 @@ export class AcquirerService {
         this.config.adminGetAcquirerPtspsList.replace('{clientId}', clientId)
     );
   }
+
+  // adminGetAcquirerPtspsList(): Observable<any> {
+  //   return this.http.get<any>(BASE_URL + this.config.getAquirerPtspList);
+  // }
 }

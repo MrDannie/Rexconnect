@@ -22,17 +22,23 @@ export class ProfileManagementService {
   }
 
   getUserSettings(): Observable<any> {
-    return this.httpClient
-      .get(BASE_URL + this.config.settings);
+    return this.httpClient.get(BASE_URL + this.config.settings);
   }
 
   updateUserSettings(value): Observable<any> {
-    return this.httpClient
-      .put(BASE_URL + this.config.settings, value);
+    return this.httpClient.put(BASE_URL + this.config.settings, value);
   }
 
   updateProfile(value): Observable<any> {
-    return this.httpClient
-      .put(BASE_URL + this.config.updateProfile, value);
+    return this.httpClient.put(BASE_URL + this.config.updateProfile, value);
+  }
+
+  // ENDPOINTS FOR ADMIN
+
+  adminGetClientDetails(clientId): Observable<any> {
+    return this.httpClient.get(
+      BASE_URL +
+        this.config.adminGetClientDetails.replace('{clientId}', clientId)
+    );
   }
 }

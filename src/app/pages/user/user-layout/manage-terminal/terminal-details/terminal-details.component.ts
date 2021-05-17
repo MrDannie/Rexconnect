@@ -84,8 +84,11 @@ export class TerminalDetailsComponent implements OnInit {
     const merchant = this.allMerchants.find((term) => {
       return term.merchantId.toString() === this.terminalDetails.merchantId;
     });
+    console.log('HEAR US LOUD AND CLEAR');
 
     if (merchant) {
+      console.log('HEAR US LOUD AND CLEAR');
+
       this.updateTerminalForm.patchValue({
         merchantId: merchant.merchantId,
         transactionTimeout: this.terminalDetails.transactionTimeout,

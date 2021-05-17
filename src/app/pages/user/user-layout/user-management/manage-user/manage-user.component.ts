@@ -382,6 +382,10 @@ export class ManageUserComponent implements OnInit {
     this.pageIndex = 0;
     this.pageSize = 10;
 
+    this.usernameToFilter = '';
+    this.emailToFilter = '';
+    this.statusToFilter = '';
+
     this.getAllUsers();
   }
 

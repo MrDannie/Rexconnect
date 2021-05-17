@@ -131,8 +131,10 @@ export class AcquirerMerchantTerminalDetailsComponent implements OnInit {
     // this.terminalDetails.merchantName = merchant.merchantName;
 
     // this.terminalDetails.terminalId = this.updateTerminalForm.value.terminalId;
-    this.terminalDetails.transactionTimeout = this.updateTerminalForm.value.transactionTimeout;
-    this.terminalDetails.callHomeTime = this.updateTerminalForm.value.callHomeTime;
+    this.terminalDetails.transactionTimeout =
+      this.updateTerminalForm.value.transactionTimeout;
+    this.terminalDetails.callHomeTime =
+      this.updateTerminalForm.value.callHomeTime;
     this.terminalDetails.ptspId = +this.updateTerminalForm.value.ptspId;
     console.log('LOVE IS HERE', this.updateTerminalForm.value.ptspId);
 

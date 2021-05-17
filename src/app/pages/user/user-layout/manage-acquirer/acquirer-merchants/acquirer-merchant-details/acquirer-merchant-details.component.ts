@@ -27,7 +27,7 @@ export class AcquirerMerchantDetailsComponent implements OnInit {
   updateMerchantForm: any;
   allCities: any[];
   storedCities: any;
-  merchantTerminals: ITerminal[] = [];
+  // merchantTerminals: ITerminal[] = [];
   autoMidState: any;
   permissions: any;
   merchantCategoryCodes: any[];
@@ -92,7 +92,7 @@ export class AcquirerMerchantDetailsComponent implements OnInit {
 
           this.populateEditForm();
           // forward terminal loading to next method
-          this.getMerchantTerminals();
+          // this.getMerchantTerminals();
         },
         (error) => {
           this.isLoadingTerminals = false;
@@ -210,21 +210,21 @@ export class AcquirerMerchantDetailsComponent implements OnInit {
     })['ISO4217-currency_name'];
     return currencyName;
   }
-  getMerchantTerminals() {
-    this.isLoadingTerminals = true;
-    this.merchants
-      .getMerchantTerminals(this.merchantDetails.merchantId)
-      .subscribe(
-        (data) => {
-          this.merchantTerminals = data.content;
-          this.isLoadingTerminals = false;
-        },
-        (error) => {
-          this.isLoadingTerminals = false;
-          this.alerts.error(error);
-        }
-      );
-  }
+  // getMerchantTerminals() {
+  //   this.isLoadingTerminals = true;
+  //   this.merchants
+  //     .getMerchantTerminals(this.merchantDetails.merchantId)
+  //     .subscribe(
+  //       (data) => {
+  //         this.merchantTerminals = data.content;
+  //         this.isLoadingTerminals = false;
+  //       },
+  //       (error) => {
+  //         this.isLoadingTerminals = false;
+  //         this.alerts.error(error);
+  //       }
+  //     );
+  // }
   populateEditForm() {
     let actualCountryCode;
     const countryCode = this.merchantDetails.countryCode;
