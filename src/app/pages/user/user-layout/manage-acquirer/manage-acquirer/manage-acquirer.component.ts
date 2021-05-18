@@ -57,6 +57,7 @@ export class ManageAcquirerComponent implements OnInit {
   listOfMerchantRoles: IRole[];
   userRoles: AllRoles;
   isLoading: boolean;
+  acquirerSettings: any;
 
   constructor(
     private router: Router,
@@ -103,11 +104,11 @@ export class ManageAcquirerComponent implements OnInit {
 
     this.getPermissions();
 
-    this.getUserSettings();
-
     this.getCurrentUser();
 
     this.getUsersRoles('MERCHANT');
+
+    this.getUserSettings();
 
     // this.getMerchant();
 
@@ -125,10 +126,10 @@ export class ManageAcquirerComponent implements OnInit {
   // }
 
   getUserSettings() {
-    this.profileMgt.getUserSettings().subscribe(
+    this.profileMgt.adminGetClientDetails(this.acquirerId).subscribe(
       (response) => {
         console.log('USER SETTINGSSSSSSS', response);
-        this.userSettings = response;
+        this.acquirerSettings = response['data'];
       },
       (error) => {
         this.alertService.error(error);
