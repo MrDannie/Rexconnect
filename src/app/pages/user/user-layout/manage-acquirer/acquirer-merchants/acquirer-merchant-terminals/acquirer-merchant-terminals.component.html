@@ -269,7 +269,7 @@
             </div>
 
             <div
-              *ngIf="userSettings?.auto_tid != true"
+              *ngIf="acquirerSettings?.autoTID != true"
               class="col-md-12 no-padding"
             >
               <div class="form-group">
@@ -364,7 +364,7 @@
                     formControlName="ptspId"
                   >
                     <option [value]="ptsp.id" *ngFor="let ptsp of ptspsList">
-                      {{ ptsp.ptspName }}
+                      {{ ptsp.Ptspname }}
                     </option>
                   </select>
                   <label for="ptspId">Ptsps</label>

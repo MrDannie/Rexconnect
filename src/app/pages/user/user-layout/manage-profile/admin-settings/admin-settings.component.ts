@@ -57,7 +57,7 @@ export class AdminSettingsComponent implements OnInit {
     this.updateSettingsForm = this.formBuilder.group({
       name: ['', Validators.compose([Validators.required])],
       terminalPrefix: ['', Validators.compose([Validators.required])],
-      logo_url: ['', Validators.compose([Validators.required])],
+      logo_url: [''],
       location: ['', Validators.compose([Validators.required])],
       currencyCode: ['', Validators.compose([Validators.required])],
       color: [''],
@@ -66,7 +66,7 @@ export class AdminSettingsComponent implements OnInit {
       address: ['', Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
       bankCode: ['', Validators.compose([Validators.required])],
-      email: [''],
+      email: ['', Validators.compose([Validators.required])],
     });
   }
 

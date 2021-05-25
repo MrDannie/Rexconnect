@@ -3,13 +3,13 @@
     <div class="form_area">
       <div class="row">
         <div class="col-md-6">
-          <span>Acquirer Name</span>
+          <span>Client Name</span>
           <p>
             <strong>{{ acquirer?.clientName }}</strong>
           </p>
         </div>
         <div class="col-md-6">
-          <span>Acquirer Short Name</span>
+          <span>Client Short Name</span>
           <p>
             <strong>{{ acquirer?.shortName }}</strong>
           </p>
@@ -17,7 +17,7 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <span>Acquirer Code</span>
+          <span>Client Code</span>
           <p>
             <strong>{{ acquirer?.bankCode }}</strong>
           </p>
@@ -30,20 +30,20 @@
         </div>
 
         <div class="col-md-6">
-          <span>Acquirer Location</span>
+          <span>Client Location</span>
           <p>
             <strong>{{ acquirer?.clientLocation }}</strong>
           </p>
         </div>
 
         <div class="col-md-6">
-          <span>Acquirer Address</span>
+          <span>Client Address</span>
           <p>
             <strong>{{ acquirer?.clientAddress }}</strong>
           </p>
         </div>
         <div class="col-md-6">
-          <span>Acquirer Email</span>
+          <span>Client Email</span>
           <p>
             <strong>{{ acquirer?.email }}</strong>
           </p>
@@ -88,7 +88,7 @@
         data-target="#editAcquirer"
         [routerLink]="['../../edit-acquirer', acquirerId]"
       >
-        Edit Acquirer
+        Edit Client
       </button>
     </div>
   </div>

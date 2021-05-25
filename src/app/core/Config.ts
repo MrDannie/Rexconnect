@@ -93,6 +93,7 @@ export class Config {
   adminGetSingleTerminal: string;
   adminUpdateTerminal: string;
   adminGetAcquirerPtspsList: string;
+  adminGetClientDetails: string;
 
   constructor() {
     this.login = '/v1/auth/login';
@@ -209,5 +210,7 @@ export class Config {
     this.adminUpdateTerminal = '/v1/clients/{clientId}/terminals/{terminalId}';
 
     this.adminGetAcquirerPtspsList = '/v1/clients/{clientId}/ptsps';
+
+    this.adminGetClientDetails = '/v1/clients/{clientId}';
   }
 }

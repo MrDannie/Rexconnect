@@ -3,7 +3,7 @@
   <div class="main-header">
     <div class="header__text animated fadeIn">
       <div>
-        <span>Acquirer</span>
+        <span>Clients</span>
       </div>
 
       <div
@@ -12,11 +12,11 @@
       >
         <button class="btn action_button" routerLink="./add-acquirer">
           <i class="fa fa-plus animated slideIn"></i>
-          Add Acquirer
+          Add Client
         </button>
       </div>
     </div>
-    <span>View details of every acquirer on this platform</span>
+    <span>View details of every clients on this platform</span>
   </div>
 
   <!-- FILTER BY CODE  -->
@@ -46,7 +46,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="clientName" class="search_label">Acquirer Name</label>
+              <label for="clientName" class="search_label">Clients Name</label>
               <input
                 type="text"
                 class="form-control search_input"
@@ -58,7 +58,7 @@
 
           <div class="col-md-4">
             <div class="form-group">
-              <label for="bankCode" class="search_label">Acquirer Code</label>
+              <label for="bankCode" class="search_label">Clients Code</label>
               <input
                 type="text"
                 class="form-control search_input"
@@ -76,7 +76,7 @@
                 formControlName="status"
                 id="status"
               >
-                <option value="">Select acquirer status</option>
+                <option value="">Select clients status</option>
                 <option value="ACTIVE">Active</option>
                 <option value="INACTIVE">Inactive</option>
               </select>
@@ -127,8 +127,8 @@
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Acquirer Name</th>
-          <th scope="col">Acquirer Code</th>
+          <th scope="col">Clients Name</th>
+          <th scope="col">Clients Code</th>
           <th scope="col">Status</th>
           <th scope="col">Action</th>
         </tr>

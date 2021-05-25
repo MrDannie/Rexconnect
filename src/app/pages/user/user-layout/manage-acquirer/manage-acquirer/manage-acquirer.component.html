@@ -8,7 +8,7 @@
       class="back_button"
       routerLink="../../acquirers"
     >
-      <i class="fa fa-long-arrow-left"></i> Return to Acquirer List
+      <i class="fa fa-long-arrow-left"></i> Return to Client List
     </span>
   </div>
   <div class="header_buttons">
@@ -29,7 +29,7 @@
         class="action_button_disable"
         data-toggle="modal"
         data-target="#disableAcquirerModal"
-        >Disable Aquirer</span
+        >Disable Client</span
       >
       <span
         class="action_button_enable animated fadeIn"
@@ -38,7 +38,7 @@
           acquirerStatus === 'INACTIVE' &&
           currentUrl.includes('acquirer-details')
         "
-        >Enable Aquirer</span
+        >Enable Client</span
       >
 
       <!-- <span
@@ -286,7 +286,7 @@
             </div>
 
             <div
-              *ngIf="userSettings?.auto_mid != true"
+              *ngIf="acquirerSettings?.autoMID != true"
               class="col-md-12 no-padding"
             >
               <div class="form-group">

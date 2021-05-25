@@ -49,7 +49,6 @@ export class AddAcquirerComponent implements OnInit {
       clientLocation: ['', Validators.compose([Validators.required])],
       clientAddress: ['', Validators.compose([Validators.required])],
       currencyCode: ['', Validators.compose([Validators.required])],
-
       terminalPrefix: [[''], Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
       email: ['', Validators.required],
