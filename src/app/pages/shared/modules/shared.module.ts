@@ -12,6 +12,8 @@ import { RouterModule } from '@angular/router';
 import { SideNavigationComponent } from '../components/side-navigation/side-navigation.component';
 import { TopNavigationComponent } from '../components/top-navigation/top-navigation.component';
 import { SanitizePermissionsPipe } from '../pipes/sanitize-permissions.pipe';
+import { MaskSensitiveKeys } from '../pipes/mask-sensitve-key.pipe';
+import { ResolveTimeDifferncePipe } from '../pipes/resolve-time-differnce.pipe';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { SanitizePermissionsPipe } from '../pipes/sanitize-permissions.pipe';
     SanitizePermissionsPipe,
     RexPaginationComponent,
     RexLoaderComponent,
+    MaskSensitiveKeys,
+    ResolveTimeDifferncePipe,
   ],
   exports: [
     SideNavigationComponent,
@@ -27,6 +31,8 @@ import { SanitizePermissionsPipe } from '../pipes/sanitize-permissions.pipe';
     SanitizePermissionsPipe,
     RexPaginationComponent,
     RexLoaderComponent,
+    MaskSensitiveKeys,
+    ResolveTimeDifferncePipe,
   ],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   providers: [Config, PaginationService],
