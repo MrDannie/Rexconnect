@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { Router } from '@angular/router';
+import { countries, currencies } from '../../../../../pages/shared/constants';
 
 declare var $: any;
 
@@ -21,6 +22,8 @@ export class AddAcquirerComponent implements OnInit {
   ruleOrder: string[] = [];
   isAddingAcquirer: boolean;
   showDropdown: boolean;
+  currencyCodes: any;
+  countryCodes: any;
   constructor(
     private formBuilder: FormBuilder,
     private acquirerService: AcquirerService,
@@ -39,6 +42,10 @@ export class AddAcquirerComponent implements OnInit {
 
     this.initializeForm();
 
+    this.getCurrencyCodes();
+
+    this.getCountries();
+
     // this.routingRules = ['here', 'farm', 'postillion', 'daniel', 'friday'];
   }
 
@@ -46,15 +53,28 @@ export class AddAcquirerComponent implements OnInit {
     this.createAcquirerForm = this.formBuilder.group({
       clientName: ['', Validators.compose([Validators.required])],
       bankCode: ['', Validators.compose([Validators.required])],
-      clientLocation: ['', Validators.compose([Validators.required])],
+      countryCode: ['', Validators.compose([Validators.required])],
       clientAddress: ['', Validators.compose([Validators.required])],
-      currencyCode: ['', Validators.compose([Validators.required])],
+      currency: ['', Validators.compose([Validators.required])],
       terminalPrefix: [[''], Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
       email: ['', Validators.required],
       // ruleOrder: ['', Validators.compose([Validators.required])],
       // ptsps: ['', Validators.compose([Validators.required])],
       // routingRules: ['', Validators.compose([Validators.required])],
+    });
+  }
+
+  getCountries() {
+    this.countryCodes = countries.COUNTRY_CODES;
+    this.countryCodes = this.countryCodes.map(function (country) {
+      country.fullCountryLabel =
+        country['ISO3166-1-Alpha-3'] +
+        ' ' +
+        '(' +
+        country['ISO3166-1-numeric'] +
+        ')';
+      return country;
     });
   }
 
@@ -71,6 +91,18 @@ export class AddAcquirerComponent implements OnInit {
     );
   }
 
+  getCurrencyCodes() {
+    this.currencyCodes = currencies.CURRENCY_CODES;
+    this.currencyCodes = this.currencyCodes.map(function (curr) {
+      curr.fullCurrencyLabel =
+        curr['ISO4217-currency_name'] +
+        ' ' +
+        '(' +
+        curr['ISO4217-currency_numeric_code'] +
+        ')';
+      return curr;
+    });
+  }
   getRoutes() {
     this.acquirerService.getRoutesList().subscribe(
       (response) => {
@@ -201,4 +233,12 @@ export class AddAcquirerComponent implements OnInit {
       (item) => item != ruleId
     );
   }
+
+  // onSelectCountryCode(countryCode) {
+  //   const countryObj = countries.COUNTRY_CODES.find((country) => {
+  //     return country['ISO3166-1-numeric'] == countryCode;
+  //   });
+  //   const countryAlpha2 = countryObj['ISO3166-1-Alpha-2'];
+  //   // this.getAllCities(countryAlpha2);
+  // }
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { AcquirerService } from 'src/app/pages/shared/services/acquirer.service';
 import { Router } from '@angular/router';
+import { currencies, countries } from './../../../../shared/constants';
 
 declare var $: any;
 
@@ -24,6 +25,7 @@ export class UpdateAcquirerComponent implements OnInit {
   ptspsToAdd: any = [];
   routesToAdd: any = [];
   ptspsListOfAcquirer: number[];
+  currencyCodes: any[];
   isAddingAcquirer: boolean;
   showDropdown: boolean;
 
@@ -48,6 +50,10 @@ export class UpdateAcquirerComponent implements OnInit {
 
     // GET PTSPS
     this.getPtsts();
+
+    // this.getCountryCode()
+
+    this.getCurrencyCodes();
   }
 
   initializeForm() {
@@ -63,6 +69,19 @@ export class UpdateAcquirerComponent implements OnInit {
       // ruleOrder: ['', Validators.compose([Validators.required])],
       // ptsps: ['', Validators.compose([Validators.required])],
       // routingRules: ['', Validators.compose([Validators.required])],
+    });
+  }
+
+  getCurrencyCodes() {
+    this.currencyCodes = currencies.CURRENCY_CODES;
+    this.currencyCodes = this.currencyCodes.map(function (curr) {
+      curr.fullCurrencyLabel =
+        curr['ISO4217-currency_name'] +
+        ' ' +
+        '(' +
+        curr['ISO4217-currency_numeric_code'] +
+        ')';
+      return curr;
     });
   }
 
@@ -87,6 +106,22 @@ export class UpdateAcquirerComponent implements OnInit {
   }
 
   fillFormValue() {
+    // let actualCountryCode;
+    // const countryCode = this.acquirerToBeUpdated.clientLocation;
+    // if (isNaN(Number(countryCode))) {
+    //   const countryObj = countries.COUNTRY_CODES.find((country) => {
+    //     return country['ISO3166-1-Alpha-2'] == countryCode;
+    //   });
+    //   actualCountryCode = countryObj['ISO3166-1-numeric'];
+    //   // this.getAllCities(countryCode);
+    // } else {
+    //   actualCountryCode = countryCode;
+    //   const countryObj = countries.COUNTRY_CODES.find((country) => {
+    //     return country['ISO3166-1-numeric'] == Number(countryCode);
+    //   });
+    //   // this.getAllCities(countryObj['ISO3166-1-Alpha-2']);
+    // }
+
     this.editAcquirerForm.patchValue({
       clientName: this.acquirerToBeUpdated.clientName,
       bankCode: this.acquirerToBeUpdated.bankCode,
