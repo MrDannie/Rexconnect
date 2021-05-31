@@ -10,12 +10,13 @@ import { TransactionsService } from 'src/app/pages/shared/services/transactions.
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { DatePipe } from '@angular/common';
+import { MaskSensitiveKeys } from 'src/app/pages/shared/pipes/mask-sensitve-key.pipe';
 
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.scss'],
-  providers: [DatePipe],
+  providers: [DatePipe, MaskSensitiveKeys],
 })
 export class TransactionsComponent implements OnInit {
   isUserCreating;
@@ -41,6 +42,7 @@ export class TransactionsComponent implements OnInit {
     startDate: this.startDate.toISOString().substring(0, 10),
     endDate: this.endDate.toISOString().substring(0, 10),
   };
+  num: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,7 +51,8 @@ export class TransactionsComponent implements OnInit {
     private errorHandler: ErrorHandler,
     private fileGenerationService: FileGenerationService,
     private alerts: AlertService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private maskSensitiveKeys: MaskSensitiveKeys
   ) {}
 
   ngOnInit() {
@@ -65,6 +68,7 @@ export class TransactionsComponent implements OnInit {
 
     this.initializeForm();
     this.getTransactions();
+    this.num = 5;
   }
 
   clearFilters() {
@@ -95,6 +99,9 @@ export class TransactionsComponent implements OnInit {
       )
       .subscribe(
         (response) => {
+          response.content.map((trx) => {
+            trx.pan = this.maskSensitiveKeys.transform(trx.pan, 3);
+          });
           this.transactions = response.content;
           this.dataCount = response.totalElements;
           this.isLoaded = true;
@@ -312,12 +319,10 @@ export class TransactionsComponent implements OnInit {
   }
 
   getCurrencyValue(index) {
-    const currencyCode = this.transactionRecordsToDownload[index][
-      'currencyCode'
-    ];
-    const currencyAlpha = this.transactionRecordsToDownload[index][
-      'currencyAlpha'
-    ];
+    const currencyCode =
+      this.transactionRecordsToDownload[index]['currencyCode'];
+    const currencyAlpha =
+      this.transactionRecordsToDownload[index]['currencyAlpha'];
     return `${currencyCode} (${currencyAlpha})`;
   }
   exportRecords(dataToDownload: any[]) {
