@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { StorageService } from 'src/app/core/helpers/storage.service';
 import { StationsService } from '../stations.service';
+import { MaskSensitiveKeys } from 'src/app/pages/shared/pipes/mask-sensitve-key.pipe';
 
 declare var $: any;
 
@@ -12,6 +13,7 @@ declare var $: any;
   selector: 'app-stations-details',
   templateUrl: './stations-details.component.html',
   styleUrls: ['./stations-details.component.scss'],
+  providers: [MaskSensitiveKeys],
 })
 export class StationsDetailsComponent implements OnInit {
   showFilter: boolean;
@@ -31,7 +33,8 @@ export class StationsDetailsComponent implements OnInit {
     private router: Router,
     private stationsService: StationsService,
     private alertService: AlertService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private maskSensitiveKeys: MaskSensitiveKeys
   ) {
     this.showFilter = false;
   }
@@ -54,6 +57,13 @@ export class StationsDetailsComponent implements OnInit {
     this.stationsService.getStation(this.stationId).subscribe(
       (res) => {
         console.log(res);
+        // res['data'].authPassword = this.maskSensitiveKeys.transform(
+        //   res['data'].authPassword,
+        //   5
+        // );
+        // res['data'].map((trx) => {
+        //   trx.pan = this.maskSensitiveKeys.transform(trx.pan, 3);
+        // });
         this.stationDetails = res['data'];
         this.isLoading = false;
       },
