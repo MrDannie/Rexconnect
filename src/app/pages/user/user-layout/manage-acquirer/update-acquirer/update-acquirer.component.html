@@ -3,18 +3,18 @@
     class="back_button"
     routerLink="../../{{ acquirerId }}/acquirer-details"
   >
-    <i class="fa fa-long-arrow-left"></i> Return to Acquirer List
+    <i class="fa fa-long-arrow-left"></i> Return to Client List
   </span>
 </div>
 <div class="main_dashboard_flow">
-  <h1 class="page_header">Edit Acquirer</h1>
+  <h1 class="page_header">Edit Client</h1>
   <p class="page_subtitle">
-    Please provide details of your acquirer and the fee sharing format
+    Please provide details of your client and the fee sharing format
   </p>
   <hr />
 
-  <h5 class="page_subheader">Acquirer Information</h5>
-  <p class="page_subtitle">Enter the details of your aquirer</p>
+  <h5 class="page_subheader">Client Information</h5>
+  <p class="page_subtitle">Enter the details of your Client</p>
 </div>
 
 <!-- ADD AQUIRER  -->
@@ -34,7 +34,7 @@
               placeholder=" "
               formControlName="clientName"
             />
-            <label for="acquirerName">Acquirer's Name</label>
+            <label for="acquirerName">Client's Name</label>
           </span>
           <div
             *ngIf="
@@ -50,7 +50,7 @@
                 !editAcquirerForm.get('clientName').hasError('required')
               "
             >
-              Acquirer name is required
+              Client name is required
               <br />
             </span>
           </div>
@@ -66,7 +66,7 @@
               placeholder=" "
               formControlName="shortName"
             />
-            <label for="acquirerShortName">Acquirer's Short Name</label>
+            <label for="acquirerShortName">Client's Short Name</label>
           </span>
           <div
             *ngIf="
@@ -80,7 +80,7 @@
               class="validation-message"
               [hidden]="!editAcquirerForm.get('shortName').hasError('required')"
             >
-              Acquirer short name is required
+              Client short name is required
               <br />
             </span>
           </div>
@@ -100,7 +100,7 @@
               placeholder=" "
               formControlName="bankCode"
             />
-            <label for="bankCode">Acquirer's Code</label>
+            <label for="bankCode">Client's Code</label>
           </span>
           <div
             *ngIf="
@@ -114,7 +114,7 @@
               class="validation-message"
               [hidden]="!editAcquirerForm.get('bankCode').hasError('required')"
             >
-              Acquirer code is required
+              Client code is required
               <br />
             </span>
           </div>
@@ -130,7 +130,7 @@
               placeholder="e.g. 2423, 2223, 3455 "
               formControlName="terminalPrefix"
             />
-            <label for="terminalPrefix">Aquirer's Terminal Prefix</label>
+            <label for="terminalPrefix">Client's Terminal Prefix</label>
           </span>
           <div
             *ngIf="
@@ -164,7 +164,7 @@
               placeholder=" "
               formControlName="clientLocation"
             />
-            <label for="clientLocation">Acquirer's Location</label>
+            <label for="clientLocation">Client's Country Code</label>
           </span>
           <div
             *ngIf="
@@ -180,7 +180,7 @@
                 !editAcquirerForm.get('clientLocation').hasError('required')
               "
             >
-              Acquirer location is required
+              Client location is required
               <br />
             </span>
           </div>
@@ -196,7 +196,7 @@
               placeholder=" "
               formControlName="clientAddress"
             />
-            <label for="clientAddress">Aquirer's Address</label>
+            <label for="clientAddress">Client's Address</label>
           </span>
           <div
             *ngIf="
@@ -212,7 +212,7 @@
                 !editAcquirerForm.get('clientAddress').hasError('required')
               "
             >
-              Acqurier address is required
+              Client address is required
               <br />
             </span>
           </div>
@@ -221,36 +221,33 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <div class="">
+        <div class="form-group">
           <span class="has-float-label">
-            <input
-              class="form-control"
-              id="currencyCode"
+            <select
+              id="currency"
               type="text"
+              class="form-control"
               placeholder=" "
               formControlName="currencyCode"
-            />
-            <label for="currencyCode">Currency Code</label>
-          </span>
-          <div
-            *ngIf="
-              editAcquirerForm.get('currencyCode').errors &&
-              (editAcquirerForm.get('currencyCode').dirty ||
-                editAcquirerForm.get('currencyCode').touched)
-            "
-            class="validation-message"
-          >
-            <span
-              class="validation-message"
-              [hidden]="
-                !editAcquirerForm.get('currencyCode').hasError('required')
-              "
             >
-              Acquirer currency code is required
-              <br />
-            </span>
-          </div>
+              <option
+                [value]="currency['ISO4217-currency_numeric_code']"
+                *ngFor="let currency of currencyCodes"
+              >
+                {{ currency.fullCurrencyLabel }}
+              </option>
+            </select>
+            <label for="currency">Currency</label>
+          </span>
         </div>
+        <span
+          class="validation-message"
+          *ngIf="
+            editAcquirerForm.get('currencyCode').errors &&
+            editAcquirerForm.get('currencyCode').touched
+          "
+          >Currency is required.</span
+        >
       </div>
       <div class="form-group col-md-4">
         <div class="">
@@ -276,7 +273,7 @@
               class="validation-message"
               [hidden]="!editAcquirerForm.get('email').hasError('required')"
             >
-              Acquirer email is required
+              Client email is required
               <br />
             </span>
           </div>
@@ -328,6 +325,7 @@
             id=""
           >
             Select Routes
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
           </button>
           <ul
             class="card dropdown-men search-dropdown"
@@ -432,7 +430,7 @@
             [disabled]="!editAcquirerForm.valid"
             (click)="addAcquirer(editAcquirerForm.value)"
           >
-            Update Acquirer
+            Update Client
           </button>
         </div>
       </div>
