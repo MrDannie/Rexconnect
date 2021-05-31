@@ -4,6 +4,7 @@
 .ptsps-column {
   background-color: #f0f0f0;
   margin-right: 0.7rem;
+  border-radius: 10px;
 }
 
 .header_buttons {
@@ -34,6 +35,7 @@
   color: #1a1a1a8a;
   font-weight: bold;
   font-size: 13px;
+  margin-top: 13px;
 }
 
 .select-all {
@@ -179,3 +181,14 @@ button:focus {
   outline: none;
   outline: none;
 }
+
+.drop-button {
+  border-radius: 5px;
+  text-align: left;
+  font-weight: bold;
+  color: gray;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+

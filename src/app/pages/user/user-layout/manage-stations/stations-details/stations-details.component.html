@@ -71,13 +71,17 @@
         </div>
         <div class="col-md-6" style="word-wrap: break-word">
           <span class="card_header">ZMK (Master Key)</span>
-          <p class="card_value">{{ stationDetails.zmk }}</p>
+          <p class="card_value">
+            {{ stationDetails.zmk | maskSensitiveKeys: 1 }}
+          </p>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6" style="word-wrap: break-word">
           <span class="card_header">ZPK (PIN Key)</span>
-          <p class="card_value">{{ stationDetails.zpk }}</p>
+          <p class="card_value">
+            {{ stationDetails.zpk | maskSensitiveKeys: 1 }}
+          </p>
         </div>
         <!-- <div class="col-md-6">
           <span class="card_header">Last Echo</span>
@@ -121,7 +125,7 @@
             class="card_value"
             *ngIf="stationDetails.authPassword !== null"
           >
-            {{ stationDetails.authPassword }}
+            {{ stationDetails.authPassword | maskSensitiveKeys: 3 }}
           </p>
           <p class="null-value" *ngIf="stationDetails.authPassword === null">
             Nil
