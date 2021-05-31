@@ -165,14 +165,11 @@
               placeholder=" "
               formControlName="countryCode"
             >
-              <option
-                [value]="countryCode['ISO3166-1-numeric']"
-                *ngFor="let countryCode of countryCodes"
-              >
-                {{ countryCode.fullCountryLabel }}
-              </option>
+              <option value="Nigeria">Nigeria</option>
+              <option value="Ghana">Ghana</option>
+              <option value="Kenya">Kenya</option>
             </select>
-            <label for="countryCode">Country Code</label>
+            <label for="countryCode">Client Country</label>
           </span>
         </div>
         <span
@@ -181,7 +178,7 @@
             createAcquirerForm.get('countryCode').errors &&
             createAcquirerForm.get('countryCode').touched
           "
-          >Country Code is required.</span
+          >Country is required.</span
         >
       </div>
       <div class="form-group col-md-4">

@@ -74,12 +74,15 @@ export class TransactionsComponent implements OnInit {
   clearFilters() {
     this.searchForm.reset('');
 
+    this.pageIndex = 0;
+    this.pageSize = 10;
+
     this.dateValues = {
       startDate: this.startDate.toISOString().substring(0, 10),
       endDate: this.endDate.toISOString().substring(0, 10),
     };
 
-    this.initializeForm();
+    // this.initializeForm();
 
     this.getTransactions();
   }
@@ -92,16 +95,16 @@ export class TransactionsComponent implements OnInit {
         this.pageSize,
         this.searchForm.value.startDate,
         this.searchForm.value.endDate,
-        this.searchForm.value.merchantId,
         this.searchForm.value.terminalId,
+        this.searchForm.value.merchantId,
         this.searchForm.value.rrn,
         this.searchForm.value.transactionType
       )
       .subscribe(
         (response) => {
-          response.content.map((trx) => {
-            trx.pan = this.maskSensitiveKeys.transform(trx.pan, 3);
-          });
+          // response.content.map((trx) => {
+          //   trx.pan = this.maskSensitiveKeys.transform(trx.pan, 3);
+          // });
           this.transactions = response.content;
           this.dataCount = response.totalElements;
           this.isLoaded = true;
