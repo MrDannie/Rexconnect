@@ -48,7 +48,7 @@
           <td>{{ txn.tid }}</td>
           <td>{{ txn.rrn }}</td>
           <td>{{ txn.stan }}</td>
-          <td>{{ txn.pan }}</td>
+          <td>{{ txn.pan | maskSensitiveKeys: 4 }}</td>
           <td>{{ txn.amount }}</td>
           <td>{{ txn.currencyCode }} ({{ txn.currencyAlpha }})</td>
           <td>{{ txn.type }}</td>
