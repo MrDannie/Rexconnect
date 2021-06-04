@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { MaskSensitiveKeys } from 'src/app/pages/shared/pipes/mask-sensitve-key.pipe';
 import { TransactionsService } from 'src/app/pages/shared/services/transactions.service';
 
 @Component({
   selector: 'app-transaction-details',
   templateUrl: './transaction-details.component.html',
   styleUrls: ['./transaction-details.component.scss'],
+  providers: [MaskSensitiveKeys],
 })
 export class TransactionDetailsComponent implements OnInit {
   transactionId: any;

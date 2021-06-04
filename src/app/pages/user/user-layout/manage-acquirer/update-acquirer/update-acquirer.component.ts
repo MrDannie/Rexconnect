@@ -60,7 +60,7 @@ export class UpdateAcquirerComponent implements OnInit {
     this.editAcquirerForm = this.formBuilder.group({
       clientName: ['', Validators.compose([Validators.required])],
       bankCode: ['', Validators.compose([Validators.required])],
-      clientLocation: ['', Validators.compose([Validators.required])],
+      clientCountry: ['', Validators.compose([Validators.required])],
       clientAddress: ['', Validators.compose([Validators.required])],
       currencyCode: ['', Validators.compose([Validators.required])],
       terminalPrefix: ['', Validators.compose([Validators.required])],
@@ -125,7 +125,7 @@ export class UpdateAcquirerComponent implements OnInit {
     this.editAcquirerForm.patchValue({
       clientName: this.acquirerToBeUpdated.clientName,
       bankCode: this.acquirerToBeUpdated.bankCode,
-      clientLocation: this.acquirerToBeUpdated.clientLocation,
+      clientCountry: this.acquirerToBeUpdated.clientLocation,
       clientAddress: this.acquirerToBeUpdated.clientAddress,
       currencyCode: this.acquirerToBeUpdated.currencyCode,
       terminalPrefix: this.acquirerToBeUpdated.terminalPrefix,

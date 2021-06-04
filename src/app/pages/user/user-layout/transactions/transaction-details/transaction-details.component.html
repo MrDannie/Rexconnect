@@ -104,7 +104,7 @@
           <div class="col-md-6">
             <span class="card_header">PAN/Account</span>
             <p class="card_value" *ngIf="transaction.pan !== null">
-              {{ transaction.pan }}
+              {{ transaction.pan | maskSensitiveKeys: 4 }}
             </p>
             <p class="null-value" *ngIf="transaction.pan === null">Nil</p>
           </div>

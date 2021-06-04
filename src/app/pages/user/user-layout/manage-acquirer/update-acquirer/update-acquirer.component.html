@@ -155,36 +155,30 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <div class="">
+        <div class="form-group">
           <span class="has-float-label">
-            <input
-              class="form-control"
-              id="clientLocation"
+            <select
+              id="countryCode"
               type="text"
+              class="form-control"
               placeholder=" "
-              formControlName="clientLocation"
-            />
-            <label for="clientLocation">Client's Country Code</label>
-          </span>
-          <div
-            *ngIf="
-              editAcquirerForm.get('clientLocation').errors &&
-              (editAcquirerForm.get('clientLocation').dirty ||
-                editAcquirerForm.get('clientLocation').touched)
-            "
-            class="validation-message"
-          >
-            <span
-              class="validation-message"
-              [hidden]="
-                !editAcquirerForm.get('clientLocation').hasError('required')
-              "
+              formControlName="clientCountry"
             >
-              Client location is required
-              <br />
-            </span>
-          </div>
+              <option value="Nigeria">Nigeria</option>
+              <option value="Ghana">Ghana</option>
+              <option value="Kenya">Kenya</option>
+            </select>
+            <label for="country">Client Country</label>
+          </span>
         </div>
+        <span
+          class="validation-message"
+          *ngIf="
+            editAcquirerForm.get('clientCountry').errors &&
+            editAcquirerForm.get('clientCountry').touched
+          "
+          >Country is required.</span
+        >
       </div>
       <div class="form-group col-md-4">
         <div class="">

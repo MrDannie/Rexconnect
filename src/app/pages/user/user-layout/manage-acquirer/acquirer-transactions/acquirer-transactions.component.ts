@@ -9,11 +9,13 @@ import { ActivatedRoute, Params } from '@angular/router';
 // tslint:disable
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { MaskSensitiveKeys } from 'src/app/pages/shared/pipes/mask-sensitve-key.pipe';
 
 @Component({
   selector: 'app-acquirer-transactions',
   templateUrl: './acquirer-transactions.component.html',
   styleUrls: ['./acquirer-transactions.component.scss'],
+  providers: [MaskSensitiveKeys],
 })
 export class AcquirerTransactionsComponent implements OnInit {
   showFilter: boolean;
@@ -42,8 +44,8 @@ export class AcquirerTransactionsComponent implements OnInit {
     private merchants: MerchantsService,
     private paginationService: PaginationService,
     private alerts: AlertService,
-    private errorHandler: ErrorHandler,
-    private fileGenerationService: FileGenerationService
+    private fileGenerationService: FileGenerationService,
+    private maskSensitiveKeys: MaskSensitiveKeys
   ) {
     this.showFilter = false;
     this.initializeForm();
