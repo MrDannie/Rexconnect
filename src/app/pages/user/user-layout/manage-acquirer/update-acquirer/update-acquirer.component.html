@@ -162,20 +162,20 @@
               type="text"
               class="form-control"
               placeholder=" "
-              formControlName="clientCountry"
+              formControlName="clientLocation"
             >
               <option value="Nigeria">Nigeria</option>
               <option value="Ghana">Ghana</option>
               <option value="Kenya">Kenya</option>
             </select>
-            <label for="country">Client Country</label>
+            <label for="clientLocation">Client Country</label>
           </span>
         </div>
         <span
           class="validation-message"
           *ngIf="
-            editAcquirerForm.get('clientCountry').errors &&
-            editAcquirerForm.get('clientCountry').touched
+            editAcquirerForm.get('clientLocation').errors &&
+            editAcquirerForm.get('clientLocation').touched
           "
           >Country is required.</span
         >

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Config } from 'src/app/core/Config';
 
 import { environment } from 'src/environments/environment';
+import { isNullOrUndefined } from 'util';
 import { RoutingRulesInterface } from '../interfaces/routing-rules.model';
 
 const BASE_URL: string = environment.BASE_URL;
@@ -95,28 +96,63 @@ export class RouteComponentService {
     );
   }
 
-  getAcquirerRoutes(pageIndex, pageSize, acquirerId): Observable<any> {
-    const params = new HttpParams();
-    const requestParams = params
-      .append('page', pageIndex.toString())
-      .append('size', pageSize.toString());
+  getAcquirerRoutes(
+    pageIndex,
+    pageSize,
+    acquirerId,
+    defaultDs,
+    rule
+  ): Observable<any> {
+    let params = new HttpParams();
+
+    if (pageIndex) {
+      params = params.append('page', pageIndex.toString());
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize.toString());
+    }
+
+    if (defaultDs) {
+      params = params.append('default_ds', defaultDs);
+    }
+    if (rule) {
+      params = params.append('rule', rule);
+    }
+
     return this.http.get<any>(
       BASE_URL + '/v1/clients/' + acquirerId + '/routes',
       {
-        params: requestParams,
+        params: params,
       }
     );
   }
 
-  getAcquirerPtsps(pageIndex, pageSize, acquirerId): Observable<any> {
-    const params = new HttpParams();
-    const requestParams = params
-      .append('page', pageIndex.toString())
-      .append('size', pageSize.toString());
+  getAcquirerPtsps(
+    pageIndex,
+    pageSize,
+    acquirerId,
+    searchFormValue?
+  ): Observable<any> {
+    let params = new HttpParams();
+
+    if (pageIndex) {
+      params = params.append('page', pageIndex);
+    }
+    if (pageSize) {
+      params = params.append('size', pageSize);
+    }
+    if (!isNullOrUndefined(searchFormValue)) {
+      if (searchFormValue.Ptspname) {
+        params = params.append('Ptspname', searchFormValue.Ptspname);
+      }
+      if (searchFormValue.status) {
+        params = params.append('isActive', searchFormValue.status);
+      }
+    }
     return this.http.get<any>(
       BASE_URL + '/v1/clients/' + acquirerId + '/ptsps',
       {
-        params: requestParams,
+        params: params,
       }
     );
   }

@@ -417,7 +417,7 @@ export class AcquirerMerchantTerminalsComponent implements OnInit {
     const downloadPageSize = this.dataCount;
 
     this.routingCompService
-      .getAcquirerPtsps(0, 1000, this.acquirerId)
+      .getAcquirerPtsps(0, 1000, this.acquirerId, this.searchForm.value)
       .subscribe(
         (res) => {
           console.log('LOVE IS HERR', res);

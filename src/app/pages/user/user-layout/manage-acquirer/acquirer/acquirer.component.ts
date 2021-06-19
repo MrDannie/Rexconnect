@@ -284,6 +284,10 @@ export class AcquirerComponent implements OnInit {
     this.searchForm.reset();
     this.isRefreshing = true;
 
+    this.clientNameToFilter = '';
+    this.bankCodeToFilter = '';
+    this.statusToFilter = '';
+
     this.pageIndex = 0;
     this.pageSize = 10;
 

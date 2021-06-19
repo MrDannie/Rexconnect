@@ -53,9 +53,9 @@ export class AddAcquirerComponent implements OnInit {
     this.createAcquirerForm = this.formBuilder.group({
       clientName: ['', Validators.compose([Validators.required])],
       bankCode: ['', Validators.compose([Validators.required])],
-      countryCode: ['', Validators.compose([Validators.required])],
+      clientLocation: ['', Validators.compose([Validators.required])],
       clientAddress: ['', Validators.compose([Validators.required])],
-      currency: ['', Validators.compose([Validators.required])],
+      currencyCode: ['', Validators.compose([Validators.required])],
       terminalPrefix: [[''], Validators.compose([Validators.required])],
       shortName: ['', Validators.compose([Validators.required])],
       email: ['', Validators.required],

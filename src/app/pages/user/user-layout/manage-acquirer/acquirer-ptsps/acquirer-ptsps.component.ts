@@ -30,7 +30,9 @@ export class AcquirerPtspsComponent implements OnInit {
     private fileGenerationService: FileGenerationService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.initializeForm();
+  }
 
   ngOnInit() {
     this.pageSize = 10;
@@ -41,14 +43,20 @@ export class AcquirerPtspsComponent implements OnInit {
   }
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      acquirerName: '',
-      cbnCode: '',
+      Ptspname: '',
+      status: '',
     });
   }
   getAcquirerPtsps() {
+    this.showFilter = false;
     this.acquirerId = this.route.snapshot.params.acquirerId;
     this.routingCompService
-      .getAcquirerPtsps(this.pageIndex, this.pageSize, this.acquirerId)
+      .getAcquirerPtsps(
+        this.pageIndex,
+        this.pageSize,
+        this.acquirerId,
+        this.searchForm.value
+      )
       .subscribe(
         (response) => {
           console.log('fsda', response);
@@ -89,7 +97,12 @@ export class AcquirerPtspsComponent implements OnInit {
     this.pageIndex = 0;
 
     this.routingCompService
-      .getAcquirerPtsps(this.pageIndex, downloadPageSize, this.acquirerId)
+      .getAcquirerPtsps(
+        this.pageIndex,
+        downloadPageSize,
+        this.acquirerId,
+        this.searchForm.value
+      )
       .subscribe((data: any) => {
         this.acquirerPtspsToDownload = data['data']['ptsps'];
 
@@ -131,7 +144,14 @@ export class AcquirerPtspsComponent implements OnInit {
       : '';
   }
 
-  reset() {}
+  reset() {
+    this.searchForm.reset();
+
+    this.pageIndex = 0;
+    this.pageSize = 10;
+
+    this.getAcquirerPtsps();
+  }
 
   onRefreshData(pageParams: { pageIndex: number; pageSize: number }) {
     this.pageIndex = pageParams.pageIndex;
