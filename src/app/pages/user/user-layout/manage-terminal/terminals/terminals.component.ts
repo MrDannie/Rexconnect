@@ -393,41 +393,41 @@ export class TerminalsComponent implements OnInit {
     this.createTerminalForm.reset();
   }
 
-  // downloadAcquirerPtsp() {
-  //   this.isCSVLoading = true;
-  //   const downloadPageSize = this.dataCount;
+  downloadAcquirerPtsp() {
+    this.isCSVLoading = true;
+    const downloadPageSize = this.dataCount;
 
-  //   this.routingCompService
-  //     .getAcquirerPtsps(0, 1000, this.acquirerId)
-  //     .subscribe(
-  //       (res) => {
-  //         console.log('LOVE IS HERR', res);
-  //         const exportData = JSON.parse(
-  //           JSON.stringify(
-  //             // this.allPtsps,
-  //             res['data']['content'],
-  //             ['Ptspname', 'PtspCode'],
-  //             2
-  //           )
-  //         );
-  //         console.log(exportData);
-  //         const options = {
-  //           headers: ['Name', 'PTSP CODE'],
-  //           decimalseparator: '.',
-  //           showTitle: false,
-  //           nullToEmptyString: true,
-  //         };
-  //         this.isCSVLoading = false;
-  //         return new Angular5Csv(
-  //           exportData,
-  //           'Available Ptsps For This Client',
-  //           options
-  //         );
-  //       },
-  //       (err) => {
-  //         this.isCSVLoading = false;
-  //         this.alertService.error(err, false);
-  //       }
-  //     );
-  // }
+    this.routingCompService
+      .getAcquirerPtsps(0, 1000, this.acquirerId)
+      .subscribe(
+        (res) => {
+          console.log('LOVE IS HERR', res);
+          const exportData = JSON.parse(
+            JSON.stringify(
+              // this.allPtsps,
+              res['data']['content'],
+              ['Ptspname', 'PtspCode'],
+              2
+            )
+          );
+          console.log(exportData);
+          const options = {
+            headers: ['Name', 'PTSP CODE'],
+            decimalseparator: '.',
+            showTitle: false,
+            nullToEmptyString: true,
+          };
+          this.isCSVLoading = false;
+          return new Angular5Csv(
+            exportData,
+            'Available Ptsps For This Client',
+            options
+          );
+        },
+        (err) => {
+          this.isCSVLoading = false;
+          this.alertService.error(err, false);
+        }
+      );
+  }
 }

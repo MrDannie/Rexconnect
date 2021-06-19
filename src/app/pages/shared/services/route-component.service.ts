@@ -131,7 +131,7 @@ export class RouteComponentService {
     pageIndex,
     pageSize,
     acquirerId,
-    searchFormValue
+    searchFormValue?
   ): Observable<any> {
     let params = new HttpParams();
 
