@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/core/alert/alert.service';
 import { PaginationService } from 'src/app/core/pagination.service';
+import { RULETYPES } from 'src/app/pages/shared/constants';
 import { FileGenerationService } from 'src/app/pages/shared/services/file-generation.service';
 import { RouteComponentService } from 'src/app/pages/shared/services/route-component.service';
 
@@ -29,6 +30,9 @@ export class AcquirerRoutesComponent implements OnInit {
   isLoading: boolean;
   acquirerRouteToDownload: any;
   acquirerId: any;
+  defaultDsToBeFiltered: any;
+  rulteToBeFiltered: any;
+  rules = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,13 +53,22 @@ export class AcquirerRoutesComponent implements OnInit {
   ngOnInit() {
     this.pageSize = 10;
     this.pageIndex = 0;
+
+    this.rules = RULETYPES;
+
     this.getAcquirerRoutes();
   }
 
-  getAcquirerRoutes() {
+  getAcquirerRoutes(defaultDs?, rule?) {
     this.acquirerId = this.route.snapshot.params.acquirerId;
     this.routingCompService
-      .getAcquirerRoutes(this.pageIndex, this.pageSize, this.acquirerId)
+      .getAcquirerRoutes(
+        this.pageIndex,
+        this.pageSize,
+        this.acquirerId,
+        defaultDs,
+        rule
+      )
       .subscribe(
         (response) => {
           this.acquirerRoute = response['data']['content'];
@@ -90,6 +103,17 @@ export class AcquirerRoutesComponent implements OnInit {
   beginDownload() {
     this.exportUsers();
   }
+
+  performFiltering() {
+    this.pageIndex = 0;
+    this.showFilter = false;
+    console.log('asdfadfadf', this.searchForm.value);
+
+    this.defaultDsToBeFiltered = this.searchForm.value.default_ds;
+    this.rulteToBeFiltered = this.searchForm.value.rule;
+    this.getAcquirerRoutes(this.defaultDsToBeFiltered, this.rulteToBeFiltered);
+  }
+
   exportUsers() {
     const dataToDownload: any[] = [];
     // const currentPageSize = this.pageSize;
@@ -98,7 +122,13 @@ export class AcquirerRoutesComponent implements OnInit {
     this.pageIndex = 0;
 
     this.routingCompService
-      .getAcquirerRoutes(this.pageIndex, downloadPageSize, this.acquirerId)
+      .getAcquirerRoutes(
+        this.pageIndex,
+        downloadPageSize,
+        this.acquirerId,
+        this.searchForm.value.default_ds,
+        this.searchForm.value.rule
+      )
       .subscribe((data: any) => {
         this.acquirerRouteToDownload = data['data']['routingRules'];
         for (
@@ -137,13 +167,13 @@ export class AcquirerRoutesComponent implements OnInit {
     this.pageIndex = pageParams.pageIndex;
     this.pageSize = pageParams.pageSize;
 
-    this.getAcquirerRoutes();
+    this.getAcquirerRoutes(this.defaultDsToBeFiltered, this.rulteToBeFiltered);
   }
 
   initializeForm() {
     this.searchForm = this.formBuilder.group({
-      acquirerName: '',
-      cbnCode: '',
+      default_ds: [''],
+      rule: [''],
     });
     this.createAcquirerForm = this.formBuilder.group({
       merchantId: ['', Validators.compose([Validators.required])],

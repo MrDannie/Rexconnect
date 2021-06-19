@@ -163,20 +163,20 @@
               type="text"
               class="form-control"
               placeholder=" "
-              formControlName="countryCode"
+              formControlName="clientLocation"
             >
               <option value="Nigeria">Nigeria</option>
               <option value="Ghana">Ghana</option>
               <option value="Kenya">Kenya</option>
             </select>
-            <label for="countryCode">Client Country</label>
+            <label for="clientLocation">Client Country</label>
           </span>
         </div>
         <span
           class="validation-message"
           *ngIf="
-            createAcquirerForm.get('countryCode').errors &&
-            createAcquirerForm.get('countryCode').touched
+            createAcquirerForm.get('clientLocation').errors &&
+            createAcquirerForm.get('clientLocation').touched
           "
           >Country is required.</span
         >
@@ -223,7 +223,7 @@
               type="text"
               class="form-control"
               placeholder=" "
-              formControlName="currency"
+              formControlName="currencyCode"
             >
               <option
                 [value]="currency['ISO4217-currency_numeric_code']"
@@ -232,14 +232,14 @@
                 {{ currency.fullCurrencyLabel }}
               </option>
             </select>
-            <label for="currency">Currency</label>
+            <label for="currencyCode">Currency</label>
           </span>
         </div>
         <span
           class="validation-message"
           *ngIf="
-            createAcquirerForm.get('currency').errors &&
-            createAcquirerForm.get('currency').touched
+            createAcquirerForm.get('currencyCode').errors &&
+            createAcquirerForm.get('currencyCode').touched
           "
           >Currency is required.</span
         >
