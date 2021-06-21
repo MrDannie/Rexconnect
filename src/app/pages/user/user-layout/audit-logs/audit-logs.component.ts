@@ -14,6 +14,7 @@ import { AuditLogService } from './audit-log.service';
   selector: 'app-audit-logs',
   templateUrl: './audit-logs.component.html',
   styleUrls: ['./audit-logs.component.scss'],
+  providers: [ResolveTimeDifferncePipe],
 })
 export class AuditLogsComponent implements OnInit {
   @ViewChild('setPageSizeId') public setPageSizeId: ElementRef;

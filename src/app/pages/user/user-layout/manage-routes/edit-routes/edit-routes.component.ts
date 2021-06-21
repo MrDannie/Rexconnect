@@ -73,9 +73,7 @@ export class EditRoutesComponent implements OnInit {
         let parsedData = JSON.parse(response.data.rule_config);
         response.data.rule_config = parsedData;
         // SET FORM VALUE
-
         this.defaultDestinationStation = response.data.default_ds;
-
         // this.defaultDestinationStation = 'transware';
 
         console.log('This defaut Ds', this.defaultDestinationStation);
@@ -84,9 +82,9 @@ export class EditRoutesComponent implements OnInit {
         this.ruleConfigForRouteToBeEditted =
           response.data.rule_config.ruleconfig;
         this.ruleConfigForRouteToBeEditted.forEach((config: any) => {
-          config.max = '23';
-          config.min = '323';
-          config.ds = '232';
+          config.max = config.max;
+          config.min = config.min;
+          config.ds = config.ds;
         });
 
         this.duplicateFormField(this.ruleConfigForRouteToBeEditted.length);

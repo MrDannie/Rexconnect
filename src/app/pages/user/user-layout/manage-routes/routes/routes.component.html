@@ -127,8 +127,8 @@
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Default DS</th>
           <th scope="col">Rule Type</th>
+          <th scope="col">Default DS</th>
           <!-- <th scope="col">Value</th> -->
           <th scope="col">Use Default</th>
           <th
@@ -141,8 +141,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let route of routingRules">
-          <td>{{ route.default_ds }}</td>
           <td>{{ route.rule }}</td>
+          <td>{{ route.default_ds }}</td>
           <!-- <td>{{route.rule_config.ruleconfig.rule}}</td> -->
           <td [ngClass]="{ Inactive: route.use_default === 0 }" class="active">
             {{ route.use_default == "1" ? "True" : "False" }}
@@ -157,17 +157,6 @@
             </button>
           </td>
         </tr>
-        <!-- <tr *ngFor="let item of ngForArray">
-          <td>Sample DS</td>
-          <td>Sample DS</td>
-          <td>Sample DS</td>
-          <td class="active">Sample DS</td>
-          <td>
-            <button [routerLink]="['route-details', 2]" class="btn table_button">
-              Open
-            </button>
-          </td>
-        </tr> -->
       </tbody>
     </table>
     <span class="empty-state" *ngIf="allRoutes.length === 0 && !isLoading">

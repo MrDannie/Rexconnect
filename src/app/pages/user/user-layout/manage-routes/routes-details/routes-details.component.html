@@ -6,7 +6,7 @@
   </div>
   <div class="header_buttons">
     <div>
-      <span class="name"> {{ defaultDestinationStaion }}</span>
+      <span class="name"> {{ routeName }}</span>
       <span class="date">{{ createdAt | date: "medium" }}</span>
       <span class="status">Active</span>
     </div>
@@ -90,6 +90,7 @@
         <div class="row">
           <div class="col-sm-12">
             <input
+              disabled
               [checked]="useDefaultValue === 0 ? false : true"
               type="checkbox"
             />

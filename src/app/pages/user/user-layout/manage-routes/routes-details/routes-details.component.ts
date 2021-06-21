@@ -44,7 +44,7 @@ export class RoutesDetailsComponent implements OnInit {
         this.routeConfigs = this.routing.ruleconfig;
         this.defaultDestinationStaion = response.data.default_ds;
         this.useDefaultValue = response.data.use_default;
-        this.routeName = 'Default Route';
+        this.routeName = response.data.rule;
       }),
       (error) => {
         console.log(error);
